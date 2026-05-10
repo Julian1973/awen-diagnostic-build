@@ -1,0 +1,38 @@
+{
+  "name": "monty-mindfulness-ugc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monty the Mindfulness Monkey - 60s Buddhist-inspired UGC pipeline (Claude -> HeyGen -> TikTok)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "generate": "tsx src/cli.ts generate",
+    "post": "tsx src/cli.ts post",
+    "run-once": "tsx src/cli.ts run-once",
+    "tiktok-auth": "tsx src/cli.ts tiktok-auth",
+    "server": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "axios": "^1.7.7",
+    "better-sqlite3": "^11.5.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "form-data": "^4.0.1",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.4",
+    "@types/node-cron": "^3.0.11",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
