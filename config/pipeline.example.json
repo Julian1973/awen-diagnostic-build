@@ -1,0 +1,13 @@
+{
+  "topic": "why the sky is blue",
+  "provider": "mock",
+  "output_dir": "out",
+  "style": "explainer",
+  "tone": "curious",
+  "target_seconds": 60,
+  "aspect_ratio": "16:9",
+  "voice": null,
+  "extra": {
+    "notes": "Free-form fields a real provider can read, e.g. a vidiq voice id."
+  }
+}
