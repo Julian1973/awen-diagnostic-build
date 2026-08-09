@@ -27,6 +27,8 @@ approved direction (shot .json)          ← the Beat-to-Frame contract, typed
 ## Commands
 
 ```bash
+python3 engine/beat_engine.py direct   S1.SH1B 8.0                 # shot-file skeleton: every _REQUIRED_ is a question the direction must answer
+python3 engine/beat_engine.py craftcheck engine/shots/S1_SH1B.json # director-level checks + review card (before compile)
 python3 engine/beat_engine.py compile  engine/shots/S1_SH1A.json   # stamped AAA prompt
 python3 engine/beat_engine.py payload  engine/shots/S1_SH1A.json   # fire-ready request JSON
 python3 engine/beat_engine.py verdict  S1.SH1A good "the button lands"
@@ -59,6 +61,21 @@ sentences (the LLM-draft fingerprint) · character motion vocabulary (banned ver
 near a name blocks) · canon (bees have no crystal) · music kill-switch present ·
 round-trip: timeline stages must tile the exact duration, every stage and the
 shot must declare an end state, the style paragraph must appear verbatim.
+
+## The director's desk (where the magic is demanded, not faked)
+
+`direct` writes a skeleton in which every creative decision is an explicit
+`_REQUIRED_` question — cause per stage, numeric hold on the button (floor 2.0s),
+geography, end states, the laugh's timestamp. The desk does not write the magic;
+it makes the absence of magic a compile failure. `craftcheck` then runs the
+director-level checks (causes present, button lands >= 2.0s, signature verbs used)
+and prints the five review-card questions Julian answers at SEE sign-off. Only a
+shot file that survives both reaches the compiler.
+
+The studioai creative room (cb_creative/cb_departments v2) is the LLM director
+that fills these fields at scale — see docs/DIRECTOR_LAYER_UPGRADE.md for the
+defect report (hold caps of 1.5s/0.8s in that code denied every joke its landing;
+patch attached as hold-cap-fix.patch) and the blind-duel acceptance test.
 
 ## Porting to studioai (Codex)
 

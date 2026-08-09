@@ -1,0 +1,54 @@
+diff --git a/engine/cb_departments.py b/engine/cb_departments.py
+index 7c59b0d..5d6f41c 100644
+--- a/engine/cb_departments.py
++++ b/engine/cb_departments.py
+@@ -234,13 +234,24 @@ class GagClockDirection(BaseModel):
+     impact: str = Field(min_length=1)
+     reaction: str = Field(min_length=1)
+     recoveryHold: str = Field(min_length=1)
+-    recoveryHoldSec: float = Field(gt=0, le=1.5)
++    recoveryHoldSec: float = Field(
++        gt=0, le=3.0,
++        description="Numeric landing hold. BIG arcs and any arc that ends the unit need "
++                    ">= 2.0s for the pose to read; SMALL mid-chain arcs may run 0.6-1.5s.")
+     button: str = Field(min_length=1)
+     providerAction: str = Field(
+         min_length=1,
+         description="A dialogue-free, directly photographable action sentence copied "
+                     "verbatim into providerPrompt.")
+ 
++    @model_validator(mode="after")
++    def big_buttons_must_land(self):
++        if self.mode == "BIG" and self.recoveryHoldSec < 2.0:
++            raise ValueError(
++                "BIG gag hold < 2.0s truncates the landing — the button cannot read "
++                "('briefly' is not a duration; AAA Prompt Standard gag-clock law)")
++        return self
++
+ 
+ class GenerationDesignDirection(BaseModel):
+     """The approved packaging decision, made before the provider receives a prompt."""
+@@ -876,7 +887,9 @@ def prepare_animation(context, images, *, log=print):
+         "shot's comedyContractsApproved, return one gagClock in the same order. Copy its "
+         "beatCode, mode, setup, disruption as impact, hold as recoveryHold, and button "
+         "verbatim. Add directly visible anticipation and reaction, a readable recoveryHoldSec "
+-        "of no more than 1.5 seconds, and one dialogue-free providerAction sentence. Copy "
++        "(minimum 2.0 seconds for BIG arcs and any arc that ends the unit — the landing must "
++        "have air; 0.6-1.5 seconds for SMALL mid-chain arcs), and one dialogue-free "
++        "providerAction sentence. Copy "
+         "that providerAction verbatim into the matching Action/Expression section of "
+         "providerPrompt. Do not copy spoken button words into providerAction. The generation "
+         "design records whether this is the approved single unit or a continuation unit, "
+diff --git a/engine/cb_render.py b/engine/cb_render.py
+index c4de440..40120a9 100644
+--- a/engine/cb_render.py
++++ b/engine/cb_render.py
+@@ -2615,7 +2615,7 @@ def save_department_candidate(scene, stage, text=None, lines=None, shot_id=None,
+                         "impact": str(item.get("disruption") or ""),
+                         "reaction": str(item.get("hold") or ""),
+                         "recoveryHold": str(item.get("hold") or ""),
+-                        "recoveryHoldSec": 0.8,
++                        "recoveryHoldSec": 2.2 if item.get("mode") == "BIG" else 1.0,
+                         "button": str(item.get("button") or ""),
+                         "providerAction": events_by_beat.get(
+                             str(item.get("beatCode") or ""), ""),

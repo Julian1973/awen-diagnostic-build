@@ -23,7 +23,7 @@ import json, pathlib, re, sys, time
 HERE = pathlib.Path(__file__).resolve().parent
 PACK_FILE = HERE / "grammar_pack.json"
 LEDGER = HERE / "verdict_ledger.jsonl"
-ENGINE_VERSION = "1.0.0"
+ENGINE_VERSION = "1.1.0"
 
 LAYERS = ("take", "keyframe", "brief", "reference")
 FAILURE_CLASSES = ("floaty", "off_model", "clip_through", "flat_comedy", "seam",
@@ -189,10 +189,15 @@ def preflight(ir: dict, prompt: str, gp: dict) -> list:
     # 8. geography present on SEC lane (C1)
     if lane == "SEC" and not ir.get("geography"):
         add("BLOCK", "no-geography", "SEC shot has no geography block — screen direction will drift", "C1: WHERE rule + geography ledger")
-    # 9. numeric holds on button stages (Part 3)
+    # 9. numeric holds on button stages, with a floor (Part 3 + gag-clock law)
     for s in ir["stages"]:
         if s.get("button") and not s.get("hold_s"):
             add("BLOCK", "no-hold", f"button stage {s['t']} has no numeric hold — 'briefly' is not a duration", "gag-clock law")
+        elif s.get("button") and s["hold_s"] < gp.get("button_hold_min_s", 2.0):
+            add("BLOCK", "hold-too-short", f"button hold {s['hold_s']}s < {gp.get('button_hold_min_s', 2.0)}s — the landing cannot read", "gag-clock law: the button needs air")
+    # 9b. unfilled skeleton
+    if "_REQUIRED_" in prompt:
+        add("BLOCK", "skeleton-unfilled", "shot file still contains _REQUIRED_ placeholders — direction is incomplete", "L1: traceability")
     # 10. shot purpose split heuristic (L5)
     if ir["purpose"].lower().count(" and ") > 1 and lane == "SEC":
         add("NOTE", "purpose-and", "shot purpose uses 'and' more than once — split candidate", "L5: one dominant event per shot")
@@ -341,6 +346,107 @@ def lessons() -> int:
     return 0
 
 
+# ------------------------------------------------------- director's desk ----
+
+SKELETON_HINTS = {
+    "purpose": "ONE sentence: the single dramatic/comedic job. More than one 'and' = two shots.",
+    "cause": "What caused this stage, from the previous stage? Physics, not vibes.",
+    "action": "Observable behaviour with contact points and weight. Emotion is what a feeling does to a body.",
+    "end_state": "A describable frame. The last stage's end state opens the next shot.",
+    "hold": "Numeric seconds. Buttons need >= 2.0s — the landing must have air.",
+}
+
+
+def direct(shot_code: str, duration_s: float) -> int:
+    """Emit a shot-file skeleton that cannot compile until the magic-shaped answers exist.
+    The director (human or the director skill) fills it; preflight blocks on any
+    _REQUIRED_ left behind. This is the desk, not the director."""
+    n = max(2, min(4, round(duration_s / 3)))
+    step = round(duration_s / n, 1)
+    stages = []
+    for i in range(n):
+        t0, t1 = round(i * step, 1), round((i + 1) * step, 1) if i < n - 1 else duration_s
+        st = {"t": f"{t0}-{t1}", "action": "_REQUIRED_ " + SKELETON_HINTS["action"],
+              "cause": "_REQUIRED_ " + SKELETON_HINTS["cause"],
+              "camera": "_REQUIRED_ one behaviour for this window",
+              "sound": "_REQUIRED_ inline, per beat — never a list at the end",
+              "end_state": "_REQUIRED_ " + SKELETON_HINTS["end_state"]}
+        if i == n - 1:
+            st.update({"button": True, "hold_s": 2.2,
+                       "hold_what": "_REQUIRED_ what exactly is held, and what tiny thing moves"})
+        stages.append(st)
+    ir = {
+        "_doc": f"Shot skeleton for {shot_code} — every _REQUIRED_ is a question the direction must answer. It will not compile until they are gone.",
+        "shot": shot_code, "lane": "SEC", "duration_s": duration_s, "aspect": "16:9",
+        "resolution": "480p", "route": "fal-seedance-2.5", "will_edit": False,
+        "purpose": "_REQUIRED_ " + SKELETON_HINTS["purpose"],
+        "audio": {"track": "@Audio1", "owners": [{"character": "_REQUIRED_", "regions": "_REQUIRED_ timecoded"}],
+                  "silent": [], "foley": ["_REQUIRED_ 2-4 diegetic sounds, mapped to beats"]},
+        "references": [
+            {"tag": "@Image1", "role": "first_frame", "file": "_REQUIRED_",
+             "defines": "the approved opening composition and camera axis", "ignore": "identity, materials and any later action"},
+            {"tag": "@Image2", "role": "reference_image", "file": "_REQUIRED_",
+             "defines": "_REQUIRED_ character identity, proportions, canonical scale — refer to it strictly", "ignore": "background and poses"},
+            {"tag": "@Audio1", "role": "reference_audio", "file": "_REQUIRED_",
+             "defines": "the performed line, its exact timing and all silences", "ignore": "anything beyond it except the authorised foley"}],
+        "geography": ["_REQUIRED_ scene constants: which way does the space run, who travels which way, where does the camera live"],
+        "light": "_REQUIRED_ a sourced event: where from, what it touches, how it changes",
+        "conduct": ["_REQUIRED_ the character truth this shot must not violate"],
+        "stages": stages,
+        "camera_policy": {"policy": "_REQUIRED_ one dominant job, sequenced not blended",
+                          "exclusions": ["No cuts", "no handheld shake", "no orbit"]},
+        "end_state": "_REQUIRED_ the final frame — harvested as the next shot's opening reference",
+        "constraints": ["_REQUIRED_ production facts: character count, scale rule, what never happens"],
+    }
+    out = HERE / "shots" / f"{shot_code.replace('.', '_')}.json"
+    if out.exists():
+        print(f"refusing to overwrite existing {out}"); return 1
+    out.write_text(json.dumps(ir, indent=2, ensure_ascii=False))
+    print(f"skeleton written: {out}")
+    print("Fill every _REQUIRED_. Then: craftcheck → compile. It will refuse until the direction is complete.")
+    return 0
+
+
+def craftcheck(path: str) -> int:
+    """Director-level checks BEFORE compile: is the magic structurally present?
+    Mechanical checks block; judgement goes on the review card for SEE sign-off."""
+    ir = json.loads(pathlib.Path(path).read_text())
+    gp = pack()
+    problems, notes = [], []
+    raw = json.dumps(ir)
+    if "_REQUIRED_" in raw:
+        problems.append(f"{raw.count('_REQUIRED_')} unanswered _REQUIRED_ question(s) — direction incomplete")
+    for s in ir.get("stages", []):
+        if not s.get("cause"):
+            problems.append(f"stage {s.get('t')}: no cause — motion without a why is floaty")
+        if not s.get("end_state"):
+            problems.append(f"stage {s.get('t')}: no end state — the stage doesn't resolve")
+    buttons = [s for s in ir.get("stages", []) if s.get("button")]
+    if not buttons:
+        notes.append("no button stage declared — if this is a comedy shot, where does the laugh land?")
+    for b in buttons:
+        if float(b.get("hold_s") or 0) < gp.get("button_hold_min_s", 2.0):
+            problems.append(f"button hold {b.get('hold_s')}s < {gp.get('button_hold_min_s', 2.0)}s — the landing cannot read")
+    text = " ".join(s.get("action", "") for s in ir.get("stages", []))
+    for name, vocab in gp["characters"].items():
+        if name in text and vocab.get("belongs"):
+            if not any(re.search(r"\b" + v.rstrip("s") + r"\w*\b", text, re.I) for v in vocab["belongs"]):
+                notes.append(f"{name} appears but none of their signature verbs do ({', '.join(vocab['belongs'][:4])}…) — direction may be generic")
+    for p in problems:
+        print(f"  [BLOCK] {p}")
+    for n in notes:
+        print(f"  [NOTE]  {n}")
+    print("CRAFTCHECK:", "REFUSE — fix the direction, not the prompt" if problems else "structurally sound")
+    print("\nDIRECTOR'S REVIEW CARD — answer at SEE sign-off, before compiling:")
+    for q in ("1. Where exactly does the audience laugh (timestamp)?",
+              "2. Does the final frame contradict or complicate what the character believes?",
+              "3. Could any stage be cut without losing the joke? If yes, cut it.",
+              "4. Is every verb one this character would own?",
+              "5. What does this shot hand to the next one, and is it in the end state?"):
+        print("   " + q)
+    return 1 if problems else 0
+
+
 # --------------------------------------------------------------- selftest ----
 
 def selftest() -> int:
@@ -391,6 +497,10 @@ def main(argv):
         return run_compile(rest[0])
     if cmd == "payload":
         return run_compile(rest[0], as_payload=True)
+    if cmd == "direct":
+        return direct(rest[0], float(rest[1]) if len(rest) > 1 else 9.0)
+    if cmd == "craftcheck":
+        return craftcheck(rest[0])
     if cmd == "verdict":
         return verdict(rest)
     if cmd == "lessons":
