@@ -28,7 +28,7 @@ ENGINE_VERSION = "1.1.0"
 LAYERS = ("take", "keyframe", "brief", "reference")
 FAILURE_CLASSES = ("floaty", "off_model", "clip_through", "flat_comedy", "seam",
                    "audio", "continuity", "stupid_output", "policy_refusal",
-                   "performance_drift")
+                   "performance_drift", "over_constrained")
 
 
 def pack() -> dict:
