@@ -168,6 +168,15 @@ BLOCK.
 explicit exclusion for every other character in frame. Counting characters is not
 enough — salient features propagate.
 
+**R19 · Conduct is invariant.** A character's physical signature — chaotic,
+precise, heavy, quick — does not change with their emotional state. Confidence
+does not make a clumsy character competent; calm does not make a frantic one
+still. Emotional state changes what a character *intends*; the body still does
+what it always does. Canon's conduct line is injected into every unit that
+character appears in, action or dialogue, and any action written against it is a
+BLOCK. **Learned the hard way: a character written as "controlled" for one beat
+because he felt triumphant produced a flat, lifeless beat and cost a render.**
+
 **R17 · No internal contradiction.** If two emitted fields describe the same action,
 state or staging differently, BLOCK. Stale direction fields emitted alongside a new
 shot plan are the most common cause.
