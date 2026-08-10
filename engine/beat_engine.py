@@ -385,6 +385,34 @@ SKELETON_HINTS = {
 }
 
 
+def budget(argv: list) -> int:
+    """THE TIMING MODEL — tell the director the minimum viable duration BEFORE
+    the direction is finished. Usage:
+        budget travel dodge impact load_release settle hold:2.1
+    Beat kinds come from grammar_pack beat_costs; 'hold:N' adds a numeric button."""
+    gp = pack()
+    costs = gp["beat_costs"]
+    total, rows = 0.0, []
+    for a in argv:
+        if a.startswith("hold:"):
+            s = float(a.split(":", 1)[1]); rows.append(("hold (button)", s)); total += s; continue
+        c = costs.get(a)
+        if not c:
+            print(f"unknown beat kind '{a}'. Known: {', '.join(k for k in costs if not k.startswith('_'))}")
+            return 2
+        rows.append((a, c["s"])); total += c["s"]
+    margin = gp.get("comfort_margin", 1.15)
+    print("BEAT                 MIN s")
+    for name, s in rows:
+        print(f"  {name:<18} {s:>5.1f}")
+    print(f"  {'—' * 18} {'—' * 5}")
+    print(f"  {'floor':<18} {total:>5.1f}   (nothing can read below this)")
+    print(f"  {'recommended':<18} {total * margin:>5.1f}   (+{int((margin - 1) * 100)}% so beats breathe)")
+    print(f"\nDirect this unit at {max(4, round(total * margin)):.0f}s. Below the floor, split the unit —")
+    print("compressing beats is how pace, fluidity and punchlines die.")
+    return 0
+
+
 def direct(shot_code: str, duration_s: float) -> int:
     """Emit a shot-file skeleton that cannot compile until the magic-shaped answers exist.
     The director (human or the director skill) fills it; preflight blocks on any
@@ -527,6 +555,8 @@ def main(argv):
         return run_compile(rest[0], as_payload=True)
     if cmd == "direct":
         return direct(rest[0], float(rest[1]) if len(rest) > 1 else 9.0)
+    if cmd == "budget":
+        return budget(rest)
     if cmd == "craftcheck":
         return craftcheck(rest[0])
     if cmd == "verdict":

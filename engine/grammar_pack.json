@@ -183,5 +183,49 @@
     "music_kill": "Audio: no music, diegetic sound only.",
     "coverage_invitation": "This montage will be cut by a human editor: load it with extra shots, alternate angles and options beyond the beats listed — invention is welcome as long as the locked subject and style hold."
   },
-  "min_beat_s": 1.2
+  "min_beat_s": 1.2,
+  "beat_costs": {
+    "_doc": "Minimum screen seconds per physical beat KIND. Weight reads only when a beat gets anticipation + action + settle. Costs are farmed: when a verdict says a beat 'didn't read', its cost goes UP and the change is dated. Source: S1.SH1A candidate 1 (2026-08-10) — 11 beats in 6.9s failed on pace, fluidity and punchline.",
+    "travel": {
+      "s": 1.8,
+      "note": "steady locomotion establishing speed and direction"
+    },
+    "dodge": {
+      "s": 1.0,
+      "note": "fast evasive beat / near-miss"
+    },
+    "impact": {
+      "s": 0.8,
+      "note": "the contact moment itself"
+    },
+    "load_release": {
+      "s": 2.3,
+      "note": "spring, wind-up, recoil — the stored force must be FELT, never just seen"
+    },
+    "tumble": {
+      "s": 1.2,
+      "note": "uncontrolled rotation or scramble"
+    },
+    "settle": {
+      "s": 1.0,
+      "note": "arrival, finding balance, the body catching up"
+    },
+    "reaction": {
+      "s": 1.2,
+      "note": "a character registers what just happened"
+    },
+    "turn": {
+      "s": 2.0,
+      "note": "emotional change of state (eye-roll softening, dawning realisation)"
+    },
+    "reveal": {
+      "s": 1.5,
+      "note": "withhold-then-show"
+    },
+    "business": {
+      "s": 1.5,
+      "note": "prop handling, fiddling, deliberate small action"
+    }
+  },
+  "comfort_margin": 1.15
 }
