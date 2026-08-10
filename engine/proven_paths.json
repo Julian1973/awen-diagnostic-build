@@ -1,0 +1,38 @@
+{
+  "_doc": "Proven paths are LAW for their archetype until a render dethrones them. Reused verbatim — no freelancing, no improvements.",
+  "paths": {
+    "false-triumph-chase": {
+      "proven_on": "2026-08-10 · S1.SH1A · Flova/Seedance · 9.06s @480p",
+      "verdict": "Julian: 'a country mile better than anything we have ever done'",
+      "recipe": {
+        "structure": "4 shots in one generation, cuts allowed; the cut sits on the loaded spring at maximum bend",
+        "shot_1_chase": "handheld pursuit from behind and slightly beside, always a beat late; THREE parallax speeds (foreground rips, midground slides, background drifts); subject passes NAMED landmarks that vanish behind the camera; subject pulls ahead and shrinks then camera surges and he swells; subject drifts off-centre and camera recovers him; foreground stems wipe fully across the lens; body-mechanics language (tilts hard left, careens hard right, altitude bobbing, chest leading)",
+        "shot_2_escalation": "three separate readable contacts, each spin visibly larger than the last, never blurred together; ends held on the spring at maximum load",
+        "shot_3_aerial": "the stored force becomes a compound gymnastic move; body tucked compact, camera tracks the full arc so every rotation reads",
+        "shot_4_button": "landing → beat of stillness → SELF-CHECK (head up, eyes dart, pats chest, finds he is fine) → only then the pride inflates → line delivered flat and certain → pose holds a full beat after the line → cut to the witness, held long",
+        "staging": "canon law: Fuzzby frame-LEFT, Zenny frame-RIGHT; the payoff is the held cut to her unmoved face",
+        "references": "one line per character with defines + explicit exclusions; instance counts stated; environment plate carries the world so the prompt describes no world of its own",
+        "audio": "dialogue inside the beat where it is spoken, in braces, with delivery direction and 'holds a full beat after the line ends'; language declared; music killed; subtitles banned"
+      },
+      "beat_costs_used": {
+        "travel": 1.8,
+        "dodge_x3": 3.0,
+        "load_release": 2.3,
+        "aerial": 1.8,
+        "settle": 1.0,
+        "self_check": 1.2,
+        "hold": 2.0,
+        "floor_s": 13.1
+      },
+      "lessons_embodied": [
+        "camera behind, never in front of a chased subject",
+        "a perfectly tracked subject reads as motionless — write the traversal",
+        "put the cut between the load and the release",
+        "the check-before-pride beat is where retroactive-intention comedy lives",
+        "the punchline lands on the witness, not the poser"
+      ],
+      "renders_won": 1,
+      "dethroned_by": null
+    }
+  }
+}
