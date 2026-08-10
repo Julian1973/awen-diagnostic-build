@@ -177,6 +177,13 @@ character appears in, action or dialogue, and any action written against it is a
 BLOCK. **Learned the hard way: a character written as "controlled" for one beat
 because he felt triumphant produced a flat, lifeless beat and cost a render.**
 
+**R20 · State-handoff continuity.** The declared opening state of a unit must
+match the declared end state of the unit before it — carried damage, marks,
+props, position, light and mood. A mismatch means either a beat is missing from
+the sequence or a state was invented. BLOCK and name the gap; never render across
+an unexplained state jump. *Discovered when a skipped beat would have rendered a
+character suddenly filthy with no cause on screen.*
+
 **R17 · No internal contradiction.** If two emitted fields describe the same action,
 state or staging differently, BLOCK. Stale direction fields emitted alongside a new
 shot plan are the most common cause.
