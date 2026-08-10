@@ -33,6 +33,40 @@
       ],
       "renders_won": 1,
       "dethroned_by": null
+    },
+    "reveal-and-deadpan-verdict": {
+      "proven_on": "2026-08-10 · S1.SH1B · Flova/Seedance · 8.06s @480p",
+      "verdict": "Julian: 'another great shot'",
+      "recipe": {
+        "structure": "3 shots. Shot 1 the transfer, CUT BEFORE THE RESULT IS VISIBLE. Shot 2 the reveal in close-up. Shot 3 the verdict, over-the-shoulder onto the reactor.",
+        "withhold": "the new feature is never seen in the shot that creates it — the cut is the reveal's setup",
+        "arrival": "the chaotic character stays chaotic even in a dialogue beat: launches too hard, overshoots, has to swing back, arrives faster than he can stop. Confidence never makes him competent",
+        "attribute_exclusivity": "state the feature's owner AND an explicit exclusion for every other character in frame; repeat the exclusion in the reaction shot ('her face is entirely clean')",
+        "reaction_shot": "over-the-shoulder with the new feature as out-of-focus foreground framing, the reactor in sharp focus — the feature and the reaction in one frame",
+        "eye_line": "the reactor's eyes track down to the feature, examine it, then travel back up to meet the eyes before the line",
+        "micro_tell": "one corner of the mouth tightens almost imperceptibly before the deadpan line — fighting it and nearly losing",
+        "hold": "hold on the reactor's face a full beat AFTER the line ends; the length of the stillness is the punchline",
+        "continuity": "open from the previous shot's harvested final frame; carry state forward (pollen dusting) and state explicitly what is NOT yet present"
+      },
+      "beat_costs_used": {
+        "settle": 1.0,
+        "business": 1.5,
+        "transfer": 0.8,
+        "reveal": 1.5,
+        "present": 1.0,
+        "reaction": 1.2,
+        "turn": 2.0,
+        "hold": 2.0,
+        "floor_s": 11.0
+      },
+      "lessons_embodied": [
+        "withhold the reveal across a cut",
+        "attribute exclusivity prevents feature bleed between characters",
+        "a chaotic character is chaotic in every beat, not only action beats",
+        "frame the feature and the reaction together via over-the-shoulder"
+      ],
+      "renders_won": 1,
+      "dethroned_by": null
     }
   }
 }
