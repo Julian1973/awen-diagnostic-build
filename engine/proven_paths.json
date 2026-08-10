@@ -67,6 +67,19 @@
       ],
       "renders_won": 1,
       "dethroned_by": null
+    },
+    "escalation-into-verdict": {
+      "proven_on": "2026-08-10 · S1.SH1C · Flova/Seedance",
+      "verdict": "Julian: 'beat 3 worked'",
+      "finding": "★ THE ARCHETYPES COMPOSE. This beat is false-triumph-chase (escalating contacts, pop-out showman pose, held line) followed by reveal-and-deadpan-verdict (cut to the reactor, eyes travel, micro-turn, held smile). Two banked recipes joined at a cut produced a working beat first time. We have a grammar, not a list of recipes.",
+      "recipe": {
+        "structure": "4 shots: failed correction that makes it worse → escalating contacts into a trap → explosive pop-out into the showman pose and line → cut to the reactor for the emotional turn",
+        "composition_rule": "an action archetype may be joined to a reaction archetype at the button; the cut goes after the line has completely finished",
+        "emotional_turn": "the reactor's beat is not a single expression but a MOVEMENT between two — an eye-roll that softens into a loving smile. Name both states and the transition between them",
+        "failed_correction": "a character's attempt to fix a problem must visibly worsen it, and the character must SEE the evidence on themselves before panicking"
+      },
+      "renders_won": 1,
+      "dethroned_by": null
     }
   }
 }
