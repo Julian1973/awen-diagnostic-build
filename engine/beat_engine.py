@@ -203,6 +203,26 @@ def preflight(ir: dict, prompt: str, gp: dict) -> list:
             add("BLOCK", "no-hold", f"button stage {s['t']} has no numeric hold — 'briefly' is not a duration", "gag-clock law")
         elif s.get("button") and s["hold_s"] < gp.get("button_hold_min_s", 2.0):
             add("BLOCK", "hold-too-short", f"button hold {s['hold_s']}s < {gp.get('button_hold_min_s', 2.0)}s — the landing cannot read", "gag-clock law: the button needs air")
+    # 9a. DENSITY BUDGET (farmed from S1.SH1A candidate 1, 2026-08-10 — "pace,
+    # fluidity and punchline failed": eleven physical beats in 6.9s ≈ 0.6s each;
+    # weight needs anticipation + action + settle per beat).
+    min_beat = gp.get("min_beat_s", 1.2)
+    total_need = 0.0
+    for s in ir["stages"]:
+        clauses = [c for c in re.split(r"[,;]| then ", s.get("action", "")) if len(c.strip()) > 8]
+        need = len(clauses) * min_beat + float(s.get("hold_s") or 0)
+        try:
+            t0, t1 = [float(x) for x in s["t"].split("-")]
+            have = t1 - t0
+        except Exception:
+            have = 0.0
+        total_need += need
+        if have and need > have + 0.05:
+            add("BLOCK", "over-stuffed", f"stage {s['t']} packs {len(clauses)} beats (needs ~{need:.1f}s) into {have:.1f}s — motion cannot carry weight",
+                "density budget: >= 1.2s per physical beat, plus the hold")
+    if total_need > float(ir["duration_s"]) + 0.05:
+        add("BLOCK", "shot-over-stuffed", f"shot needs ~{total_need:.1f}s of action but runs {ir['duration_s']}s — extend the unit or cut events",
+            "density budget: split to pace, never compress")
     # 9b. unfilled skeleton
     if "_REQUIRED_" in prompt:
         add("BLOCK", "skeleton-unfilled", "shot file still contains _REQUIRED_ placeholders — direction is incomplete", "L1: traceability")

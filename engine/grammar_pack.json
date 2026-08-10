@@ -182,5 +182,6 @@
     "anti_drift": "Same faces, proportions, colours and outfits throughout; no deformation.",
     "music_kill": "Audio: no music, diegetic sound only.",
     "coverage_invitation": "This montage will be cut by a human editor: load it with extra shots, alternate angles and options beyond the beats listed — invention is welcome as long as the locked subject and style hold."
-  }
+  },
+  "min_beat_s": 1.2
 }
