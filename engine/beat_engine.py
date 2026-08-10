@@ -67,13 +67,21 @@ def compile_prompt(ir: dict, gp: dict) -> str:
         lock.append("This shot contains no dialogue.")
     for s in a.get("silent", []):
         lock.append(f"{s} remains visibly silent, mouth closed.")
-    lock.append("Add no other voices, narration, ad-libs, humming, translated speech, subtitles or captions. No music.")
+    lock.append("Add no other voices, narration, subtitles or captions. No music.")
     out.append("[AUDIO-LOCK]\n" + " ".join(lock))
 
-    # REFERENCE ROLES
+    # REFERENCE ROLES (official sd25-pe v0.3.3: frame anchors use the exact
+    # standalone sentence; composition detail follows in its own sentence)
     refs = []
     for r in ir.get("references", []):
-        refs.append(f"{r['tag']} defines only {r['defines']}. Ignore: {r['ignore']}.")
+        if r.get("role") == "first_frame":
+            refs.append(f"{r['tag']} is the first frame.")
+            refs.append(f"This first frame defines {r['defines']}. Ignore: {r['ignore']}.")
+        elif r.get("role") == "last_frame":
+            refs.append(f"{r['tag']} is the last frame.")
+            refs.append(f"This last frame defines {r['defines']}. Ignore: {r['ignore']}.")
+        else:
+            refs.append(f"{r['tag']} defines only {r['defines']}. Ignore: {r['ignore']}.")
     out.append("[REFERENCE ROLES]\n" + "\n".join(refs))
 
     # SHOT PURPOSE

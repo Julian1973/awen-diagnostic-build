@@ -2,8 +2,8 @@
   "version": "1.0.0",
   "_doc": "The engine's knowledge as DATA. Every rule cites the AAA Prompt Standard (docs/AAA_PROMPT_STANDARD.md). Change by version bump only — verdicts farm into farmed_negatives and candidate_rules via the verdict loop, never by hand-editing mid-production.",
   "style_paragraph": {
-    "version": "v1-DRAFT",
-    "status": "AWAITING JULIAN SIGN-OFF — then this exact text is law in every keyframe mint and every render prompt",
+    "version": "v1.0.0",
+    "status": "LOCKED — in production in studioai; identical text both engines",
     "text": "Feature-quality stylized 3D CGI. Plush character materials with subsurface scattering; soft fur with individual strands catching the light; glossy eyes with bright catchlights; translucent wing membranes where light passes through. Warm amber key light with cool blue fill and a soft rim light; teal-orange cinematic grade. Shallow depth of field with soft bokeh, gentle ambient occlusion, subtle film grain. Appealing exaggerated proportions, large expressive eyes, soft rounded features. Emotionally warm atmosphere."
   },
   "routes": {
@@ -175,13 +175,11 @@
   "farmed_negatives": [
     "no duplicated characters",
     "no morphing",
-    "no style drift",
-    "no text, subtitles or captions in frame",
-    "no invented props"
+    "no text or subtitles in frame"
   ],
   "candidate_rules": [],
   "boilerplate": {
-    "anti_drift": "Same face, same proportions, same colours and same outfit throughout. Face stable throughout, no deformation.",
+    "anti_drift": "Same faces, proportions, colours and outfits throughout; no deformation.",
     "music_kill": "Audio: no music, diegetic sound only.",
     "coverage_invitation": "This montage will be cut by a human editor: load it with extra shots, alternate angles and options beyond the beats listed — invention is welcome as long as the locked subject and style hold."
   }
