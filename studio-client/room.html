@@ -48,6 +48,16 @@
   .turn.record.reject .body{border-left:3px solid var(--bad)}
   .turn.thinking .body{color:var(--ink-faint);font-style:italic}
 
+  #stage{border-top:1px solid var(--line);background:var(--panel);padding:0 20px}
+  #stage:empty{display:none;border-top:none}
+  #stage .inner{max-width:840px;margin:10px auto}
+  #stage .cap{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+  #stage img,#stage video{max-width:100%;max-height:300px;border-radius:6px;border:1px solid var(--line);display:block}
+  #stage audio{width:100%}
+  #stage .set{display:flex;gap:8px;overflow-x:auto}
+  #stage .set video{max-height:200px}
+  #pipe-state{font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+  #pipe-state.on{color:var(--good)} #pipe-state.off{color:var(--ink-faint)}
   #units{display:flex;gap:8px;padding:10px 20px;border-top:1px solid var(--line);background:var(--panel);overflow-x:auto}
   .unit{flex:0 0 auto;border:1px solid var(--line);border-radius:6px;padding:6px 11px;cursor:pointer;background:var(--panel-2)}
   .unit.on{border-color:var(--accent)}
@@ -79,11 +89,13 @@
   <header>
     <span class="slug" id="slug">—</span>
     <span class="meta" id="meta"></span>
+    <span id="pipe-state" class="off">standalone</span>
     <span class="spacer"></span>
     <button id="brief">Copy brief for Claude</button>
     <button id="export">Export scene record</button>
   </header>
   <div id="talk"></div>
+  <div id="stage"></div>
   <div id="units"></div>
   <div id="composer">
     <div id="ask"></div>
@@ -108,6 +120,352 @@
    without one they answer from the baked-in canon. Either way the
    record-keeping is identical.
 ═══════════════════════════════════════════════════════════════════ */
+
+/* ── THE PAGE — the locked Ep1 script, verbatim, scene by scene.
+   The script is the FOUNDATION: every unit's direction begins here.
+   The crew interprets the page; it never rewrites it. ─────────── */
+const SCRIPT = {
+1:`Tall flowers sway gently in the warm breeze. Some stretch high above the grass, with long soft necks and bright open petals full of pollen. FUZZBY and ZENNY weave between them collecting pollen from flower to flower. Fine golden pollen dusts their paws and trails softly through the air. Zenny works with smooth calm precision — neat, efficient, graceful. Fuzzby does not. He zig-zags wildly through the air, humming loudly to himself as he works.
+
+FUZZBY (fun sing-song rhythm): BIZZY-BIZZY-BIZZY, BIZZY-BIZZY-BIZZY…
+
+He dips low into a flower, scoops up pollen — then overdoes it and spins sideways into a leaf. FWIP. He bounces back into the air and straightens up proudly.
+
+FUZZBY: Nailed it.
+
+Zenny glides up beside him. Watches him for a beat. He zooms to another flower, humming louder, and sticks his whole face into it. A beat. He pulls back out completely dusted in pollen like a fuzzy yellow moustache. Zenny tries not to laugh.
+
+FUZZBY: Do I look official?
+ZENNY: Yes Fuzzby. Officially nuts!
+
+Fuzzby gasps. He wipes at his face. Somehow smears the pollen worse. He dives again toward another flower — clips a branch — tumbles end over end through the air. THUP. THUP. THUP. He lands upside down inside a blossom. Beat. His little legs kick. Then he pops back up.
+
+FUZZBY (popping up): Buzz Crash!!
+
+Zenny rolls her eyes, but she is smiling now. Fuzzby hums louder and dives into another flower. He pops back out, somehow even more covered in pollen than before. Zenny watches him. Beat. A distant RUMBLE of thunder. Fuzzby pauses mid-hover.
+
+FUZZBY: …okay that sounded dramatic.
+
+Zenny glances toward the sky. The light has shifted slightly. Something feels different. But they do not see anything yet.
+
+ZENNY: A Storm's coming.
+FUZZBY: Good thing I work well under pressure.
+
+He immediately flies into a flower and gets stuck again. Zenny sighs.`,
+
+2:`Gentle waves roll onto the shore. AIDA sits in stillness beside a crystal bowl. She runs the wand softly around the rim. A low shimmering tone fills the air. The cove seems to quiet around her. She closes her eyes. Her ROSE QUARTZ PENDANT begins to glow. Soft pink light rises across her face.
+
+AIDA'S INNER VISION — THROUGH AIDA'S EYES — A wooden pier. A small sailboat waiting on bright blue water. KEEN standing beside his MUM. He checks the straps on his satchel. Then checks them again. Then one more time. His Mum watches him with a proud smile that cannot quite hide her worry.
+
+BACK TO AIDA — The pink glow fades gently from her eyes. Aida places a paw over her heart. A soft knowing smile.
+
+AIDA (softly): It's time.
+
+She rises gracefully. The bowl's note fades into the sound of distant wind. Aida turns and heads purposefully into the forest.`,
+
+3:`A neat little sailboat bobs beside the dock. KEEN loads his final supplies onto the boat — a rolled map, a satchel, a berry pouch, a blanket. He arranges them carefully. Then rearranges them. Then checks them one more time. His MUM stands nearby, smiling proudly, though her eyes are glassy.
+
+KEEN'S MUM: Keen… are you sure you've got everything?
+KEEN: I've got this, Mum.
+
+He pats the satchel. Pauses. Checks one more pocket just in case. His Mum smiles despite herself.
+
+KEEN'S MUM: I know… it's just… this is a big step.
+
+Keen looks out at the water. He swallows. He is trying very hard to be brave.
+
+KEEN: Like you said… it's part of growing up.
+
+His Mum nods softly. She reaches into her bag and takes out two worn WRISTBANDS. She holds them carefully, like they matter. Keen sees them and stills.
+
+KEEN'S MUM: Keen… it's time for you to have your father's wristbands.
+
+A small breeze moves through the ropes along the pier. Keen looks down at them. His expression softens.
+
+KEEN'S MUM: I still feel him… every day.
+
+She places the wristbands gently into Keen's paws. He turns them over carefully. Feels their weight. Their meaning.
+
+KEEN'S MUM: Promise me you'll always wear them.
+KEEN (quietly/proud): I promise.
+
+He slips them onto his wrists. They fit perfectly. He turns his paws, taking them in. His Mum brushes a paw gently against his cheek.
+
+KEEN'S MUM: Wherever you go… You'll never be alone.
+
+Keen takes that in. A small, real smile.
+
+KEEN: I won't be. (softly) I love you, Mum.
+KEEN'S MUM: I love you… my brave boy.
+
+Keen climbs into the boat. He unties the rope. Pushes off. The boat drifts gently away from the dock. His Mum lifts a paw and waves. Keen waves back. Trying to look confident. Then the boat wobbles unexpectedly. He flails. Catches himself. Pretends that was meant to happen.
+
+KEEN: Still got it!
+
+His Mum laughs through a tear. Suddenly — SPLASH! A DOLPHIN rises beside the boat. Keen startles. Then lights up.
+
+KEEN: Whoa!
+
+The Dolphin chirps happily and leaps again through the sparkling water. Keen leans over the side, delighted.
+
+KEEN: Hey there!
+
+The Dolphin chatters. Keen nods as though he fully understands.
+
+KEEN: Nice to meet you too.
+
+The boat glides farther from the dock. His Mum grows smaller behind him. Keen looks ahead. A little nervous. A little excited. A lot of both.`,
+
+4:`Open water. Endless blue. Keen sails confidently — or at least he tries to. The friendly DOLPHIN keeps pace beside the boat, popping up every so often.
+
+KEEN: Hi! I'm Keen! Nice to meet you, Squeaky!
+
+The Dolphin chatters happily. Keen nods like that settles it.
+
+KEEN: Squeaky. Perfect. You really do sound squeaky.
+
+Squeaky leaps high beside the boat. Keen laughs. He looks at his map. Then ahead. Then back at his map. A little uncertain.
+
+KEEN: Okay… so if this is north… then I am definitely going…
+
+He turns the map upside down.
+
+KEEN: …one of the directions.
+
+A gust of wind hits. The sail FLAPS hard. The boat lurches. Keen stumbles sideways and grabs the mast.
+
+KEEN: Oh!
+
+The sky darkens. Clouds roll in faster than he expected. Squeaky disappears beneath the water. Another gust. Stronger. Rain starts as a few drops. Then many. Then sheets. The sea roughens. The boat CREAKS. Keen tries to keep hold of the map while steering. The wind SNATCHES it from his paws.
+
+KEEN: No no no no—!
+
+He lunges for it. Misses. The map whips through the air and vanishes into the storm. Keen stands frozen. Rainwater sloshes around his feet. The horizon disappears behind sheets of grey.
+
+KEEN (under his breath): Oh no… I'm lost!!!
+
+Lightning flickers far away. Keen grips the edge of the boat tighter. His breathing quickens. He closes his eyes for just a second. Breathes. Grounds himself.
+
+KEEN (quiet, steadying): I've got this… I've got this…
+
+A familiar CLICKING CHATTER sounds nearby. Keen opens his eyes. Squeaky leaps through the storm water beside the boat. He dips and reappears, signaling insistently in one direction.
+
+KEEN: Follow you?
+
+Squeaky chirps. Keen looks at the rough water. Then at Squeaky. Then nods.
+
+KEEN: Okay… lead on, Squeaky!
+
+Squeaky surges ahead. Keen wrestles the little boat around to follow.`,
+
+5:`The wind picks up around the trees. Leaves shiver. Branches sway harder now. Fuzzby and Zenny move quickly through the air, heading back through the forest. Fuzzby flies slightly ahead — still talking, because of course he is.
+
+FUZZBY: I'm just saying, if this turns into a full storm situation, I am extremely—
+
+He stops dead in mid-air. Completely still. Zenny nearly bumps into him.
+
+ZENNY: Fuzzby?
+
+No response. Fuzzby slowly raises one tiny paw… Points. Zenny follows his gaze. Out beyond the trees. Through the shifting wind and rain, a tiny boat rises and falls in the distance. Barely visible in the storm. Beat. Fuzzby's eyes go WIDE.
+
+FUZZBY: …that is NOT a good place to be.
+
+Zenny's expression softens immediately.
+
+ZENNY: Someone's in trouble.
+
+Fuzzby snaps into action.
+
+FUZZBY: BEARS! BEARS! EMERGENCY BEARS!
+
+He BLASTS off toward the beach at full speed. Immediately flies into a branch. BONK. He recoils. Shakes it off. Keeps going anyway. Zenny follows behind — calm, focused. This time faster.`,
+
+6:`Dark clouds gather over the cove. The Crystal Bears stand together on the shore. AIDA at the front. HOWEY, MISTY, LUNA and the others nearby. They look out at the sea as the wind moves through the grasses. Fuzzby comes HURTLING in. Too fast. He tries to stop. Fail. He pinballs off a shell, ricochets past Howey, loops around a piece of driftwood and lands in a soggy heap. Beat. One tiny paw lifts.
+
+FUZZBY: I meant to do that.
+
+Nobody reacts. He scrambles up, wild-eyed.
+
+FUZZBY: BEARS! BEARS! There's someone out there and they're — they're — they're —
+
+He bends over, completely out of breath. Cannot get the words out. Zenny floats in behind him, steady as ever.
+
+ZENNY: In trouble.
+
+Fuzzby points at her gratefully.
+
+FUZZBY: IN TROUBLE! YES! THAT!
+
+Aida steps forward to the water's edge. The wind stirs her fur gently, but she remains still. She looks out across the stormy sea. Through the rain we glimpse a tiny boat rising and falling between waves.
+
+AIDA: There he is.
+
+The bears all look out. Concern. Hope. Aida turns to them.
+
+AIDA: Everyone — activate your crystal powers.
+
+The bears gather closer. CRYSTAL CALL SEQUENCE. Aida touches her pendant.
+
+AIDA: With heart open wide, I stand with pride — Rose Quartz, be our guide!
+
+Her ROSE QUARTZ glows warmly. The other Crystal Bears touch their crystals one by one. A pulse of color from each. Misty's crystal glows. Luna's. Howey's. Together the bears speak as one.
+
+ALL: With love and with light, together unite — Crystal Bears, shine your light!
+
+A brilliant BURST OF COMBINED LIGHT shoots out across the storm-dark sea. It cuts through the rain like a beacon.`,
+
+7:`The beam of crystal light reaches through the grey. Keen sees it. His face lifts with hope.
+
+KEEN: What is that…?
+
+Then — Squeaky cries out. Keen looks down sharply. The Dolphin is struggling. A ragged drift net is wrapped tightly around his tail, dragging him under.
+
+KEEN: Squeaky!
+
+The boat bucks hard beneath Keen. He nearly goes overboard. Rain lashes his face. He looks at the storm. Looks at Squeaky. No hesitation.
+
+KEEN: Hang on!
+
+He dives into the water.
+
+SHORE – INTERCUT: The Crystal Bears watch tensely. Fuzzby's mouth hangs open.
+
+HOWEY: He jumped in?!
+AIDA (softly, impressed): He didn't think twice.
+
+UNDERWATER: Everything goes muffled and blue-grey. Keen swims hard through swirling water toward Squeaky. He reaches him. The drift net is twisted tightly around the dolphin's tail. Pulling him down. Keen grabs the net and pulls. Nothing. The current shoves them sideways. Keen slips. Reaches again.
+
+KEEN (muffled): I've got you!
+
+Squeaky thrashes weakly. Keen pulls again. Still nothing. His eyes flick upward toward the churning light above. He is running out of strength. A beat. Keen sees his father's wristbands on his arms. A faint glow begins inside them. Soft. Steady. He plants his feet against a submerged rock. Centers himself.
+
+KEEN (to himself): I've got this… I've got this…
+
+SHORE – INTERCUT: Aida watches with calm certainty.
+
+AIDA (gently): He's not alone.
+
+UNDERWATER: Keen grips the net with both paws. The wristbands glow brighter. He PULLS. The net strains. Still tangled. Above them, the shape of a MASSIVE WAVE gathers. Keen looks at Squeaky.
+
+KEEN: Come on…
+
+He braces again.
+
+KEEN (stronger): COME ON!
+
+He yanks with everything he has. SNAP! The net TEARS. In the same instant the massive wave crashes overhead. The world explodes into foam and motion. Keen is thrown sideways. He tumbles through bubbles and dark water. Disoriented. Then he sees Squeaky.
+
+KEEN: Stay with me!
+
+Squeaky surges up beneath him. Keen grabs hold. The dolphin rockets toward the surface. They BURST out of the water. Keen gasps, coughs, then laughs from pure relief.
+
+KEEN: You got me!
+
+Squeaky chirps. Keen clings on as the dolphin races through the storm toward the glowing shore.
+
+SHORE POV: The Crystal Bears watch as a shape rises over the waves. It is Keen — riding Squeaky in on the crest. Howey's jaw drops. Misty claps a paw over her mouth.
+
+SUNNY: The bravest guy I've ever seen.
+MISTY: His boat's gone!!
+
+Then, as Keen comes closer, Fuzzby's panic flips instantly into awe.
+
+FUZZBY (awestruck): When I grow up… I wanna be like him.
+
+Keen bounces over a wave like a tiny cowboy. One paw in the air. A huge grin across his face.
+
+KEEN: YEEHAW!!
+
+Despite the storm, everyone smiles.`,
+
+8:`Squeaky glides into the shallows. Keen hops off onto the sand, stumbling forward. Laughing. Breathless. Soaked from head to toe.
+
+KEEN: Best… ride… ever!
+
+His legs wobble. He nearly falls. Howey instinctively steps in and steadies him. The bears gather around him in a warm circle. SUNNY bounces excitedly. AMIE beams. Everyone curious, gentle, smiling. Keen looks around at them all.
+
+KEEN: Hi… I'm Keen.
+
+Fuzzby zooms right into Keen's face.
+
+FUZZBY: You rode a dolphin. Into a storm. On purpose?!
+
+Keen blinks at him.
+
+KEEN: …kind of?
+
+Fuzzby slowly turns to the others. Points at Keen like he has discovered a legend.
+
+FUZZBY: He's amazing.
+
+Zenny gently drifts in and pulls Fuzzby back by one leg.
+
+ZENNY: Give him space.
+
+The others smile. Together:
+
+ALL: Welcome to Crystal Cove! We're the Crystal Bears!
+
+Keen looks around at the cove — glowing crystals, warm faces, the gentle shelter of the beach. He takes it all in.
+
+KEEN: Wow… this place…
+
+He turns back toward the sea. Squeaky leaps once more just beyond the shallows. Aida steps forward beside Keen. She lifts a paw and makes a small, gentle gesture to the dolphin. Squeaky watches her. Seems to understand. He dips his head once. Then dives back into the waves. Keen watches him go.
+
+KEEN: What did you do?
+
+Aida smiles.
+
+AIDA: Just getting a message home to your Mum. To let her know you're okay.
+
+Keen absorbs that. A soft grateful pause.
+
+KEEN: Thank you.
+
+Aida gives him the smallest nod.`,
+
+9:`The storm has passed. Everything glows fresh and washed clean. Droplets cling to leaves and sparkle in the sunlight. The Crystal Bears gather in a quiet circle. Aida and Keen stand at the center. Keen still wears his father's wristbands. Aida looks at him with warmth and certainty.
+
+AIDA: You followed your heart… and chose courage.
+
+A gentle AQUAMARINE LIGHT begins to shimmer in the air between them. A glowing crystal appears. Keen stares in wonder. The crystal lifts, humming softly, then splits into two smaller gems. They float toward his wrists. One settles into each wristband. Perfectly. A pulse of AZURE LIGHT runs through them. Keen feels it instantly. He lifts his paws, amazed. The light reflects in his eyes.
+
+KEEN (with rising confidence): Brave and bright, with all my might — Aquamarine Crystal, shine with light!
+
+His wristbands glow brighter. The energy settles warmly around him. Fuzzby claps too early. Stops. Then starts clapping again louder to cover it. Howey cheers. Misty beams. Luna smiles softly. And suddenly the whole group surges in and SWAMPS Keen in a giant bear hug. Keen startles. Then melts into it. He hugs them back. The group slowly breaks apart. Keen looks around at all of them. No longer lost. No longer alone.
+
+AIDA: That's what family does. (ALT: Wherever you go… You'll never be alone.)
+
+Keen smiles. A full, real, homecoming smile.`,
+
+10:`The mood has lifted. Waves lap gently at the shore. Keen and the bears walk together along the sand. Fuzzby buzzes up beside Keen, suddenly very serious.
+
+FUZZBY: So… quick question.
+KEEN: Yeah?
+FUZZBY: How do you feel about honey?
+
+Keen looks at him, still catching his breath from everything.
+
+KEEN: Uh… I like it?
+
+Beat. Fuzzby GASPS. His eyes sparkle. This is the best news he has heard all day.
+
+FUZZBY: Oh… this is going to work out VERY well.
+ZENNY: Fuzzby…
+
+But Fuzzby is already buzzing excitedly around Keen.
+
+FUZZBY: Honey cakes, honey snacks, honey naps, honey leaf drizzles, emergency honey—
+
+Zenny gently catches one of his legs and pulls him back.
+
+ZENNY: One thing at a time.
+FUZZBY: I have waited my whole life for this friendship!
+
+Keen laughs. The others laugh too as they continue walking together down the beach. The camera lingers on the cove, bright and peaceful now.
+
+FADE OUT.`
+};
 
 /* ── THE KNOWLEDGE PACK — canon as data, from the studioai repo ── */
 const K = {
@@ -226,6 +584,49 @@ function sceneOf(n){ return SCENES.find(s=>s.n===n); }
 function talkOf(n){ if(!state.talk[n]) state.talk[n]=[]; return state.talk[n]; }
 function esc(s){ return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
+/* ── THE PIPE — connection to the Codex studio (serve.py) ────────
+   When this file is served by the studio, the Room is not a copy of
+   the pipeline — it IS the pipeline's chat surface. Verdicts fire
+   real director-actions; artifacts render inline; the chat walks
+   Julian between them. Standalone (file://), everything still works
+   with local records only. ─────────────────────────────────────── */
+const PIPE = {connected:false, episode:"Ep1", session:null, chatProxy:true, announced:false};
+
+async function pipeFetch(){
+  if(location.protocol==="file:"){ PIPE.connected=false; return; }
+  try{
+    const q = new URLSearchParams({episode:PIPE.episode, scene:String(openScene)});
+    if(openUnit) q.set("shotId", openUnit);
+    const r = await fetch("/api/director-session?"+q, {cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    PIPE.session = await r.json();
+    if(!PIPE.connected){
+      PIPE.connected = true;
+      if(!PIPE.announced){ PIPE.announced=true; note("PIPELINE CONNECTED — this room is driving the Codex studio. Verdicts fire real director-actions; artifacts appear below the conversation."); }
+    }
+  }catch(e){
+    if(PIPE.connected) note("⚠ Lost the studio connection — records continue locally and re-sync when the server is back.");
+    PIPE.connected=false; PIPE.session=null;
+  }
+}
+
+function pipeActions(){
+  const s=PIPE.session; if(!s) return [];
+  return [s.primaryAction, ...(s.decisionActions||[])].filter(Boolean);
+}
+function resolvePipeAction(verdict){
+  const acts=pipeActions();
+  const want = verdict==="PASS" ? /approve|accept|sign|confirm|keep|lock/i : /reject|retake|refuse|fail|redo|block/i;
+  return acts.find(a=>want.test((a.id||"")+" "+(a.label||""))) || null;
+}
+async function pipeAct(action, reason){
+  const body={episode:PIPE.episode, scene:openScene, shotId:(PIPE.session&&PIPE.session.selectedShotId)||openUnit, action:action.id};
+  if(reason) body.note = reason;
+  const r = await fetch("/api/director-action", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(body)});
+  if(!r.ok){ const t=await r.text(); throw new Error("director-action "+r.status+": "+t.slice(0,200)); }
+  return r.json().catch(()=> ({}));
+}
+
 /* ── CONVERSATION ──────────────────────────────────────────────── */
 function push(t){ talkOf(openScene).push({...t, at:new Date().toISOString()}); save(); render(); }
 function note(text){ push({kind:"room", body:text}); }
@@ -262,8 +663,30 @@ async function handle(text){
   if(v && u.gate!=="DIRECT"){
     u.records.push({gate:u.gate, verdict:v, reason:text.trim(), at:new Date().toISOString(), seat:SEATS[u.gate].seat});
     push({kind:"record", verdict:v, body:`${v} · ${u.id} · ${u.gate} — recorded${v==="REJECT"?" · this becomes a rule, not a hand-fix":""}`});
+
+    // Connected: the verdict is not a note about the pipeline — it drives it.
+    if(PIPE.connected){
+      const act = resolvePipeAction(v);
+      if(act){
+        try{
+          await pipeAct(act, v==="REJECT" ? text.trim() : undefined);
+          note(`→ studio action fired: ${act.label||act.id}`);
+          await pipeFetch();
+        }catch(e){ note("⚠ The studio refused the action: "+(e.message||e)+" — the local record stands; retry or act in the studio UI."); }
+      } else {
+        const avail = pipeActions().map(a=>a.label||a.id).join(" · ");
+        note("⚠ No matching studio action for "+v+" here."+(avail?" Available: "+avail+" — type one of those to fire it.":""));
+      }
+    }
+
     if(v==="PASS"){ advance(u); save(); await brain(u.gate, `[${u.id} advanced to ${u.gate} on Julian's PASS: "${text.trim()}"] Open this gate.`, u); }
     else{ save(); await brain(u.gate, `[${u.id} HELD at ${u.gate} on Julian's REJECT: "${text.trim()}"] Diagnose the defect and say which rule or cost it feeds.`, u); }
+  } else if(PIPE.connected && pipeActions().some(a=>text.trim().toLowerCase()===(a.label||"").toLowerCase()||text.trim().toLowerCase()===(a.id||"").toLowerCase())){
+    // Julian typed an exact studio action name — fire it directly.
+    const act = pipeActions().find(a=>text.trim().toLowerCase()===(a.label||"").toLowerCase()||text.trim().toLowerCase()===(a.id||"").toLowerCase());
+    try{ await pipeAct(act); note(`→ studio action fired: ${act.label||act.id}`); await pipeFetch(); }
+    catch(e){ note("⚠ The studio refused the action: "+(e.message||e)); }
+    save(); render();
   } else {
     u.records.push({gate:u.gate, verdict:"NOTE", reason:text.trim(), at:new Date().toISOString(), seat:SEATS[u.gate].seat});
     save();
@@ -308,9 +731,18 @@ ${Object.entries(SEATS).map(([g,s])=>g+" — "+s.seat+" ("+s.infl+"): "+s.brief)
 Voice: talk like a sharp colleague at the table — direct, warm, specific. Keep answers tight (usually under 200 words) unless Julian asks for a full brief. One question at a time, only when it changes the work. When you spot a canon violation (banned verb, wrong staging, wrong wristband state, missing exclusion), say so immediately and cite the rule.`;
 
   const sc = sceneOf(openScene);
+  const pipeCtx = PIPE.connected && PIPE.session ? `
+STUDIO PIPELINE (live — the Room drives it): phase "${PIPE.session.phase||"?"}" · ${PIPE.session.headline||""} ${PIPE.session.summary||""}
+Available studio actions: ${pipeActions().map(a=>a.label||a.id).join(" · ")||"none"}
+${PIPE.session.request&&PIPE.session.request.conformance?`Emission conformance: ${PIPE.session.request.conformance.score} ${PIPE.session.request.conformance.verdict}`:""}
+When Julian's words amount to a verdict, tell him plainly which studio action it maps to.` : "";
   const dyn =
 `CURRENT CONTEXT — Scene ${sc.n}: ${sc.slug}
 Scene brief: ${K.scenes[sc.n]}
+
+THE PAGE (locked script — the FOUNDATION; direct from it, never rewrite it; a wanted script change is flagged to the showrunner, not improvised):
+${SCRIPT[sc.n]||"(no page)"}
+${pipeCtx}
 ${u ? `Open unit: ${u.id}, at gate ${u.gate}. You are speaking as the ${SEATS[u.gate].seat}.
 Unit record so far:
 ${u.records.slice(-12).map(r=>`  ${r.verdict} @${r.gate}: ${r.reason}`).join("\n") || "  (none yet)"}
@@ -332,14 +764,36 @@ function recentTurns(n){
 }
 
 async function brain(gate, text, u){
-  const key = (state.apiKey||"").trim();
-  if(!key){ offlineBrain(gate, text, u); return; }
   if(busy) return;
+  const key = (state.apiKey||"").trim();
+  const messages = recentTurns(14);
+  if(!messages.length || messages[messages.length-1].role!=="user") messages.push({role:"user", content:text});
+
+  // First choice when connected: the studio's own chat proxy — the key lives
+  // on the Mac with the rest of the pipeline, and same-origin passes the CSP.
+  if(PIPE.connected && PIPE.chatProxy){
+    busy = true;
+    const t = talkOf(openScene); t.push({kind:"thinking", body:SEATS[gate].seat+" is thinking…"}); render();
+    try{
+      const r = await fetch("/api/room-chat", {method:"POST", headers:{"content-type":"application/json"},
+        body: JSON.stringify({system: systemBlocks(gate,u), messages})});
+      t.pop();
+      if(r.status===404){ PIPE.chatProxy=false; note("(Studio has no /api/room-chat yet — using the browser key instead. The Codex instruction for the proxy is in the repo.)"); }
+      else if(!r.ok){ const e=await r.text(); note("⚠ Studio chat failed ("+r.status+"): "+e.slice(0,200)); busy=false; save(); render(); return; }
+      else{
+        const data = await r.json();
+        const out = (data.text||"").trim();
+        if(out) crewSays(gate, out); else note("⚠ Empty response from the studio chat.");
+        busy=false; save(); render(); return;
+      }
+    }catch(e){ t.pop(); PIPE.chatProxy=false; }
+    busy=false;
+  }
+
+  if(!key){ offlineBrain(gate, text, u); return; }
   busy = true;
   const t = talkOf(openScene); t.push({kind:"thinking", body:SEATS[gate].seat+" is thinking…"}); render();
   try{
-    const messages = recentTurns(14);
-    if(!messages.length || messages[messages.length-1].role!=="user") messages.push({role:"user", content:text});
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method:"POST",
       headers:{
@@ -454,14 +908,43 @@ function render(){
   const sc=sceneOf(openScene);
   document.getElementById("slug").textContent=sc.slug;
   const done=sc.units.filter(id=>state.units[id]?.gate==="DONE").length;
-  document.getElementById("meta").textContent=`${done}/${sc.units.length} banked`;
+  document.getElementById("meta").textContent = PIPE.connected && PIPE.session
+    ? `${PIPE.session.phase||""} — ${PIPE.session.headline||""}`.trim()
+    : `${done}/${sc.units.length} banked`;
 
-  document.getElementById("units").innerHTML = sc.units.map(id=>{
-    const u=state.units[id];
-    const blocked=u?.records.some(r=>r.verdict==="REJECT"&&r.gate===u.gate);
-    return `<div class="unit ${id===openUnit?"on":""} ${u?.gate==="DONE"?"done":""} ${blocked?"blocked":""}" data-unit="${id}">
-      <div class="id">${id}</div><div class="gate">${u?u.gate:"not started"}</div></div>`;
-  }).join("");
+  const ps=document.getElementById("pipe-state");
+  ps.textContent = PIPE.connected ? "pipeline connected" : "standalone";
+  ps.className = PIPE.connected ? "on" : "off";
+
+  // Units: the pipe's real shots when connected; the local map otherwise.
+  const pipeShots = PIPE.connected && PIPE.session && Array.isArray(PIPE.session.shots) && PIPE.session.shots.length
+    ? PIPE.session.shots : null;
+  document.getElementById("units").innerHTML = pipeShots
+    ? pipeShots.map(s=>{
+        const id = s.id||s.shotId||"?";
+        const label = s.state||s.phase||s.status||"";
+        return `<div class="unit ${id===openUnit?"on":""}" data-unit="${esc(id)}">
+          <div class="id">${esc(id)}</div><div class="gate">${esc(String(label))}</div></div>`;
+      }).join("")
+    : sc.units.map(id=>{
+        const u=state.units[id];
+        const blocked=u?.records.some(r=>r.verdict==="REJECT"&&r.gate===u.gate);
+        return `<div class="unit ${id===openUnit?"on":""} ${u?.gate==="DONE"?"done":""} ${blocked?"blocked":""}" data-unit="${id}">
+          <div class="id">${id}</div><div class="gate">${u?u.gate:"not started"}</div></div>`;
+      }).join("");
+
+  // The stage: whatever the pipeline is asking Julian to judge, inline.
+  const stage=document.getElementById("stage");
+  const art = PIPE.connected && PIPE.session ? PIPE.session.artifact : null;
+  if(art && art.type){
+    const cap = `<div class="cap">${esc(PIPE.session.phase||"")} — the studio is showing you this</div>`;
+    let inner="";
+    if(art.type==="image" && art.url) inner=`<img src="${esc(art.url)}" alt="">`;
+    else if(art.type==="audio" && art.url) inner=`<audio controls src="${esc(art.url)}"></audio>`;
+    else if(art.type==="video" && art.url) inner=`<video controls src="${esc(art.url)}"></video>`;
+    else if(art.type==="video-set" && Array.isArray(art.items)) inner=`<div class="set">${art.items.map(i=>`<video controls src="${esc(i.url)}"></video>`).join("")}</div>`;
+    stage.innerHTML = inner ? `<div class="inner">${cap}${inner}</div>` : "";
+  } else stage.innerHTML="";
 
   document.getElementById("talk").innerHTML = talkOf(openScene).map(t=>{
     if(t.kind==="you") return `<div class="turn you"><div class="who">You</div><div class="body">${esc(t.body)}</div></div>`;
@@ -543,4 +1026,9 @@ if(!talkOf(openScene).length){
   crewSays("DIRECT");
 }
 render();
+
+/* The pipe heartbeat: keep the Room synced to the studio. Paused while a
+   seat is thinking or an action is in flight; recovers on its own. */
+pipeFetch().then(render);
+setInterval(async ()=>{ if(!busy){ await pipeFetch(); render(); } }, 6000);
 </script>
