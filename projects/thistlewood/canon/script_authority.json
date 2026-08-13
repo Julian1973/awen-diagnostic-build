@@ -1,0 +1,51 @@
+{
+  "_authority": "Thistlewoods_Book1_FINAL_Copyedited_Manuscript.docx — drive:1n5LmfoqkVPgH3GSalcgPqgVAbfMzUjMo, in Thistlewoods/Book 1 The Wrong Tune. Eight chapters, complete, copyedited, © Julian Jenkins / Cre8tive. This is the STORY authority for Episode 1 / Book 1. The v5 bible and Continuity Locks remain the WORLD authority; where the two touch, the manuscript wins on events, dialogue and order, the locks win on geometry, scale and appearance.",
+  "_why_this_file_exists": "MP.B1 was directed on 2026-08-13 without this manuscript, from the bible's structure alone. It invented the opening. Julian caught it: the object has to ARRIVE, with Tom Chen, and he has to tell its story. Recorded so no beat is ever directed again from structure when the prose exists.",
+  "corrections_to_earlier_canon": [
+    {
+      "was": "MP.B1 opened on a 'bustle' of four invented tasks with Richard already carrying the box into the workshop.",
+      "is": "Ch.1 opens on 'Attempt Forty Seven' — Albert's door-knocking System, punchline 'There's nothing on the bench.' The box arrives in Ch.2 with Tom Chen, at the counter, on the shop floor.",
+      "severity": "structural — deletes the inciting incident and the man whose face carries the ending"
+    },
+    {
+      "was": "The box plays 'three halting notes, the third one sour' — reads as broken.",
+      "is": "A FRENCH TUNE, sweet and unmistakably wrong. 'Not broken wrong. Not clunk and jangle wrong.' The notes bend in odd places, the way a picture hangs crooked — and in exactly the same places every time. The sameness is the clue and the whole plot.",
+      "severity": "fatal to the story — a broken box can be fixed; a deliberately crooked one is the mystery"
+    },
+    {
+      "was": "Richard's apron read as 'both hands either side of the box, head slightly bowed'.",
+      "is": "Over the head, tied at the back, then both hands smoothing the front, 'like a knight settling his armour'. THEN, and only then, he lifts the box — and goes very still.",
+      "severity": "the series ritual, wrong in its first appearance"
+    },
+    {
+      "was": "Richard's line invented as 'Now then… what happened to you?'",
+      "is": "'Nothing is truly broken. It just needs some TLC.' — said to the box, more than to Tom.",
+      "severity": "invented dialogue in a scripted show"
+    },
+    {
+      "was": "TP-03 v2 approved as the beat-1 opening keyframe.",
+      "is": "It depicts Richard carrying the box into the workshop past four children — a moment that does not occur in the manuscript. The plate is sound; its ROLE was wrong.",
+      "severity": "asset misassignment, not an art fault"
+    }
+  ],
+  "world_facts_the_manuscript_settles": {
+    "arcade_name": "Llenast Passage — entered by a narrow iron arch on Castle Street between the bank and the pasty shop. NOT 'Castle Arcade'.",
+    "shop_position": "Three shops in from the Castle Street entrance, on the left of the ground-floor passage. Confirms the v5 lock; contradicts the legacy skill's upper gallery.",
+    "sign": "THISTLEWOOD'S: RESTORATIONS AND CURIOSITIES. ESTABLISHED 1922. / 'If it's broken, it belongs here.' Gold letters that have refused to fade for over a hundred years.",
+    "macsen": "Ginger cat. Sleeps in the BOOKSHOP window, not in Thistlewood's. Rose draws him from memory, adding one eye half open.",
+    "the_good_chair": "By the window, in the workshop. Rose's chair.",
+    "compass_home": "The workbench drawer.",
+    "brass_panel": "In the doorframe. Richard adjusts it with a very small screwdriver, claiming each time that the clothes are nearly sorted. They never are.",
+    "mrs_patel": "Copper Kettle, brings tea across the arcade at three by the castle clock.",
+    "arc_seeds_ch8": [
+      "The gold paint tin never gets emptier. Albert checked twice and drew lines.",
+      "Everything the door gives them is wrong — except Peggi's clogs, which fit.",
+      "A small wooden box on Richard's high shelf, behind the solvent jars. He looks at it when he thinks nobody sees."
+    ]
+  },
+  "legacy_conflict_flagged": {
+    "artifact": "/root/.claude/skills/synced/thistlewood-writer/SKILL.md",
+    "problem": "v3-era bible: two grandchildren (Albert and RUTH), Castle Arcade, shop on the upper gallery behind a spiral staircase, and brand-name style references (Hilda, Gravity Falls, Over the Garden Wall) baked into a 'style lock' meant for production prompts — which also breaks the brand_block rule paid for by Crystal Bears renders.",
+    "action": "Retire or rewrite against v5 before it is ever loaded for Thistlewood's work."
+  }
+}
