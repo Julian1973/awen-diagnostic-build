@@ -1,0 +1,14 @@
+{
+  "version": "v1.0.0",
+  "status": "CANDIDATE — locks after the first accepted render, exactly as Crystal Bears' did",
+  "_law": "Injected verbatim into every emission. Never paraphrased, never hand-tuned mid-production. Brand names (Hilda, Gravity Falls, Over the Garden Wall) live in the bible for humans and NEVER appear in emissions — brand_block rule, paid for by Crystal Bears renders.",
+  "text": "Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens — never black outlines. Flat colour fills with a subtle paper texture, as if painted on lightly grained stock. Soft amber-warm palette with honeyed light. Characters are simple, expressive shapes with large readable eyes and distinctive silhouettes; their movement is gentle and slightly springy, drawn on twos. Backgrounds are richly detailed Victorian arcade interiors — ornate ironwork, tiled floors, glass roof light — rendered flat with painted depth, no perspective tricks. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork, no cel-shine gradients.",
+  "negatives_standing": [
+    "no 3D CGI or rendered lighting",
+    "no black outlines",
+    "no photorealism",
+    "no anime styling",
+    "no watermark, no text in frame"
+  ],
+  "palette_law": "Amber-warm inside the arcade and shop, always. Each historical destination gets its OWN locked palette, declared per episode before its first render."
+}

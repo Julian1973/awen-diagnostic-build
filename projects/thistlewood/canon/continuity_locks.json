@@ -1,0 +1,43 @@
+{
+  "_authority": "Master Series Map & Schedule v5 · Continuity Locks tab. 'The contradiction-free production canon that overrides outdated wording in legacy documents.' Reopen a lock only with a named approver, a documented reason and a sweep of every downstream asset.",
+  "locks": [
+    {"lock": "Consumer title", "rule": "Always 'Thistlewood's' with the apostrophe. 'Thistlewoods' is internal shorthand only.", "authority": "Brand master", "appliesTo": "all consumer outputs"},
+    {"lock": "Format", "rule": "26 × 11-minute episodes; two 13-episode seasons.", "authority": "Ultimate bible", "appliesTo": "pitch / production"},
+    {"lock": "Core audience", "rule": "7–11 with family co-viewing; books positioned for 8–12.", "authority": "Ultimate bible", "appliesTo": "editorial / marketing"},
+    {"lock": "Shop position", "rule": "Third ground-floor unit on the left from the Castle Street entrance; no staircase.", "authority": "Book 2 continuity audit", "appliesTo": "all backgrounds"},
+    {"lock": "Shopfront", "rule": "Curved bow window left; narrow glazed door; dark green panel and brass maker's mark.", "authority": "Book 2 continuity audit", "appliesTo": "all backgrounds"},
+    {"lock": "Counter", "rule": "Rear right, facing the entrance; clear route around it to the workshop arch.", "authority": "Book 2 continuity audit", "appliesTo": "blocking"},
+    {"lock": "Workshop left", "rule": "Shelves, radio, stove and kettle.", "authority": "Book 2 continuity audit", "appliesTo": "all backgrounds"},
+    {"lock": "Workshop right", "rule": "Workbench and brick window.", "authority": "Book 2 continuity audit", "appliesTo": "all backgrounds"},
+    {"lock": "Secret door", "rule": "Oak door centred in stone; capital-T iron strap plus a separate lower strap.", "authority": "Book 2 continuity audit", "appliesTo": "all portal shots"},
+    {"lock": "Richard height", "rule": "175 cm.", "authority": "Character continuity", "appliesTo": "scale charts"},
+    {"lock": "Albert height", "rule": "145 cm; tallest child.", "authority": "Character continuity", "appliesTo": "scale charts"},
+    {"lock": "Lily height", "rule": "140 cm; eldest and action leader.", "authority": "Character continuity", "appliesTo": "scale charts"},
+    {"lock": "Rose height", "rule": "132 cm; visibly smaller than Lily and Albert.", "authority": "Character continuity", "appliesTo": "scale charts"},
+    {"lock": "Peggi height", "rule": "118 cm; always the smallest.", "authority": "Character continuity", "appliesTo": "scale charts"},
+    {"lock": "Albert present day", "rule": "Brown hair; brown jumper; notebook and pencil.", "authority": "Book 2 appearance lock", "appliesTo": "model / costume"},
+    {"lock": "Lily present day", "rule": "Long red braid; green field jacket.", "authority": "Book 2 appearance lock", "appliesTo": "model / costume"},
+    {"lock": "Rose present day", "rule": "Strawberry-blonde hair; green cardigan; floral dress.", "authority": "Book 2 appearance lock", "appliesTo": "model / costume"},
+    {"lock": "Peggi present day", "rule": "Two dark braids; striped shirt; blue overalls.", "authority": "Book 2 appearance lock", "appliesTo": "model / costume"},
+    {"lock": "Travel party", "rule": "Usually two children; all-four travel reserved for ritual, arc turns and finales.", "authority": "Ultimate bible", "appliesTo": "episode outlines"},
+    {"lock": "Crossing rule", "rule": "Only the missing repair fragment may ordinarily cross. Other returns are anomalies and clues.", "authority": "Book continuity", "appliesTo": "story logic"},
+    {"lock": "History rule", "rule": "Children do not change history; they recover meaning and the fragment that belongs to the object.", "authority": "Ultimate bible", "appliesTo": "all scripts"},
+    {"lock": "Owner ending", "rule": "End emotionally on the owner and object, not on the travellers explaining the lesson.", "authority": "Writing canon", "appliesTo": "all scripts"},
+    {"lock": "Historical integrity", "rule": "Research creates the obstacle. Final scripts receive historical, cultural and pronunciation review as required.", "authority": "Ultimate bible", "appliesTo": "research / scripts"}
+  ],
+  "door_canon": [
+    "It opens only for an object with an unfinished truth.",
+    "One present-world hour. No one is left behind.",
+    "The compass sleeps until understanding is earned.",
+    "Only the missing repair fragment may ordinarily cross back.",
+    "History cannot be rewritten; the children witness, reveal and recover.",
+    "The wrong clothes are deliberate — and eventually meaningful.",
+    "Any exception is a serial clue, never a convenient escape hatch."
+  ],
+  "inherited_machinery": {
+    "apron": "understanding — Richard feels what matters, never the full story, never the easy answer",
+    "compass": "direction — points only after the children understand enough to deserve the next step; effort first, magic second",
+    "paint": "permanence — the sign's gold never fades and the tin never empties; Albert records the anomaly long before anyone explains it",
+    "origin": "all three arrived at the shop in 1922; the traveller, the price and the choice of Septimus remain the mystery beneath the mysteries"
+  }
+}
