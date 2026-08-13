@@ -88,11 +88,10 @@
     },
     {
       "lock": "Albert present day",
-      "rule": "Brown hair; ROUND GLASSES — Albert wears glasses, always; brown jumper; notebook and pencil. Tallest of the four children.",
+      "rule": "Brown hair; brown jumper; notebook and pencil; tallest of the four children. NO GLASSES.",
       "authority": "Book 2 appearance lock + Julian, confirmed 2026-08-13",
       "appliesTo": "model / costume",
-      "_earned": "Reversal, 2026-08-13. Julian first called Albert's glasses drift, but three full generations refused to remove them, including one describing his face positively as bare. Ruling: roll with it and lock them IN. A lock that says 'no glasses' against art that always has them guarantees the character changes face mid-episode. Consistency beats the original preference.",
-      "_correction": "The lock as first transcribed omitted the glasses, so correct art was flagged as drift and three regenerations were spent trying to remove them. The art was right and the canon was incomplete. Recorded because an incomplete lock is more dangerous than no lock — it makes the gate confidently wrong."
+      "_earned": "Settled after it moved twice. RICHARD wears round glasses; ALBERT wears none. Both are stated together in this lock precisely because they were confused, and a rule that names only one of a contrasting pair invites the same mistake again."
     },
     {
       "lock": "Lily present day",
@@ -155,6 +154,13 @@
       "authority": "Director, locked 2026-08-13",
       "appliesTo": "every workshop shot",
       "_why": "The glow is the cold open's payoff and Act One's turn. Lit early, the episode spends its biggest moment before the title card."
+    },
+    {
+      "lock": "Glasses — who wears them",
+      "rule": "RICHARD wears round glasses. ALBERT wears none. No other character wears glasses.",
+      "authority": "Julian, 2026-08-13",
+      "appliesTo": "every character frame",
+      "_why_its_own_lock": "Ownership of a feature is a stronger instruction to an image model than a prohibition, and stating the whole set in one place stops the feature migrating between the two characters it has already moved between."
     }
   ],
   "door_canon": [

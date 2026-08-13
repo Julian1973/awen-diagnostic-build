@@ -132,7 +132,7 @@
   "keyframes": {
     "_note": "Anchors. One per shot, because both working routes accept a single reference image.",
     "KF-CO.2": {
-      "status": "LOCKED 2026-08-13",
+      "status": "LOCKED WITH ONE PAINT FIX OUTSTANDING",
       "built_from": "PL-06",
       "serves": "CO.2 — Attempt Forty-Seven",
       "verified": [
@@ -143,13 +143,13 @@
         "shelves/radio/stove left, workbench and window right, door centred",
         "Albert stopwatch up, notebook open, back three-quarters to camera",
         "Lily folded against the shelves, scuffed knee",
-        "Peggi cross-legged on the bench with the apple",
-        "Albert wears his round glasses — canon, not drift"
+        "Peggi cross-legged on the bench with the apple"
       ],
       "conceded": [
         "Rose's chair sits between the tool cabinet and the window wall rather than hard under the window — canon amended to match what generates reliably"
       ],
-      "unverifiable_here": "The height ladder. Every child is seated, leaning or elevated, so no two stand together. The first standing two-shot is a scale gate."
+      "unverifiable_here": "The height ladder. Every child is seated, leaning or elevated, so no two stand together. The first standing two-shot is a scale gate.",
+      "outstanding": "Albert is wearing glasses and should not be. Three full regenerations failed to remove them, so fix by INPAINT on his face only — do not re-roll the frame, because everything else in it is correct and hard-won."
     }
   }
 }
