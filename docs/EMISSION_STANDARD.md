@@ -320,3 +320,39 @@ saw. `fire.py` sets `enable_prompt_expansion: false` and this is not optional.
 **Duration** is an integer 5–15 seconds, so a 12-second beat is expressible.
 **Prompt ceiling** is 50,000 characters, far above the 5,000 the standard
 assumes — the constraint is now craft, not budget.
+
+## PART 9 — SCENE-LEVEL KEYFRAMES (Julian's ruling, 2026-08-13)
+
+**One keyframe per SCENE, not per beat.** The beats are delivered by the
+image-to-video model from the references, the audio and a prompt that carries
+the beat — not by drawing every moment by hand.
+
+A new keyframe is warranted only by a genuine **cut**:
+- a new room,
+- a genuinely new camera setup,
+- or a jump in time.
+
+Beats *within* a continuous take are the model's job. That is what it is for.
+
+**Where this went wrong before the ruling.** The single-reference constraint
+(one image per generation) is real, and the inference "therefore one keyframe
+per shot" is also real — but it was then applied per BEAT, which is a different
+and much more expensive thing. Act One's counter scene was broken into three
+keyframes when it is one continuous take at one camera position in one room.
+Extra keyframes are not wasted, but their role is as END-STATE references to
+judge a take against, never as required anchors.
+
+**Every emission is gated before it is fired. No exceptions.**
+Through the official Seedance prompt generator and the studio preflight, scoring
+**above 9.5**. This holds whichever provider is being fired: the Seedance-specific
+syntax (`@Image N` roles) applies only to Seedance routes, but the principles are
+provider-agnostic and all still apply — non-numeric stages rather than invented
+time ranges, no blanket negatives, an observable end state per stage, every
+camera move with a named target, physics rather than adverbs, and no interior
+states that cannot be rendered.
+
+**Recorded failure, same day:** the first continuous-take test was fired WITHOUT
+being gated, to answer a question quickly. Retro-scored at 9.0 — under the floor
+on length (2,553 chars) and on two instances of "he is listening", an interior
+state with no visible form. Speed is not a reason to skip the gate; the gate
+exists precisely for the moments when there is a reason to hurry.
