@@ -45,19 +45,28 @@ bench and lamplight; comb whole, crack gone, mechanism complete, wood still
 worn. Repaired, not renewed — the law held. The TP-01/TP-02 pair is beat 4's
 before/after reveal by construction.
 
-### TP-03 · Beat 1 OPENING keyframe — the bustle (DIRECTOR'S CORRECTION 2026-08-13)
-Superseded spec asked for the stillness — that is the beat's END state, not
-its first frame; a keyframe anchors the OPENING and the video moves away
-from it. Corrected staging, per the MP.B1 record's Shot 1:
-Inside the workshop matching the Inside Shop plate (bench + brick window
-right, shelves/radio/stove/kettle left, counter rear right, oak door with
-capital-T strap barely readable in rear shadow). CAMERA AT CHILD EYE-LEVEL
-(Rose's height) — the room towers gently. Bench lamp is the key light,
-window the soft fill. Mid-bustle, nobody still: Richard carrying the broken
-walnut music box (TP-01 reference) toward the bench; Peggi mid-clamber onto
-a stool; Albert writing in his notebook without looking up; Lily mid-tidy of
-something Peggi has undone; Rose alone beginning to turn toward Richard —
-she senses it first. Scale law exact (145/140/132/118, Richard 175). Honey
+### TP-03a · WORKSHOP MASTER PLATE (new — must precede TP-03)
+Credit: external review (ChatGPT, 2026-08-13) caught that no dedicated
+workshop plate exists — "Inside Shop" is the PUBLIC shop floor. My earlier
+TP-03 also wrongly placed the counter in the workshop; the locks put the
+counter on the shop floor. Corrected workshop-only geometry, per the Book 2
+continuity audit locks:
+Character-free master plate of the workshop room: shelves with a radio, a
+stove and kettle on the LEFT wall; the workbench and a brick window on the
+RIGHT; the old oak door with its capital-T iron strap and separate lower
+strap CENTRED in the stone rear wall; NO counter (that belongs to the shop
+floor beyond the arch). Warm bench-lamp key light, window fill, honey
+lamplight. Reference: Workshop Magic Door plate for the door wall. [style
+lock] No text, no watermark.
+
+### TP-03 · Beat 1 OPENING keyframe — the bustle (uses approved TP-03a)
+Camera at child eye-level (Rose's height); bench lamp key, window fill.
+Environment reference: the approved TP-03a workshop master ONLY — never the
+shop-floor plate. Mid-bustle, nobody still: Richard carrying the broken
+walnut music box (TP-01) toward the bench; Peggi mid-clamber onto a stool;
+Albert writing in his notebook without looking up; Lily mid-tidy of a shelf;
+Rose alone beginning to turn toward Richard — she senses it first. Scale law
+exact (Richard 175 / Albert 145 / Lily 140 / Rose 132 / Peggi 118). Honey
 lamplight, ordinary family noise made visible. [style lock] No text, no
 watermark.
 
@@ -100,6 +109,13 @@ owner and the object). Behind and around, at their locked scales, the family
 of five: five secret smiles at five different sizes. [style lock]
 
 ---
+
+## REFERENCE-ROLE LAW (added 2026-08-13, credit external review)
+Every generation names its references BY ROLE: environment plate, identity
+sheets, hero prop. A reference whose content contradicts the prompt's
+geometry is a defect — fix the reference set, never let the prompt fight it.
+One canon: assets approved in THIS studio are the registry; parallel
+generations elsewhere come through the same gate before use.
 
 ## RESOLVED (Julian, 2026-08-13)
 1. **Tom Chen is the present-day owner** — his face carries the beat-5 ending.
