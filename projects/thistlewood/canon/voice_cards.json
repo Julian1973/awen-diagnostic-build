@@ -96,16 +96,18 @@
     }
   },
   "supporting_ep1": {
-    "_note": "The Wrong Tune guest cast (Burgundy 1867). Cadence cards drafted when the episode script is broken down; IDs cast by Julian.",
+    "_note": "Roles confirmed by Julian 2026-08-11. Cadence cards drafted at episode breakdown.",
     "Pascal": {
       "elevenLabsId": "tL3wd6RtAgoIn5jyuk8F",
       "cadence": null,
-      "settings_hint": null
+      "settings_hint": null,
+      "role": "the historical child of Ep1 — apprentice boy in the Burgundy atelier that makes the music box, 1867"
     },
     "Tom Chen": {
       "elevenLabsId": "tUUG2iKsKAbeZBRPSVdO",
       "cadence": null,
-      "settings_hint": null
+      "settings_hint": null,
+      "role": "present-day owner of the music box; his face is where the episode ends (owner-ending lock)"
     }
   },
   "casting_status": {

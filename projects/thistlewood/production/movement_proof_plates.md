@@ -84,12 +84,13 @@ of five: five secret smiles at five different sizes. [style lock]
 
 ---
 
-## OPEN QUESTIONS (Julian's — before TP-05/06/07 fire)
-1. **Who owns the music box in the present day?** The card determines the
-   beat-5 face. (Working hypothesis to confirm or kill: Tom Chen is the
-   present-day owner and Pascal the 1867 maker — matching the cast voices.)
-2. Peggi-as-Dutch-farm-girl is taken from the bible's own running-joke slide —
-   confirm the other three wrong-clothes assignments above or reassign.
+## RESOLVED (Julian, 2026-08-11)
+1. **Tom Chen is the present-day owner** — his face carries the beat-5 ending.
+   **Pascal is the historical child**: the apprentice boy who works in the
+   Burgundy atelier that makes the music box, 1867. TP-06 stages Pascal at the
+   bench beside the maker; TP-07 stages Tom Chen at the counter.
+2. Wrong-clothes assignments approved as written (Peggi Dutch farm girl,
+   Lily vineyard boy, Albert undertaker's junior, Rose over-frilled Parisian).
 
 ## WORKFLOW
 Generate each TP in the image tool with the relevant existing plate + model
