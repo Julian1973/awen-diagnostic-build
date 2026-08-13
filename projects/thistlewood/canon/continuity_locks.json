@@ -161,6 +161,14 @@
       "authority": "Julian, 2026-08-13",
       "appliesTo": "every character frame",
       "_why_its_own_lock": "Ownership of a feature is a stronger instruction to an image model than a prohibition, and stating the whole set in one place stops the feature migrating between the two characters it has already moved between."
+    },
+    {
+      "lock": "Tom Chen appearance",
+      "rule": "East Asian man, short dark hair greying at the temples, tired hopeful face with a faint worried smile. NAVY HOODED PARKA with patch pockets, worn open over a RUST-RED crewneck jumper over a grey checked collared shirt. Charcoal trousers. Brown leather brogues. Carries the music box wrapped in a CREAM CHECKED TEA TOWEL knotted at the top, held in both hands at chest height.",
+      "authority": "Tom Chen model sheet, 4 views (front / three-quarter / profile / back), confirmed by Julian 2026-08-13",
+      "appliesTo": "A1.1-A1.3, A3.5, A3.6 — every appearance",
+      "_note": "The tea-towel bundle is drawn into the model sheet, so the prop and the way he holds it are part of his design, not staging. The script says 30s; the sheet reads older. The sheet wins on appearance.",
+      "_why_it_matters": "He has four sheets already, so there is a canonical Tom. Writing him blind would have produced a second Tom that looked fine in isolation and failed to cut against Act Three."
     }
   ],
   "door_canon": [
