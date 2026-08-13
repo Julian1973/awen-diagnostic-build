@@ -169,3 +169,50 @@ Generate each TP in the image tool with the relevant existing plate + model
 pack images as references → Julian eye-matches against the four Drive plates
 and approves/rejects (SEE) → approved plates register as anchors → beats
 direct against them → prompts compile → checker (9.5 floor) → Flova.
+
+---
+
+## TP-08 · FRONT ROOM MASTER PLATE — HIGHEST PRIORITY
+Added 2026-08-13 after the script arrived. This is the plate whose ABSENCE
+caused MP.B1 to be staged in the wrong room. Act One (1:20–4:00) happens here
+almost entirely: Tom Chen's arrival, the wrong tune, Rose's line, the apron.
+Act Three's ending happens here too — Tom returns, five secret smiles. It is
+the second-most-used room in the episode and we have no plate for it.
+
+Character-free master plate of Thistlewood's FRONT ROOM (the public shop, not
+the workshop):
+- The **counter rear right, facing the entrance**, with a clear route around
+  it to the workshop arch (continuity lock).
+- The workshop **arch** visible beyond, warm lamplight spilling from it — the
+  two rooms must read as connected, because Richard carries the box through.
+- The glazed front door with the **small bell above it**; the curved bow
+  window to the left of the door, packed with objects (brass sextant, ceramic
+  figurines, an old clock face, a ship in a bottle); honey arcade light coming
+  through the glass from outside.
+- Floor-to-ceiling shelves of restored curiosities; the feel of beeswax and
+  old paper.
+- A clear spot on the counter with room for a small object and a tea towel.
+- **Macsen's counter position** — he relocates here to judge Tom, so the
+  counter needs a plausible cat-sized place at the customer end.
+No characters, no cat, no text on the sign lettering that must read.
+Reference: existing Front Of The Shop and Castle Arcade plates for the light
+and the exterior beyond the glass. [style lock v1.0.1 + workshop/arcade
+location clause] 
+
+**Blocked only on:** the LEFT/RIGHT arcade ruling, and only for the view
+THROUGH the front window. Interior geometry (counter rear right) is locked
+independently and can be built now.
+
+## TP-09 · MACSEN model pack
+He performs in three shots — asleep in the bookshop window (cold open), on the
+counter judging Tom (Act One), watching Tom leave all the way to the arch
+(Act Three) — and Rose draws him from memory with one eye half open. Ginger
+cat. No model pack exists. Needs: sleeping curl, sitting/judging, walking,
+and the half-open eye.
+
+## CRAFT LAW (earned 2026-08-13): A SCENE WITH NO PLATE IS STAGED IN THE
+## WRONG ROOM
+MP.B1 moved Tom Chen's counter scene into the workshop because the workshop
+was the only room with an approved plate. Nobody decided that; the asset
+gap decided it. Before directing any beat, list its rooms and confirm each has
+a plate. A missing plate is a silent staging instruction.
