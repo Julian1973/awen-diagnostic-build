@@ -1,0 +1,88 @@
+{
+  "_status": "LOCKED 2026-08-13 by Julian. This is the single registry every surface reads. A plate not listed here is not an anchor. A shot may only be anchored to the plate named against it.",
+  "_drive": "00 PRODUCTION MASTER — Thistlewood's / 02 ENVIRONMENT PLATES — approved (folder 1IXaxOI5vZETcs2ZdNFXmJPyoW2A47318)",
+  "_match_chain": "Julian's Locked Match Chain, adopted verbatim as studio law: 1 derives only from 2. 2, 3 and 4 are the approved masters. 5 is the clean active-door state from 4. No architectural substitutions.",
+
+  "LOCKED_GEOMETRY": {
+    "WORKSHOP": {
+      "left_wall": "shelves, old radio, jars; stove and kettle left of centre",
+      "right_wall": "the heavy workbench AND the brick window — CONFIRMED BY JULIAN 2026-08-13 against the images",
+      "rear_wall": "old oak door CENTRED in stone, capital-T iron strap plus a separate lower strap",
+      "the_good_chair": "by the window — therefore on the RIGHT, beyond the workbench. Rose's chair.",
+      "counter": "NONE. The counter belongs to the Front Room only.",
+      "_why_locked": "Two prompts in the first keyframe pack stated 'brick window right' in their reference line and then staged against a window on the left, inventing a second window on the shelf wall. There is ONE window and it is RIGHT."
+    },
+    "FRONT_ROOM": {
+      "counter": "rear right, facing the entrance, with a clear route around it to the workshop arch",
+      "arch": "through to the workshop, warm lamplight beyond",
+      "front_door": "narrow glazed door with the small bell above it",
+      "window": "curved bow window, packed with objects"
+    },
+    "CASTLE_ARCADE": {
+      "side": "LEFT from the Castle Street entrance — locked 2026-08-13",
+      "order": "bookshop FIRST, music shop SECOND, Thistlewood's THIRD",
+      "level": "ground floor throughout, no staircase anywhere",
+      "opposite_side": "tea room with striped awning (Copper Kettle), locksmith (Keys & Sons)",
+      "bookshop_ledge": "broad, sun-warmed, deliberately left EMPTY so Macsen can be placed only in the shots he belongs in"
+    },
+    "SIGN_STRINGS": {
+      "fascia_board": "A. THISTLEWOOD — RESTORATIONS & CURIOSITIES · EST. 1922",
+      "window_glass_and_title_card": "Thistlewood's"
+    }
+  },
+
+  "plates": [
+    {"id": "PL-01", "name": "Castle Street — exterior, wet, with the arch",
+     "driveId": "1LBNGD6FpZmEPlAZh856_vuspnYgsHxeU", "status": "APPROVED",
+     "serves": ["CO.1a"],
+     "note": "The grey half of the cold open. The arch is the only warm thing in frame and the gold spills onto the wet pavement — the transition made physical, so the push-in has somewhere to travel FROM."},
+
+    {"id": "PL-02", "name": "Castle Arcade — interior wide",
+     "driveId": "1KxdhofkgMTRbakgnPlgfWJkWrx9GmMIt", "status": "APPROVED WITH NOTE",
+     "serves": ["CO.1b"],
+     "outstanding": "The fascia lettering renders as 'Thistlewad's'. Repaint the lettering only — never re-roll, because the shop order is the expensive part of this image and a re-roll risks losing it."},
+
+    {"id": "PL-03", "name": "Shopfront — exterior master",
+     "driveId": "14rEWUIJuZ6ky2ESUWOG3lJVJEaOjK_fn", "status": "ACCEPTED BY JULIAN",
+     "serves": ["CO.1b context", "Act Three exit"],
+     "provenance": "This is the 17 July original, byte-identical to the old 'Front Of The Shop'. Julian reviewed and accepted it as-is 2026-08-13 rather than regenerating."},
+
+    {"id": "PL-04", "name": "Front Room (public shop) — interior master",
+     "driveId": "1UkMrNOfFhMRK21oBBUwlET5TFLMBM-_G", "status": "ACCEPTED BY JULIAN",
+     "serves": ["A1.1", "A1.2", "A1.3", "A3.5", "A3.6"],
+     "provenance": "17 July original, byte-identical to the old 'Inside Shop'. Accepted as-is 2026-08-13.",
+     "note": "The most-used interior in the episode — four of Act One's five shots plus the closing image."},
+
+    {"id": "PL-05", "name": "Workshop — occupied",
+     "driveId": "1bQdOc4utfRwcDtKl6XEIT9_WlG1q_XFV", "status": "REFERENCE ONLY",
+     "serves": ["lighting and blocking reference"],
+     "NEVER": "Never an anchor for a scripted shot. It depicts Richard carrying the box into the workshop past four children — a moment that occurs nowhere in script or manuscript."},
+
+    {"id": "PL-06", "name": "Workshop — clean, door DORMANT",
+     "driveId": "1Nbl_qMlk92PVKuUIjmT7ZIRARXQYLzFq", "status": "APPROVED",
+     "serves": ["CO.2", "CO.3"],
+     "note": "The door is dark and inert, and the workbench is EMPTY. Both matter: the empty bench is the cold open's punchline ('There's nothing on the bench') and the dark door protects the reveal."},
+
+    {"id": "PL-07", "name": "Workshop — clean, door BACKLIT",
+     "driveId": "1qt5oeov9iAGPRs_GX5ZCAbIK4X1L9csK", "status": "APPROVED",
+     "serves": ["A1.4", "A1.5"],
+     "note": "A thin seam of other-coloured light around a CLOSED door. Matches the script as written rather than approximating it."},
+
+    {"id": "PL-SHEET", "name": "Shop Continuity — locked match chain",
+     "driveId": "13IjpgckbZh2X5RX-wBfGswEJf7Zbbdtr", "status": "REFERENCE",
+     "serves": ["continuity discipline"]}
+  ],
+
+  "DOOR_STATE_LAW": {
+    "rule": "The back door has exactly two states and the wrong one spoils the episode.",
+    "dormant": "PL-06. Everything before Tom Chen leaves. The door is furniture.",
+    "backlit": "PL-07. Only from the moment the shop door clicks shut behind Tom.",
+    "why": "The door's glow is the cold open's payoff and Act One's turn. If it is already lit in the opening minute, the episode spends its biggest moment before the title card."
+  },
+
+  "COVERAGE": {
+    "cold_open_and_act_one": "COMPLETE — every set exists.",
+    "act_two": "NONE — Burgundy village, atelier, market and bridge are all unbuilt. Costumes approved.",
+    "act_three_and_tag": "Covered by PL-04, PL-06 and PL-07. Mrs Patel has no design."
+  }
+}
