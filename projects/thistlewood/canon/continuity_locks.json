@@ -88,10 +88,11 @@
     },
     {
       "lock": "Albert present day",
-      "rule": "Brown hair; brown jumper; notebook and pencil; ROUND GLASSES. Albert and Richard both wear glasses.",
-      "authority": "Book 2 appearance lock",
+      "rule": "Brown hair; ROUND GLASSES — Albert wears glasses, always; brown jumper; notebook and pencil. Tallest of the four children.",
+      "authority": "Book 2 appearance lock + Julian, confirmed 2026-08-13",
       "appliesTo": "model / costume",
-      "_earned": "Reversal, 2026-08-13. Julian first called Albert's glasses drift, but three full generations refused to remove them, including one describing his face positively as bare. Ruling: roll with it and lock them IN. A lock that says 'no glasses' against art that always has them guarantees the character changes face mid-episode. Consistency beats the original preference."
+      "_earned": "Reversal, 2026-08-13. Julian first called Albert's glasses drift, but three full generations refused to remove them, including one describing his face positively as bare. Ruling: roll with it and lock them IN. A lock that says 'no glasses' against art that always has them guarantees the character changes face mid-episode. Consistency beats the original preference.",
+      "_correction": "The lock as first transcribed omitted the glasses, so correct art was flagged as drift and three regenerations were spent trying to remove them. The art was right and the canon was incomplete. Recorded because an incomplete lock is more dangerous than no lock — it makes the gate confidently wrong."
     },
     {
       "lock": "Lily present day",
