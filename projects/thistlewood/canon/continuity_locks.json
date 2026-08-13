@@ -45,9 +45,10 @@
     },
     {
       "lock": "Workshop right",
-      "rule": "Workbench and brick window.",
+      "rule": "Workbench and brick window. The good chair sits on the RIGHT side of the room, between the tool cabinet and the window wall — Rose's place.",
       "authority": "Book 2 continuity audit",
-      "appliesTo": "all backgrounds"
+      "appliesTo": "all backgrounds",
+      "_earned": "The manuscript says 'the good chair by the window' and the chair was specced hard against the window. Three generations placed it consistently between the tool cabinet and the window wall instead, reading correctly every time. Canon amended to what is reproducible rather than fighting it in every workshop shot for twenty-six episodes."
     },
     {
       "lock": "Secret door",
@@ -87,10 +88,10 @@
     },
     {
       "lock": "Albert present day",
-      "rule": "Brown hair; brown jumper; notebook and pencil. NO GLASSES and no eyewear of any kind — Richard is the only character who wears glasses (round, gold).",
+      "rule": "Brown hair; brown jumper; notebook and pencil; ROUND GLASSES. Albert and Richard both wear glasses.",
       "authority": "Book 2 appearance lock",
       "appliesTo": "model / costume",
-      "_earned": "The first KF-CO.2 generation gave Albert glasses. Caught by Julian 2026-08-13. A feature with no rightful owner spreads; naming the owner is a stronger instruction to an image model than a prohibition."
+      "_earned": "Reversal, 2026-08-13. Julian first called Albert's glasses drift, but three full generations refused to remove them, including one describing his face positively as bare. Ruling: roll with it and lock them IN. A lock that says 'no glasses' against art that always has them guarantees the character changes face mid-episode. Consistency beats the original preference."
     },
     {
       "lock": "Lily present day",
