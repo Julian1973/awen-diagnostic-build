@@ -30,9 +30,48 @@ import urllib.error
 import urllib.request
 
 FAL_QUEUE = "https://queue.fal.run"
-FAL_UPLOAD = "https://rest.alpha.fal.ai/storage/upload"
+FAL_UPLOAD = "https://rest.alpha.fal.ai/storage/upload/initiate"
 SEEDANCE_REF2VID = "bytedance/seedance-2.5/reference-to-video"
 ELEVEN = "https://api.elevenlabs.io/v1"
+
+# Provider registry. Each entry knows its route and how to shape a payload,
+# because the shapes genuinely differ — Seedance takes an ordered reference
+# LIST and honours @Image N roles; minimax takes ONE image and no role syntax.
+# Anything not listed here has not been checked against its schema, and a
+# guessed payload is a paid failure.
+MODELS = {
+    "seedance": {
+        "route": SEEDANCE_REF2VID,
+        "refs": "many",
+        "resolutions": ["480p", "720p", "1080p"],
+        "durations": None,          # free integer
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "image_urls": urls,
+            "resolution": a.resolution,
+            "duration": str(a.duration),
+            "generate_audio": not a.no_audio,
+        },
+    },
+    # minimax Hailuo 03. Schema-checked 2026-08-13, and it constrains us hard:
+    # resolution is const "2K" (no 480p tier at all, so the studio's
+    # fire-cheap-then-upscale policy simply does not apply here), the prompt
+    # ceiling is 2000 chars not 5000, and it takes ONE image with no
+    # @Image N role syntax. Duration 5-15 does cover our 12s beat.
+    "minimax": {
+        "route": "fal-ai/minimax/hailuo-03/image-to-video",
+        "refs": "one",
+        "resolutions": ["2K"],
+        "durations": [str(n) for n in range(5, 16)],
+        "prompt_ceiling": 2000,
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "image_url": urls[0],
+            "resolution": a.resolution,
+            "duration": int(a.duration),
+        },
+    },
+}
 
 
 def _need(value: str, name: str) -> str:
@@ -77,28 +116,35 @@ def upload_image(path: pathlib.Path) -> str:
 
 def render(args) -> None:
     prompt = pathlib.Path(args.prompt).read_text(encoding="utf-8").strip()
-    if len(prompt) > 5000:
-        sys.exit(f"REFUSED — prompt is {len(prompt)} chars; the route ceiling is 5000.")
+    spec = MODELS.get(args.model)
+    if spec is None:
+        sys.exit(f"REFUSED — unknown model '{args.model}'. Known: {', '.join(MODELS)}. "
+                 f"Add it to MODELS with its checked schema; never guess a payload.")
+    route = spec["route"]
+    ceiling = spec.get("prompt_ceiling", 5000)
+    if len(prompt) > ceiling:
+        sys.exit(f"REFUSED — prompt is {len(prompt)} chars; {args.model}'s ceiling is {ceiling}.")
+    if args.resolution not in spec["resolutions"]:
+        sys.exit(f"REFUSED — {args.model} takes {spec['resolutions']}, not '{args.resolution}'.")
+    if spec["durations"] and str(args.duration) not in spec["durations"]:
+        sys.exit(f"REFUSED — {args.model} takes durations {spec['durations']}, not '{args.duration}'.")
 
     image_urls = [u if str(u).startswith("http") else upload_image(pathlib.Path(u))
                   for u in args.image]
-    payload = {
-        "prompt": prompt,
-        "image_urls": image_urls,
-        "resolution": args.resolution,
-        "duration": str(args.duration),
-        "generate_audio": not args.no_audio,
-    }
-    print(f"  submitting {SEEDANCE_REF2VID} · {args.resolution} · {args.duration}s "
+    if spec["refs"] == "one" and len(image_urls) > 1:
+        sys.exit(f"REFUSED — {args.model} accepts one image; {len(image_urls)} were given. "
+                 f"Choose deliberately rather than letting the extras be dropped silently.")
+    payload = spec["build"](prompt, image_urls, args)
+    print(f"  submitting {route} · {args.resolution} · {args.duration}s "
           f"· {len(image_urls)} refs · {len(prompt)} chars")
-    status, body = _req(f"{FAL_QUEUE}/{SEEDANCE_REF2VID}", method="POST",
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
                         headers={**fal_headers(), "Content-Type": "application/json"},
                         data=json.dumps(payload).encode())
     if status >= 400:
         sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
     job = json.loads(body)
-    status_url = job.get("status_url") or f"{FAL_QUEUE}/{SEEDANCE_REF2VID}/requests/{job['request_id']}/status"
-    response_url = job.get("response_url") or f"{FAL_QUEUE}/{SEEDANCE_REF2VID}/requests/{job['request_id']}"
+    status_url = job.get("status_url") or f"{FAL_QUEUE}/{route}/requests/{job['request_id']}/status"
+    response_url = job.get("response_url") or f"{FAL_QUEUE}/{route}/requests/{job['request_id']}"
     print(f"  queued: {job.get('request_id')}")
 
     deadline = time.time() + args.timeout
@@ -158,7 +204,9 @@ def main() -> None:
     r = sub.add_parser("render", help="fire a Seedance 2.5 reference-to-video render via fal")
     r.add_argument("--prompt", required=True, help="file containing the emission")
     r.add_argument("--image", action="append", required=True, help="local path or URL; repeatable, in reference order")
-    r.add_argument("--resolution", default="480p", choices=["480p", "720p"])
+    r.add_argument("--model", default="seedance", choices=sorted(MODELS),
+                   help="provider arm; each has its own checked payload shape")
+    r.add_argument("--resolution", default="480p")
     r.add_argument("--duration", default=12)
     r.add_argument("--no-audio", action="store_true")
     r.add_argument("--out", default="clip.mp4")
