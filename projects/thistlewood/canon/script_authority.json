@@ -92,12 +92,30 @@
         "serves": "CO.2, CO.3, A1.4, A1.5",
         "role": "character-free master + active-door state",
         "note": "Matches A1.4 as written: a thin seam of other light around the edge of a closed door."
+      },
+      {
+        "id": "6",
+        "name": "Castle Arcade — interior wide, matched approach (v2)",
+        "serves": "CO.1 destination state",
+        "status": "HOLD — geometry approved, two fixes outstanding",
+        "approved": [
+          "Left run in canon order: bookshop first, music shop second, Thistlewood's third. Ground floor throughout, no staircase.",
+          "Bookshop window carries a broad sun-warmed ledge, left EMPTY — built to receive Macsen without placing him in shots he does not belong in.",
+          "Right run: tea room with striped awning and cafe table (Copper Kettle), locksmith beside it (Keys & Sons).",
+          "Neighbour signage left as blank gold-on-dark shapes, as directed, so no canon shop name is baked in misspelled.",
+          "Wet darker tiles across the foreground give the threshold line.",
+          "Thistlewood's reads as one modest unit of three rather than dominating — which is the premise: most people walk straight past it."
+        ],
+        "holds": [
+          "THE SIGN IS MISSPELLED — reads 'Thistlewad's'. The one string that had to be legible, on the hero shop. Fix by repainting the lettering only; do not re-roll the image, because the shop order is the expensive part and a re-roll risks it.",
+          "FRONTAGE DRIFT SUSPECTED — Thistlewood's reads narrower here (single curved bow) than in the approved Shopfront Exterior Master (wide green frontage, several display bays). If it has drifted the master wins. Julian to eye-match at full size. This is exactly what the Locked Match Chain exists to catch."
+        ]
       }
     ],
     "gaps_found_on_review": [
-      "MACSEN'S BOOKSHOP does not exist. The script opens on him asleep in the bookshop window; the plates show a coffee company on that side. The cold open's first character beat has no set.",
+      "MACSEN still has no model pack, though he performs in three shots plus Rose's drawing. The ledge now exists for him.",
       "No scale figure in the Public Shop plate. Peggi 'appears at the counter as if by magic' — the gag depends on counter height against 118cm and cannot be verified from an empty plate.",
-      "Macsen has no model pack, and he performs in three shots plus Rose's drawing."
+      "CASTLE STREET EXTERIOR is now the only missing set in the first four minutes. CO.1 is 'the camera drifts through the arch and grey rain turns to gold' — the arcade plate is the GOLD; the grey is behind camera and does not exist yet. Needs the narrow iron arch, wet and grey, with arch geometry matched to plate 6."
     ]
   }
 }
