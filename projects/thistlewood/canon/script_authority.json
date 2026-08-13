@@ -23,21 +23,20 @@
   ],
   "unresolved_conflicts_for_julian": [
     {
-      "conflict": "Which side of the arcade is the shop on?",
-      "RESOLVED": "LEFT — 2026-08-13, on the plates.",
-      "evidence": "The Shop Continuity sheet panel 1 (Castle Street Arcade, matched approach) puts the Castle Street plaque on the left wall and Thistlewood's green frontage down the LEFT side on entry. That agrees with the v5 lock ('third ground-floor unit on the left from the Castle Street entrance').",
-      "consequence": "Script v3.1's 'three shops up on the right' and 'Macsen's bookshop, the first shop on the right' are the outlier, two sources to one. Correct the SCRIPT rather than re-cut five approved plates. Awaiting Julian's veto only."
+      "conflict": "Which side of the arcade",
+      "RESOLVED": "LEFT — Julian approved 2026-08-13.",
+      "action_taken": "Script v3.1's 'three shops up on the right' and 'the first shop on the right' are superseded. The run is LEFT: bookshop first, music shop second, Thistlewood's third. The plates are correct and stand."
     },
     {
-      "conflict": "Room name for the counter room",
-      "RESOLVED": "FRONT ROOM in script and beat records; the plate sheet calls it PUBLIC SHOP. Same room. Use FRONT ROOM in slates, PUBLIC SHOP is acceptable on art."
+      "conflict": "Counter room name",
+      "RESOLVED": "FRONT ROOM in slates and beat records; PUBLIC SHOP acceptable on art."
     },
     {
-      "conflict": "Shopfront sign wording — on-screen text in a hero shot",
-      "plate": "Thistlewood's · Restorations & Curiosities · Established 1922",
-      "script_v3_1": "A. THISTLEWOOD — RESTORATIONS & CURIOSITIES. EST. 1922.",
-      "manuscript": "THISTLEWOOD'S: RESTORATIONS AND CURIOSITIES. ESTABLISHED 1922.",
-      "status": "OPEN — needs one canonical string before any shot containing the sign is emitted."
+      "conflict": "Shopfront sign wording",
+      "RESOLVED": "Julian approved 2026-08-13. Split by surface, as real shopfronts do:",
+      "FASCIA_BOARD": "A. THISTLEWOOD — RESTORATIONS & CURIOSITIES · EST. 1922",
+      "WINDOW_GLASS_AND_TITLE_CARD": "Thistlewood's",
+      "why": "Satisfies the script (fascia), the manuscript's 'gold letters that have refused to fade', and the v5 consumer-title lock ('always Thistlewood's with the apostrophe') simultaneously. No source loses."
     }
   ],
   "hero_prop_law": {
@@ -117,5 +116,11 @@
       "No scale figure in the Public Shop plate. Peggi 'appears at the counter as if by magic' — the gag depends on counter height against 118cm and cannot be verified from an empty plate.",
       "CASTLE STREET EXTERIOR is now the only missing set in the first four minutes. CO.1 is 'the camera drifts through the arch and grey rain turns to gold' — the arcade plate is the GOLD; the grey is behind camera and does not exist yet. Needs the narrow iron arch, wet and grey, with arch geometry matched to plate 6."
     ]
+  },
+  "single_reference_law": {
+    "law": "Both working render routes accept exactly ONE reference image. A character model pack cannot travel into a shot alongside an environment plate.",
+    "consequence": "Identity must already be present in the frame handed to the model. Every shot therefore needs its own KEYFRAME — the approved plate with the characters staged in their OPENING pose — not a plate plus sheets.",
+    "keyframe_is_the_first_frame": "A keyframe shows where the shot BEGINS, never where it ends. Specifying the end state makes the video play backwards. This was caught once already on TP-03 and is now law.",
+    "escape_hatch": "If fal repairs bytedance/seedance-2.5/reference-to-video (currently billing a full inference then returning 422 on image_urls), multi-reference returns and the per-shot keyframe burden drops to plate + sheets."
   }
 }
