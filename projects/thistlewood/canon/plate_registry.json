@@ -150,6 +150,27 @@
       ],
       "unverifiable_here": "The height ladder. Every child is seated, leaning or elevated, so no two stand together. The first standing two-shot is a scale gate.",
       "outstanding": "Albert is wearing glasses and should not be. Three full regenerations failed to remove them, so fix by INPAINT on his face only — do not re-roll the frame, because everything else in it is correct and hard-won."
+    },
+    "KF-CO.3": {
+      "status": "ACCEPTED — same paint fix outstanding as KF-CO.2",
+      "built_from": "KF-CO.2",
+      "serves": "CO.3 — 'The door doesn't open for cleverness. Never has.' + the clothes runner + the bell",
+      "verified": [
+        "Richard down the ladder, turned back into the room, screwdriver still in hand, pleased with himself",
+        "Albert deflated — stopwatch lowered to his side, notebook down, shoulders dropped",
+        "door still dark and inert",
+        "workbench still bare",
+        "Richard still NO APRON",
+        "room, camera and lighting identical to KF-CO.2 — it cuts"
+      ],
+      "note": "Reference-anchoring worked FOR us here. The same tendency that made the CO.2 edits fail — the tool reproducing its reference — is exactly what holds a matched pair together when you want everything but one beat unchanged. Use a plate to move a character; use the previous keyframe to change a pose."
+    },
+    "_OPEN_ISSUE_albert_glasses": {
+      "symptom": "Albert renders with glasses in every frame. Three regenerations and two independent keyframes.",
+      "canon": "Richard wears round glasses. Albert wears none.",
+      "suspected_root_cause": "Albert's July character sheets in 03 CHARACTER PACKS almost certainly show him in glasses, so every generation is faithfully reproducing his own reference.",
+      "why_it_matters": "If the pack is the source, painting two keyframes fixes nothing — every Albert shot in the series repeats it.",
+      "next_action": "Julian to open Albert's sheets. If glasses are present: either repaint the sheet, or accept them as his design and amend the lock. Fix the source, not the symptom."
     }
   }
 }
