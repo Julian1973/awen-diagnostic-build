@@ -6,7 +6,7 @@
       "sample": "drive:1IMrFnvlYI_FhqSmiIZgDGjawwkezX0x9",
       "cadence": "storybook-warm, unhurried, a reader by lamplight; carries the ache gently and never announces the lesson",
       "register": "opens and closes episodes; never intrudes on scenes",
-      "elevenLabsId": null,
+      "elevenLabsId": "H0txqtxwDSOyKftbMvCs",
       "settings": null,
       "design_prompt": "A warm, mature Welsh storyteller voice — rich, gentle and lamplight-quiet, like someone reading aloud to a room of children just before bed. Soft Cardiff accent. Unhurried, with natural pauses that let a sentence settle. Carries wonder and a faint ache underneath the warmth. Intimate rather than theatrical; never announces, always confides.",
       "audition_line": "Every broken thing has a story. Some of them, mind, lead somewhere. And this one begins with a music box that played the wrong tune."
@@ -51,7 +51,7 @@
         "numbers and dates land exactly",
         "his wonder escapes despite him — one breath late"
       ],
-      "elevenLabsId": null,
+      "elevenLabsId": "jP4TWWVCbVbecdvdfPcS",
       "settings_hint": {
         "stability": 0.55,
         "similarity": 0.85,
@@ -68,7 +68,7 @@
         "never raises her voice",
         "her certainty is gentle but absolute"
       ],
-      "elevenLabsId": null,
+      "elevenLabsId": "k4rMELAzgoR41hWfYvy0",
       "settings_hint": {
         "stability": 0.6,
         "similarity": 0.9,
@@ -85,7 +85,7 @@
         "the forbidden question is asked plainly",
         "comedy from sincerity, never from mugging"
       ],
-      "elevenLabsId": null,
+      "elevenLabsId": "M7xNL3CETIeGmVHN5e8u",
       "settings_hint": {
         "stability": 0.35,
         "similarity": 0.85,
@@ -110,17 +110,16 @@
   },
   "casting_status": {
     "cast": [
+      "Narrator",
       "Richard",
       "Lily",
-      "Pascal",
-      "Tom Chen"
-    ],
-    "awaiting_ids": [
       "Albert",
       "Rose",
       "Peggi",
-      "Narrator"
-    ]
+      "Pascal",
+      "Tom Chen"
+    ],
+    "awaiting_ids": []
   },
   "workflow": "Per character: audition the Drive sample against the card → create/cast the ElevenLabs voice (design-from-spec, or clone ONLY with confirmed rights) → paste voice ID + tuned settings here → card locks on Julian's sign-off. Same lifecycle as Crystal Bears voice_cards.json.",
   "_design_note": "Policy-safe casting: design young-ADULT performers whose voices READ young (pitch, lightness, diction) — never request a minor's voice. Standard animation practice; keeps every voice inside ElevenLabs policy."
