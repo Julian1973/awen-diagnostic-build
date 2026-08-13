@@ -96,7 +96,7 @@
     }
   },
   "supporting_ep1": {
-    "_note": "Roles confirmed by Julian 2026-08-13. Cadence cards drafted at episode breakdown.",
+    "_note": "Roles confirmed by Julian 2026-08-13. Tom Chen's cadence card drafted from the manuscript once it was found; Pascal's is next, and he carries Chapters 4-6 including the whole soldier-and-the-singing-girl story.",
     "Pascal": {
       "elevenLabsId": "tL3wd6RtAgoIn5jyuk8F",
       "cadence": null,
@@ -105,9 +105,30 @@
     },
     "Tom Chen": {
       "elevenLabsId": "tUUG2iKsKAbeZBRPSVdO",
-      "cadence": null,
-      "settings_hint": null,
-      "role": "present-day owner of the music box; his face is where the episode ends (owner-ending lock)"
+      "role": "present-day owner of the music box. Carries Act 1 beats B3-B6 and the episode's final image (owner-ending lock).",
+      "cadence": "ordinary, unperformed, a man doing an errand that matters more than he can say. Cardiff, unremarkable. He is not sad in the scene — he is EMBARRASSED to be moved by a music box, which is funnier and sadder than sad.",
+      "delivery_laws": [
+        "he holds the box like a sleeping hedgehog — careful, respectful, slightly at arm's length; the voice does the same with the feeling",
+        "the swallow before 'Have it mended' is the performance, not the line",
+        "'I just want to do what she asked' drops in volume, never in pitch — no wobble, no crack",
+        "he never explains the emotion; he reports facts about menders and instructions",
+        "Ch.8 is the payoff: 'his face did something complicated'. He does not cry and does not understand why his chest is tight. Play the not-understanding."
+      ],
+      "key_lines": [
+        "Are you Mr Thistlewood? A lady at the market said that if it's broken, it belongs here.",
+        "It was my gran's. And her gran's before that. It goes right back. She left it to me with one instruction.",
+        "Three menders have looked at it. Two told me to scrap it.",
+        "I just want to do what she asked. And I can't even get it to play a proper song.",
+        "My gran's family were French, you know. Way back. Somewhere near Burgundy, she used to say.",
+        "I just wish I knew why she loved it so much."
+      ],
+      "settings_hint": {
+        "stability": 0.65,
+        "similarity": 0.85,
+        "style": 0.1,
+        "_note": "low style on purpose — this voice must not act"
+      },
+      "status": "CANDIDATE — drafted from the Book 1 manuscript 2026-08-13, awaiting Julian's sign-off"
     }
   },
   "casting_status": {
