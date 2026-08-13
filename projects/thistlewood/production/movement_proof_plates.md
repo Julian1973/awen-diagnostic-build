@@ -66,7 +66,14 @@ beat's END-STATE frame (Shot 3: the room stills) and as beat 2's opening
 anchor. Nothing wasted; the wrong answer to one question is the right answer
 to another.
 
-### TP-03 · Beat 1 OPENING keyframe — the bustle (RE-SPEC v2, 2026-08-13)
+### TP-03 · Beat 1 OPENING keyframe — the bustle — APPROVED 2026-08-13 (v2)
+All three eye-checks passed: no lineup (three depths), one verb per child
+bound to an object, Rose the only face turning. Camera sits higher than the
+specced child eye-level and the floor is wide — ACCEPTED and directed to:
+the beat now opens wide and pushes in, making the width the shot's first
+gesture. Note carried forward for future keyframes, not re-rolled.
+
+Superseded v2 spec follows for the record:
 Two defects in v1, both craft-level, neither Julian's:
 (a) STAGING COLLAPSE — four simultaneous actions in one room collapse into
     "everyone stands and looks." Fix: stage at three DEPTHS (foreground /
