@@ -59,16 +59,35 @@ floor beyond the arch). Warm bench-lamp key light, window fill, honey
 lamplight. Reference: Workshop Magic Door plate for the door wall. [style
 lock] No text, no watermark.
 
-### TP-03 · Beat 1 OPENING keyframe — the bustle (uses approved TP-03a)
-Camera at child eye-level (Rose's height); bench lamp key, window fill.
-Environment reference: the approved TP-03a workshop master ONLY — never the
-shop-floor plate. Mid-bustle, nobody still: Richard carrying the broken
-walnut music box (TP-01) toward the bench; Peggi mid-clamber onto a stool;
-Albert writing in his notebook without looking up; Lily mid-tidy of a shelf;
-Rose alone beginning to turn toward Richard — she senses it first. Scale law
-exact (Richard 175 / Albert 145 / Lily 140 / Rose 132 / Peggi 118). Honey
-lamplight, ordinary family noise made visible. [style lock] No text, no
-watermark.
+### TP-03b · THE GATHERING — APPROVED 2026-08-13 (banked from the TP-03 run)
+The first TP-03 generation returned the stillness rather than the bustle.
+Room geometry, style, identities and props all PASS — so it is banked as the
+beat's END-STATE frame (Shot 3: the room stills) and as beat 2's opening
+anchor. Nothing wasted; the wrong answer to one question is the right answer
+to another.
+
+### TP-03 · Beat 1 OPENING keyframe — the bustle (RE-SPEC v2, 2026-08-13)
+Two defects in v1, both craft-level, neither Julian's:
+(a) STAGING COLLAPSE — four simultaneous actions in one room collapse into
+    "everyone stands and looks." Fix: stage at three DEPTHS (foreground /
+    midground / background), give each child one unmissable physical verb
+    with a named object, and state explicitly that they are NOT looking at
+    each other or at the box.
+(b) SCALE PROPORTION INVERTED — the real gaps are Peggi→Rose 14cm (largest),
+    Rose→Lily 8cm, Lily→Albert 5cm (smallest). v1 read Peggi≈Rose and
+    Lily≪Albert. Fix: state the ladder as body-landmark relationships
+    (Peggi's head reaches Rose's shoulder), never as numbers.
+Camera: lens at 130cm — Rose's eye level — angled slightly UP toward
+Richard so the room towers gently. Bench lamp key, window fill.
+Environment reference: approved TP-03a workshop master ONLY.
+
+## CRAFT RULE (new, earned 2026-08-13): GROUP STAGING
+A multi-character frame must specify DEPTH (who is fore/mid/back), one
+physical verb per character bound to a named object, and an explicit
+negative against the lineup ("not standing in a row, not all facing the
+same way"). Relative scale is directed by body landmarks — shoulder, chin,
+elbow — never by centimetres, which models cannot see. Software-wide: no
+character or scene named.
 
 ### TP-04 · Beat 2 keyframe — wrong clothes at the door
 At the Workshop Magic Door plate's oak door, now ajar with warm gold light
