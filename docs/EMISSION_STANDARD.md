@@ -264,3 +264,25 @@ line → cut to the character who reads it, stilling and listening → their qui
    take's diagnosis becomes a rule or a cost adjustment, dated, with its evidence.
 6. Every rule is stated without naming a character, shot or scene. If it cannot be,
    it is a patch and does not close the defect.
+
+---
+
+# PART 8 — RENDER RESOLUTION POLICY (added 2026-08-13, showrunner ruling)
+
+**Fire every beat at 480p. Upscale in post (Topaz).** Applies to all shows.
+
+- **Resolution is a generation parameter, never prompt text.** It is set on the
+  page or via the API. An emission that names a resolution is malformed.
+- **The verdict at 480p judges BEAT, not detail.** A take is accepted or
+  rejected on pace, staging, performance, continuity and whether the beat
+  lands. Softness, line crispness and fine texture are NOT grounds for
+  rejection — they are the upscaler's job. Rejecting a good performance for
+  resolution wastes the saving the policy exists to make.
+- **Anchors stay full resolution.** Keyframes, scene plates, character sheets
+  and prop turnarounds are inputs, not outputs: generate and keep them at full
+  size. A first frame also locks the output aspect ratio, so its ratio must be
+  right even though the render is small.
+- **Aspect ratio is uniform across a scene.** Mixed ratios break both the
+  upscale pass and the edit. Lock the ratio at the first keyframe of a scene.
+- **Upscale once, at the end.** Upscale approved takes only, after the cut is
+  locked — never mid-production, and never a take that may be refired.

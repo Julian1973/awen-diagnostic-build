@@ -158,6 +158,12 @@ generations elsewhere come through the same gate before use.
    with the model packs). Rose's turnip prop confirmed: held delicately in
    two fingers, endured with quiet dignity. TP-04 is fully unblocked.
 
+## RENDER POLICY (showrunner ruling 2026-08-13)
+All beats fire at 480p; approved takes upscale in Topaz after the cut is
+locked. Verdicts at 480p judge the beat, never the sharpness. Plates and
+keyframes stay full resolution — they are anchors, not outputs. Full policy:
+docs/EMISSION_STANDARD.md Part 8.
+
 ## WORKFLOW
 Generate each TP in the image tool with the relevant existing plate + model
 pack images as references → Julian eye-matches against the four Drive plates
