@@ -53,6 +53,25 @@ MODELS = {
             "generate_audio": not a.no_audio,
         },
     },
+    # Seedance 2.5 single-image route. Kept because the multi-reference route
+    # above returns 422 on image_urls for this account even with fal's OWN
+    # documented example image — proven by isolation test 2026-08-13, so it is
+    # an account/route fault, not our payload. This route works, does 480p,
+    # and still generates audio; the cost is that a two-reference beat cannot
+    # be expressed, exactly like minimax.
+    "seedance-i2v": {
+        "route": "bytedance/seedance-2.5/image-to-video",
+        "refs": "one",
+        "resolutions": ["480p", "720p"],
+        "durations": ["auto"] + [str(n) for n in range(4, 31)],
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "image_url": urls[0],
+            "resolution": a.resolution,
+            "duration": str(a.duration),
+            "generate_audio": not a.no_audio,
+        },
+    },
     # minimax H3. Route id is "minimax/h3/..." with NO fal-ai/ prefix — the
     # prefixed form 404s, and "fal-ai/minimax/hailuo-03/..." is a DIFFERENT,
     # 2K-only endpoint. Schema-checked 2026-08-13.
