@@ -45,17 +45,21 @@ bench and lamplight; comb whole, crack gone, mechanism complete, wood still
 worn. Repaired, not renewed — the law held. The TP-01/TP-02 pair is beat 4's
 before/after reveal by construction.
 
-### TP-03 · Beat 1 keyframe — the object arrives
-Inside the workshop, matching the Inside Shop plate: workbench right with the
-brick window, shelves/radio/stove/kettle left, counter rear right, oak door
-with capital-T iron strap visible at the rear. Richard (175cm, apron) at the
-workbench, both hands resting either side of the broken music box, head bowed
-in his apron-moment — listening to the object. The four children caught
-mid-stillness at different distances, scale law exact: Albert (145, brown
-jumper, notebook), Lily (140, red braid, green field jacket), Rose (132,
-strawberry-blonde, green cardigan, floral dress), Peggi (118, dark braids,
-striped shirt, blue overalls) — every face turned to the box. Honey lamplight.
-[style lock] No text, no watermark.
+### TP-03 · Beat 1 OPENING keyframe — the bustle (DIRECTOR'S CORRECTION 2026-08-13)
+Superseded spec asked for the stillness — that is the beat's END state, not
+its first frame; a keyframe anchors the OPENING and the video moves away
+from it. Corrected staging, per the MP.B1 record's Shot 1:
+Inside the workshop matching the Inside Shop plate (bench + brick window
+right, shelves/radio/stove/kettle left, counter rear right, oak door with
+capital-T strap barely readable in rear shadow). CAMERA AT CHILD EYE-LEVEL
+(Rose's height) — the room towers gently. Bench lamp is the key light,
+window the soft fill. Mid-bustle, nobody still: Richard carrying the broken
+walnut music box (TP-01 reference) toward the bench; Peggi mid-clamber onto
+a stool; Albert writing in his notebook without looking up; Lily mid-tidy of
+something Peggi has undone; Rose alone beginning to turn toward Richard —
+she senses it first. Scale law exact (145/140/132/118, Richard 175). Honey
+lamplight, ordinary family noise made visible. [style lock] No text, no
+watermark.
 
 ### TP-04 · Beat 2 keyframe — wrong clothes at the door
 At the Workshop Magic Door plate's oak door, now ajar with warm gold light
