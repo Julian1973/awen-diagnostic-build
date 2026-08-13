@@ -170,7 +170,8 @@
       "canon": "Richard wears round glasses. Albert wears none.",
       "suspected_root_cause": "Albert's July character sheets in 03 CHARACTER PACKS almost certainly show him in glasses, so every generation is faithfully reproducing his own reference.",
       "why_it_matters": "If the pack is the source, painting two keyframes fixes nothing — every Albert shot in the series repeats it.",
-      "next_action": "Julian to open Albert's sheets. If glasses are present: either repaint the sheet, or accept them as his design and amend the lock. Fix the source, not the symptom."
+      "next_action": "Julian to open Albert's sheets. If glasses are present: either repaint the sheet, or accept them as his design and amend the lock. Fix the source, not the symptom.",
+      "update_2026_08_13": "KF-A1.2 rendered Albert correctly with no glasses, from the same pack. So they are stochastic rather than baked into the character sheet. CO.2 and CO.3 still get inpainted rather than re-rolled: those frames took three attempts to land Richard on the doorframe, and re-rolling to fix two small shapes risks losing the expensive part."
     },
     "KF-A1.1": {
       "status": "LOCKED 2026-08-13",
@@ -194,6 +195,24 @@
         "PALETTE: lighter and smoother than the workshop keyframes — PL-04's July origin showing. Defensible as a lighting difference (glass-fronted shop versus back workshop) rather than a style break. Judge it on the CO.3 to A1.1 cut; grade in post before considering a regenerate.",
         "STAGING: Tom and Richard are widely separated with empty counter between them. Correct for an establishing shot and it plays Tom's tentativeness — but A1.2 MUST push in, or the wrong tune happens at a distance and the children have nowhere to arrive."
       ]
+    },
+    "KF-A1.2": {
+      "status": "ACCEPTED — two paint fixes",
+      "built_from": "KF-A1.1",
+      "serves": "A1.2 — the wrong tune; the four children arrive at the counter",
+      "verified": [
+        "push-in worked — Tom and Richard now close enough to speak quietly",
+        "the walnut box open on the checked tea towel, brass cylinder and steel comb reading, brass key beside it",
+        "ALBERT HAS NO GLASSES — first clean frame in four",
+        "Tom and Richard on model; Richard still NO APRON one shot out from the ritual",
+        "Macsen still on the counter",
+        "all four children present, nobody in a row"
+      ],
+      "paint_fixes": [
+        "ROSE'S EYELINE — she is looking where everyone else looks. She must be the ONLY one looking at the LID, not the mechanism. It is her character and the setup for her line.",
+        "THE WORN PLACE — the lid's outer face is plain. Add the small smooth worn patch where a thumb has rested for a hundred years."
+      ],
+      "why_paint_not_reroll": "Albert's glasses are stochastic, not baked into his sheet — this is the first frame they came out right. A re-roll gambles that away to fix two small local marks."
     }
   }
 }
