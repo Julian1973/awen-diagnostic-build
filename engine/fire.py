@@ -53,22 +53,31 @@ MODELS = {
             "generate_audio": not a.no_audio,
         },
     },
-    # minimax Hailuo 03. Schema-checked 2026-08-13, and it constrains us hard:
-    # resolution is const "2K" (no 480p tier at all, so the studio's
-    # fire-cheap-then-upscale policy simply does not apply here), the prompt
-    # ceiling is 2000 chars not 5000, and it takes ONE image with no
-    # @Image N role syntax. Duration 5-15 does cover our 12s beat.
+    # minimax H3. Route id is "minimax/h3/..." with NO fal-ai/ prefix — the
+    # prefixed form 404s, and "fal-ai/minimax/hailuo-03/..." is a DIFFERENT,
+    # 2K-only endpoint. Schema-checked 2026-08-13.
+    #
+    # enable_prompt_expansion defaults to TRUE: a vision model silently
+    # rewrites the prompt before generation. We force it off — our text is
+    # already through the official optimizer, and an invisible rewrite makes
+    # every verdict unattributable. Same reasoning as the safety of never
+    # letting a provider edit an approved emission.
+    #
+    # Takes ONE image and no @Image N role syntax, so a two-reference beat
+    # cannot be expressed here at all; the second reference's information has
+    # to survive in prose or be lost.
     "minimax": {
-        "route": "fal-ai/minimax/hailuo-03/image-to-video",
+        "route": "minimax/h3/image-to-video",
         "refs": "one",
-        "resolutions": ["2K"],
+        "resolutions": ["768P", "2K", "4K"],
         "durations": [str(n) for n in range(5, 16)],
-        "prompt_ceiling": 2000,
+        "prompt_ceiling": 50000,
         "build": lambda p, urls, a: {
             "prompt": p,
             "image_url": urls[0],
             "resolution": a.resolution,
             "duration": int(a.duration),
+            "enable_prompt_expansion": False,
         },
     },
 }
