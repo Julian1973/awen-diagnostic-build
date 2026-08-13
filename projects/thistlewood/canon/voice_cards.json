@@ -13,14 +13,14 @@
       "cadence": "warm Cardiff rhythm, low and unhurried; thinks with his hands while he talks; goes QUIETER when something matters, never louder; wisdom arrives as questions",
       "welsh_texture": "hiraeth and cariad, naturally placed, never translated on screen",
       "delivery_laws": ["never condescends to a child", "never explains the moral", "the pauses carry as much as the words"],
-      "elevenLabsId": null, "settings_hint": {"stability": 0.6, "similarity": 0.85, "style": 0.15, "_note": "steady, low-drama read — tune on first audition"}
+      "elevenLabsId": "kg0h9OdkQiGxVLjqbA9B", "settings_hint": {"stability": 0.6, "similarity": 0.85, "style": 0.15, "_note": "steady, low-drama read — tune on first audition"}
     },
     "Lily": {
       "sample": "drive:1DV2zR9mEpIGk3QEabL1BwgUYJiGbGGQb",
       "cadence": "quick, certain, front-footed; decisions sound like they were made three seconds ago; softens only when someone is genuinely hurt",
       "welsh_texture": "iawn as punctuation — 'Iawn. This way.'",
       "delivery_laws": ["commands are short", "doubt shows in tempo, not in words"],
-      "elevenLabsId": null, "settings_hint": {"stability": 0.45, "similarity": 0.85, "style": 0.3}
+      "elevenLabsId": "T5yFNwZamO7NrEhI9ZV6", "settings_hint": {"stability": 0.45, "similarity": 0.85, "style": 0.3}
     },
     "Albert": {
       "sample": "drive:1jskI_Hunizr9uDyit03gtob-zmGjHfIn",
@@ -43,6 +43,15 @@
       "delivery_laws": ["the forbidden question is asked plainly", "comedy from sincerity, never from mugging"],
       "elevenLabsId": null, "settings_hint": {"stability": 0.35, "similarity": 0.85, "style": 0.45}
     }
+  },
+  "supporting_ep1": {
+    "_note": "The Wrong Tune guest cast (Burgundy 1867). Cadence cards drafted when the episode script is broken down; IDs cast by Julian.",
+    "Pascal": {"elevenLabsId": "tL3wd6RtAgoIn5jyuk8F", "cadence": null, "settings_hint": null},
+    "Tom Chen": {"elevenLabsId": "tUUG2iKsKAbeZBRPSVdO", "cadence": null, "settings_hint": null}
+  },
+  "casting_status": {
+    "cast": ["Richard", "Lily", "Pascal", "Tom Chen"],
+    "awaiting_ids": ["Albert", "Rose", "Peggi", "Narrator"]
   },
   "workflow": "Per character: audition the Drive sample against the card → create/cast the ElevenLabs voice (design-from-spec, or clone ONLY with confirmed rights) → paste voice ID + tuned settings here → card locks on Julian's sign-off. Same lifecycle as Crystal Bears voice_cards.json."
 }
