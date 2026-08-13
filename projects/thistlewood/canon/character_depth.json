@@ -1,0 +1,45 @@
+{
+  "_authority": "Drafted from Ultimate Bible v5 (engines, long-arc ledger, episode map). CANDIDATE — this is the build-out layer Julian asked for; each entry locks on his sign-off. Wants/fears/tics are performable direction, not biography padding.",
+  "depth": {
+    "Richard": {
+      "want": "to repair what he broke in 1752 without his grandchildren paying for it",
+      "fear": "that the door will ask of them what it once asked of him",
+      "tic": "polishes things that are already clean when a question gets too close",
+      "secret_weight": "the boxed lens; eleven notches in the ledger"
+    },
+    "Lily": {
+      "want": "to bring everyone home — every time, no exceptions",
+      "fear": "a moment that needs her and finds her not enough",
+      "tic": "re-ties the end of her braid before she commits to a decision",
+      "arc_thread": "wrong clothes (the running joke is hers; when the clothes finally fit, the warning is over)"
+    },
+    "Albert": {
+      "want": "for the world to admit it makes sense",
+      "fear": "the anomalies he keeps recording meaning something about his own family",
+      "tic": "licks the pencil, writes the time first, then the fact",
+      "arc_thread": "the unfading gold paint; the 1962 photograph; the eleven notches"
+    },
+    "Rose": {
+      "want": "for no one — past or present — to carry a feeling alone",
+      "fear": "that what she senses from objects will one day be about someone she loves",
+      "tic": "rests two fingers on an object before anyone else touches it",
+      "arc_thread": "the hum; the door recognises her first"
+    },
+    "Peggi": {
+      "want": "to be counted in, fully, despite being smallest",
+      "fear": "being left on the shop side of the door",
+      "tic": "pockets things — then loudly declares she has NOT pocketed anything",
+      "arc_thread": "the returned clog — the first impossible crossing"
+    }
+  },
+  "pair_dynamics": {
+    "_law": "The pair IS the episode engine (v5). Each pairing has a friction that creates the episode's pressure and a gift-fit that resolves it.",
+    "Lily+Albert":  {"friction": "act now vs verify first", "fit": "her nerve executes his evidence", "engine": "action + record"},
+    "Lily+Rose":    {"friction": "push forward vs feel the room", "fit": "Rose finds the door Lily would charge past", "engine": "leadership + empathy"},
+    "Lily+Peggi":   {"friction": "orders vs blurts", "fit": "Peggi says the truth that redirects Lily's courage", "engine": "courage + truth"},
+    "Albert+Rose":  {"friction": "proof vs feeling", "fit": "his evidence plus her empathy reads a whole person", "engine": "evidence + empathy"},
+    "Albert+Peggi": {"friction": "method vs chaos", "fit": "she asks what his notebook can't; he proves what her instinct guessed", "engine": "record + truth"},
+    "Rose+Peggi":   {"friction": "gentle vs blunt", "fit": "the same kindness at two volumes — the softest and loudest ways of caring", "engine": "empathy + truth"}
+  },
+  "ensemble_law": "If one character falls behind, solve it through a story only that gift can unlock — never through decorative screen time. (v5, verbatim.)"
+}

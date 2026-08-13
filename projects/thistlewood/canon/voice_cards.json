@@ -1,0 +1,48 @@
+{
+  "_authority": "Drafted from Ultimate Bible v5 engines + Drive voice samples (2026-07-17). ALL CANDIDATE until Julian signs each card. ElevenLabs IDs empty until voices are created/cast in his account; the Drive mp3s are the reference targets.",
+  "_rights_flag": "Asset register lists voice rights as 'to confirm'. Before any sample is cloned or any voice ships externally: confirm each mp3's origin (AI-designed vs recorded performer) and its usage rights. Cloning a recorded performer requires their written consent.",
+  "cards": {
+    "Narrator": {
+      "sample": "drive:1IMrFnvlYI_FhqSmiIZgDGjawwkezX0x9",
+      "cadence": "storybook-warm, unhurried, a reader by lamplight; carries the ache gently and never announces the lesson",
+      "register": "opens and closes episodes; never intrudes on scenes",
+      "elevenLabsId": null, "settings": null
+    },
+    "Richard": {
+      "sample": "drive:1VdO6tfXHtGMIEOgYyAk8dgzNkGHYuRHw",
+      "cadence": "warm Cardiff rhythm, low and unhurried; thinks with his hands while he talks; goes QUIETER when something matters, never louder; wisdom arrives as questions",
+      "welsh_texture": "hiraeth and cariad, naturally placed, never translated on screen",
+      "delivery_laws": ["never condescends to a child", "never explains the moral", "the pauses carry as much as the words"],
+      "elevenLabsId": null, "settings_hint": {"stability": 0.6, "similarity": 0.85, "style": 0.15, "_note": "steady, low-drama read — tune on first audition"}
+    },
+    "Lily": {
+      "sample": "drive:1DV2zR9mEpIGk3QEabL1BwgUYJiGbGGQb",
+      "cadence": "quick, certain, front-footed; decisions sound like they were made three seconds ago; softens only when someone is genuinely hurt",
+      "welsh_texture": "iawn as punctuation — 'Iawn. This way.'",
+      "delivery_laws": ["commands are short", "doubt shows in tempo, not in words"],
+      "elevenLabsId": null, "settings_hint": {"stability": 0.45, "similarity": 0.85, "style": 0.3}
+    },
+    "Albert": {
+      "sample": "drive:1jskI_Hunizr9uDyit03gtob-zmGjHfIn",
+      "cadence": "precise, slightly formal for a twelve-year-old; quotes his own notebook; speeds up when he's connecting evidence, stalls completely when feelings are required",
+      "welsh_texture": "diolch, correctly and a little carefully",
+      "delivery_laws": ["numbers and dates land exactly", "his wonder escapes despite him — one breath late"],
+      "elevenLabsId": null, "settings_hint": {"stability": 0.55, "similarity": 0.85, "style": 0.2}
+    },
+    "Rose": {
+      "sample": "drive:17FZhVSXvf4bydsCfDZR0yLCMAdkkuKnF",
+      "cadence": "soft attack, listening even while speaking; asks the question underneath the question; when she names a feeling the room goes still",
+      "welsh_texture": "cariad, quietly, to people who are hurting — including people from 1780",
+      "delivery_laws": ["never raises her voice", "her certainty is gentle but absolute"],
+      "elevenLabsId": null, "settings_hint": {"stability": 0.6, "similarity": 0.9, "style": 0.15}
+    },
+    "Peggi": {
+      "sample": "drive:14p3QnA1QkL5IG3hqcYAb-WQQKXV9xziS",
+      "cadence": "blurts at full speed, zero filter, delight and outrage both arrive at maximum; the youngest voice in the room and the first to say the true thing",
+      "welsh_texture": "bendigedig! as her superlative for everything good",
+      "delivery_laws": ["the forbidden question is asked plainly", "comedy from sincerity, never from mugging"],
+      "elevenLabsId": null, "settings_hint": {"stability": 0.35, "similarity": 0.85, "style": 0.45}
+    }
+  },
+  "workflow": "Per character: audition the Drive sample against the card → create/cast the ElevenLabs voice (design-from-spec, or clone ONLY with confirmed rights) → paste voice ID + tuned settings here → card locks on Julian's sign-off. Same lifecycle as Crystal Bears voice_cards.json."
+}
