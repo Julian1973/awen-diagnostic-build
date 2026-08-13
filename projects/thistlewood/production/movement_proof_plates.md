@@ -52,13 +52,19 @@ striped shirt, blue overalls) — every face turned to the box. Honey lamplight.
 ### TP-04 · Beat 2 keyframe — wrong clothes at the door
 At the Workshop Magic Door plate's oak door, now ajar with warm gold light
 spilling through the gap. Above the door: a small round clock face showing a
-full hour. The four children in deliberately WRONG 1867 costume — the running
-joke: Peggi as a Dutch farm girl, wooden clogs, white cap, utterly sincere;
-Lily in a boy's vineyard-worker cap and waistcoat; Albert as a chapel-black
-undertaker's junior, collar too tight; Rose in an over-frilled Parisian
-child's dress a size too grand. Each holds their pose mid-reaction to their
-own outfit. Richard behind, at the threshold he never crosses, holding the
-door — one hand out with the sleeping brass compass. [style lock]
+full hour. The four children in deliberately WRONG 1867 costume — the
+inversion law (each outfit contradicts the child's nature), designs per the
+APPROVED costume sheets: Albert in his plum velvet frock coat, gold brocade
+waistcoat, oversized bow and black top hat with trailing ribbons — a
+flamboyant showman outfit on the boy who wants to disappear; Lily trapped in
+her elaborate frilled blue-and-cream dress with the enormous hair bow — the
+action leader who cannot run in it; Peggi as a Dutch farm girl, wooden clogs,
+white cap, utterly sincere; Rose in rough turnip-farmer's clothes — the
+girliest child in Wales dressed for field work. Each holds their pose
+mid-reaction to their own outfit. Richard behind, at the threshold he never
+crosses, holding the door — one hand out with the sleeping brass compass.
+References: Albert + Lily Burgundy costume sheets (approved 2026-08-13),
+Peggi + Rose sheets when generated. [style lock]
 
 ### TP-05 · Burgundy village master
 1867 Burgundy, late summer: a small stone village street between vineyard
@@ -89,8 +95,14 @@ of five: five secret smiles at five different sizes. [style lock]
    **Pascal is the historical child**: the apprentice boy who works in the
    Burgundy atelier that makes the music box, 1867. TP-06 stages Pascal at the
    bench beside the maker; TP-07 stages Tom Chen at the counter.
-2. Wrong-clothes assignments approved as written (Peggi Dutch farm girl,
-   Lily vineyard boy, Albert undertaker's junior, Rose over-frilled Parisian).
+2. Wrong-clothes assignments SUPERSEDED 2026-08-13 by Julian's approved
+   costume sheets, which align with the bible's inversion law (costume
+   contradicts the child's nature): Albert = plum-velvet ribboned dandy;
+   Lily = maximum-frills blue Parisian dress; Peggi = Dutch farm girl
+   (unchanged, bible slide 10); Rose = turnip farmer — the bible's own
+   "girliest child in Wales" joke. Rose + Peggi costume sheets still to
+   generate; Albert + Lily sheets approved (delivered in chat, to be filed
+   in Drive with the model packs).
 
 ## WORKFLOW
 Generate each TP in the image tool with the relevant existing plate + model
