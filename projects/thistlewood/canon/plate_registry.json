@@ -213,6 +213,64 @@
         "THE WORN PLACE — the lid's outer face is plain. Add the small smooth worn patch where a thumb has rested for a hundred years."
       ],
       "why_paint_not_reroll": "Albert's glasses are stochastic, not baked into his sheet — this is the first frame they came out right. A re-roll gambles that away to fix two small local marks."
+    },
+    "_SETUPS_FRONT_ROOM": {
+      "_note": "Act One Front Room is covered by SIX camera setups, all now generated. Eleven shots draw on them. A shot may only use the setup named against it in the direction package.",
+      "A_master_two_shot": {
+        "status": "✅",
+        "shots": [
+          "FR-1",
+          "FR-11"
+        ],
+        "note": "establishes geography; Tom camera-left, Richard camera-right"
+      },
+      "B_insert_hands_and_box": {
+        "status": "✅",
+        "shots": [
+          "FR-2",
+          "FR-5"
+        ],
+        "note": "NO FACES — the safest generation in the unit and the one carrying the episode's rhyme",
+        "fix_in_emission": "The worn place does not read because the lid is already open and the worn place is on the OUTSIDE. FR-2 opens with the lid CLOSED and opens it during the shot, which is what the script says: he unwraps, then it opens."
+      },
+      "C_single_tom": {
+        "status": "✅",
+        "shots": [
+          "FR-3",
+          "FR-8",
+          "FR-9"
+        ],
+        "note": "on model; looking down at the box, not at Richard"
+      },
+      "D_reverse_richard": {
+        "status": "✅",
+        "shots": [
+          "FR-4"
+        ],
+        "note": "hands flat, NO apron, looking screen-left to Tom. Screen direction holds against the master."
+      },
+      "E_children_at_counter": {
+        "status": "✅",
+        "shots": [
+          "FR-6",
+          "FR-7"
+        ],
+        "note": "NO-APRON version only"
+      },
+      "F_richard_apron": {
+        "status": "✅",
+        "shots": [
+          "FR-10"
+        ],
+        "note": "APRON version"
+      }
     }
+  },
+  "APRON_STATE_LAW": {
+    "rule": "Richard's leather apron has exactly two states, and the wrong one spends the series' defining gesture early.",
+    "without": "Everything before Tom's menders speech ends — the cold open, and FR-1 to FR-9. Shirtsleeves and waistcoat.",
+    "with": "FR-10 onward, from the moment he ties it. He then lifts the box and goes still.",
+    "why": "Every reference the studio owns shows Richard wearing the apron, including his character sheet and PL-05, so it must be excluded explicitly in every prompt before FR-10 or it appears by default. It has had to be stated three separate times today.",
+    "sibling": "Same discipline as DOOR_STATE_LAW. Two states, one costume, and a matched pair of keyframes so no shot ever has to fight its own reference."
   }
 }
