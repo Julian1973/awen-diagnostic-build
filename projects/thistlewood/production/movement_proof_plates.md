@@ -24,18 +24,24 @@ distinct from Cardiff's amber-and-rain interior warmth.
 
 ## PLATES TO GENERATE
 
-### TP-01 · The music box (hero prop, BROKEN state)
-Product-sheet framing, three-quarter view on the workbench, warm lamplight.
-A small walnut music box, c.1867 French, worn and loved: brass winding key,
-chipped corner, lid inlaid with a faded rose marquetry, the lid open to show
-the brass cylinder and comb — one comb tooth visibly bent and a gap where a
-part is missing. The absence must read clearly: this is the wound the whole
-story heals. [style lock] No text, no watermark.
+### TP-00 · Music box MASTER TURNAROUND — APPROVED 2026-08-13
+Julian's six-view sheet (closed 3/4, open 3/4, front, side, back with winding
+key, top-down mechanism). Plain walnut lid with brass latch — the rose
+marquetry in earlier specs is RETIRED; the approved art is canon. This sheet
+is the object's identity reference for every subsequent image.
 
-### TP-02 · The music box (MENDED state)
-Identical box, identical angle and light — the ONLY changes: the comb whole,
-the missing part restored, the wood gently polished but still worn (repaired,
-not renewed — the story's law is understood, not made new). [style lock]
+### TP-01 · The music box, BROKEN (derives from TP-00)
+Using the approved master turnaround as the exact object reference: the same
+walnut music box, close three-quarter view on the workbench in warm
+lamplight, lid open showing the brass cylinder and comb — one comb tooth
+visibly bent and a small gap where a part is missing; a faint chip on one
+corner; honest wear on the wood. The absence must read instantly: this is
+the wound the whole story heals. [style lock] No text, no watermark.
+
+### TP-02 · The music box, MENDED (derives from TP-00)
+The master-turnaround box restored: comb whole, missing part back, wood
+gently polished but still worn — repaired, not renewed. Same angle and
+light as the approved TP-01. [style lock]
 
 ### TP-03 · Beat 1 keyframe — the object arrives
 Inside the workshop, matching the Inside Shop plate: workbench right with the
