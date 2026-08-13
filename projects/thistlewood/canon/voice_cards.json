@@ -6,52 +6,122 @@
       "sample": "drive:1IMrFnvlYI_FhqSmiIZgDGjawwkezX0x9",
       "cadence": "storybook-warm, unhurried, a reader by lamplight; carries the ache gently and never announces the lesson",
       "register": "opens and closes episodes; never intrudes on scenes",
-      "elevenLabsId": null, "settings": null
+      "elevenLabsId": null,
+      "settings": null,
+      "design_prompt": "A warm, mature Welsh storyteller voice — rich, gentle and lamplight-quiet, like someone reading aloud to a room of children just before bed. Soft Cardiff accent. Unhurried, with natural pauses that let a sentence settle. Carries wonder and a faint ache underneath the warmth. Intimate rather than theatrical; never announces, always confides.",
+      "audition_line": "Every broken thing has a story. Some of them, mind, lead somewhere. And this one begins with a music box that played the wrong tune."
     },
     "Richard": {
       "sample": "drive:1VdO6tfXHtGMIEOgYyAk8dgzNkGHYuRHw",
       "cadence": "warm Cardiff rhythm, low and unhurried; thinks with his hands while he talks; goes QUIETER when something matters, never louder; wisdom arrives as questions",
       "welsh_texture": "hiraeth and cariad, naturally placed, never translated on screen",
-      "delivery_laws": ["never condescends to a child", "never explains the moral", "the pauses carry as much as the words"],
-      "elevenLabsId": "kg0h9OdkQiGxVLjqbA9B", "settings_hint": {"stability": 0.6, "similarity": 0.85, "style": 0.15, "_note": "steady, low-drama read — tune on first audition"}
+      "delivery_laws": [
+        "never condescends to a child",
+        "never explains the moral",
+        "the pauses carry as much as the words"
+      ],
+      "elevenLabsId": "kg0h9OdkQiGxVLjqbA9B",
+      "settings_hint": {
+        "stability": 0.6,
+        "similarity": 0.85,
+        "style": 0.15,
+        "_note": "steady, low-drama read — tune on first audition"
+      }
     },
     "Lily": {
       "sample": "drive:1DV2zR9mEpIGk3QEabL1BwgUYJiGbGGQb",
       "cadence": "quick, certain, front-footed; decisions sound like they were made three seconds ago; softens only when someone is genuinely hurt",
       "welsh_texture": "iawn as punctuation — 'Iawn. This way.'",
-      "delivery_laws": ["commands are short", "doubt shows in tempo, not in words"],
-      "elevenLabsId": "T5yFNwZamO7NrEhI9ZV6", "settings_hint": {"stability": 0.45, "similarity": 0.85, "style": 0.3}
+      "delivery_laws": [
+        "commands are short",
+        "doubt shows in tempo, not in words"
+      ],
+      "elevenLabsId": "T5yFNwZamO7NrEhI9ZV6",
+      "settings_hint": {
+        "stability": 0.45,
+        "similarity": 0.85,
+        "style": 0.3
+      }
     },
     "Albert": {
       "sample": "drive:1jskI_Hunizr9uDyit03gtob-zmGjHfIn",
       "cadence": "precise, slightly formal for a twelve-year-old; quotes his own notebook; speeds up when he's connecting evidence, stalls completely when feelings are required",
       "welsh_texture": "diolch, correctly and a little carefully",
-      "delivery_laws": ["numbers and dates land exactly", "his wonder escapes despite him — one breath late"],
-      "elevenLabsId": null, "settings_hint": {"stability": 0.55, "similarity": 0.85, "style": 0.2}
+      "delivery_laws": [
+        "numbers and dates land exactly",
+        "his wonder escapes despite him — one breath late"
+      ],
+      "elevenLabsId": null,
+      "settings_hint": {
+        "stability": 0.55,
+        "similarity": 0.85,
+        "style": 0.2
+      },
+      "design_prompt": "A bright young adult male voice that naturally reads as an earnest, bookish boy. Light, thin, clear timbre with no depth or rasp — an unbroken, youthful quality. Slightly formal, precise diction, like someone who reads a lot and quotes his own notebook. Soft Cardiff Welsh accent. Measured, careful pacing by default that speeds up noticeably when excited by evidence. Sincere, curious, never sarcastic.",
+      "audition_line": "Half past four exactly. The gold paint on the sign — it's from the same tin, I've checked it three times. Diolch. That's… that's not actually possible."
     },
     "Rose": {
       "sample": "drive:17FZhVSXvf4bydsCfDZR0yLCMAdkkuKnF",
       "cadence": "soft attack, listening even while speaking; asks the question underneath the question; when she names a feeling the room goes still",
       "welsh_texture": "cariad, quietly, to people who are hurting — including people from 1780",
-      "delivery_laws": ["never raises her voice", "her certainty is gentle but absolute"],
-      "elevenLabsId": null, "settings_hint": {"stability": 0.6, "similarity": 0.9, "style": 0.15}
+      "delivery_laws": [
+        "never raises her voice",
+        "her certainty is gentle but absolute"
+      ],
+      "elevenLabsId": null,
+      "settings_hint": {
+        "stability": 0.6,
+        "similarity": 0.9,
+        "style": 0.15
+      },
+      "design_prompt": "A soft, gentle young adult female voice that reads as a quiet, thoughtful young girl. Light and warm with a slight breathiness, low in volume but perfectly clear. Unhurried, listening quality — she sounds like she's paying complete attention to you. Soft Cardiff Welsh lilt. Kind, calm, quietly certain; never sharp, never loud, never performative.",
+      "audition_line": "It's all right, cariad. You can tell me. The spoon — it's humming. Can't you feel it? Somebody loved this very, very much."
     },
     "Peggi": {
       "sample": "drive:14p3QnA1QkL5IG3hqcYAb-WQQKXV9xziS",
       "cadence": "blurts at full speed, zero filter, delight and outrage both arrive at maximum; the youngest voice in the room and the first to say the true thing",
       "welsh_texture": "bendigedig! as her superlative for everything good",
-      "delivery_laws": ["the forbidden question is asked plainly", "comedy from sincerity, never from mugging"],
-      "elevenLabsId": null, "settings_hint": {"stability": 0.35, "similarity": 0.85, "style": 0.45}
+      "delivery_laws": [
+        "the forbidden question is asked plainly",
+        "comedy from sincerity, never from mugging"
+      ],
+      "elevenLabsId": null,
+      "settings_hint": {
+        "stability": 0.35,
+        "similarity": 0.85,
+        "style": 0.45
+      },
+      "design_prompt": "A very bright, high, sparky young adult female voice that reads as the youngest and smallest member of a big family. Quick, piping, full of energy — delight and outrage both arrive at maximum volume. Light Cardiff Welsh accent. Speaks in fast sincere bursts with zero cynicism and zero self-consciousness; the comedy comes from total honesty, never from performing. Small voice, huge presence.",
+      "audition_line": "BENDIGEDIG! Did you SEE that?! …I did not pocket anything. It's a very small clog and it followed me home."
     }
   },
   "supporting_ep1": {
     "_note": "The Wrong Tune guest cast (Burgundy 1867). Cadence cards drafted when the episode script is broken down; IDs cast by Julian.",
-    "Pascal": {"elevenLabsId": "tL3wd6RtAgoIn5jyuk8F", "cadence": null, "settings_hint": null},
-    "Tom Chen": {"elevenLabsId": "tUUG2iKsKAbeZBRPSVdO", "cadence": null, "settings_hint": null}
+    "Pascal": {
+      "elevenLabsId": "tL3wd6RtAgoIn5jyuk8F",
+      "cadence": null,
+      "settings_hint": null
+    },
+    "Tom Chen": {
+      "elevenLabsId": "tUUG2iKsKAbeZBRPSVdO",
+      "cadence": null,
+      "settings_hint": null
+    }
   },
   "casting_status": {
-    "cast": ["Richard", "Lily", "Pascal", "Tom Chen"],
-    "awaiting_ids": ["Albert", "Rose", "Peggi", "Narrator"]
+    "cast": [
+      "Richard",
+      "Lily",
+      "Pascal",
+      "Tom Chen"
+    ],
+    "awaiting_ids": [
+      "Albert",
+      "Rose",
+      "Peggi",
+      "Narrator"
+    ]
   },
-  "workflow": "Per character: audition the Drive sample against the card → create/cast the ElevenLabs voice (design-from-spec, or clone ONLY with confirmed rights) → paste voice ID + tuned settings here → card locks on Julian's sign-off. Same lifecycle as Crystal Bears voice_cards.json."
+  "workflow": "Per character: audition the Drive sample against the card → create/cast the ElevenLabs voice (design-from-spec, or clone ONLY with confirmed rights) → paste voice ID + tuned settings here → card locks on Julian's sign-off. Same lifecycle as Crystal Bears voice_cards.json.",
+  "_design_note": "Policy-safe casting: design young-ADULT performers whose voices READ young (pitch, lightness, diction) — never request a minor's voice. Standard animation practice; keeps every voice inside ElevenLabs policy."
 }
