@@ -84,7 +84,7 @@ of five: five secret smiles at five different sizes. [style lock]
 
 ---
 
-## RESOLVED (Julian, 2026-08-11)
+## RESOLVED (Julian, 2026-08-13)
 1. **Tom Chen is the present-day owner** — his face carries the beat-5 ending.
    **Pascal is the historical child**: the apprentice boy who works in the
    Burgundy atelier that makes the music box, 1867. TP-06 stages Pascal at the
