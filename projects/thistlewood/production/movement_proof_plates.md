@@ -30,13 +30,14 @@ key, top-down mechanism). Plain walnut lid with brass latch — the rose
 marquetry in earlier specs is RETIRED; the approved art is canon. This sheet
 is the object's identity reference for every subsequent image.
 
-### TP-01 · The music box, BROKEN (derives from TP-00)
-Using the approved master turnaround as the exact object reference: the same
-walnut music box, close three-quarter view on the workbench in warm
-lamplight, lid open showing the brass cylinder and comb — one comb tooth
-visibly bent and a small gap where a part is missing; a faint chip on one
-corner; honest wear on the wood. The absence must read instantly: this is
-the wound the whole story heals. [style lock] No text, no watermark.
+### TP-01 · The music box, BROKEN — APPROVED 2026-08-13
+Two assets delivered: (a) in-scene workbench shot, warm lamplight, shop soft
+behind — a clear CRACK through the steel comb, instantly readable; (b) a
+four-view broken-state sheet showing an EMPTY BRASS SOCKET where a component
+is missing. Canon consequences: the crack is the wound (the sour third
+note); the empty socket defines the MISSING FRAGMENT — the piece the
+children must recover from 1867 now has a visible home. The in-scene shot
+also serves as beat 1's close-up insert frame.
 
 ### TP-02 · The music box, MENDED (derives from TP-00)
 The master-turnaround box restored: comb whole, missing part back, wood
