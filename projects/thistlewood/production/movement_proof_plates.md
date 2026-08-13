@@ -63,8 +63,7 @@ white cap, utterly sincere; Rose in rough turnip-farmer's clothes — the
 girliest child in Wales dressed for field work. Each holds their pose
 mid-reaction to their own outfit. Richard behind, at the threshold he never
 crosses, holding the door — one hand out with the sleeping brass compass.
-References: Albert + Lily Burgundy costume sheets (approved 2026-08-13),
-Peggi + Rose sheets when generated. [style lock]
+References: ALL FOUR Burgundy costume sheets (approved 2026-08-13). [style lock]
 
 ### TP-05 · Burgundy village master
 1867 Burgundy, late summer: a small stone village street between vineyard
@@ -100,9 +99,10 @@ of five: five secret smiles at five different sizes. [style lock]
    contradicts the child's nature): Albert = plum-velvet ribboned dandy;
    Lily = maximum-frills blue Parisian dress; Peggi = Dutch farm girl
    (unchanged, bible slide 10); Rose = turnip farmer — the bible's own
-   "girliest child in Wales" joke. Rose + Peggi costume sheets still to
-   generate; Albert + Lily sheets approved (delivered in chat, to be filed
-   in Drive with the model packs).
+   "girliest child in Wales" joke. ALL FOUR costume sheets approved 2026-08-13
+   (Albert, Lily, Rose, Peggi — delivered in chat, to be filed in Drive
+   with the model packs). Rose's turnip prop confirmed: held delicately in
+   two fingers, endured with quiet dignity. TP-04 is fully unblocked.
 
 ## WORKFLOW
 Generate each TP in the image tool with the relevant existing plate + model
