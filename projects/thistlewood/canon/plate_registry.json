@@ -171,6 +171,29 @@
       "suspected_root_cause": "Albert's July character sheets in 03 CHARACTER PACKS almost certainly show him in glasses, so every generation is faithfully reproducing his own reference.",
       "why_it_matters": "If the pack is the source, painting two keyframes fixes nothing — every Albert shot in the series repeats it.",
       "next_action": "Julian to open Albert's sheets. If glasses are present: either repaint the sheet, or accept them as his design and amend the lock. Fix the source, not the symptom."
+    },
+    "KF-A1.1": {
+      "status": "LOCKED 2026-08-13",
+      "built_from": [
+        "PL-04",
+        "Tom Chen model sheet"
+      ],
+      "serves": "A1.1 — 'Are you Mr Thistlewood? A lady at the market said, if it's broken, it belongs here.'",
+      "verified": [
+        "Tom exactly on model — navy hooded parka open over rust crewneck over grey checked collar, charcoal trousers, brown brogues",
+        "the cream checked bundle knotted and held in both hands at chest height, slightly away from the body",
+        "Tom looking at Richard, not at the bundle; hopeful and faintly embarrassed",
+        "Richard behind the counter, both hands flat, leaning in to listen",
+        "Richard in shirtsleeves and waistcoat, NO APRON — the ritual is still unspent two shots out",
+        "Macsen upright on the counter, facing Tom",
+        "the bundle is still tied and no music box is visible anywhere — the A1.2 reveal is intact",
+        "no children in frame",
+        "the workshop arch glows behind Richard, planting the room already shot"
+      ],
+      "watch_items": [
+        "PALETTE: lighter and smoother than the workshop keyframes — PL-04's July origin showing. Defensible as a lighting difference (glass-fronted shop versus back workshop) rather than a style break. Judge it on the CO.3 to A1.1 cut; grade in post before considering a regenerate.",
+        "STAGING: Tom and Richard are widely separated with empty counter between them. Correct for an establishing shot and it plays Tom's tentativeness — but A1.2 MUST push in, or the wrong tune happens at a distance and the children have nowhere to arrive."
+      ]
     }
   }
 }
