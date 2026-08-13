@@ -24,6 +24,17 @@ pencil, tallest child. Lily — long red braid, green field jacket. Rose —
 strawberry-blonde, green cardigan, floral dress. Peggi — two dark braids,
 striped shirt, blue overalls, smallest.
 
+**HANDEDNESS CHECK — run it before every prompt leaves.** The workshop has
+exactly ONE brick window and it is on the **RIGHT**, with the workbench. The
+LEFT wall is shelves, radio, stove and kettle. The oak door is **CENTRED** in
+the rear stone wall. Two errors of this kind were caught in the first draft of
+this pack: Rose was staged "left, by the brick window" — inventing a second
+window on the shelf wall — and Richard was put "background right" at a
+centred doorframe. Both prompts stated the correct geometry in their reference
+line and then contradicted it in their staging line, which is the dangerous
+version because it reads as authoritative twice. Before any prompt is used,
+list every left/right/centre claim in it and check each against the plate.
+
 **Anti-lineup, every multi-character frame:** stage at three depths, give each
 character one physical verb bound to a named object, and state that they are
 not standing in a row and not all facing the same way.
@@ -72,12 +83,14 @@ Lily. His back is three-quarters to camera; we read the door past his shoulder.
 hip, one knee scuffed. Bored and unimpressed. Her head reaches just above
 Rose's ear.
 
-**Background left, by the brick window** — ROSE sits in the good chair, a
-drawing board on her knees, pencil down on the paper, looking at her drawing
-and not at the room.
+**Background RIGHT, beyond the workbench, beneath the brick window** — ROSE
+sits in the good chair, a drawing board on her knees, pencil down on the paper,
+looking at her drawing and not at the room. The good chair belongs to the
+window wall on the right; cool daylight falls across her page.
 
-**Background right, raised** — RICHARD stands near the top of a wooden
-stepladder set beside the doorframe, reaching up with a very small screwdriver
+**Background CENTRE, raised** — RICHARD stands near the top of a wooden
+stepladder set beside the doorframe in the middle of the rear stone wall,
+reaching up with a very small screwdriver
 to a small brass panel set into the frame. His back is to the room. Leather
 apron. He is a head and shoulders taller than any of the children.
 
