@@ -39,10 +39,11 @@ note); the empty socket defines the MISSING FRAGMENT — the piece the
 children must recover from 1867 now has a visible home. The in-scene shot
 also serves as beat 1's close-up insert frame.
 
-### TP-02 · The music box, MENDED (derives from TP-00)
-The master-turnaround box restored: comb whole, missing part back, wood
-gently polished but still worn — repaired, not renewed. Same angle and
-light as the approved TP-01. [style lock]
+### TP-02 · The music box, MENDED — APPROVED 2026-08-13
+Delivered as the matched pair to TP-01's in-scene shot: identical angle,
+bench and lamplight; comb whole, crack gone, mechanism complete, wood still
+worn. Repaired, not renewed — the law held. The TP-01/TP-02 pair is beat 4's
+before/after reveal by construction.
 
 ### TP-03 · Beat 1 keyframe — the object arrives
 Inside the workshop, matching the Inside Shop plate: workbench right with the
