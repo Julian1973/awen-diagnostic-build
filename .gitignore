@@ -11,3 +11,4 @@ __pycache__/
 # multi-megabyte duplicates would bloat the repo without adding a record.
 projects/*/assets/
 projects/*/production/takes/
+projects/*/production/voice/**/*.mp3
