@@ -286,3 +286,37 @@ line → cut to the character who reads it, stilling and listening → their qui
   upscale pass and the edit. Lock the ratio at the first keyframe of a scene.
 - **Upscale once, at the end.** Upscale approved takes only, after the cut is
   locked — never mid-production, and never a take that may be refired.
+
+## PART 8.1 — PROVIDER RULING, 2026-08-13 (supersedes Part 8's 480p line)
+
+**House route: `minimax/h3/image-to-video` at 768P.** Judged against Seedance
+2.5 on the same beat, same keyframe, same prompt content. Julian's verdict:
+better result, higher quality, lower cost.
+
+Three consequences, all load-bearing:
+
+**1 · The fire resolution rises from 480p to 768P.** H3 has no 480p tier — its
+enum is 768P / 2K / 4K. Part 8's "fire everything at 480p" was written against
+Seedance's ladder and no longer applies. 768P is now the cheap tier, and it is
+*better* than the policy it replaces. Topaz upscale after picture lock is
+unchanged.
+
+**2 · No generated audio, at all.** Seedance could synthesise sound and
+lip-synced speech; H3 cannot. Every sound in the finished episode is post:
+dialogue from ElevenLabs, effects and ambience laid against picture. This does
+not change the placement-marker law — it makes it the only law. A take is never
+rejected for having no sound.
+
+**3 · One reference image, permanently, until fal repairs
+`reference-to-video`.** Identity cannot arrive from a model pack alongside an
+environment plate; it must already be in the frame. Every shot therefore needs
+its own keyframe. See `single_reference_law` in the project's script_authority.
+
+**Prompt expansion is forced OFF.** H3 defaults to running a vision model over
+the prompt and rewriting it before generation. Left on, no verdict is
+attributable — a defect could come from the emission or from a rewrite nobody
+saw. `fire.py` sets `enable_prompt_expansion: false` and this is not optional.
+
+**Duration** is an integer 5–15 seconds, so a 12-second beat is expressible.
+**Prompt ceiling** is 50,000 characters, far above the 5,000 the standard
+assumes — the constraint is now craft, not budget.

@@ -232,9 +232,12 @@ def main() -> None:
     r = sub.add_parser("render", help="fire a Seedance 2.5 reference-to-video render via fal")
     r.add_argument("--prompt", required=True, help="file containing the emission")
     r.add_argument("--image", action="append", required=True, help="local path or URL; repeatable, in reference order")
-    r.add_argument("--model", default="seedance", choices=sorted(MODELS),
+    # House route from 2026-08-13: minimax H3 at 768P. Julian judged it better
+    # than Seedance and cheaper. Seedance stays registered for A/B and for the
+    # day its multi-reference route is repaired.
+    r.add_argument("--model", default="minimax", choices=sorted(MODELS),
                    help="provider arm; each has its own checked payload shape")
-    r.add_argument("--resolution", default="480p")
+    r.add_argument("--resolution", default="768P")
     r.add_argument("--duration", default=12)
     r.add_argument("--no-audio", action="store_true")
     r.add_argument("--out", default="clip.mp4")
