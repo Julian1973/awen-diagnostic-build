@@ -87,9 +87,10 @@
     },
     {
       "lock": "Albert present day",
-      "rule": "Brown hair; brown jumper; notebook and pencil.",
+      "rule": "Brown hair; brown jumper; notebook and pencil. NO GLASSES and no eyewear of any kind — Richard is the only character who wears glasses (round, gold).",
       "authority": "Book 2 appearance lock",
-      "appliesTo": "model / costume"
+      "appliesTo": "model / costume",
+      "_earned": "The first KF-CO.2 generation gave Albert glasses. Caught by Julian 2026-08-13. A feature with no rightful owner spreads; naming the owner is a stronger instruction to an image model than a prohibition."
     },
     {
       "lock": "Lily present day",
