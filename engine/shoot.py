@@ -74,111 +74,105 @@ def humans(s: dict, T: dict) -> list[str]:
 
 
 def compile_motion(s: dict, T: dict) -> str:
-    """Compile the shot's ANIMATION prompt, for image-to-video off the keyframe.
+    """Compile the shot's animation prompt on Seedance 2.5's ACTUAL Core Prompt
+    Formula — subject and action, scene and environment, visual style, camera,
+    audio — written as flowing prose.
 
-    Everything the old reference-to-video prompt spent its length on — who each
-    character is, what they are wearing, where the counter sits, what the room
-    contains — is ALREADY IN THE FIRST FRAME. Restating it here does not help;
-    it invites the model to redraw what it can already see, which is how a face
-    drifts inside a single take.
+    An earlier version of this function invented its own section labels:
+    [First Frame], [Performance], [Secondary Life], [Speech], [Physics]. None of
+    those exist in the guide. The skill is explicit that the descriptive content
+    reads as PROSE, and that bracketed labels are only the ones its own templates
+    define — [Characters]/[Props]/[Scenes]/[Motion and Audio] for multi-reference,
+    [Generation Goal]/[Stage N]/[Maintain Consistency] for staged video. A single
+    keyframe driving one continuous beat is the core formula, not a template, so
+    the only label that survives here is [Maintain Consistency].
 
-    So this prompt does one job: it moves the keyframe. Performance, camera,
-    secondary life, and what must not change. No appearance. No dialogue — the
-    words arrive as an audio file and the mouth is driven by the lipsync pass,
-    not guessed from text.
+    The reference-role declaration up front is the guide's first-frame form.
     """
-    out: list[str] = []
     spk = s.get("speaker")
+    sp = T["scene_plate"]
+    out: list[str] = []
 
-    # sd25-pe first-frame role declaration, in the skill's own form. The single
-    # supplied image gets exactly one stated role and nothing is left inferred.
-    out.append("[First Frame]")
-    out.append("The supplied image is the FIRST FRAME. It defines the opening composition, "
-               "every character's position and pose, the prop state, the scene and the camera "
-               "direction. Everything in it is already correct. Animate this frame forward "
-               "from where it stands; do not redraw it, do not restage it, and do not change "
-               "anyone's face, hair or clothing.")
+    # Reference role, in the guide's first-frame wording.
+    out.append("The supplied image is the first frame. It defines the opening composition, "
+               "every subject's position and pose, the prop state, the scene and the camera "
+               "direction. Animate forward from it; do not redraw it, do not restage it, and "
+               "do not alter any face, hair or clothing it already contains.")
     out.append("")
 
-    out.append("[Subject and Action]")
-    out.append(primary_event(s))
+    # Subject + primary action + scene, as one prose paragraph.
+    where = ("the front room of Thistlewood's, an old antique restorer's shop, with its long "
+             "wooden counter, its cabinets of brass and glass, and the lit workshop showing "
+             "through the arch behind")
+    out.append(f"In {where}, {primary_event(s)}")
     out.append("")
 
-    out.append("[Camera]")
-    out.append(f"The camera {s['camera']}. This is ONE continuous take with no cuts, no "
+    # Secondary life, as prose rather than a bullet list.
+    life = "; ".join(f"for {who}, {act}" for who, act in s["life"].items() if who != "the room")
+    room = s["life"].get("the room")
+    para = (f"Nobody in the frame is a still image, and these small movements run continuously "
+            f"underneath the main action without ever competing with it: {life}.")
+    if room:
+        para += f" In the room itself, {room}."
+    out.append(para)
+    out.append("")
+
+    # Performance, folded into prose.
+    if s.get("faces"):
+        out.append("The performances read as follows: "
+                   + "; ".join(f"{who} is {face}" for who, face in s["faces"].items()) + ".")
+        out.append("")
+
+    # Mouths. Prose, and it says why.
+    if spk:
+        mouth = (f"{spk} is the only person who speaks, and the delivery is {s['delivery']}. "
+                 f"Animate the mouth as natural conversational speech, the jaw and cheeks and "
+                 f"head carrying a talking rhythm, but do not attempt specific words or specific "
+                 f"lip shapes — the articulation is replaced from a separate recording "
+                 f"afterwards and guessing at words here only fights that pass.")
+    else:
+        mouth = "Nobody speaks in this shot."
+    others = [w for w in humans(s, T) if w != spk]
+    if others and not s.get("no_faces"):
+        mouth += (" " + " ".join(f"{w} does not speak: the mouth stays closed with no lip or jaw "
+                                 f"movement, though {w} is never frozen — the body keeps living "
+                                 f"and reacting." for w in others))
+    out.append(mouth)
+    out.append("")
+
+    # Visual style — the guide's third element. Short, because the frame carries it.
+    out.append(f"The visuals feature {T['style'][0].lower()}{T['style'][1:]} Weight is real "
+               "throughout: a shift of balance travels through the whole body, clothing gathers "
+               "and falls with the movement instead of sliding over a rigid shape, hair and "
+               "loose fabric settle a beat after the body stops, and anything resting on a "
+               "surface stays where it is unless a hand moves it.")
+    out.append("")
+
+    # Camera — the guide's fourth element.
+    out.append(f"Use a camera that {s['camera']}, in one continuous take with no cuts, no "
                f"transitions and no change of angle at any point.")
     out.append("")
 
-    if s.get("faces"):
-        # prose, not colon-fragments — the skill is explicit that the descriptive
-        # content reads as prose even under a [Section] label
-        out.append("[Performance]")
-        for who, face in s["faces"].items():
-            out.append(f"{who} is {face}.".replace("is is ", "is "))
-        out.append("")
-
-    out.append("[Secondary Life]")
-    out.append("Nobody in this frame is a still image. Throughout the whole shot, "
-               "continuously and independently of the main action:")
-    for who, action in s["life"].items():
-        out.append(f"— {who}: {action}")
-    out.append("These movements are small and continuous. They never stop, and they never "
-               "compete with the main action.")
-    out.append("")
-
-    # The mouth. The words are NOT here — they arrive as audio and the lipsync
-    # pass drives the articulation. All this has to do is say who is talking, so
-    # the wrong face does not.
-    out.append("[Speech]")
-    if spk:
-        out.append(f"{spk} is the only person who speaks in this shot, and the delivery is "
-                   f"{s['delivery']}. Animate the mouth as natural conversational speech, with "
-                   f"the jaw, cheeks and head carrying the rhythm of someone talking. Do NOT "
-                   f"attempt specific words or specific lip shapes — the exact articulation is "
-                   f"replaced afterwards from a separate recording, and guessing at words here "
-                   f"only fights that pass.")
-    else:
-        out.append("Nobody speaks in this shot.")
-    for who in humans(s, T):
-        if who == spk:
-            continue
-        out.append(f"{who} does not speak: the mouth stays closed with no lip or jaw "
-                   f"movement. {who} is NOT frozen — the body keeps living and reacting.")
-    out.append("")
-
-    out.append("[Audio]")
-    for key in s.get("sound", []):
-        out.append(T["ambience"][key])
+    # Audio — the guide's fifth element, with its bracket syntax.
+    audio = ["Audio includes " + " ".join(T["ambience"][k] for k in s.get("sound", [])) + "."]
     if s.get("extra_sfx"):
-        out.append(s["extra_sfx"])
+        audio.append(s["extra_sfx"])
     if "tune" not in s.get("sound", []):
-        out.append("There is no music of any kind in this shot — nobody moves to a beat.")
+        audio.append("There is no music of any kind in this shot and nobody moves to a beat.")
+    out.append(" ".join(audio))
     out.append("")
 
-    # sd25-pe asks for physics described concretely rather than named. Weight,
-    # cloth and hair are what stop a 2D shot reading as cut-outs sliding about.
-    out.append("[Physics]")
-    out.append("Weight is real: when anyone shifts their balance the whole body answers it, "
-               "clothing gathers and falls with the movement rather than sliding over a rigid "
-               "shape, hair and loose fabric settle a beat after the body stops, and anything "
-               "resting on a surface stays put unless a hand moves it.")
-    out.append("")
-
-    if s.get("ritual"):
-        out.append("[Ritual]")
-        out.append(s["ritual"])
-        out.append("")
-
+    # The one label the guide's own templates define.
+    keep = ["Keep every character's identity, face, hair and clothing, the number of characters, "
+            "the room layout, the counter position, the lighting and the screen direction "
+            "consistent from the first frame to the last."]
+    if s.get("props"):
+        keep.append("The prop count never changes: there is exactly one "
+                    + ", one ".join(pr.lower() for pr in s["props"])
+                    + ", and it stays with whoever holds it in the first frame.")
+    keep.append("Every character and animal in frame stays alive and breathing for the whole take.")
     out.append("[Maintain Consistency]")
-    out.append("Every face, hairstyle, garment and prop stays exactly as the first frame "
-               "defines it for the whole take — nobody changes appearance, nobody is "
-               "swapped for anyone else, and no extra person enters the room. The room "
-               "layout, the counter position and the lighting never change. "
-               + (f"The character count never changes and the prop count never changes: "
-                  "there is exactly one "
-                  + ", one ".join(pr.lower() for pr in s["props"])
-                  + ", held by whoever holds it in the first frame." if s.get("props") else "")
-               + " Everyone in frame stays alive and breathing for the entire shot.")
+    out.append(" ".join(keep))
     return "\n".join(out).strip() + "\n"
 
 
@@ -520,6 +514,20 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         "the take is declared continuous — no invented cuts":
             "one continuous take with no cuts" in t,
         "physics described concretely, not named": "weight is real" in t,
+        # The guide's Core Prompt Formula, element by element. An earlier version
+        # of the compiler invented [First Frame]/[Performance]/[Secondary Life]/
+        # [Speech]/[Physics] labels that appear nowhere in it.
+        "core formula: visual style stated": "the visuals feature" in t,
+        "core formula: camera stated": "use a camera that" in t,
+        "core formula: audio stated": "audio includes" in t,
+        "no invented section labels":
+            not any(k in text for k in ("[First Frame]", "[Performance]", "[Secondary Life]",
+                                        "[Speech]", "[Physics]", "[Subject and Action]",
+                                        "[Camera]", "[Audio]")),
+        "only the guide's own labels are used":
+            all(lbl in ("[Maintain Consistency]", "[Generation Goal]", "[Characters]",
+                        "[Props]", "[Scenes]", "[Motion and Audio]")
+                for lbl in re.findall(r"^\[[^\]]+\]", text, re.M)),
         "camera has a stated behaviour": "the camera " in t,
         "speaker named or silence declared":
             bool(spk) or "nobody speaks in this shot" in t,
@@ -527,7 +535,7 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
             s.get("no_faces", False) or
             all(f"{w} does not speak" in text for w in silent),
         "silent characters are not frozen":
-            s.get("no_faces", False) or (not silent) or "is NOT frozen" in text,
+            s.get("no_faces", False) or (not silent) or "is never frozen" in text,
         "ambience specified": "<the quiet room tone" in t,
         "music excluded unless the box is playing":
             ("tune" in s.get("sound", [])) or "no music of any kind" in t,
@@ -543,8 +551,10 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         "the recorded line fits inside the take":
             (not s.get("voice_ref")) or
             audio_seconds(vdir / s["voice_ref"]) <= (s.get("cut_to") or s["sec"]),
-        "prompt stays short — a motion prompt that runs long is describing the "
-        "picture again": len(text) <= 4000,
+        # Prose runs longer than the old fragment form for the same content, and
+        # Julian wants full shot prompts. The ceiling is here to stop the prompt
+        # re-describing the picture, not to keep it thin.
+        "prompt does not run away into re-describing the picture": len(text) <= 4800,
     }
     fails = [k for k, v in checks.items() if not v]
     return round(10 - 1.5 * len(fails), 2), fails
@@ -589,7 +599,7 @@ def gate(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
             s.get("no_faces", False) or
             all(f"<{w}> does not speak at any point" in text for w in silent),
         "silent characters are not frozen":
-            s.get("no_faces", False) or (not silent) or "is NOT frozen" in text,
+            s.get("no_faces", False) or (not silent) or "is never frozen" in text,
 
         # — audio —
         "ambience specified (the route generates its own or invents one)":
@@ -716,79 +726,151 @@ def cmd_keyframe(a):
 
 
 def cmd_fire(a):
+    """Animate the keyframe. One image in, no audio — the voice arrives at sync."""
     TK.mkdir(parents=True, exist_ok=True)
     T = table()
+    KFR = P / "keyframes"
     procs = []
-    for s in load(T, a.scene):
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    for s in shots:
         em, out = EM / f"{s['id']}.txt", TK / f"{s['id']}.mp4"
-        refs = json.loads((EM / f"{s['id']}.refs.json").read_text())
+        kf = KFR / f"{s['id']}.png"
+        if not kf.exists():
+            print(f"  {s['id']:<8} no keyframe at {kf.name} — waiting on it"); continue
         if out.exists() and not a.force:
             print(f"  {s['id']:<8} already shot — skipping"); continue
-        score, _ = gate(em.read_text(), s, T)
+        score, _ = gate_motion(em.read_text(), s, T)
         if score < FLOOR:
             print(f"  {s['id']:<8} REFUSED at {score} — not firing"); continue
-        cmd = [sys.executable, str(ROOT / "engine/fire.py"), "render", "--model", "h3",
-               "--prompt", str(em)]
-        for f in refs["images"]:
-            cmd += ["--image", str(KF / f)]
-        if refs.get("voice_ref"):
-            cmd += ["--audio", str(VOICE / refs["voice_dir"] / refs["voice_ref"])]
-        cmd += ["--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
-        print(f"  {s['id']:<8} firing {s['sec']}s · {len(refs['images'])} refs")
+        cmd = [sys.executable, str(ROOT / "engine/fire.py"), "render", "--model", "minimax",
+               "--prompt", str(em), "--image", str(kf),
+               "--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
+        print(f"  {s['id']:<8} firing {s['sec']}s from {kf.name}")
         procs.append((s["id"], subprocess.Popen(cmd, stdout=subprocess.DEVNULL,
                                                 stderr=subprocess.PIPE)))
-    for sid, p in procs:
-        err = p.communicate()[1].decode()[-200:]
-        print(f"  {sid:<8} {'✓' if p.returncode == 0 else '✗ ' + err}")
+    for sid, p_ in procs:
+        err = p_.communicate()[1].decode()[-200:]
+        print(f"  {sid:<8} {'✓' if p_.returncode == 0 else '✗ ' + err}")
+
+
+def cmd_sync(a):
+    """Drive the speaker's mouth from our recording, and force it onto the RIGHT face.
+
+    The sync service takes a video and an audio file, finds a face, and animates
+    it. It never sees the animation prompt, and not one of the five routes fal
+    offers has a parameter for choosing which face — so on a two-shot it picks
+    whichever it likes. On FR01 it picked Richard and animated him saying Tom's
+    line, which is the exact fault the speaker law exists to prevent, arriving
+    one stage later than the law can reach.
+
+    So the shot table declares a speaker_box: the region of frame containing the
+    speaker and nobody else. We cut that region out, upscale it so the face is
+    big enough for the model to work with, sync it, scale it back and lay it over
+    the take at the coordinates it came from. Only the mouth changed inside that
+    rectangle, so everything around it lands back on identical pixels.
+    """
+    import imageio_ffmpeg
+    FF = imageio_ffmpeg.get_ffmpeg_exe()
+    T = table()
+    SY = P / "synced"; SY.mkdir(parents=True, exist_ok=True)
+    tmp = P / "_sync_tmp"; tmp.mkdir(exist_ok=True)
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    for s in shots:
+        take = TK / f"{s['id']}.mp4"
+        if not take.exists() or not s.get("voice_ref"):
+            print(f"  {s['id']:<8} no take or no line — skipping"); continue
+        vdir = VOICE / s.get("voice_dir", "EP01_v3")
+        lead = s.get("lead_in", 0.5)
+        pad = tmp / f"{s['id']}_line.wav"
+        subprocess.run([FF, "-y", "-i", str(vdir / s["voice_ref"]),
+                        "-af", f"adelay={int(lead*1000)}|{int(lead*1000)},apad",
+                        "-t", str(s["sec"]), str(pad)], capture_output=True, check=True)
+
+        box = s.get("speaker_box")
+        if box:
+            x, y, w, h = box
+            crop = tmp / f"{s['id']}_crop.mp4"
+            subprocess.run([FF, "-y", "-i", str(take),
+                            "-vf", f"crop={w}:{h}:{x}:{y},scale={w*2}:{h*2}:flags=lanczos",
+                            "-an", "-c:v", "libx264", "-crf", "16", str(crop)],
+                           capture_output=True, check=True)
+            src = crop
+        else:
+            src = take
+
+        out_sync = tmp / f"{s['id']}_synced.mp4"
+        r = subprocess.run([sys.executable, str(ROOT / "engine/fire.py"), "lipsync",
+                            "--video", str(src), "--audio", str(pad),
+                            "--quality", "lipsync-2-pro", "--out", str(out_sync)],
+                           capture_output=True)
+        if r.returncode:
+            print(f"  {s['id']:<8} ✗ sync failed: {r.stderr.decode()[-160:]}"); continue
+
+        final = SY / f"{s['id']}.mp4"
+        if box:
+            x, y, w, h = box
+            r = subprocess.run([FF, "-y", "-i", str(take), "-i", str(out_sync),
+                                "-filter_complex",
+                                f"[1:v]scale={w}:{h}:flags=lanczos[c];"
+                                f"[0:v][c]overlay={x}:{y}:shortest=1[v]",
+                                "-map", "[v]", "-map", "1:a", "-c:v", "libx264", "-crf", "17",
+                                "-c:a", "aac", "-t", str(s["sec"]), str(final)],
+                               capture_output=True)
+        else:
+            r = subprocess.run([FF, "-y", "-i", str(out_sync), "-c", "copy", str(final)],
+                               capture_output=True)
+        print(f"  {s['id']:<8} {'✓ synced' + (' (boxed)' if box else '') if r.returncode == 0 else '✗ ' + r.stderr.decode()[-160:]}")
 
 
 def cmd_assemble(a):
-    """Picture from the route, sound from us.
+    """Lay the sound bed under the picture.
 
-    The route's generated speech is DISCARDED — only the video stream is mapped.
-    Its value was making the mouth articulate roughly the right words; the voice
-    that reaches the cut is always our own ElevenLabs v3 recording.
+    Picture comes from synced/ when the shot has a line — that file already
+    carries our recording as its audio, because the sync stage put it there. It
+    comes from takes/ when nobody speaks. Either way the route's own generated
+    audio never reaches the cut.
     """
     import imageio_ffmpeg
     FF = imageio_ffmpeg.get_ffmpeg_exe()
     AS.mkdir(parents=True, exist_ok=True)
     T = table()
-    for s in load(T, a.scene):
-        vid = TK / f"{s['id']}.mp4"
+    SY = P / "synced"
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    for s in shots:
+        synced, take = SY / f"{s['id']}.mp4", TK / f"{s['id']}.mp4"
+        vid = synced if synced.exists() else take
         if not vid.exists():
-            print(f"  {s['id']:<8} no take — skipping"); continue
-        vdir = VOICE / s.get("voice_dir", "EP01_v3")
-        line_file = s.get("voice_ref") or s.get("vo")
-        inputs, filt, n = ["-i", str(vid)], [], 1
-        if line_file:
+            print(f"  {s['id']:<8} no picture — skipping"); continue
+        has_voice = synced.exists()
+        n, inputs, filt, labels = 1, ["-i", str(vid)], [], []
+        if has_voice:
+            filt.append("[0:a]volume=1.0[vo]"); labels.append("[vo]")
+        # a listener shot carries the previous speaker's line, laid in here
+        if s.get("vo") and not has_voice:
+            src = VOICE / s.get("vo_dir", "EP01_v3") / s["vo"]
             pre = []
             if s.get("vo_ss") is not None: pre += ["-ss", str(s["vo_ss"])]
             if s.get("vo_t") is not None:  pre += ["-t", str(s["vo_t"])]
-            src = VOICE / s.get("vo_dir", s.get("voice_dir", "EP01_v3")) / line_file
             inputs += pre + ["-i", str(src)]
-            d = s.get("vo_delay", 400)
-            filt.append(f"[{n}:a]volume=1.0,adelay={d}|{d}[vo]"); n += 1
-        # Room tone is 8s of recording and the longest shot is 12s, so it is looped
-        # rather than trimmed. Trimming it silently shortened FR01 from 9s to 8s —
-        # -shortest cut the PICTURE to fit the sound bed, which is backwards.
-        inputs += ["-stream_loop", "-1", "-i", str(SFX / "shop_room_tone.mp3")]
-        filt.append(f"[{n}:a]volume=0.18,atrim=0:{s['sec']},asetpts=N/SR/TB[tone]"); n += 1
-        labels = (["[vo]"] if line_file else []) + ["[tone]"]
-        # The music box is diegetic — it is the only music in Act One and it comes
-        # out of the box in frame, so it rides under the dialogue rather than over it.
+            d = int(s.get("lead_in", 0.5) * 1000)
+            filt.append(f"[{n}:a]volume=1.0,adelay={d}|{d}[lvo]"); labels.append("[lvo]"); n += 1
+        inputs += ["-stream_loop", "-1", "-i", str(SFX / "room_bed_120s.mp3")]
+        filt.append(f"[{n}:a]volume=0.16,atrim=0:{s['sec']},asetpts=N/SR/TB[tone]")
+        labels.append("[tone]"); n += 1
         if "tune" in s.get("sound", []):
             inputs += ["-stream_loop", "-1", "-i", str(SFX / "wrong_tune_musicbox_v2.mp3")]
-            filt.append(f"[{n}:a]volume=0.34,atrim=0:{s['sec']},asetpts=N/SR/TB[box]")
+            filt.append(f"[{n}:a]volume=0.32,atrim=0:{s['sec']},asetpts=N/SR/TB[box]")
             labels.append("[box]"); n += 1
+        if s.get("bell"):
+            inputs += ["-i", str(SFX / "shop_door_bell.mp3")]
+            d = int(s["bell"] * 1000)
+            filt.append(f"[{n}:a]volume=0.5,adelay={d}|{d}[bell]"); labels.append("[bell]"); n += 1
         filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0[a]")
-        out = AS / f"{s['id']}.mp4"
-        # Length is stated, never inferred. -shortest let whichever input ran out
-        # first decide the cut; the shot table decides it.
         length = s.get("cut_to") or s["sec"]
-        vcodec = ["-c:v", "libx264", "-crf", "18"] if s.get("cut_to") else ["-c:v", "copy"]
         r = subprocess.run([FF, "-y", *inputs, "-filter_complex", ";".join(filt),
-                            "-map", "0:v", "-map", "[a]", *vcodec, "-c:a", "aac",
-                            "-t", str(length), str(out)], capture_output=True)
+                            "-map", "0:v", "-map", "[a]", "-c:v", "libx264", "-crf", "17",
+                            "-c:a", "aac", "-t", str(length), str(AS / f"{s['id']}.mp4")],
+                           capture_output=True)
         print(f"  {s['id']:<8} {'✓ assembled' if r.returncode == 0 else '✗ ' + r.stderr.decode()[-160:]}")
 
 
@@ -816,7 +898,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name, fn in (("keyframe", cmd_keyframe), ("compile", cmd_compile),
-                     ("fire", cmd_fire), ("assemble", cmd_assemble), ("cut", cmd_cut)):
+                     ("fire", cmd_fire), ("sync", cmd_sync),
+                     ("assemble", cmd_assemble), ("cut", cmd_cut)):
         p = sub.add_parser(name)
         p.add_argument("--scene", default="FR")
         p.add_argument("--shot", help="one shot id, for working a scene beat by beat")

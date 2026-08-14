@@ -141,7 +141,14 @@
       "faces": {
         "Tom": "apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop",
         "Richard": "open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile"
-      }
+      },
+      "speaker_box": [
+        300,
+        30,
+        560,
+        600
+      ],
+      "lead_in": 0.7
     },
     {
       "id": "FR02",
@@ -180,7 +187,8 @@
       "chain": {
         "from": "FR01",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR03",
@@ -216,7 +224,8 @@
       "chain": {
         "from": "FR02",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR04",
@@ -252,7 +261,8 @@
       "chain": {
         "from": "FR03",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR05",
@@ -291,7 +301,8 @@
       "chain": {
         "from": "FR04",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR06",
@@ -327,7 +338,8 @@
       "chain": {
         "from": "FR05",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR07",
@@ -365,7 +377,8 @@
       "chain": {
         "from": "FR06",
         "mode": "continue"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR07b",
@@ -419,7 +432,8 @@
       "chain": {
         "from": "FR07",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR08",
@@ -471,7 +485,8 @@
       "chain": {
         "from": "FR07b",
         "mode": "continue"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR09",
@@ -521,7 +536,8 @@
       "chain": {
         "from": "FR08",
         "mode": "continue"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR10",
@@ -571,7 +587,8 @@
       "chain": {
         "from": "FR09",
         "mode": "continue"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR11",
@@ -607,7 +624,8 @@
       "chain": {
         "from": "FR10",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR12",
@@ -650,7 +668,8 @@
       "chain": {
         "from": "FR11",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR13",
@@ -686,7 +705,8 @@
       "chain": {
         "from": "FR12",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR14",
@@ -739,7 +759,8 @@
       "chain": {
         "from": "FR13",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR15",
@@ -779,7 +800,8 @@
       "chain": {
         "from": "FR14",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     },
     {
       "id": "FR16",
@@ -822,7 +844,15 @@
       "chain": {
         "from": "FR15",
         "mode": "cut"
-      }
+      },
+      "speaker_box": [
+        120,
+        60,
+        620,
+        660
+      ],
+      "lead_in": 0.5,
+      "bell": 3.2
     },
     {
       "id": "FR17",
@@ -862,7 +892,8 @@
       "chain": {
         "from": "FR16",
         "mode": "cut"
-      }
+      },
+      "lead_in": 0.5
     }
   ]
 }

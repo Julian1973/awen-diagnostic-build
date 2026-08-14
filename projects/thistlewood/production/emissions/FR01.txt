@@ -1,34 +1,18 @@
-[First Frame]
-The supplied image is the FIRST FRAME. It defines the opening composition, every character's position and pose, the prop state, the scene and the camera direction. Everything in it is already correct. Animate this frame forward from where it stands; do not redraw it, do not restage it, and do not change anyone's face, hair or clothing.
+The supplied image is the first frame. It defines the opening composition, every subject's position and pose, the prop state, the scene and the camera direction. Animate forward from it; do not redraw it, do not restage it, and do not alter any face, hair or clothing it already contains.
 
-[Subject and Action]
-Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen's ear turns to the voice. By the end: Tom is still holding the wrapped bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
+In the front room of Thistlewood's, an old antique restorer's shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen's ear turns to the voice. By the end: Tom is still holding the wrapped bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
 
-[Camera]
-The camera is locked off at standing eye level in a wide two-shot and does not move for the whole take. This is ONE continuous take with no cuts, no transitions and no change of angle at any point.
+Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Tom, his breathing shows in his shoulders, the fingers holding the bundle adjust their grip once, and he swallows before he speaks; for Richard, he listens with his whole body — his weight settles onto one hand on the counter top, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward Tom as the sentence goes on; for Macsen, the tip of his tail flicks twice, one ear rotates toward the voice, his head turns a few degrees to follow Tom, and he blinks slowly. In the room itself, the hanging lamplight is steady but the shadows breathe; nothing in the shop is rigid.
 
-[Performance]
-Tom is apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop.
-Richard is open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile.
+The performances read as follows: Tom is apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop; Richard is open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile.
 
-[Secondary Life]
-Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
-— Tom: his breathing shows in his shoulders, the fingers holding the bundle adjust their grip once, and he swallows before he speaks
-— Richard: he listens with his whole body — his weight settles onto one hand on the counter top, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward Tom as the sentence goes on
-— Macsen: the tip of his tail flicks twice, one ear rotates toward the voice, his head turns a few degrees to follow Tom, and he blinks slowly
-— the room: the hanging lamplight is steady but the shadows breathe; nothing in the shop is rigid
-These movements are small and continuous. They never stop, and they never compete with the main action.
+Tom is the only person who speaks, and the delivery is hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place. Animate the mouth as natural conversational speech, the jaw and cheeks and head carrying a talking rhythm, but do not attempt specific words or specific lip shapes — the articulation is replaced from a separate recording afterwards and guessing at words here only fights that pass. Richard does not speak: the mouth stays closed with no lip or jaw movement, though Richard is never frozen — the body keeps living and reacting.
 
-[Speech]
-Tom is the only person who speaks in this shot, and the delivery is hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place. Animate the mouth as natural conversational speech, with the jaw, cheeks and head carrying the rhythm of someone talking. Do NOT attempt specific words or specific lip shapes — the exact articulation is replaced afterwards from a separate recording, and guessing at words here only fights that pass.
-Richard does not speak: the mouth stays closed with no lip or jaw movement. Richard is NOT frozen — the body keeps living and reacting.
+The visuals feature hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork. Weight is real throughout: a shift of balance travels through the whole body, clothing gathers and falls with the movement instead of sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays where it is unless a hand moves it.
 
-[Audio]
-<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
-There is no music of any kind in this shot — nobody moves to a beat.
+Use a camera that is locked off at standing eye level in a wide two-shot and does not move for the whole take, in one continuous take with no cuts, no transitions and no change of angle at any point.
 
-[Physics]
-Weight is real: when anyone shifts their balance the whole body answers it, clothing gathers and falls with the movement rather than sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays put unless a hand moves it.
+Audio includes <the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>. There is no music of any kind in this shot and nobody moves to a beat.
 
 [Maintain Consistency]
-Every face, hairstyle, garment and prop stays exactly as the first frame defines it for the whole take — nobody changes appearance, nobody is swapped for anyone else, and no extra person enters the room. The room layout, the counter position and the lighting never change. The character count never changes and the prop count never changes: there is exactly one wrapped bundle, held by whoever holds it in the first frame. Everyone in frame stays alive and breathing for the entire shot.
+Keep every character's identity, face, hair and clothing, the number of characters, the room layout, the counter position, the lighting and the screen direction consistent from the first frame to the last. The prop count never changes: there is exactly one wrapped bundle, and it stays with whoever holds it in the first frame. Every character and animal in frame stays alive and breathing for the whole take.
