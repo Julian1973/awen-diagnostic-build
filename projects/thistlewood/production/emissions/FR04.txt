@@ -10,7 +10,7 @@ Every character image above is a plain reference sheet. Do not use any of their 
 
 [Camera and Blocking]
 The camera is locked off in a chest-up single and does not move for the whole take.
-Image 3 defines the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+Image 3 defines the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him The surface directly in front of him at the bottom of frame IS the shop counter itself, seen from the customer side. There is no table, no second counter and no other display surface anywhere in this shot.. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
 Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
 
 [Style]
