@@ -1,0 +1,15 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+Closer on the old man behind the wooden counter: white hair, white beard, round gold glasses, green waistcoat over rolled shirtsleeves, both palms flat on the counter top. A ginger cat beside him. At the frame edge, a small open walnut box.
+
+The camera is locked off and does not move.
+
+The old man does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement.
+
+Opening state: the old man looking off to his left, both palms flat and still on the counter.
+
+Primary event: his head tilts a quarter-inch to one side and stops there. His eyebrows draw very slightly together. He blinks once, slowly.
+
+End state: the old man motionless, head still tilted, both hands flat on the counter, eyes steady on the person off-screen.
+
+He wears no apron of any kind.

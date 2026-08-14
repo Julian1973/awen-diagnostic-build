@@ -1,0 +1,15 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+The old man behind the shop counter, now wearing a brown leather work apron over his green waistcoat and rolled shirtsleeves. White hair, white beard, round gold glasses. On the counter in front of him a small open walnut music box on a folded cream checked cloth. Four children stand beyond the counter, and a man in a navy parka.
+
+The camera is locked off and does not move.
+
+The old man does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The four children does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The man in the navy parka does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement.
+
+Opening state: the old man with both hands at the top of his apron front, the apron already over his head and tied behind him.
+
+Primary event: both his flat palms smooth down the front of the apron from chest to waist in one slow settled motion, like a knight settling armour. His eyes go down to the music box. He does not touch it.
+
+Then: he stops completely and stands entirely still, hands resting at the bottom of the apron, eyes on the box.
+
+End state: the old man motionless in his apron, both hands still, looking down at the box he has not touched. The children watching him. Nothing moves.

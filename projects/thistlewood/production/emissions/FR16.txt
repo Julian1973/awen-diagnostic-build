@@ -1,0 +1,14 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+A wide view of the antique shop. A man in a navy hooded parka on the customer side of the wooden counter, hands now empty at his sides. An old man behind the counter in a brown leather apron. A ginger cat on the counter.
+
+The camera is locked off and does not move.
+
+The man in the navy parka is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+The old man does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement.
+
+Opening state: the man in the parka half-turned toward the door, stopping.
+
+Primary event: he turns back a little and asks one short question, one hand lifting slightly and dropping again.
+
+End state: the man in the parka half-turned, waiting, hand back at his side.

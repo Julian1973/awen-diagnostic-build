@@ -1,0 +1,14 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+A group at a shop counter: a very small girl with dark braids at the counter edge, a boy in a brown jumper with a notebook, a girl in a green cardigan with strawberry-blonde hair and a floral dress standing a little back, a taller girl with a long red braid furthest back. Beyond the counter an old man with white hair and round glasses, no apron, and a man in a navy parka.
+
+The camera is locked off and does not move.
+
+The girl in the green cardigan is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+The very small girl with dark braids does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The boy in the brown jumper does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The girl with the red braid does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The old man does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The man in the navy parka does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement.
+
+Opening state: the girl in the green cardigan looking not at the mechanism but at the lid of the box, her head slightly lowered.
+
+Primary event: she speaks quietly, and as she does she lifts one hand and almost touches the lid of the box, stopping just short of it.
+
+End state: her hand still hovering just above the lid, not touching it, her eyes on the worn place in the wood.

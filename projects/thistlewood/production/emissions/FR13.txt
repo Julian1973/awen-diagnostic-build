@@ -1,0 +1,13 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+Chest-up on the man in the navy parka over a rust-red jumper over a grey checked collar, in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box.
+
+The camera is locked off and does not move.
+
+The man in the navy parka is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+
+Opening state: the man looking down at the box.
+
+Primary event: he speaks more quietly than before, his head lowering slightly as he does, and near the end he shakes his head once, very small.
+
+End state: the man's head still lowered, eyes down, mouth closed, shoulders dropped.

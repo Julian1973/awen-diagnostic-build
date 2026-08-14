@@ -1,0 +1,13 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+Closer on the old man behind the wooden counter in a brown leather work apron over a green waistcoat, white hair, white beard, round gold glasses. A ginger cat beside him. At the frame edge, a small open walnut box.
+
+The camera is locked off and does not move.
+
+The old man is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+
+Opening state: the old man looking off to his left.
+
+Primary event: he answers in four words, already turning his eyes back down to the box before he has finished, entirely unhurried.
+
+End state: the old man looking down at the box, mouth closed, hands flat on the counter.

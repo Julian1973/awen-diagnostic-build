@@ -1,0 +1,14 @@
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+Close on a shop counter. A small worn walnut music box stands open on a folded cream checked cloth, brass cylinder and steel comb inside. A man's two hands rest on the cloth either side of it, navy jacket cuffs and rust-red knitted sleeves. A small brass key lies on the cloth.
+
+The camera is locked off and does not move.
+
+
+Opening state: both hands resting on the cloth either side of the open box, still.
+
+Primary event: the fingers of both hands settle the box a fraction straighter on the cloth, then withdraw slowly to the edge of the frame, the fingertips leaving last.
+
+End state: the box alone on the open cloth, both hands gone from the frame, the brass key lying beside it. Nothing moves.
+
+No face appears at any point. Only two hands are ever in this frame.
