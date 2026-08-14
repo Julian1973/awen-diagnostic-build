@@ -4,19 +4,20 @@
 <Rose> corresponds to Image 4. Use only her face, her strawberry-blonde hair, her green cardigan worn over a small floral-print dress.
 <Lily> corresponds to Image 5. Use only her face, her long red hair worn in one braid over the shoulder, her green field jacket over a plain shirt and jeans.
 <Richard> corresponds to Image 6. Use only his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame.
+<Tom> corresponds to Image 7. Use only his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it.
 Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
 Do not interchange these characters' appearances, clothing, positions, actions or dialogue. Each one is only ever himself or herself, and no additional people appear in the room.
-Relative size, read off the body and never off a measurement: Peggi — much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it; Albert — a boy of twelve; his head reaches Richard's chest; Rose — a girl of nine; half a head shorter than Albert; Lily — the eldest and tallest of the four children; her head reaches Richard's shoulder; Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip.
+Relative size, read off the body and never off a measurement: Peggi — much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it; Albert — a boy of twelve; his head reaches Richard's chest; Rose — a girl of nine; half a head shorter than Albert; Lily — the eldest and tallest of the four children; her head reaches Richard's shoulder; Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip; Tom — a man in his thirties, ordinary build, a head taller than the counter top.
 
 [Props]
-<Music Box> corresponds to Image 7: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time.
+<Music Box> corresponds to Image 7: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time. Image 7 also defines <Tom>; in this shot it contributes the music box only and never a second person.
 
 [Scenes]
 <Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
 
 [Camera and Blocking]
-The camera is locked off in a group view and does not move for the whole take.
-Image 8 defines the camera position and the staging only — a group view across the counter, Peggi in the foreground at the counter edge, the other three children behind her at different depths, Richard behind the counter at the right. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+The camera is locked off in a wide group view at adult chest height and does not move for the whole take.
+Image 8 defines the camera position and the staging only — a wide view across the counter with the children on the customer side in the left two thirds of frame and Richard behind the counter at the right, the open box on the counter between them. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
 Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
 
 [Style]
@@ -26,28 +27,31 @@ Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted 
 <the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
 (a small worn music box plays a sweet French waltz on a brass cylinder — thin, bright and unmistakably mechanical, and the same three notes in the phrase bend flat every time the phrase comes round, identically wrong on every repeat)
 There is no musical score of any kind in this shot. The only music is the music box in frame, and it is coming out of that box.
-Audio 1 defines <Peggi>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
-Dialogue language: English, in a soft Cardiff Welsh accent. <Peggi> speaks delighted, at full volume, with no filter at all — the first person in the room to say the true thing, and says exactly this and nothing else: {Ooh, that's terrible.}
+No one speaks in this shot. There is no dialogue, no muttering and no off-screen voice.
+<Peggi> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Peggi> is NOT frozen — the body keeps living, breathing and reacting.
 <Albert> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Albert> is NOT frozen — the body keeps living, breathing and reacting.
 <Rose> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Rose> is NOT frozen — the body keeps living, breathing and reacting.
 <Lily> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Lily> is NOT frozen — the body keeps living, breathing and reacting.
 <Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
+<Tom> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Tom> is NOT frozen — the body keeps living, breathing and reacting.
 
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
-— Peggi: she is up on her toes with both hands gripping the counter edge and her chin barely clearing it, and she bounces once on her toes as she speaks
-— Albert: his pencil is already moving on the open notebook and does not stop
-— Rose: she leans in a fraction closer to the lid of the box
-— Lily: she unfolds one arm and puts a hand on the back of Peggi's dungarees, steadying her
-— Richard: he glances down at Peggi and back at the box, and his shoulders move once with a breath that is almost a laugh
+— Peggi: she arrives last and fastest, skidding the final step, and immediately goes up on her toes with both hands gripping the counter edge
+— Albert: he arrives already opening his notebook, thumbing to a clean page as he walks
+— Rose: she slows as she comes, her eyes finding the lid of the box rather than the mechanism
+— Lily: she stops a pace back from the others and folds her arms, taking the whole room in before she looks at the box
+— Richard: he does not look at the children; he watches Tom, one hand flat on the counter, and lets them come
+— Tom: he glances round at the arriving children, startled, and his grip tightens on the counter edge
+— Macsen: not in this shot
 These movements are small and continuous. They never stop, and they never compete with the main action.
 
 [Group Staging]
 The people in this frame stand at clearly different distances from camera — someone in the foreground at the counter edge, someone in the midground, someone further back — and each one is doing a different physical thing with a different object. They are NOT standing in a row, NOT evenly spaced, and NOT all facing the same way.
 
 [Event Script]
-Stage 1: Opening state: Peggi is up on her toes at the counter edge in the foreground with both hands gripping it, her chin barely clearing the counter top, looking at the Music Box. Albert is beside her with his notebook open, Rose stands a little further back, Lily furthest back with her arms folded, and Richard is behind the counter.
-Stage 2: Primary event: Peggi says her short delighted line, bouncing once on her toes as she says it, both hands still gripping the counter edge. Nobody else speaks, but the others react — Albert's pencil keeps moving, Rose leans in a fraction, Lily steadies Peggi with one hand, Richard breathes something that is almost a laugh. End state: Peggi grinning, still on her toes, looking at the box; the other three still in their own postures at their own depths.
+Stage 1: Opening state: Tom stands on the customer side of the counter, camera-left, with the open Music Box in front of him playing. Richard stands behind the counter at the right. No children are in frame.
+Stage 2: Primary event: the four children come into frame from the left at different speeds and stop at the counter at different depths — Peggi pushing right up to the counter edge in the foreground, Albert arriving beside her at the counter with his notebook already opening, Rose stopping a little further back in the midground, and Lily halting furthest back with her arms folding. They are drawn by the sound of the box, and every one of them ends up looking at it. They do not arrive together, they do not line up in a row, and they are not all facing the same way. End state: four children at four different distances from the counter, all of them looking at the box, Tom looking round at them and Richard still watching Tom.
 
 [Maintain Consistency]
 Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Music Box>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.

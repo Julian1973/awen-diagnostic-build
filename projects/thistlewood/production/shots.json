@@ -1,352 +1,672 @@
 {
- "_scene": "FR \u2014 INT. FRONT ROOM, Act One 1:25\u20133:15. Re-cut 2026-08-14 for dialogue rhythm: the camera cuts between speaker and listener rather than parking on one face. Julian: 'it needs tom then cut to richard then back to tom'.",
- "_rooms": "Counter rear right. Tom camera-left of it, Richard camera-right behind it. Screen direction never crossed.",
- "shots": [
-  {
-   "id": "FR01",
-   "sec": 7,
-   "keyframe": "PL-04b_front_room_master.png",
-   "extra_refs": [
-    "Tom_sheet.jpg",
-    "Richard_sheet.jpg"
-   ],
-   "scene_ref": {
+  "_scene": "FR — INT. THISTLEWOOD'S FRONT ROOM. Act One, script v3.1 [1:25–3:15]. Rebuilt 2026-08-14: every shot now carries the same grammar as FR01. Before this rebuild only FR01 was written to standard and FR02–FR17 still named characters as 'the old man' and 'the man in the navy parka' with no reference bound to them — which is where the identity drift came from.",
+  "_route": "minimax/h3/reference-to-video. No first frame: the route composes from references. Image 1 is ALWAYS the room plate, then the cast in listed order, then hero props that carry their own reference, and the blocking frame LAST. The blocking frame contributes camera position and staging only — never room, never lighting, never character design. That separation is what lets the six old setups keep working now the shop has changed.",
+  "_speech": "The scripted line goes in the prompt so the mouth articulates the right words, and the route's generated audio is DISCARDED at assembly (-map 0:v). Our ElevenLabs v3 recording is the only voice that reaches the cut. Listener shots carry no line in the prompt at all; the line arrives in post as vo.",
+  "_clock": "Max take 15s. Every shot is cut to its recorded line plus handles, never guessed. Route minimum is 5s; shorter beats are shot at 5 and trimmed with cut_to.",
+  "_screen_direction": "Counter runs along the right of the room with the workshop arch behind it. Tom stands on the customer side, camera-left, looking screen-right. Richard stands behind the counter, camera-right, looking screen-left. The children arrive at the counter beside Tom, camera-left. This is never crossed.",
+  "style": "Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.",
+  "scene_plate": {
     "name": "Front Room",
-    "ref": 1,
-    "use": "the wooden counter, the shelves of curiosities, the glazed front door, the bow window and the warm interior lighting"
-   },
-   "characters": [
+    "file": "PL-04b_front_room_master.png",
+    "use": "the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light",
+    "exclude": "Do not take any people from this image — it is an empty room and the room is all it contributes."
+  },
+  "cast": {
+    "Tom": {
+      "file": "Tom_sheet.jpg",
+      "use": "his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes",
+      "exclude": "Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it.",
+      "scale": "a man in his thirties, ordinary build, a head taller than the counter top"
+    },
+    "Richard": {
+      "file": "Richard_sheet.jpg",
+      "use": "his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build",
+      "scale": "a tall broad older man; standing behind the counter the counter top meets him at the hip"
+    },
+    "Macsen": {
+      "file": "Macsen_sheet.jpg",
+      "use": "his ginger tabby markings, his white chest and paws, his build and his face",
+      "exclude": "He is a cat and never behaves like a person.",
+      "scale": "a large domestic cat; sitting upright on the counter his head reaches Richard's elbow"
+    },
+    "Peggi": {
+      "file": "Peggi_turnaround.jpg",
+      "use": "her face, her two dark braids, her blue dungarees over a striped long-sleeved shirt",
+      "scale": "much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it"
+    },
+    "Albert": {
+      "file": "Albert_sheet.jpg",
+      "use": "his face, his neat mid-brown hair, his brown knitted jumper over a collared shirt. He wears no glasses of any kind",
+      "exclude": "Do not give him glasses — in this room only Richard wears glasses.",
+      "scale": "a boy of twelve; his head reaches Richard's chest"
+    },
+    "Rose": {
+      "file": "Rose_sheet.jpg",
+      "use": "her face, her strawberry-blonde hair, her green cardigan worn over a small floral-print dress",
+      "scale": "a girl of nine; half a head shorter than Albert"
+    },
+    "Lily": {
+      "file": "Lily_turnaround.jpg",
+      "use": "her face, her long red hair worn in one braid over the shoulder, her green field jacket over a plain shirt and jeans",
+      "scale": "the eldest and tallest of the four children; her head reaches Richard's shoulder"
+    }
+  },
+  "wardrobe": {
+    "Richard": {
+      "no_apron": "He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame.",
+      "apron": "He wears a brown leather work apron over his dark green waistcoat and rolled white shirtsleeves, the neck strap over his head and the ties fastened behind his back.",
+      "tying": "He begins this shot in a dark green waistcoat over rolled white shirtsleeves with a brown leather work apron held in his hands, and he puts that apron on during the shot. He wears no other apron and there is only ever one apron in the room."
+    }
+  },
+  "hero_props": {
+    "Wrapped Bundle": {
+      "file": "Tom_sheet.jpg",
+      "desc": "a small object bundled in a cream cloth checked in faded red and tied at the top, exactly as held in the hands on that sheet",
+      "rule": "It belongs only to Tom. There is exactly one of it, it stays wrapped and tied for the whole shot, and no music box is visible at any point."
+    },
+    "Music Box": {
+      "file": "Tom_sheet.jpg",
+      "desc": "the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years",
+      "rule": "There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time."
+    }
+  },
+  "ambience": {
+    "room": "<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>",
+    "tune": "(a small worn music box plays a sweet French waltz on a brass cylinder — thin, bright and unmistakably mechanical, and the same three notes in the phrase bend flat every time the phrase comes round, identically wrong on every repeat)"
+  },
+  "shots": [
     {
-     "name": "Tom",
-     "ref": 2,
-     "use": "his face, his short dark hair greying at the temples, his navy hooded parka, the rust-red crewneck jumper and the grey checked collar beneath it. Do not use the white background of his sheet"
+      "id": "FR01",
+      "sec": 9,
+      "blocking": "SETUP-A_master_two_shot.png",
+      "blocking_use": "the camera position and the staging only — a wide eye-level view with Tom standing on the customer side of the counter in the left half of frame facing right, Richard standing behind the counter in the right half facing him with his face visible, and the cat on the counter between them",
+      "cast": [
+        "Tom",
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [
+        "Wrapped Bundle"
+      ],
+      "camera": "is locked off at standing eye level in a wide two-shot and does not move for the whole take",
+      "speaker": "Tom",
+      "delivery": "hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place",
+      "line": "Are you Mr Thistlewood? A lady at the market said — if it's broken, it belongs here.",
+      "voice_ref": "FR01_Tom.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Tom": "his breathing shows in his shoulders, the fingers holding the bundle adjust their grip once, and he swallows before he speaks",
+        "Richard": "he listens with his whole body — his weight settles onto one hand on the counter top, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward Tom as the sentence goes on",
+        "Macsen": "the tip of his tail flicks twice, one ear rotates toward the voice, his head turns a few degrees to follow Tom, and he blinks slowly",
+        "the room": "the hanging lamplight is steady but the shadows breathe; nothing in the shop is rigid"
+      },
+      "stages": [
+        "Opening state: Tom stands on the customer side of the counter, a pace further back than a confident man would stand, holding the Wrapped Bundle in both hands at chest height and slightly away from his body. Richard stands behind the counter facing him with one hand resting flat on the counter top. Macsen sits upright on the counter between them.",
+        "Primary event: Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen's ear turns to the voice. End state: Tom is still holding the Wrapped Bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom."
+      ]
     },
     {
-     "name": "Richard",
-     "ref": 3,
-     "use": "his face, white hair and beard, round gold glasses, and his build. In this shot he wears his green waistcoat over rolled white shirtsleeves and NO APRON. Do not use the background of his sheet"
-    }
-   ],
-   "props": [
+      "id": "FR02",
+      "sec": 5,
+      "cut_to": 4,
+      "blocking": "SETUP-D_reverse_richard.png",
+      "blocking_use": "the camera position and the staging only — a closer reverse on Richard behind the counter, chest-up, framed slightly right of centre, looking off screen-left at Tom, with the near edge of the counter across the bottom of frame",
+      "cast": [
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [],
+      "camera": "is locked off in a chest-up reverse and does not move for the whole take",
+      "speaker": "Richard",
+      "delivery": "dryly, warmly, with the faintest amusement, in an unhurried Cardiff rhythm",
+      "line": "Somebody's been reading my sign.",
+      "voice_ref": "FR02_Richard.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Richard": "both palms rest flat on the counter and one thumb moves once across the grain of the wood, his shoulders rise and fall with an easy breath, and the corner of his mouth lifts a fraction on the last word",
+        "Macsen": "sitting beside him at the frame edge, he yawns once and resettles his front paws",
+        "the room": "the light from the workshop archway behind him is warm and alive"
+      },
+      "stages": [
+        "Opening state: Richard stands behind the counter looking off screen-left at Tom, both palms flat on the counter top, entirely at ease. Macsen sits on the counter at the edge of frame.",
+        "Primary event: Richard speaks his one short line, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. End state: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left."
+      ]
+    },
     {
-     "name": "Wrapped Bundle",
-     "ref": 2,
-     "rule": "a small object wrapped in cream checked cloth and tied, as held in Image 2. It belongs only to <Tom>, stays wrapped and tied throughout, and no music box is visible at any point."
+      "id": "FR03",
+      "sec": 7,
+      "blocking": "SETUP-B_insert_hands_box.png",
+      "blocking_use": "the camera position and the staging only — a close overhead-leaning insert of the counter top, the cloth and the box filling the middle of frame, two hands entering from the bottom of frame",
+      "cast": [
+        "Tom"
+      ],
+      "cast_limit": {
+        "Tom": "Only Tom's hands, wrists and jacket cuffs appear in this frame. His face is never in shot at any point and no other person appears."
+      },
+      "wardrobe": {},
+      "props": [
+        "Music Box",
+        "Wrapped Bundle"
+      ],
+      "camera": "is locked off in a close insert looking down onto the counter top and does not move for the whole take",
+      "speaker": null,
+      "no_faces": true,
+      "sound": [
+        "room"
+      ],
+      "extra_sfx": "<cloth being unfolded, a soft knot pulling loose, and the small wooden knock of a box being set down on a counter>",
+      "life": {
+        "Tom": "his hands are never still for long — the fingers work at the knot, then unfold each corner of the cloth in turn, then hesitate before letting go",
+        "the room": "the lamplight moves faintly across the brass cylinder as the lid opens"
+      },
+      "stages": [
+        "Opening state: the Wrapped Bundle sits on the counter top in the middle of frame, still tied. Tom's two hands rest on the counter either side of it, navy jacket cuffs and rust-red knitted sleeves showing at the bottom of frame.",
+        "Primary event: Tom's fingers pull the knot loose and fold the cream checked cloth open, corner by corner, revealing the Music Box. He lifts the lid so the brass cylinder and steel comb are visible, sets the box a fraction straighter on the open cloth as carefully as an apology, and then withdraws both hands slowly toward the bottom of frame, the fingertips leaving last. End state: the Music Box stands open alone in the middle of the open cloth with the small brass key beside it, both hands gone from frame, and the lamplight resting on the brass."
+      ]
+    },
+    {
+      "id": "FR04",
+      "sec": 9,
+      "blocking": "SETUP-C_single_tom.png",
+      "blocking_use": "the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him",
+      "cast": [
+        "Tom"
+      ],
+      "wardrobe": {},
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up single and does not move for the whole take",
+      "speaker": "Tom",
+      "delivery": "quietly, reporting a fact rather than performing a feeling, looking down at the box rather than at anyone",
+      "line": "It was my gran's. Hers before that, right back. She left it to me with one instruction.",
+      "voice_ref": "FR04_Tom.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Tom": "his breathing is shallow and visible at the collar, one hand rests on the counter edge at the bottom of frame and the thumb moves once across the wood, and he swallows once partway through the line",
+        "the room": "warm shop light shifts very slightly behind him as if a lamp somewhere is swinging a fraction"
+      },
+      "stages": [
+        "Opening state: Tom stands at the counter looking down at the Music Box in the bottom corner of frame, hands out of sight below the counter edge.",
+        "Primary event: Tom speaks, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to the person off screen-right, then go back down to the box. End state: Tom is looking down at the box again, his mouth closing on the last word, his jaw tight."
+      ]
+    },
+    {
+      "id": "FR05",
+      "sec": 5,
+      "blocking": "SETUP-D_reverse_richard.png",
+      "blocking_use": "the camera position and the staging only — a chest-up reverse on Richard behind the counter looking off screen-left, the near edge of the counter across the bottom of frame",
+      "cast": [
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [],
+      "camera": "is locked off in a chest-up reverse and does not move for the whole take",
+      "speaker": null,
+      "listener": true,
+      "listener_note": "Nobody speaks on camera in this shot. Tom's line runs over it from off screen and is laid in at assembly.",
+      "vo": "FR05_Tom.mp3",
+      "vo_dir": "EP01_v3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Richard": "his hands stay flat on the counter but one forefinger presses down a fraction as he listens, his chest rises with a slow breath, and his head tilts a quarter of an inch to one side and stays there",
+        "Macsen": "beside him at the frame edge, his ear swivels toward the off-screen voice and his tail tip moves once",
+        "the room": "the workshop archway behind him glows steadily"
+      },
+      "stages": [
+        "Opening state: Richard stands behind the counter looking off screen-left, both palms flat and still on the counter top.",
+        "Primary event: Richard listens to someone off screen-left. His head tilts a quarter of an inch to one side and stops there, his eyebrows draw very slightly together, and he blinks once, slowly. He does not speak. End state: Richard is looking steadily off screen-left, head still tilted, both hands flat on the counter, breathing."
+      ]
+    },
+    {
+      "id": "FR06",
+      "sec": 7,
+      "blocking": "SETUP-C_single_tom.png",
+      "blocking_use": "the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near counter edge and the open box in the bottom corner of frame",
+      "cast": [
+        "Tom"
+      ],
+      "wardrobe": {},
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up single and does not move for the whole take",
+      "speaker": "Tom",
+      "delivery": "quieter still, almost apologising for the box, the voice getting smaller rather than louder",
+      "line": "Only — it's never played right. Listen.",
+      "voice_ref": "FR06_Tom.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Tom": "he hesitates before the first word with his mouth already open, his shoulders drop a little on the second half of the line, and he blinks twice",
+        "the room": "the warm light behind him is soft and alive"
+      },
+      "stages": [
+        "Opening state: Tom stands at the counter looking down at the Music Box, his jaw tight.",
+        "Primary event: Tom speaks, shorter this time, and on the last word his hand comes up into the bottom of frame and reaches toward the small brass key at the back of the box. End state: Tom's hand is at the box with his fingers on the brass key, his eyes down on it, his mouth closed."
+      ]
+    },
+    {
+      "id": "FR07",
+      "sec": 9,
+      "_approved": "APPROVED 2026-08-13 as the studio's first take (POS-001) — Tom winds the box and the wrong tune spills out. Already shot and assembled; compile and fire skip it.",
+      "skip": true
+    },
+    {
+      "id": "FR07b",
+      "sec": 8,
+      "blocking": "SETUP-E_children_no_apron.png",
+      "blocking_use": "the camera position and the staging only — a wide view across the counter with the children on the customer side in the left two thirds of frame and Richard behind the counter at the right, the open box on the counter between them",
+      "cast": [
+        "Peggi",
+        "Albert",
+        "Rose",
+        "Lily",
+        "Richard",
+        "Tom"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a wide group view at adult chest height and does not move for the whole take",
+      "speaker": null,
+      "listener": true,
+      "listener_note": "Nobody speaks in this shot. It is the children arriving, drawn by the tune.",
+      "sound": [
+        "room",
+        "tune"
+      ],
+      "group": true,
+      "life": {
+        "Peggi": "she arrives last and fastest, skidding the final step, and immediately goes up on her toes with both hands gripping the counter edge",
+        "Albert": "he arrives already opening his notebook, thumbing to a clean page as he walks",
+        "Rose": "she slows as she comes, her eyes finding the lid of the box rather than the mechanism",
+        "Lily": "she stops a pace back from the others and folds her arms, taking the whole room in before she looks at the box",
+        "Richard": "he does not look at the children; he watches Tom, one hand flat on the counter, and lets them come",
+        "Tom": "he glances round at the arriving children, startled, and his grip tightens on the counter edge",
+        "Macsen": "not in this shot"
+      },
+      "stages": [
+        "Opening state: Tom stands on the customer side of the counter, camera-left, with the open Music Box in front of him playing. Richard stands behind the counter at the right. No children are in frame.",
+        "Primary event: the four children come into frame from the left at different speeds and stop at the counter at different depths — Peggi pushing right up to the counter edge in the foreground, Albert arriving beside her at the counter with his notebook already opening, Rose stopping a little further back in the midground, and Lily halting furthest back with her arms folding. They are drawn by the sound of the box, and every one of them ends up looking at it. They do not arrive together, they do not line up in a row, and they are not all facing the same way. End state: four children at four different distances from the counter, all of them looking at the box, Tom looking round at them and Richard still watching Tom."
+      ]
+    },
+    {
+      "id": "FR08",
+      "sec": 5,
+      "blocking": "SETUP-E_children_no_apron.png",
+      "blocking_use": "the camera position and the staging only — a group view across the counter, Peggi in the foreground at the counter edge, the other three children behind her at different depths, Richard behind the counter at the right",
+      "cast": [
+        "Peggi",
+        "Albert",
+        "Rose",
+        "Lily",
+        "Richard"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a group view and does not move for the whole take",
+      "speaker": "Peggi",
+      "delivery": "delighted, at full volume, with no filter at all — the first person in the room to say the true thing",
+      "line": "Ooh, that's terrible.",
+      "voice_ref": "FR08_Peggi.mp3",
+      "sound": [
+        "room",
+        "tune"
+      ],
+      "group": true,
+      "life": {
+        "Peggi": "she is up on her toes with both hands gripping the counter edge and her chin barely clearing it, and she bounces once on her toes as she speaks",
+        "Albert": "his pencil is already moving on the open notebook and does not stop",
+        "Rose": "she leans in a fraction closer to the lid of the box",
+        "Lily": "she unfolds one arm and puts a hand on the back of Peggi's dungarees, steadying her",
+        "Richard": "he glances down at Peggi and back at the box, and his shoulders move once with a breath that is almost a laugh"
+      },
+      "stages": [
+        "Opening state: Peggi is up on her toes at the counter edge in the foreground with both hands gripping it, her chin barely clearing the counter top, looking at the Music Box. Albert is beside her with his notebook open, Rose stands a little further back, Lily furthest back with her arms folded, and Richard is behind the counter.",
+        "Primary event: Peggi says her short delighted line, bouncing once on her toes as she says it, both hands still gripping the counter edge. Nobody else speaks, but the others react — Albert's pencil keeps moving, Rose leans in a fraction, Lily steadies Peggi with one hand, Richard breathes something that is almost a laugh. End state: Peggi grinning, still on her toes, looking at the box; the other three still in their own postures at their own depths."
+      ]
+    },
+    {
+      "id": "FR09",
+      "sec": 8,
+      "blocking": "SETUP-E_children_no_apron.png",
+      "blocking_use": "the camera position and the staging only — a group view across the counter, Albert at the counter with his notebook, Peggi in the foreground at the counter edge, Rose and Lily behind at different depths, Richard behind the counter at the right",
+      "cast": [
+        "Albert",
+        "Peggi",
+        "Rose",
+        "Lily",
+        "Richard"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a group view and does not move for the whole take",
+      "speaker": "Albert",
+      "delivery": "precisely and a little fast, the way a boy speaks when the evidence is more exciting than the feeling",
+      "line": "It's not terrible, it's — specific. The same notes are wrong every single time.",
+      "voice_ref": "FR09_Albert.mp3",
+      "sound": [
+        "room",
+        "tune"
+      ],
+      "group": true,
+      "life": {
+        "Albert": "his pencil keeps moving on the open page while he talks and twice he points its tip briefly at the box without looking up",
+        "Peggi": "she drops off her toes onto flat feet and looks up at Albert, then back at the box",
+        "Rose": "she is not listening to the argument — her eyes stay on the lid of the box",
+        "Lily": "she tips her head very slightly, considering it, arms still folded",
+        "Richard": "he looks at Albert for the first time, and something in his face sharpens a little"
+      },
+      "stages": [
+        "Opening state: Albert stands at the counter with his notebook open and his pencil already touching the page, his eyes on the Music Box. Peggi is in the foreground at the counter edge, Rose in the midground, Lily furthest back, Richard behind the counter.",
+        "Primary event: Albert speaks quickly and precisely while his pencil keeps moving on the page, and twice he points the pencil tip briefly at the box without looking up. The other three react without speaking — Peggi drops onto flat feet and looks up at him, Rose keeps her eyes on the lid, Lily tips her head. End state: Albert's pencil stopped mid-page, his eyes still on the box, his mouth closing."
+      ]
+    },
+    {
+      "id": "FR10",
+      "sec": 6,
+      "blocking": "SETUP-E_children_no_apron.png",
+      "blocking_use": "the camera position and the staging only — a group view across the counter favouring Rose, with Peggi and Albert nearer the counter and Lily furthest back, Richard behind the counter at the right",
+      "cast": [
+        "Rose",
+        "Peggi",
+        "Albert",
+        "Lily",
+        "Richard"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a group view and does not move for the whole take",
+      "speaker": "Rose",
+      "delivery": "softly, almost to herself, without raising her voice at all",
+      "line": "Somebody loved this. Loved it loads.",
+      "voice_ref": "FR10_Rose.mp3",
+      "sound": [
+        "room",
+        "tune"
+      ],
+      "group": true,
+      "life": {
+        "Rose": "she moves in from the midground to the counter as she speaks, her head slightly lowered, and lifts one hand toward the lid",
+        "Peggi": "she goes quiet and looks at Rose rather than at the box",
+        "Albert": "his pencil stops moving on the page",
+        "Lily": "she unfolds her arms",
+        "Richard": "his eyes move from the box to Rose and stay there"
+      },
+      "stages": [
+        "Opening state: Rose stands a little back from the counter looking not at the mechanism but at the worn pale place on the lid of the Music Box, her head slightly lowered. Peggi and Albert are nearer the counter, Lily furthest back, Richard behind the counter.",
+        "Primary event: Rose comes forward to the counter and speaks quietly, and as she does she lifts one hand and almost touches the lid of the box, stopping just short of it. The room goes still around her — Albert's pencil stops, Peggi looks at Rose, Lily unfolds her arms, Richard's eyes move to Rose. Nobody else speaks. End state: Rose's hand still hovering just above the lid without touching it, her eyes on the worn place in the wood, everyone else watching her."
+      ]
+    },
+    {
+      "id": "FR11",
+      "sec": 11,
+      "blocking": "SETUP-C_single_tom.png",
+      "blocking_use": "the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near counter edge and the open box in the bottom corner of frame",
+      "cast": [
+        "Tom"
+      ],
+      "wardrobe": {},
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up single and does not move for the whole take",
+      "speaker": "Tom",
+      "delivery": "flatly, listing it, a man reciting facts about menders because the facts are easier than the feeling",
+      "line": "Three menders looked at it. Two said scrap it. One said the mechanism's fighting itself — built wrong on purpose.",
+      "voice_ref": "FR11_Tom.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Tom": "his breathing shows at the collar, he blinks on the pauses between the sentences, and one hand comes up into frame and turns over palm-open in a small helpless gesture before it drops away again",
+        "the room": "the warm light behind him breathes very slightly"
+      },
+      "stages": [
+        "Opening state: Tom stands at the counter looking down at the Music Box.",
+        "Primary event: Tom speaks, listing what the menders said, and partway through one hand comes up and turns over briefly, palm open, a small helpless gesture, before dropping out of frame again. End state: Tom's hand gone from frame, his eyes back down on the box, his mouth closing."
+      ]
+    },
+    {
+      "id": "FR12",
+      "sec": 5,
+      "blocking": "SETUP-D_reverse_richard.png",
+      "blocking_use": "the camera position and the staging only — a chest-up reverse on Richard behind the counter looking off screen-left, the near counter edge across the bottom of frame with the open box at the frame edge",
+      "cast": [
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "no_apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up reverse and does not move for the whole take",
+      "speaker": null,
+      "listener": true,
+      "listener_note": "Nobody speaks on camera in this shot. Tom's line runs over it from the previous shot and is laid in at assembly.",
+      "vo": "FR11_Tom.mp3",
+      "vo_dir": "EP01_v3",
+      "vo_ss": 5.5,
+      "vo_t": 4.0,
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Richard": "his hands stay flat on the counter, his breathing slows, and his jaw sets very slightly as he listens",
+        "Macsen": "he stops washing a paw and looks where Richard is looking",
+        "the room": "the workshop archway glows behind him"
+      },
+      "stages": [
+        "Opening state: Richard stands behind the counter looking off screen-left, hands flat on the counter top.",
+        "Primary event: Richard listens without speaking. His eyes travel down and to the side and come to rest on the open Music Box at the edge of frame, and his jaw sets very slightly — a man who has just recognised something and has decided not to say so. End state: Richard looking down at the box, hands still flat, breathing, entirely quiet."
+      ]
+    },
+    {
+      "id": "FR13",
+      "sec": 9,
+      "blocking": "SETUP-C_single_tom.png",
+      "blocking_use": "the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near counter edge and the open box in the bottom corner of frame",
+      "cast": [
+        "Tom"
+      ],
+      "wardrobe": {},
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up single and does not move for the whole take",
+      "speaker": "Tom",
+      "delivery": "quietly, the voice dropping in volume and never in pitch — no wobble and no crack, a man embarrassed to be moved by a music box",
+      "line": "I just want to do what she asked. And I can't even get it to play a proper song.",
+      "voice_ref": "FR13_Tom.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Tom": "his head lowers slightly as he speaks, his shoulders drop, and near the end he shakes his head once, very small",
+        "the room": "the warm light behind him is soft and unmoving"
+      },
+      "stages": [
+        "Opening state: Tom stands at the counter looking down at the Music Box.",
+        "Primary event: Tom speaks more quietly than before, his head lowering slightly as he does, and near the end he shakes his head once, very small. End state: Tom's head still lowered, his eyes down, his mouth closed, his shoulders dropped."
+      ]
+    },
+    {
+      "id": "FR14",
+      "sec": 12,
+      "blocking": "SETUP-F_richard_apron.png",
+      "blocking_use": "the camera position and the staging only — Richard behind the counter in the right half of frame with the open box on the counter in front of him, the four children beyond the counter in the left of frame and Tom among them",
+      "cast": [
+        "Richard",
+        "Peggi",
+        "Albert",
+        "Rose",
+        "Lily",
+        "Tom"
+      ],
+      "wardrobe": {
+        "Richard": "tying"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off at chest height favouring Richard and does not move for the whole take",
+      "speaker": null,
+      "listener": true,
+      "listener_note": "Nobody speaks in this shot at all. It is the apron ritual and it plays in silence.",
+      "sound": [
+        "room"
+      ],
+      "group": true,
+      "ritual": "The apron gesture is canon and is played in full, in this order and never paraphrased: over the head, tied at the back, then both hands smoothing the front from chest to waist — and then, and only then, does he lift the box. He does not tuck it, belt it, or hold it against himself; the order and the smoothing are the whole point of the gesture.",
+      "life": {
+        "Richard": "he is unhurried in everything; his breathing is deep and slow and his hands are certain",
+        "Peggi": "she goes completely quiet for once, watching him, both hands still on the counter edge",
+        "Albert": "his pencil hovers over the page without writing",
+        "Rose": "she watches <Richard>'s face rather than his hands, and her chin lifts a little",
+        "Lily": "she stops leaning, straightens up and lets her folded arms drop to her sides",
+        "Tom": "his eyes follow <Richard>'s hands rather than his face, and his own hands go still on the counter edge"
+      },
+      "stages": [
+        "Opening state: <Richard> stands behind the counter in his green waistcoat and rolled shirtsleeves, holding a folded brown leather work apron in both hands and looking down at it. The open <Music Box> sits on a folded cream checked cloth on the counter in front of him. The four children stand beyond the counter at four different depths with <Tom> among them, and every one of them is watching him.",
+        "Primary event: <Richard> lifts the apron over his head, settles the neck strap, reaches behind his back and ties it, and then draws both flat palms down the front of the apron from chest to waist in one slow settled motion, the way a knight settles armour. Only then does he lift the <Music Box> in his broad careful hands and go completely still with it. His eyebrows lift a fraction and settle, his jaw loosens, and he does not speak. End state: <Richard> motionless in his tied apron holding the box in both hands and looking down at it, the four children still watching him from their four different depths, and every person in the room still breathing."
+      ]
+    },
+    {
+      "id": "FR15",
+      "sec": 8,
+      "blocking": "SETUP-D_reverse_richard.png",
+      "blocking_use": "the camera position and the staging only — a chest-up reverse on Richard behind the counter, the near counter edge across the bottom of frame",
+      "cast": [
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up reverse and does not move for the whole take",
+      "speaker": "Richard",
+      "delivery": "warmly and completely unhurried, to the box more than to the man, and going quieter on the part that matters rather than louder",
+      "line": "Nothing is truly broken. It just needs some TLC. Come back at collecting time.",
+      "voice_ref": "FR15_Richard.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Richard": "he holds the Music Box in both hands and one thumb moves once across the worn place on the lid, his breathing is slow, and his shoulders settle as he speaks",
+        "Macsen": "beside him at the frame edge, he leans in and sniffs toward the box, then sits back",
+        "the room": "the workshop light behind him is warm and steady"
+      },
+      "stages": [
+        "Opening state: Richard stands behind the counter in his apron looking down at the Music Box held in both his hands.",
+        "Primary event: Richard speaks quietly, to the box more than to anyone else, one thumb moving once across the worn place on the lid. On the last few words his eyes come up and to his left, to the person off screen. End state: Richard looking off screen-left, his mouth closing, the box still held in both hands."
+      ]
+    },
+    {
+      "id": "FR16",
+      "sec": 5,
+      "cut_to": 4,
+      "blocking": "SETUP-A_master_two_shot.png",
+      "blocking_use": "the camera position and the staging only — a wide eye-level view with Tom in the left half of frame near the glazed door and Richard behind the counter in the right half",
+      "cast": [
+        "Tom",
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "apron"
+      },
+      "props": [],
+      "camera": "is locked off in a wide two-shot and does not move for the whole take",
+      "speaker": "Tom",
+      "delivery": "uncertain, half-turned to leave and stopping, a man who expected to be asked something",
+      "line": "Don't you need to know anything about it?",
+      "voice_ref": "FR16_Tom.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Tom": "his hands are empty at his sides now and one of them lifts slightly and drops again as he asks",
+        "Richard": "he does not stop what he is doing — he is already turning the box a little in his hands, and only his eyes come up",
+        "Macsen": "he stretches on the counter, front paws forward, and resettles",
+        "the room": "the glazed door behind Tom lets a cold pale light in against all the amber"
+      },
+      "stages": [
+        "Opening state: Tom stands in the left half of frame half-turned toward the glazed front door, his hands empty at his sides, stopping. Richard is behind the counter at the right in his apron with the Music Box in his hands. Macsen is on the counter.",
+        "Primary event: Tom turns back a little and asks one short question, one hand lifting slightly and dropping again. Richard does not stop handling the box; only his eyes come up. End state: Tom half-turned and waiting with his hand back at his side, Richard still holding the box with his eyes now on Tom."
+      ]
+    },
+    {
+      "id": "FR17",
+      "sec": 5,
+      "cut_to": 4,
+      "blocking": "SETUP-D_reverse_richard.png",
+      "blocking_use": "the camera position and the staging only — a chest-up reverse on Richard behind the counter looking off screen-left, the near counter edge across the bottom of frame",
+      "cast": [
+        "Richard",
+        "Macsen"
+      ],
+      "wardrobe": {
+        "Richard": "apron"
+      },
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a chest-up reverse and does not move for the whole take",
+      "speaker": "Richard",
+      "delivery": "completely unhurried, already looking back at the box before the sentence is finished, entirely untroubled",
+      "line": "I expect I'll find out.",
+      "voice_ref": "FR17_Richard.mp3",
+      "sound": [
+        "room"
+      ],
+      "life": {
+        "Richard": "his hands keep working gently at the box all the way through, turning it a few degrees, and his eyes are back down on it before the line ends",
+        "Macsen": "he blinks slowly and settles his chin onto his paws",
+        "the room": "the workshop light behind him is warm and steady"
+      },
+      "stages": [
+        "Opening state: Richard stands behind the counter in his apron looking off screen-left, the Music Box in his hands.",
+        "Primary event: Richard answers in four words, already turning his eyes back down to the box before he has finished, entirely unhurried. End state: Richard looking down at the box, his mouth closed, his hands still on it."
+      ]
     }
-   ],
-   "camera": "is locked off and does not move",
-   "speaker_name": "Tom",
-   "silent_names": [
-    "Richard"
-   ],
-   "delivery": "hesitantly and a little embarrassed, as a stranger not sure he is in the right place",
-   "line": "Are you Mr Thistlewood? A lady at the market said \u2014 if it's broken, it belongs here.",
-   "voice_ref": "FR01_Tom.mp3",
-   "voice_dir": "EP01_v3",
-   "stages": [
-    "Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him, one hand resting on the counter top. Macsen the ginger cat sits upright on the counter between them.",
-    "Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. <Richard> receives it \u2014 his head inclines toward <Tom> and he blinks slowly. The cat's ear turns to the voice. End state: <Tom> still holding <Wrapped Bundle>, waiting for an answer; <Richard> leaning a fraction further in than he was; the cat still watching <Tom>."
-   ],
-   "consistency": "Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged. Everyone in frame stays alive and breathing for the entire shot; no character or animal is ever a frozen image.",
-   "life": {
-    "<Tom>": "breathing visible in the shoulders; the fingers holding the bundle adjust their grip once; a swallow before he speaks",
-    "<Richard>": "listening with his whole body \u2014 his weight settles onto one hand on the counter, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward <Tom> as the sentence goes on",
-    "Macsen the ginger cat": "alive and unbothered \u2014 the tip of the tail flicks twice, one ear rotates toward the voice, the head turns a few degrees to follow <Tom>, and a slow blink",
-    "the room": "the hanging lamp light is steady but the shadows are soft and alive; nothing in the shop is rigid"
-   }
-  },
-  {
-   "id": "FR02",
-   "keyframe": "SETUP-D_reverse_richard.png",
-   "sec": 5,
-   "establish": "Closer on the old man behind the wooden counter: white hair, white beard, round gold glasses, green waistcoat over rolled white shirtsleeves, both hands resting flat on the counter top. A ginger cat sits beside him. At the frame edge nearest him, a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "speaker": "The old man",
-   "apron_matters": true,
-   "open": "the old man looking off to his left, palms flat on the counter.",
-   "event": "he speaks one short line, the corner of his mouth lifting a fraction at the end of it, the faintest dry amusement, his eyes never leaving the person off-screen to his left.",
-   "end": "the old man still, hands flat, the small lift at the corner of his mouth settling.",
-   "hold": "He wears no apron of any kind.",
-   "cut_to": 3,
-   "line": "Somebody's been reading my sign.",
-   "delivery": "dryly, with the faintest amusement",
-   "voice_ref": "A1_02_Richard.mp3"
-  },
-  {
-   "id": "FR03",
-   "keyframe": "SETUP-B_insert_hands_box.png",
-   "sec": 6,
-   "establish": "Close on a shop counter. A small worn walnut music box stands open on a folded cream checked cloth, brass cylinder and steel comb inside. A man's two hands rest on the cloth either side of it, navy jacket cuffs and rust-red knitted sleeves. A small brass key lies on the cloth.",
-   "camera": "is locked off and does not move",
-   "no_faces": true,
-   "open": "both hands resting on the cloth either side of the open box, still.",
-   "event": "the fingers of both hands settle the box a fraction straighter on the cloth, then withdraw slowly to the edge of the frame, the fingertips leaving last.",
-   "end": "the box alone on the open cloth, both hands gone from the frame, the brass key lying beside it. Nothing moves.",
-   "sfx": [
-    [
-     "shop_room_tone.mp3",
-     0.2,
-     0
-    ]
-   ],
-   "hold": "No face appears at any point. Only two hands are ever in this frame."
-  },
-  {
-   "id": "FR04",
-   "keyframe": "SETUP-C_single_tom.png",
-   "sec": 8,
-   "establish": "Chest-up on a man in his forties in a navy hooded parka over a rust-red crewneck jumper over a grey checked collar, short dark hair greying at the temples. Behind him, glass cabinets of brass and glass objects in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box on a checked cloth.",
-   "camera": "is locked off and does not move",
-   "speaker": "The man in the navy parka",
-   "open": "the man looking down at the small box on the counter below him.",
-   "event": "he begins to speak, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to the person off-screen to his right, then go back down to the box.",
-   "end": "the man looking down at the box again, mouth closing on the last word, jaw tight.",
-   "line": "It was my gran's. Hers before that, right back. She left it to me with one instruction.",
-   "delivery": "quietly, looking down at the box rather than at anyone",
-   "voice_ref": "A1_03_Tom.mp3"
-  },
-  {
-   "id": "FR05",
-   "keyframe": "SETUP-D_reverse_richard.png",
-   "sec": 5,
-   "establish": "Closer on the old man behind the wooden counter: white hair, white beard, round gold glasses, green waistcoat over rolled shirtsleeves, both palms flat on the counter top. A ginger cat beside him. At the frame edge, a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "silent": [
-    "The old man"
-   ],
-   "apron_matters": true,
-   "open": "the old man looking off to his left, both palms flat and still on the counter.",
-   "event": "his head tilts a quarter-inch to one side and stops there. His eyebrows draw very slightly together. He blinks once, slowly.",
-   "end": "the old man motionless, head still tilted, both hands flat on the counter, eyes steady on the person off-screen.",
-   "vo": "A1_03_Tom.mp3",
-   "vo_ss": 8,
-   "vo_t": 4,
-   "hold": "He wears no apron of any kind.",
-   "cut_to": 4,
-   "_post_vo": "line runs over this shot from the previous one; laid in post"
-  },
-  {
-   "id": "FR06",
-   "keyframe": "SETUP-C_single_tom.png",
-   "sec": 5,
-   "establish": "Chest-up on the man in the navy parka over a rust-red jumper over a grey checked collar, short dark hair greying at the temples, in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box on a checked cloth.",
-   "camera": "is locked off and does not move",
-   "speaker": "The man in the navy parka",
-   "open": "the man looking down at the box, jaw tight.",
-   "event": "he speaks again, shorter this time, and on the last word his hand comes into the bottom of the frame and reaches toward the small brass key at the back of the box.",
-   "end": "the man's hand at the box, fingers on the brass key, his eyes down on it, mouth closed.",
-   "cut_to": 4,
-   "line": "Only \u2014 it's never played right. Listen.",
-   "delivery": "quieter still, almost apologising",
-   "voice_ref": "A1_03_Tom.mp3"
-  },
-  {
-   "id": "FR07",
-   "keyframe": "SETUP-B_insert_hands_box.png",
-   "sec": 9,
-   "_note": "APPROVED 2026-08-13 as the studio's first take (POS-001). Already shot and assembled.",
-   "establish": "placeholder \u2014 this shot is already approved and is not recompiled",
-   "camera": "is locked off and does not move",
-   "no_faces": true,
-   "open": "-",
-   "event": "-",
-   "end": "-"
-  },
-  {
-   "id": "FR08",
-   "keyframe": "SETUP-E_children_no_apron.png",
-   "sec": 5,
-   "establish": "A group at a shop counter: a very small girl with two dark braids in blue overalls and a striped shirt at the counter edge, a boy in a brown jumper with an open notebook beside her, a girl in a green cardigan behind them, a taller girl with a long red braid and a green field jacket furthest back with folded arms. Beyond the counter an old man with white hair and round glasses in a green waistcoat, no apron, and a man in a navy parka.",
-   "camera": "is locked off and does not move",
-   "speaker": "The very small girl with dark braids",
-   "silent": [
-    "The boy in the brown jumper",
-    "The girl in the green cardigan",
-    "The girl with the red braid",
-    "The old man",
-    "The man in the navy parka"
-   ],
-   "apron_matters": true,
-   "open": "the small girl up on her toes with both hands gripping the counter edge, chin barely clearing it.",
-   "event": "she says something short and delighted, bouncing once on her toes as she says it, both hands still gripping the counter.",
-   "end": "the small girl grinning, still on her toes, looking at the box. Nobody else has moved.",
-   "line": "Ooh, that's terrible.",
-   "delivery": "delighted, at full volume, with no filter at all",
-   "voice_ref": "_ref_Peggi.mp3",
-   "_ref_note": "voice reference tripled \u2014 the route requires at least 2.0s and this line is shorter"
-  },
-  {
-   "id": "FR09",
-   "keyframe": "SETUP-E_children_no_apron.png",
-   "sec": 8,
-   "establish": "A group at a shop counter: a very small girl with two dark braids in blue overalls at the counter edge, a boy in a brown jumper with an open notebook and a pencil beside her, a girl in a green cardigan behind them, a taller girl with a long red braid furthest back with folded arms. Beyond the counter an old man with white hair and round glasses in a green waistcoat, no apron, and a man in a navy parka.",
-   "camera": "is locked off and does not move",
-   "speaker": "The boy in the brown jumper",
-   "silent": [
-    "The very small girl with dark braids",
-    "The girl in the green cardigan",
-    "The girl with the red braid",
-    "The old man",
-    "The man in the navy parka"
-   ],
-   "apron_matters": true,
-   "open": "the boy with his notebook open, pencil already touching the page, eyes on the box.",
-   "event": "he speaks quickly and precisely while his pencil keeps moving on the page, and twice he points the pencil tip briefly at the box without looking up.",
-   "end": "the boy's pencil stopped mid-page, his eyes still on the box, mouth closing.",
-   "hold": "The boy in the brown jumper wears no glasses. Only the old man wears glasses.",
-   "line": "It's not terrible, it's \u2014 specific. The same notes are wrong every single time.",
-   "delivery": "precisely and a little fast, the way someone speaks when the evidence is exciting",
-   "voice_ref": "A1_05_Albert.mp3"
-  },
-  {
-   "id": "FR10",
-   "keyframe": "SETUP-E_children_no_apron.png",
-   "sec": 5,
-   "establish": "A group at a shop counter: a very small girl with dark braids at the counter edge, a boy in a brown jumper with a notebook, a girl in a green cardigan with strawberry-blonde hair and a floral dress standing a little back, a taller girl with a long red braid furthest back. Beyond the counter an old man with white hair and round glasses, no apron, and a man in a navy parka.",
-   "camera": "is locked off and does not move",
-   "speaker": "The girl in the green cardigan",
-   "silent": [
-    "The very small girl with dark braids",
-    "The boy in the brown jumper",
-    "The girl with the red braid",
-    "The old man",
-    "The man in the navy parka"
-   ],
-   "apron_matters": true,
-   "open": "the girl in the green cardigan looking not at the mechanism but at the lid of the box, her head slightly lowered.",
-   "event": "she speaks quietly, and as she does she lifts one hand and almost touches the lid of the box, stopping just short of it.",
-   "end": "her hand still hovering just above the lid, not touching it, her eyes on the worn place in the wood.",
-   "cut_to": 4,
-   "line": "Somebody loved this. Loved it loads.",
-   "delivery": "softly, almost to herself",
-   "voice_ref": "A1_06_Rose.mp3"
-  },
-  {
-   "id": "FR11",
-   "keyframe": "SETUP-C_single_tom.png",
-   "sec": 9,
-   "establish": "Chest-up on the man in the navy parka over a rust-red jumper over a grey checked collar, short dark hair greying at the temples, in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "speaker": "The man in the navy parka",
-   "open": "the man looking down at the box.",
-   "event": "he speaks, listing something, and one hand comes up and turns over briefly, palm open, a small helpless gesture before it drops out of frame again.",
-   "end": "the man's hand gone from frame, his eyes back down on the box, mouth closing.",
-   "line": "Three menders looked at it. Two said scrap it. One said the mechanism's fighting itself \u2014 built wrong on purpose.",
-   "delivery": "flatly, listing it",
-   "voice_ref": "A1_07_Tom.mp3"
-  },
-  {
-   "id": "FR12",
-   "keyframe": "SETUP-D_reverse_richard.png",
-   "sec": 5,
-   "establish": "Closer on the old man behind the wooden counter: white hair, white beard, round gold glasses, green waistcoat over rolled shirtsleeves, both palms flat on the counter. A ginger cat beside him. At the frame edge, a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "silent": [
-    "The old man"
-   ],
-   "apron_matters": true,
-   "open": "the old man looking off to his left, hands flat on the counter.",
-   "event": "his eyes travel down and to the side, coming to rest on the open walnut box at the edge of the frame. His jaw sets very slightly.",
-   "end": "the old man looking down at the box, hands still flat, completely still.",
-   "vo": "A1_07_Tom.mp3",
-   "vo_ss": 9,
-   "vo_t": 4,
-   "hold": "He wears no apron of any kind.",
-   "cut_to": 4,
-   "_post_vo": "line runs over this shot from the previous one; laid in post"
-  },
-  {
-   "id": "FR13",
-   "keyframe": "SETUP-C_single_tom.png",
-   "sec": 8,
-   "establish": "Chest-up on the man in the navy parka over a rust-red jumper over a grey checked collar, in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "speaker": "The man in the navy parka",
-   "open": "the man looking down at the box.",
-   "event": "he speaks more quietly than before, his head lowering slightly as he does, and near the end he shakes his head once, very small.",
-   "end": "the man's head still lowered, eyes down, mouth closed, shoulders dropped.",
-   "line": "I just want to do what she asked. And I can't even get it to play a proper song.",
-   "delivery": "quietly, and the voice goes smaller rather than louder",
-   "voice_ref": "A1_07_Tom.mp3"
-  },
-  {
-   "id": "FR14",
-   "keyframe": "SETUP-F_richard_apron.png",
-   "sec": 10,
-   "establish": "The old man behind the shop counter, now wearing a brown leather work apron over his green waistcoat and rolled shirtsleeves. White hair, white beard, round gold glasses. On the counter in front of him a small open walnut music box on a folded cream checked cloth. Four children stand beyond the counter, and a man in a navy parka.",
-   "camera": "is locked off and does not move",
-   "silent": [
-    "The old man",
-    "The four children",
-    "The man in the navy parka"
-   ],
-   "apron_matters": true,
-   "open": "the old man with both hands at the top of his apron front, the apron already over his head and tied behind him.",
-   "event": "both his flat palms smooth down the front of the apron from chest to waist in one slow settled motion, like a knight settling armour. His eyes go down to the music box. He does not touch it.",
-   "then": "he stops completely and stands entirely still, hands resting at the bottom of the apron, eyes on the box.",
-   "end": "the old man motionless in his apron, both hands still, looking down at the box he has not touched. The children watching him. Nothing moves.",
-   "sfx": [
-    [
-     "shop_room_tone.mp3",
-     0.2,
-     0
-    ]
-   ]
-  },
-  {
-   "id": "FR15",
-   "keyframe": "SETUP-D_reverse_richard.png",
-   "sec": 7,
-   "establish": "Closer on the old man behind the wooden counter, wearing a brown leather work apron over a green waistcoat and rolled shirtsleeves, white hair, white beard, round gold glasses. A ginger cat beside him. At the frame edge, a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "speaker": "The old man",
-   "apron_matters": true,
-   "open": "the old man looking down at the box, hands resting on the counter.",
-   "event": "he speaks, quietly, to the box more than to anyone else. On the last few words his eyes come up and to his left, to the person off-screen.",
-   "end": "the old man looking off to his left, mouth closing, hands still on the counter.",
-   "line": "Nothing is truly broken. It just needs some TLC. Come back at collecting time.",
-   "delivery": "warmly and unhurried, to the box more than to the man",
-   "voice_ref": "A1_08_Richard.mp3"
-  },
-  {
-   "id": "FR16",
-   "keyframe": "PL-04b_front_room_master.png",
-   "sec": 5,
-   "establish": "A wide view of the antique shop. A man in a navy hooded parka on the customer side of the wooden counter, hands now empty at his sides. An old man behind the counter in a brown leather apron. A ginger cat on the counter.",
-   "camera": "is locked off and does not move",
-   "speaker": "The man in the navy parka",
-   "silent": [
-    "The old man"
-   ],
-   "apron_matters": true,
-   "open": "the man in the parka half-turned toward the door, stopping.",
-   "event": "he turns back a little and asks one short question, one hand lifting slightly and dropping again.",
-   "end": "the man in the parka half-turned, waiting, hand back at his side.",
-   "cut_to": 3,
-   "line": "Don't you need to know anything about it?",
-   "delivery": "half-turned to leave, uncertain",
-   "voice_ref": "_ref_Tom_short.mp3",
-   "_ref_note": "voice reference tripled \u2014 the route requires at least 2.0s and this line is shorter"
-  },
-  {
-   "id": "FR17",
-   "keyframe": "SETUP-D_reverse_richard.png",
-   "sec": 5,
-   "establish": "Closer on the old man behind the wooden counter in a brown leather work apron over a green waistcoat, white hair, white beard, round gold glasses. A ginger cat beside him. At the frame edge, a small open walnut box.",
-   "camera": "is locked off and does not move",
-   "speaker": "The old man",
-   "apron_matters": true,
-   "open": "the old man looking off to his left.",
-   "event": "he answers in four words, already turning his eyes back down to the box before he has finished, entirely unhurried.",
-   "end": "the old man looking down at the box, mouth closed, hands flat on the counter.",
-   "cut_to": 3,
-   "line": "I expect I'll find out.",
-   "delivery": "completely unhurried, already looking back at the box",
-   "voice_ref": "_ref_Richard_short.mp3",
-   "_ref_note": "voice reference tripled \u2014 the route requires at least 2.0s and this line is shorter"
-  }
- ],
- "_min_take": "minimax H3 will not render below 5s. Short exchanges are shot at 5 and trimmed to cut_to in assembly \u2014 shoot the minimum, cut to length.",
- "_route": "minimax/h3/reference-to-video. The route generates the speech, so scripted lines go in the PROMPT verbatim and our ElevenLabs recording rides as Audio 1 to fix the voice only. Listener shots generate no speech; their line is laid in post.",
- "_audio_ref_minimum": "reference_audio_urls requires at least 2.0 seconds per clip. Lines shorter than that get their reference tripled; the reference fixes voice only, so repetition costs nothing."
+  ]
 }

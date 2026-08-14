@@ -1,18 +1,36 @@
-Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
-Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and delivery. Do not take words from Audio 1.
+[Characters]
+<Tom> corresponds to Image 2. Use only his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it.
+Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
 
-Dialogue language: English. The man in the navy parka says, quietly, looking down at the box rather than at anyone: "It was my gran's. Hers before that, right back. She left it to me with one instruction."
+[Props]
+<Music Box> corresponds to Image 2: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time. Image 2 also defines <Tom>; in this shot it contributes the music box only and never a second person.
 
-Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+[Scenes]
+<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
 
-Chest-up on a man in his forties in a navy hooded parka over a rust-red crewneck jumper over a grey checked collar, short dark hair greying at the temples. Behind him, glass cabinets of brass and glass objects in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box on a checked cloth.
+[Camera and Blocking]
+The camera is locked off in a chest-up single and does not move for the whole take.
+Image 3 defines the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
 
-The camera is locked off and does not move.
+[Style]
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
 
-The man in the navy parka speaks the line above, the lips and jaw moving in time with the spoken words.
+[Audio]
+<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
+There is no musical score of any kind in this shot — no strings, no piano, no underscore. The only sound is the room itself.
+Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
+Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks quietly, reporting a fact rather than performing a feeling, looking down at the box rather than at anyone, and says exactly this and nothing else: {It was my gran's. Hers before that, right back. She left it to me with one instruction.}
 
-Opening state: the man looking down at the small box on the counter below him.
+[Secondary Life]
+Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
+— Tom: his breathing is shallow and visible at the collar, one hand rests on the counter edge at the bottom of frame and the thumb moves once across the wood, and he swallows once partway through the line
+— the room: warm shop light shifts very slightly behind him as if a lamp somewhere is swinging a fraction
+These movements are small and continuous. They never stop, and they never compete with the main action.
 
-Primary event: he begins to speak, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to the person off-screen to his right, then go back down to the box.
+[Event Script]
+Stage 1: Opening state: Tom stands at the counter looking down at the Music Box in the bottom corner of frame, hands out of sight below the counter edge.
+Stage 2: Primary event: Tom speaks, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to the person off screen-right, then go back down to the box. End state: Tom is looking down at the box again, his mouth closing on the last word, his jaw tight.
 
-End state: the man looking down at the box again, mouth closing on the last word, jaw tight.
+[Maintain Consistency]
+Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Music Box>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.

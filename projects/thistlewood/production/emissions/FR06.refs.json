@@ -1,0 +1,10 @@
+{
+ "images": [
+  "PL-04b_front_room_master.png",
+  "Tom_sheet.jpg",
+  "SETUP-C_single_tom.png"
+ ],
+ "sec": 7,
+ "voice_ref": "FR06_Tom.mp3",
+ "voice_dir": "EP01_v3"
+}

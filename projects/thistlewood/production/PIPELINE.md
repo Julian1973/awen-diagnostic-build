@@ -10,7 +10,7 @@ cannot skip a stage. Nothing is fired that has not cleared stage 6.
 | 4 | **KEYFRAME** | The anchor image exists, gated against canon | continuity gate — geometry, cast, props, state, text |
 | 5 | **VOICE** | The line(s) recorded in ElevenLabs, duration measured | shot length is cut to the line, never the reverse |
 | 6 | **EMISSION** | Prompt written and scored | **≥ 9.5 or it does not fire** |
-| 7 | **TAKE** | Fired on the house route | minimax H3, 768P, one reference image, no audio |
+| 7 | **TAKE** | Fired on the house route | minimax H3 reference-to-video, 768P, the full reference set, 5–15s |
 | 8 | **ASSEMBLE** | Picture cut together with the recorded dialogue, sound effects, room tone and music | **nothing silent is ever presented for judgement** |
 | 9 | **APPROVED** | Julian's verdict, on the assembled shot | approved shots enter the bank; rejected ones become farmed negatives |
 
@@ -38,14 +38,34 @@ motion budget; the motion budget designed POS-001.
 
 ## The house constraints, measured not assumed
 
-- **One reference image per generation.** Identity must already be in the frame.
-- **No generated audio.** Every sound is post. A take is never rejected for silence.
-- **Motion budget:** no more than two characters acting in sequence in one take,
-  and never combined with a travelling camera. Object-only inserts on a locked
-  camera are the safest and cheapest shots available — choose them deliberately.
-- **Duration 5–15s.** Two of Act One's lines exceed it, which forces coverage.
+The route is **minimax/h3/reference-to-video**. It takes an array of reference
+images and an array of reference audio, and it has **no first frame** — it
+composes the shot from the references. Everything below follows from that.
+
+- **The reference set is ordered and roled.** Image 1 is always the room plate,
+  then the cast in the order the shot lists them, then any hero prop that carries
+  its own sheet, and the blocking frame LAST. Eight references is the working
+  ceiling; past that identity starts to slip.
+- **The blocking frame contributes camera and staging only.** Never room, never
+  lighting, never a face. This is what lets the six Act One setups keep working
+  now the shop plate has changed — the old frames still know where the camera
+  goes, and PL-04b supplies the room they no longer show correctly.
+- **The scripted line goes in the prompt, and the generated voice is thrown
+  away.** Putting the line in the prompt is what makes the mouth articulate
+  roughly the right words. H3's own speech drifts and invents words partway
+  through a take, so assembly maps the video stream only (`-map 0:v`) and lays
+  our ElevenLabs v3 recording over it. Reference audio fixes voice character;
+  it never supplies words.
+- **Listener shots carry no line at all.** The safest dialogue shot available is
+  a silent face receiving a line that arrives in post.
+- **Duration 5–15s.** Below five the route refuses; beats shorter than that are
+  shot at five and trimmed with `cut_to`. Every length is measured off the
+  recorded line, never guessed.
+- **Reference audio needs 2.0s minimum.** Lines shorter than that get their
+  reference tripled — it fixes voice only, so repetition costs nothing.
 - **Two-state props:** the back door (dormant / backlit) and Richard's apron
-  (without / with). Each has its own keyframe so no shot fights its reference.
+  (without / tying / with). The apron state is declared per shot in the wardrobe
+  block, so no shot fights its own reference.
 
 
 ## Stage 8 exists because it was missed
@@ -61,8 +81,10 @@ generates none of the audio — H3 is silent by design — so assembly is not
 optional polish, it is the step that makes the thing exist.
 
 **The sound sources:**
-- **Dialogue** — ElevenLabs, per the cast voice IDs. Already recorded for the
-  whole of Act One before a frame was shot.
+- **Dialogue** — ElevenLabs `eleven_v3` with inline performance direction taken
+  from the script's parentheticals and each character's cadence card, recorded
+  for the whole of Act One before a frame was shot. This is the only voice that
+  ever reaches the cut.
 - **Effects and the hero sound** — ElevenLabs sound generation. The wrong tune
   is the episode's central sound and is now a real asset, not a description.
 - **Room tone** — generated per location, laid under everything at low level so
@@ -72,3 +94,23 @@ optional polish, it is the step that makes the thing exist.
 
 **Assembly is where the shot lengths pay off.** Every shot was cut to its
 recorded line at stage 5, so the dialogue drops in without stretching.
+
+## Stage 6 is now mechanised, and here is why it had to be
+
+For most of a day the gate that cleared prompts was a homemade nine-check Python
+function wearing the prompt optimiser's name. It passed everything and caught
+nothing, twice.
+
+What replaced it compiles each shot from a **single cast block** — every
+character defined once in `shots.json`, every shot resolving against it — and
+then checks the compiled text against the optimiser's own pre-submission list:
+every cited reference index exists, every supplied reference is cited, every
+character is bound to exactly one image and told what not to contribute, the
+scripted line is present verbatim and in braces, every mouth in frame is
+assigned, ambience is specified because the route will otherwise invent it,
+group frames carry depth and an anti-lineup negative, scale is given by body
+landmark and never by number, and no character is ever described anonymously.
+
+**That last check is the important one.** Before the rebuild, FR01 named
+`<Tom>` and bound him to a sheet, while FR04 said "the man in the navy parka"
+and bound him to nothing. The faces drifted because the shot table let them.
