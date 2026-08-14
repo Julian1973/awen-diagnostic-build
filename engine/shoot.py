@@ -46,6 +46,7 @@ SFX, VOICE = P / "sfx", P / "voice"
 FLOOR = 9.5
 MAX_TAKE = 15          # minimax H3 ceiling
 MIN_TAKE = 5           # minimax H3 floor — shorter beats are shot at 5 and trimmed
+REF_CEILING = 8        # sd25-pe's stable range for reference images
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -96,11 +97,20 @@ def keyframe_refs(s: dict, T: dict) -> list[tuple[str, str, str]]:
     describing the wrong picture.
     """
     KFR = P / "keyframes"
+    cast = s.get("cast", [])
     out = [("__keyframe__", str(KFR / f"{s['id']}.png"), "first_frame")]
-    for who in s.get("cast", []):
+    for who in cast:
         sheets = T["cast"][who].get("sheets", [T["cast"][who]["file"]])
-        for n, sheet in enumerate(sheets):
-            out.append((who, str(sheet_path(sheet)), "appearance" if n == 0 else "expression"))
+        out.append((who, str(sheet_path(sheets[0])), "appearance"))
+    # expression sheets fill what is left of the eight, speaker first
+    order = ([s["speaker"]] if s.get("speaker") in cast else []) + \
+            [w for w in cast if w != s.get("speaker")]
+    for who in order:
+        if len(out) >= REF_CEILING:
+            break
+        sheets = T["cast"][who].get("sheets", [])
+        if len(sheets) > 1:
+            out.append((who, str(sheet_path(sheets[1])), "expression"))
     return out
 
 
