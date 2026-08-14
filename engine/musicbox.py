@@ -125,9 +125,35 @@ def write_wav(samples: list[float], path: pathlib.Path):
         w.writeframes(pcm.tobytes())
 
 
+def bell() -> list[float]:
+    """The shop door bell — scripted twice and missing from the cut entirely.
+
+    A small brass bell on a spring over a door: struck several times unevenly as
+    the door swings, not once cleanly. Bell partials are wider than a comb's and
+    the hum note underneath outlives the strike.
+    """
+    buf = [0.0] * int(2.6 * SR)
+    strikes = ((0.00, 1.00), (0.13, 0.72), (0.24, 0.83), (0.38, 0.41),
+               (0.49, 0.55), (0.66, 0.24), (0.81, 0.15))
+    for at, amp in strikes:
+        o = int(at * SR)
+        for ratio, a2, decay in ((0.50, 0.30, 1.6), (1.00, 1.00, 2.4),
+                                 (2.02, 0.55, 3.6), (3.01, 0.30, 5.0),
+                                 (4.18, 0.18, 7.0), (5.43, 0.10, 9.0)):
+            w = 2 * math.pi * 1180.0 * ratio
+            for i in range(int(1.8 * SR)):
+                j = o + i
+                if j >= len(buf):
+                    break
+                t = i / SR
+                buf[j] += amp * a2 * math.sin(w * t) * math.exp(-decay * t)
+    peak = max(abs(v) for v in buf) or 1.0
+    return [v / peak * 0.7 for v in buf]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("which", choices=["wrong", "right"])
+    ap.add_argument("which", choices=["wrong", "right", "bell"])
     ap.add_argument("--out", required=True)
     ap.add_argument("--repeats", type=int, default=2)
     a = ap.parse_args()
@@ -135,7 +161,9 @@ def main():
     out = pathlib.Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     wav = out.with_suffix(".wav")
-    write_wav(render(bend=(a.which == "wrong"), repeats=a.repeats), wav)
+    samples = bell() if a.which == "bell" else render(bend=(a.which == "wrong"),
+                                                      repeats=a.repeats)
+    write_wav(samples, wav)
 
     if out.suffix == ".mp3":
         import imageio_ffmpeg
