@@ -236,7 +236,11 @@
       "keyframe_props": [
         "Wrapped Bundle"
       ],
-      "keyframe_framing": "a close insert looking down onto the counter top, the tied bundle sitting in the middle of frame, two hands resting on the counter either side of it and entering from the bottom of frame. The counter surface fills the frame; no other part of the room is visible except softly out of focus behind"
+      "keyframe_framing": "a close insert looking down onto the counter top, the tied bundle sitting in the middle of frame, two hands resting on the counter either side of it and entering from the bottom of frame. The counter surface fills the frame; no other part of the room is visible except softly out of focus behind",
+      "_accepted_variance": "FR03's bundle reads as a crisply wrapped parcel where FR01's is a soft round gathered cloth. Raised 2026-08-14 and accepted by Julian: 'this is a trailer and sometimes we can let it run'. The canon description was corrected at the same time, so everything downstream of FR03 carries the soft rounded shape. Do not re-flag this one.",
+      "reveal_props": [
+        "Music Box"
+      ]
     },
     {
       "id": "FR04",

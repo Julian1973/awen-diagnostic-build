@@ -30,5 +30,21 @@
     "score": 9.6
    }
   ]
+ },
+ "FR03": {
+  "rounds": [
+   {
+    "hash": "6e0d879abf8de10e",
+    "notes": "props block binds the music box to Image 1, which does not contain it \u2014 the box is revealed during the shot; expression sheet sent to a shot with no face; 'the SAME people as Image 1' where Image 1 has no people; broken prop-count grammar across two props; 'every character and animal stays alive and breathing' in a hands-only insert; screen-direction lock stated with no eyelines in frame",
+    "round": 1,
+    "score": 8.4
+   },
+   {
+    "hash": "9f1ed59ae44f4aa7",
+    "notes": "all six round-1 faults corrected: music box now declared NOT in Image 1 and revealed during the shot; expression sheet suppressed on a faceless shot; appearance binding narrowed to hands and cuffs so it no longer contradicts the no-face rule; 'the SAME people as Image 1' replaced with a no-face declaration; prop-count grammar fixed; physics rewritten for cloth, heft and cuffs instead of balance and hair. Residual: style paragraph restates what Image 1 carries; camera sentence mildly redundant.",
+    "round": 2,
+    "score": 9.6
+   }
+  ]
  }
 }

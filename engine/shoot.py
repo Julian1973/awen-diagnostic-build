@@ -103,8 +103,9 @@ def keyframe_refs(s: dict, T: dict) -> list[tuple[str, str, str]]:
         sheets = T["cast"][who].get("sheets", [T["cast"][who]["file"]])
         out.append((who, str(sheet_path(sheets[0])), "appearance"))
     # expression sheets fill what is left of the eight, speaker first
-    order = ([s["speaker"]] if s.get("speaker") in cast else []) + \
-            [w for w in cast if w != s.get("speaker")]
+    order = ([] if s.get("no_faces") else
+             ([s["speaker"]] if s.get("speaker") in cast else []) +
+             [w for w in cast if w != s.get("speaker")])
     for who in order:
         if len(out) >= REF_CEILING:
             break
@@ -150,20 +151,38 @@ def compile_motion(s: dict, T: dict) -> str:
     for i, (who, _f, kind) in enumerate(refs[1:], start=2):
         if kind == "appearance":
             c = T["cast"][who]
-            out.append(f"Image {i} defines {who}'s appearance only — {c['use']}. Do not use its "
+            # Binding a face into a shot that forbids one is the curtained-archway
+            # fault again: two authoritative statements, mutually exclusive, and the
+            # model resolves the conflict by drawing both.
+            lim = s.get("cast_limit", {}).get(who)
+            use = ("his hands and wrists, his navy jacket cuffs and the rust-red knitted "
+                   "sleeves beneath them, and nothing above the wrist"
+                   if lim and "hands" in lim else c["use"])
+            out.append(f"Image {i} defines {who}'s appearance only — {use}. Do not use its "
                        f"background or layout, and do not let it change the composition defined "
                        f"by Image 1.")
         else:
             out.append(f"Image {i} defines {who}'s facial expressions and range only. Do not use "
                        f"its background or layout, and do not let it change the composition "
                        f"defined by Image 1 or add a second copy of {who}.")
-    if s.get("props"):
-        out.append("Image 1 also defines every prop in this shot — "
+    reveal = s.get("reveal_props", [])
+    inframe = [pr for pr in s.get("props", []) if pr not in reveal]
+    if inframe:
+        out.append("Image 1 also defines the props already in the opening frame — "
                    + "; ".join(f"the {pr.lower()}, {T['hero_props'][pr]['desc']}"
-                               for pr in s["props"])
-                   + ". Take the props from Image 1 and from nowhere else.")
-    out.append("Every image above shows the SAME people as Image 1. The output contains exactly "
-               "one of each character and no one else.")
+                               for pr in inframe)
+                   + ". Take those from Image 1 and from nowhere else.")
+    for pr in reveal:
+        out.append(f"The {pr.lower()} is NOT visible in Image 1 — it is inside the bundle and "
+                   f"is revealed during this shot. It is {T['hero_props'][pr]['desc']}. "
+                   f"{T['hero_props'][pr]['rule']}")
+    if s.get("no_faces"):
+        out.append("No face appears in this shot at any point — only hands. The reference "
+                   "sheets above are for the hands, sleeves and cuffs alone; do not introduce "
+                   "a face, a head or a second person into the frame.")
+    else:
+        out.append("Every image above shows the SAME people as Image 1. The output contains "
+                   "exactly one of each character and no one else.")
     out.append("")
 
     # Subject + primary action + scene, as one prose paragraph.
@@ -209,11 +228,16 @@ def compile_motion(s: dict, T: dict) -> str:
     out.append("")
 
     # Visual style — the guide's third element. Short, because the frame carries it.
-    out.append(f"The visuals feature {T['style'][0].lower()}{T['style'][1:]} Weight is real "
-               "throughout: a shift of balance travels through the whole body, clothing gathers "
-               "and falls with the movement instead of sliding over a rigid shape, hair and "
-               "loose fabric settle a beat after the body stops, and anything resting on a "
-               "surface stays where it is unless a hand moves it.")
+    physics = ("Weight is real throughout: the cloth creases and slumps as it is unfolded "
+               "rather than sliding like paper, the small wooden object has real heft in the "
+               "fingers, cuffs gather and drag against the counter as the wrists move, and "
+               "anything resting on the surface stays exactly where it is unless a hand moves it."
+               if s.get("no_faces") else
+               "Weight is real throughout: a shift of balance travels through the whole body, "
+               "clothing gathers and falls with the movement instead of sliding over a rigid "
+               "shape, hair and loose fabric settle a beat after the body stops, and anything "
+               "resting on a surface stays where it is unless a hand moves it.")
+    out.append(f"The visuals feature {T['style'][0].lower()}{T['style'][1:]} {physics}")
     out.append("")
 
     # Camera — the guide's fourth element.
@@ -231,14 +255,18 @@ def compile_motion(s: dict, T: dict) -> str:
     out.append("")
 
     # The one label the guide's own templates define.
-    keep = ["Keep every character's identity, face, hair and clothing, the number of characters, "
-            "the room layout, the counter position, the lighting and the screen direction "
-            "consistent from the first frame to the last."]
+    keep = ["Keep the hands, the sleeves and cuffs, the room, the counter surface and the "
+            "lighting consistent from the first frame to the last."
+            if s.get("no_faces") else
+            "Keep every character's identity, face, hair and clothing, the number of "
+            "characters, the room layout, the counter position, the lighting and the screen "
+            "direction consistent from the first frame to the last."]
     if s.get("props"):
         keep.append("The prop count never changes: there is exactly one "
-                    + ", one ".join(pr.lower() for pr in s["props"])
-                    + ", and it stays with whoever holds it in the first frame.")
-    keep.append("Every character and animal in frame stays alive and breathing for the whole take.")
+                    + ", one ".join(pr.lower() for pr in s["props"]) + ".")
+    keep.append("The hands stay alive throughout and never freeze."
+                if s.get("no_faces") else
+                "Every character and animal in frame stays alive and breathing for the whole take.")
     out.append("[Maintain Consistency]")
     out.append(" ".join(keep))
     return "\n".join(out).strip() + "\n"
@@ -599,8 +627,10 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         # The keyframe alone does not satisfy it - this was an 8.7 on audit.
         "every character bound to its own reference image":
             all(f"defines {w}'s appearance only" in text for w in s.get("cast", [])),
-        "every prop bound to a reference too":
-            (not s.get("props")) or "Image 1 also defines every prop" in text,
+        "every prop bound, and revealed props say they are not in Image 1":
+            all(pr.lower() in text.lower() for pr in s.get("props", []))
+            and all(f"{pr.lower()} is not visible in image 1" in text.lower()
+                    for pr in s.get("reveal_props", [])),
         "every reference told what NOT to contribute":
             text.count("Do not use its background") >= len(s.get("cast", [])),
         "the take is declared continuous — no invented cuts":
