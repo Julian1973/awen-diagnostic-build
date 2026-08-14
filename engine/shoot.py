@@ -5,7 +5,9 @@ The pipeline this implements, in Julian's words: script → scenes → shots →
 keyframe → references → audio → a prompt that scores above 9.5 → fired on
 minimax, maximum fifteen seconds a shot.
 
-    python3 engine/shoot.py compile  --scene FR      # write + gate emissions
+    python3 engine/shoot.py keyframe --shot FR01     # keyframe prompt, for Julian
+    python3 engine/shoot.py compile  --shot FR01     # write + gate the animation prompt
+    python3 engine/shoot.py brief    --shot FR01     # SHOW IT ALL BEFORE ANYTHING FIRES
     python3 engine/shoot.py fire     --scene FR      # fire everything gated
     python3 engine/shoot.py assemble --scene FR      # picture + our own sound
     python3 engine/shoot.py cut      --scene FR      # join into a sequence
@@ -557,7 +559,7 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         "prompt does not run away into re-describing the picture": len(text) <= 4800,
     }
     fails = [k for k, v in checks.items() if not v]
-    return round(10 - 1.5 * len(fails), 2), fails
+    return max(0.0, round(10 - 1.5 * len(fails), 2)), fails
 
 
 def gate(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
@@ -725,6 +727,74 @@ def cmd_keyframe(a):
         print(f"  {s['id']:<8} keyframe prompt written · references: {', '.join(dict.fromkeys(refs))}")
 
 
+
+def cmd_brief(a):
+    """Everything that is about to be sent, printed for approval BEFORE it fires.
+
+    Julian asked to see the prompt and the references before anything is fired,
+    and he is right that it should not depend on me remembering. This prints the
+    exact bytes that go to the route: which image, which audio, which route,
+    which duration, the gate score, and the prompt in full. Nothing here is a
+    summary or a paraphrase - if it is not in this output it is not being sent,
+    and if it is in this output it is.
+    """
+    T = table()
+    KFR, SY = P / "keyframes", P / "synced"
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    for s in shots:
+        kf = KFR / f"{s['id']}.png"
+        text = compile_motion(s, T)          # fresh, never off disk
+        EM.mkdir(parents=True, exist_ok=True)
+        (EM / f"{s['id']}.txt").write_text(text)
+        score, fails = gate_motion(text, s, T)
+        vdir = VOICE / s.get("voice_dir", "EP01_v3")
+        line = vdir / s["voice_ref"] if s.get("voice_ref") else None
+
+        print("=" * 78)
+        print(f"{s['id']}  —  FIRING BRIEF")
+        print("=" * 78)
+        print(f"  route      minimax/h3/image-to-video · 768P · {s['sec']}s"
+              + (f" · trimmed to {s['cut_to']}s in assembly" if s.get("cut_to") else ""))
+        print(f"  keyframe   {kf.name}  {'✓ present' if kf.exists() else '✗ MISSING — cannot fire'}")
+        print(f"  gate       {score:.2f}  {'CLEARED' if score >= FLOOR else 'REFUSED — ' + ', '.join(fails)}")
+        print()
+        print("  IMAGES SENT TO THE VIDEO ROUTE")
+        print(f"    1. {kf}" if kf.exists() else "    (none — waiting on the keyframe)")
+        print("    The character sheets and the room plate are NOT sent here. They were")
+        print("    references for the keyframe; the keyframe now carries what they gave it.")
+        print()
+        print("  AUDIO")
+        if line:
+            secs = audio_seconds(line)
+            print(f"    {line.name}  ({secs:.2f}s, lead-in {s.get('lead_in', 0.5)}s)")
+            print(f"    Goes to the SYNC stage, not to the video route.")
+            box = s.get("speaker_box")
+            print(f"    Speaker box: {box} — {s['speaker']} alone, so the sync cannot"
+                  if box else f"    No speaker box — whole frame goes to sync.")
+            if box:
+                print(f"    pick the wrong face.")
+        elif s.get("vo"):
+            print(f"    {s['vo']} laid in at assembly (listener shot — nobody speaks on camera)")
+        else:
+            print("    none — this shot has no line")
+        print()
+        print("  SOUND LAID UNDER AT ASSEMBLY")
+        beds = ["room_bed_120s.mp3 @ 0.16"]
+        if "tune" in s.get("sound", []): beds.append("wrong_tune_musicbox_v2.mp3 @ 0.32")
+        if s.get("bell"): beds.append(f"shop_door_bell.mp3 @ 0.5, {s['bell']}s in")
+        print("    " + "\n    ".join(beds))
+        print()
+        if s.get("chain"):
+            print(f"  CONTINUITY   chained {s['chain']['mode']} from {s['chain']['from']}")
+            print()
+        print("  PROMPT SENT, IN FULL")
+        print("  " + "-" * 74)
+        for ln in text.rstrip().splitlines():
+            print("  " + ln if ln else "")
+        print("  " + "-" * 74)
+        print()
+
+
 def cmd_fire(a):
     """Animate the keyframe. One image in, no audio — the voice arrives at sync."""
     TK.mkdir(parents=True, exist_ok=True)
@@ -733,8 +803,11 @@ def cmd_fire(a):
     procs = []
     shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
     for s in shots:
-        em, out = EM / f"{s['id']}.txt", TK / f"{s['id']}.mp4"
+        out = TK / f"{s['id']}.mp4"
         kf = KFR / f"{s['id']}.png"
+        em = EM / f"{s['id']}.txt"
+        em.parent.mkdir(parents=True, exist_ok=True)
+        em.write_text(compile_motion(s, T))   # recompile at the point of firing
         if not kf.exists():
             print(f"  {s['id']:<8} no keyframe at {kf.name} — waiting on it"); continue
         if out.exists() and not a.force:
@@ -898,7 +971,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name, fn in (("keyframe", cmd_keyframe), ("compile", cmd_compile),
-                     ("fire", cmd_fire), ("sync", cmd_sync),
+                     ("brief", cmd_brief), ("fire", cmd_fire), ("sync", cmd_sync),
                      ("assemble", cmd_assemble), ("cut", cmd_cut)):
         p = sub.add_parser(name)
         p.add_argument("--scene", default="FR")

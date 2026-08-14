@@ -1,40 +1,18 @@
-[Characters]
-<Richard> corresponds to Image 2. Use only his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame.
-<Macsen> corresponds to Image 3. Use only his ginger tabby markings, his white chest and paws, his build and his face. He is a cat and never behaves like a person.
-Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
-Do not interchange these characters' appearances, clothing, positions, actions or dialogue. Each one is only ever himself or herself, and no additional people appear in the room.
-Relative size, read off the body and never off a measurement: Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip; Macsen — a large domestic cat; sitting upright on the counter his head reaches Richard's elbow.
+The supplied image is the first frame. It defines the opening composition, every subject's position and pose, the prop state, the scene and the camera direction. Animate forward from it; do not redraw it, do not restage it, and do not alter any face, hair or clothing it already contains.
 
-[Scenes]
-<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
+In the front room of Thistlewood's, an old antique restorer's shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Richard speaks his one short line, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. By the end: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left.
 
-[Camera and Blocking]
-The camera is locked off in a chest-up reverse and does not move for the whole take.
-Image 4 defines the camera position and the staging only — a closer reverse on Richard behind the counter, chest-up, framed slightly right of centre, looking off screen-left at Tom, with the near edge of the counter across the bottom of frame. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
-Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
+Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Richard, both palms rest flat on the counter and one thumb moves once across the grain of the wood, his shoulders rise and fall with an easy breath, and the corner of his mouth lifts a fraction on the last word; for Macsen, sitting beside him at the frame edge, he yawns once and resettles his front paws. In the room itself, the light from the workshop archway behind him is warm and alive.
 
-[Style]
-Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
+The performances read as follows: Richard is dry amusement held almost entirely in the eyes; the mouth barely moves beyond speaking.
 
-[Audio]
-<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
-There is no musical score of any kind in this shot — no strings, no piano, no underscore. The only sound is the room itself.
-Audio 1 defines <Richard>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
-Dialogue language: English, in a soft Cardiff Welsh accent. <Richard> speaks dryly, warmly, with the faintest amusement, in an unhurried Cardiff rhythm, and says exactly this and nothing else: {Somebody's been reading my sign.}
+Richard is the only person who speaks, and the delivery is dryly, warmly, with the faintest amusement, in an unhurried Cardiff rhythm. Animate the mouth as natural conversational speech, the jaw and cheeks and head carrying a talking rhythm, but do not attempt specific words or specific lip shapes — the articulation is replaced from a separate recording afterwards and guessing at words here only fights that pass.
 
-[Expression]
-<Richard>: dry amusement held almost entirely in the eyes; the mouth barely moves beyond speaking
+The visuals feature hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork. Weight is real throughout: a shift of balance travels through the whole body, clothing gathers and falls with the movement instead of sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays where it is unless a hand moves it.
 
-[Secondary Life]
-Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
-— Richard: both palms rest flat on the counter and one thumb moves once across the grain of the wood, his shoulders rise and fall with an easy breath, and the corner of his mouth lifts a fraction on the last word
-— Macsen: sitting beside him at the frame edge, he yawns once and resettles his front paws
-— the room: the light from the workshop archway behind him is warm and alive
-These movements are small and continuous. They never stop, and they never compete with the main action.
+Use a camera that is locked off in a chest-up reverse and does not move for the whole take, in one continuous take with no cuts, no transitions and no change of angle at any point.
 
-[Event Script]
-Stage 1: Opening state: Richard stands behind the counter looking off screen-left at Tom, both palms flat on the counter top, entirely at ease. Macsen sits on the counter at the edge of frame.
-Stage 2: Primary event: Richard speaks his one short line, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. End state: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left.
+Audio includes <the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>. There is no music of any kind in this shot and nobody moves to a beat.
 
 [Maintain Consistency]
-Keep every character exactly as their own reference image defines them and never interchange them. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.
+Keep every character's identity, face, hair and clothing, the number of characters, the room layout, the counter position, the lighting and the screen direction consistent from the first frame to the last. Every character and animal in frame stays alive and breathing for the whole take.
