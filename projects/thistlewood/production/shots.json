@@ -16,8 +16,10 @@
    "open": "the man in the parka standing a pace back from the counter, the wrapped bundle held away from his body, looking at the old man.",
    "event": "he speaks to the old man across the counter, his eyebrows lifting slightly on the question, weight shifting once from one foot to the other.",
    "end": "the man in the parka still holding the bundle, still looking at the old man, waiting for an answer. The cat has not moved.",
-   "vo": "A1_01_Tom.mp3",
-   "hold": "The bundle stays wrapped and tied. No box is visible anywhere in the frame."
+   "hold": "The bundle stays wrapped and tied. No box is visible anywhere in the frame.",
+   "line": "Are you Mr Thistlewood? A lady at the market said \u2014 if it's broken, it belongs here.",
+   "delivery": "hopefully and a little embarrassed",
+   "voice_ref": "A1_01_Tom.mp3"
   },
   {
    "id": "FR02",
@@ -30,9 +32,11 @@
    "open": "the old man looking off to his left, palms flat on the counter.",
    "event": "he speaks one short line, the corner of his mouth lifting a fraction at the end of it, the faintest dry amusement, his eyes never leaving the person off-screen to his left.",
    "end": "the old man still, hands flat, the small lift at the corner of his mouth settling.",
-   "vo": "A1_02_Richard.mp3",
    "hold": "He wears no apron of any kind.",
-   "cut_to": 3
+   "cut_to": 3,
+   "line": "Somebody's been reading my sign.",
+   "delivery": "dryly, with the faintest amusement",
+   "voice_ref": "A1_02_Richard.mp3"
   },
   {
    "id": "FR03",
@@ -63,9 +67,9 @@
    "open": "the man looking down at the small box on the counter below him.",
    "event": "he begins to speak, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to the person off-screen to his right, then go back down to the box.",
    "end": "the man looking down at the box again, mouth closing on the last word, jaw tight.",
-   "vo": "A1_03_Tom.mp3",
-   "vo_ss": 0,
-   "vo_t": 8
+   "line": "It was my gran's. Hers before that, right back. She left it to me with one instruction.",
+   "delivery": "quietly, looking down at the box rather than at anyone",
+   "voice_ref": "A1_03_Tom.mp3"
   },
   {
    "id": "FR05",
@@ -84,7 +88,8 @@
    "vo_ss": 8,
    "vo_t": 4,
    "hold": "He wears no apron of any kind.",
-   "cut_to": 4
+   "cut_to": 4,
+   "_post_vo": "line runs over this shot from the previous one; laid in post"
   },
   {
    "id": "FR06",
@@ -96,10 +101,10 @@
    "open": "the man looking down at the box, jaw tight.",
    "event": "he speaks again, shorter this time, and on the last word his hand comes into the bottom of the frame and reaches toward the small brass key at the back of the box.",
    "end": "the man's hand at the box, fingers on the brass key, his eyes down on it, mouth closed.",
-   "vo": "A1_03_Tom.mp3",
-   "vo_ss": 12,
-   "vo_t": 4,
-   "cut_to": 4
+   "cut_to": 4,
+   "line": "Only \u2014 it's never played right. Listen.",
+   "delivery": "quieter still, almost apologising",
+   "voice_ref": "A1_03_Tom.mp3"
   },
   {
    "id": "FR07",
@@ -131,7 +136,9 @@
    "open": "the small girl up on her toes with both hands gripping the counter edge, chin barely clearing it.",
    "event": "she says something short and delighted, bouncing once on her toes as she says it, both hands still gripping the counter.",
    "end": "the small girl grinning, still on her toes, looking at the box. Nobody else has moved.",
-   "vo": "A1_04_Peggi.mp3"
+   "line": "Ooh, that's terrible.",
+   "delivery": "delighted, at full volume, with no filter at all",
+   "voice_ref": "A1_04_Peggi.mp3"
   },
   {
    "id": "FR09",
@@ -151,8 +158,10 @@
    "open": "the boy with his notebook open, pencil already touching the page, eyes on the box.",
    "event": "he speaks quickly and precisely while his pencil keeps moving on the page, and twice he points the pencil tip briefly at the box without looking up.",
    "end": "the boy's pencil stopped mid-page, his eyes still on the box, mouth closing.",
-   "vo": "A1_05_Albert.mp3",
-   "hold": "The boy in the brown jumper wears no glasses. Only the old man wears glasses."
+   "hold": "The boy in the brown jumper wears no glasses. Only the old man wears glasses.",
+   "line": "It's not terrible, it's \u2014 specific. The same notes are wrong every single time.",
+   "delivery": "precisely and a little fast, the way someone speaks when the evidence is exciting",
+   "voice_ref": "A1_05_Albert.mp3"
   },
   {
    "id": "FR10",
@@ -172,8 +181,10 @@
    "open": "the girl in the green cardigan looking not at the mechanism but at the lid of the box, her head slightly lowered.",
    "event": "she speaks quietly, and as she does she lifts one hand and almost touches the lid of the box, stopping just short of it.",
    "end": "her hand still hovering just above the lid, not touching it, her eyes on the worn place in the wood.",
-   "vo": "A1_06_Rose.mp3",
-   "cut_to": 4
+   "cut_to": 4,
+   "line": "Somebody loved this. Loved it loads.",
+   "delivery": "softly, almost to herself",
+   "voice_ref": "A1_06_Rose.mp3"
   },
   {
    "id": "FR11",
@@ -185,9 +196,9 @@
    "open": "the man looking down at the box.",
    "event": "he speaks, listing something, and one hand comes up and turns over briefly, palm open, a small helpless gesture before it drops out of frame again.",
    "end": "the man's hand gone from frame, his eyes back down on the box, mouth closing.",
-   "vo": "A1_07_Tom.mp3",
-   "vo_ss": 0,
-   "vo_t": 9
+   "line": "Three menders looked at it. Two said scrap it. One said the mechanism's fighting itself \u2014 built wrong on purpose.",
+   "delivery": "flatly, listing it",
+   "voice_ref": "A1_07_Tom.mp3"
   },
   {
    "id": "FR12",
@@ -206,7 +217,8 @@
    "vo_ss": 9,
    "vo_t": 4,
    "hold": "He wears no apron of any kind.",
-   "cut_to": 4
+   "cut_to": 4,
+   "_post_vo": "line runs over this shot from the previous one; laid in post"
   },
   {
    "id": "FR13",
@@ -218,9 +230,9 @@
    "open": "the man looking down at the box.",
    "event": "he speaks more quietly than before, his head lowering slightly as he does, and near the end he shakes his head once, very small.",
    "end": "the man's head still lowered, eyes down, mouth closed, shoulders dropped.",
-   "vo": "A1_07_Tom.mp3",
-   "vo_ss": 13,
-   "vo_t": 8
+   "line": "I just want to do what she asked. And I can't even get it to play a proper song.",
+   "delivery": "quietly, and the voice goes smaller rather than louder",
+   "voice_ref": "A1_07_Tom.mp3"
   },
   {
    "id": "FR14",
@@ -257,7 +269,9 @@
    "open": "the old man looking down at the box, hands resting on the counter.",
    "event": "he speaks, quietly, to the box more than to anyone else. On the last few words his eyes come up and to his left, to the person off-screen.",
    "end": "the old man looking off to his left, mouth closing, hands still on the counter.",
-   "vo": "A1_08_Richard.mp3"
+   "line": "Nothing is truly broken. It just needs some TLC. Come back at collecting time.",
+   "delivery": "warmly and unhurried, to the box more than to the man",
+   "voice_ref": "A1_08_Richard.mp3"
   },
   {
    "id": "FR16",
@@ -273,8 +287,10 @@
    "open": "the man in the parka half-turned toward the door, stopping.",
    "event": "he turns back a little and asks one short question, one hand lifting slightly and dropping again.",
    "end": "the man in the parka half-turned, waiting, hand back at his side.",
-   "vo": "A1_09_Tom.mp3",
-   "cut_to": 3
+   "cut_to": 3,
+   "line": "Don't you need to know anything about it?",
+   "delivery": "half-turned to leave, uncertain",
+   "voice_ref": "A1_09_Tom.mp3"
   },
   {
    "id": "FR17",
@@ -287,9 +303,12 @@
    "open": "the old man looking off to his left.",
    "event": "he answers in four words, already turning his eyes back down to the box before he has finished, entirely unhurried.",
    "end": "the old man looking down at the box, mouth closed, hands flat on the counter.",
-   "vo": "A1_10_Richard.mp3",
-   "cut_to": 3
+   "cut_to": 3,
+   "line": "I expect I'll find out.",
+   "delivery": "completely unhurried, already looking back at the box",
+   "voice_ref": "A1_10_Richard.mp3"
   }
  ],
- "_min_take": "minimax H3 will not render below 5s. Short exchanges are shot at 5 and trimmed to cut_to in assembly \u2014 shoot the minimum, cut to length."
+ "_min_take": "minimax H3 will not render below 5s. Short exchanges are shot at 5 and trimmed to cut_to in assembly \u2014 shoot the minimum, cut to length.",
+ "_route": "minimax/h3/reference-to-video. The route generates the speech, so scripted lines go in the PROMPT verbatim and our ElevenLabs recording rides as Audio 1 to fix the voice only. Listener shots generate no speech; their line is laid in post."
 }

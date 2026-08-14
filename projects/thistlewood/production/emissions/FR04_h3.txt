@@ -1,4 +1,6 @@
-Image 1 defines the room, the man's face, his hair, his clothing and the lighting. Use it as the opening frame and refer to it strictly. Audio 1 is the man's own speech: he speaks these exact words in this shot, and his mouth moves in time with them.
+Image 1 is the opening frame and defines the room, the man's face, his hair, his clothing and the lighting. Refer to it strictly. Audio 1 defines the man's VOICE ONLY — its timbre, age, accent and delivery. Do not take words from Audio 1.
+
+Dialogue language: English, in a gentle ordinary British accent. The man says, quietly and a little embarrassed, looking down at the box rather than at anyone: "It was my gran's. Hers before that, right back. She left it to me with one instruction."
 
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism.
 
@@ -6,6 +8,8 @@ Chest-up on a man in his forties in a navy hooded parka over a rust-red crewneck
 
 Opening state: the man looking down at the small box on the counter below him.
 
-Primary event: he speaks the words of Audio 1, his lips and jaw moving in time with the recorded speech, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to someone off-screen to his right, then go back down to the box.
+Primary event: he speaks the line above, his lips and jaw moving in time with his own speech, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to someone off-screen to his right, then go back down to the box.
 
 End state: the man looking down at the box again, mouth closing on the last word, jaw tight.
+
+He is the only person in this frame and the only voice heard. No other speech, no narration, no music.

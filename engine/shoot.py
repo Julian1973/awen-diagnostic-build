@@ -31,13 +31,32 @@ STYLE = ("Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers 
 
 
 def compile_emission(s: dict) -> str:
-    """Build one emission from the shot record, in studio grammar."""
-    out = [STYLE, "", s["establish"], "", f"The camera {s['camera']}.", ""]
+    """Build one emission from the shot record, in H3 reference grammar.
+
+    The route generates the speech itself, so the scripted line goes in the
+    PROMPT verbatim. Our ElevenLabs recording rides along as Audio 1 to fix the
+    voice — timbre, age, accent — but never supplies the words.
+    """
+    out = ["Image 1 is the opening frame and defines the room, the characters, their faces, "
+           "hair, clothing and the lighting. Refer to it strictly."]
+    for i, role in enumerate(s.get("extra_refs_roles", []), start=2):
+        out.append(f"Image {i} defines {role}.")
+    if s.get("line"):
+        out.append("Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and "
+                   "delivery. Do not take words from Audio 1.")
+    out.append("")
+
+    if s.get("line"):
+        out.append(f"Dialogue language: English. {s['speaker']} says, {s.get('delivery','plainly')}: "
+                   f"\"{s['line']}\"")
+        out.append("")
+
+    out += [STYLE, "", s["establish"], "", f"The camera {s['camera']}.", ""]
 
     # THE SPEAKER LAW — every visible mouth is assigned, always.
-    if s.get("speaker"):
-        out.append(f"{s['speaker']} is speaking throughout this shot: the lips and jaw move "
-                   f"continuously in natural speech, the mouth opening and closing.")
+    if s.get("speaker") and s.get("line"):
+        out.append(f"{s['speaker']} speaks the line above, the lips and jaw moving in time with "
+                   f"the spoken words.")
     silent = s.get("silent", [])
     if silent:
         out.append(" ".join(
@@ -73,6 +92,10 @@ def gate(text: str, s: dict) -> tuple[float, list[str]]:
             (not s.get("silent")) or "mouth stays closed" in t,
         "no blanket negatives": not any(k in t for k in ("watermark", "subtitle", "caption")),
         "apron state stated": ("apron" in t) if s.get("apron_matters") else True,
+        "scripted line present and verbatim":
+            (not s.get("line")) or (s["line"] in text),
+        "voice reference declared when there is a line":
+            (not s.get("line")) or "Audio 1 defines the speaking VOICE ONLY" in text,
     }
     fails = [k for k, v in checks.items() if not v]
     return 10 - 1.5 * len(fails), fails
@@ -109,9 +132,13 @@ def cmd_fire(a):
         score, _ = gate(em.read_text(), s)
         if score < FLOOR:
             print(f"  {s['id']:<8} REFUSED at {score} — not firing"); continue
-        cmd = [sys.executable, str(ROOT / "engine/fire.py"), "render", "--model", "minimax",
-               "--prompt", str(em), "--image", str(KF / s["keyframe"]),
-               "--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
+        cmd = [sys.executable, str(ROOT / "engine/fire.py"), "render", "--model", "h3",
+               "--prompt", str(em), "--image", str(KF / s["keyframe"])]
+        for extra in s.get("extra_refs", []):
+            cmd += ["--image", str(KF / extra)]
+        if s.get("voice_ref"):
+            cmd += ["--audio", str(VO / s["voice_ref"])]
+        cmd += ["--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
         print(f"  {s['id']:<8} firing {s['sec']}s on {s['keyframe']}")
         procs.append((s["id"], subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)))
     for sid, p in procs:

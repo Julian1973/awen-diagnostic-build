@@ -1,3 +1,5 @@
+Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
+
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
 
 Close on a shop counter. A small worn walnut music box stands open on a folded cream checked cloth, brass cylinder and steel comb inside. A man's two hands rest on the cloth either side of it, navy jacket cuffs and rust-red knitted sleeves. A small brass key lies on the cloth.

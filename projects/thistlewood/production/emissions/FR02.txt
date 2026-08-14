@@ -1,10 +1,15 @@
+Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
+Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and delivery. Do not take words from Audio 1.
+
+Dialogue language: English. The old man says, dryly, with the faintest amusement: "Somebody's been reading my sign."
+
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
 
 Closer on the old man behind the wooden counter: white hair, white beard, round gold glasses, green waistcoat over rolled white shirtsleeves, both hands resting flat on the counter top. A ginger cat sits beside him. At the frame edge nearest him, a small open walnut box.
 
 The camera is locked off and does not move.
 
-The old man is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+The old man speaks the line above, the lips and jaw moving in time with the spoken words.
 
 Opening state: the old man looking off to his left, palms flat on the counter.
 

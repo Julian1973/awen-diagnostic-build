@@ -1,10 +1,15 @@
+Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
+Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and delivery. Do not take words from Audio 1.
+
+Dialogue language: English. The man in the navy parka says, quietly, looking down at the box rather than at anyone: "It was my gran's. Hers before that, right back. She left it to me with one instruction."
+
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
 
 Chest-up on a man in his forties in a navy hooded parka over a rust-red crewneck jumper over a grey checked collar, short dark hair greying at the temples. Behind him, glass cabinets of brass and glass objects in a warm shop interior. In the lower corner of the frame, the edge of a wooden counter and a small open walnut box on a checked cloth.
 
 The camera is locked off and does not move.
 
-The man in the navy parka is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+The man in the navy parka speaks the line above, the lips and jaw moving in time with the spoken words.
 
 Opening state: the man looking down at the small box on the counter below him.
 

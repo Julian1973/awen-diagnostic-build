@@ -1,0 +1,14 @@
+Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
+
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
+
+placeholder — this shot is already approved and is not recompiled
+
+The camera is locked off and does not move.
+
+
+Opening state: -
+
+Primary event: -
+
+End state: -

@@ -1,10 +1,15 @@
+Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
+Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and delivery. Do not take words from Audio 1.
+
+Dialogue language: English. The boy in the brown jumper says, precisely and a little fast, the way someone speaks when the evidence is exciting: "It's not terrible, it's — specific. The same notes are wrong every single time."
+
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
 
 A group at a shop counter: a very small girl with two dark braids in blue overalls at the counter edge, a boy in a brown jumper with an open notebook and a pencil beside her, a girl in a green cardigan behind them, a taller girl with a long red braid furthest back with folded arms. Beyond the counter an old man with white hair and round glasses in a green waistcoat, no apron, and a man in a navy parka.
 
 The camera is locked off and does not move.
 
-The boy in the brown jumper is speaking throughout this shot: the lips and jaw move continuously in natural speech, the mouth opening and closing.
+The boy in the brown jumper speaks the line above, the lips and jaw moving in time with the spoken words.
 The very small girl with dark braids does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The girl in the green cardigan does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The girl with the red braid does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The old man does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement. The man in the navy parka does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement.
 
 Opening state: the boy with his notebook open, pencil already touching the page, eyes on the box.
