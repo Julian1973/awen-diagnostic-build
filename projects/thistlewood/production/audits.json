@@ -52,5 +52,15 @@
     "score": 9.7
    }
   ]
+ },
+ "FR04": {
+  "rounds": [
+   {
+    "hash": "0a7f371d7d6fb8dd",
+    "notes": "chained mode, first use: Image 1 roled as the previous take's last frame carrying continuity not composition, Image 2 as the room plate for architecture, then Tom's sheets. Framing stated as an instruction since no keyframe supplies it. Fixed in this round: the plate was being bound as a character with facial expressions; 'partway through the line' pointed at absent dialogue. Residual: 'the SAME people as Image 1' is loose when Image 1 is an insert of hands; style paragraph restates; camera sentence mildly redundant.",
+    "round": 1,
+    "score": 9.6
+   }
+  ]
  }
 }

@@ -266,7 +266,7 @@
         "room"
       ],
       "life": {
-        "Tom": "his breathing is shallow and visible at the collar, one hand rests on the counter edge at the bottom of frame and the thumb moves once across the wood, and he swallows once partway through the line",
+        "Tom": "his breathing is shallow and visible at the collar, one hand rests on the counter edge at the bottom of frame and the thumb moves once across the wood, and he swallows once partway through what he is saying",
         "the room": "warm shop light shifts very slightly behind him as if a lamp somewhere is swinging a fraction"
       },
       "stages": [
@@ -284,7 +284,8 @@
       "still_faces": {
         "Tom": "quiet and inward, jaw a little tight, eyes down, no smile"
       },
-      "room_scope": "partial"
+      "room_scope": "partial",
+      "keyframe_source": "chain"
     },
     {
       "id": "FR05",

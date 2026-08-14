@@ -33,7 +33,38 @@ re-render.
 
 ---
 
-## 1 · Julian generates the keyframe. Always.
+## 1 · One keyframe per SETUP, not per shot — then chain the end frame
+
+Julian: *"we should be looping end frame with the keyframe and scene plate plus
+character references."* He is right, and it is both cheaper and more accurate.
+
+A shot with `keyframe_source: "chain"` needs no keyframe of its own. Its
+reference set is:
+
+```
+Image 1  the previous take's LAST FRAME  — continuity, not composition
+Image 2  the room plate                  — architecture and layout
+Image 3+ character appearance sheets     — identity
+```
+
+and the framing is stated as an instruction, because no image supplies it:
+*"Frame this shot as a chest-up single on Tom, slightly left of centre…"*
+
+**The room cannot drift, because Image 1 IS the previous frame** rather than a
+fresh generation of the same room. Prop state, lamp state and colour carry
+automatically — FR04 inherited the open box on the cloth from FR03 without
+either prompt describing the handover.
+
+Generate a keyframe when the shot opens a NEW setup, a new room, or a
+composition the previous frame cannot imply. Chain everything else.
+
+> *Proved on FR04, the first chained shot: composed a chest-up single in the
+> right room with the right identity and the box carried through, from an end
+> frame, a plate and two sheets. No keyframe.*
+
+---
+
+## 2 · When a keyframe IS needed, Julian generates it. Always.
 
 We write the prompt; he runs it in his own tool with the references. This is the
 accuracy gate and it is deliberately his hand on it.
@@ -54,7 +85,7 @@ starts in the wrong place.
 
 ---
 
-## 2 · The animation prompt is Seedance 2.5's Core Prompt Formula, in prose
+## 3 · The animation prompt is Seedance 2.5's Core Prompt Formula, in prose
 
 Subject and action → scene → secondary life → performance → mouths → visual
 style → camera → audio → `[Maintain Consistency]`.
@@ -74,7 +105,7 @@ The gate refuses each invented label by name.
 
 ---
 
-## 3 · No dialogue words in the prompt, ever
+## 4 · No dialogue words in the prompt, ever
 
 The scripted line does not go in the prompt. The mouth is directed only as a
 talking rhythm, and the prompt says **why**: the articulation is replaced from a
@@ -87,7 +118,7 @@ separate recording afterwards, so guessing at words here only fights that pass.
 
 ---
 
-## 4 · References: the keyframe leads, the sheets anchor identity
+## 5 · References: the keyframe leads, the sheets anchor identity
 
 Image 1 is the keyframe, roled as **the complete opening composition** and told
 not to be restaged or recomposed. Then each character's appearance sheet, each
@@ -109,7 +140,7 @@ compiler and the firing command must walk the same list.
 
 ---
 
-## 5 · The audit is a LOOP, not a stamp, and it runs until 9.5
+## 6 · The audit is a LOOP, not a stamp, and it runs until 9.5
 
 ```
 compile → generator → score
@@ -149,7 +180,7 @@ as much as the 9.7.
 
 ---
 
-## 6 · Show the brief before firing
+## 7 · Show the brief before firing
 
 `brief` writes `production/briefs/CURRENT.html`, published to a stable artifact
 URL and redeployed per shot. It shows the route, the duration, every image in
@@ -165,7 +196,7 @@ Both `brief` and `fire` **compile fresh** and never read the prompt off disk.
 
 ---
 
-## 7 · The speaker law reaches into the sync stage
+## 8 · The speaker law reaches into the sync stage
 
 The sync service takes a video and an audio file, finds a face and animates it.
 **It never sees the prompt, and no route on fal accepts a face selector.** On a
@@ -182,7 +213,7 @@ rectangle, so everything around it lands on identical pixels.
 
 ---
 
-## 8 · Describe the FRAME, not the location
+## 9 · Describe the FRAME, not the location
 
 Everything a prompt names is something the model may draw, and anything it names
 that the first frame does not contain is a gap the model will fill.
@@ -206,7 +237,7 @@ explicitly, because silence is a gap too.
 
 ---
 
-## 9 · Direct the face, not just the body and the voice
+## 10 · Direct the face, not just the body and the voice
 
 `[Secondary Life]` directs bodies, the delivery note directs voices, the speaker
 law directs mouths — and an undirected **expression** gets filled in with the
@@ -221,7 +252,7 @@ smiling**.
 
 ---
 
-## 10 · Chain-linking has two modes and they are different jobs
+## 11 · Chain-linking has two modes and they are different jobs
 
 - **`continue`** — the camera holds. The previous take's last frame *is* this
   first frame.
@@ -232,7 +263,7 @@ Before the previous shot is animated, use its **keyframe** instead.
 
 ---
 
-## 11 · Approval does not survive a set change
+## 12 · Approval does not survive a set change
 
 An approved take is exempt from *re-firing*. It is never exempt from *canon*.
 When a plate, lock, sheet or script line changes, every approved asset

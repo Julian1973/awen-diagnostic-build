@@ -88,6 +88,26 @@ def humans(s: dict, T: dict) -> list[str]:
 
 
 
+
+def last_frame_of(shot_id: str) -> pathlib.Path | None:
+    """Pull the final frame of a finished take, for chaining into the next shot.
+
+    Julian: "we should be looping end frame with the keyframe and scene plate
+    plus character references." The room cannot drift when Image 1 IS the
+    previous frame rather than a fresh generation of the same room, and it means
+    one generated keyframe per SETUP instead of one per shot.
+    """
+    import imageio_ffmpeg
+    src = TK / f"{shot_id}.mp4"
+    if not src.exists():
+        return None
+    out = P / "keyframes" / f"_endframe_{shot_id}.png"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-sseof", "-0.2", "-i", str(src),
+                    "-frames:v", "1", "-update", "1", str(out)], capture_output=True)
+    return out if out.exists() else None
+
+
 def keyframe_refs(s: dict, T: dict) -> list[tuple[str, str, str]]:
     """The ordered reference set: the keyframe first, then each character's
     appearance sheet, then their expression sheet.
@@ -98,7 +118,15 @@ def keyframe_refs(s: dict, T: dict) -> list[tuple[str, str, str]]:
     """
     KFR = P / "keyframes"
     cast = s.get("cast", [])
-    out = [("__keyframe__", str(KFR / f"{s['id']}.png"), "first_frame")]
+    # chained: no bespoke keyframe. Image 1 is the previous take's last frame and
+    # Image 2 is the room plate, so the shot is composed from continuity plus
+    # canon rather than from a still generated for this shot alone.
+    if s.get("keyframe_source") == "chain" and s.get("chain"):
+        end = last_frame_of(s["chain"]["from"])
+        out = [("__endframe__", str(end or KFR / f"{s['id']}.png"), "end_frame"),
+               ("__plate__", str(sheet_path(T["scene_plate"]["file"])), "plate")]
+    else:
+        out = [("__keyframe__", str(KFR / f"{s['id']}.png"), "first_frame")]
     for who in cast:
         sheets = T["cast"][who].get("sheets", [T["cast"][who]["file"]])
         out.append((who, str(sheet_path(sheets[0])), "appearance"))
@@ -144,11 +172,26 @@ def compile_motion(s: dict, T: dict) -> str:
     # tells them not to change @Image 1's composition - and so did Julian. Nine
     # seconds is a long time for a face with nothing anchoring it.
     refs = keyframe_refs(s, T)
-    out.append("Image 1 is the first frame. It defines the complete opening composition: every "
-               "subject's position and pose, the prop state, the room, the lighting and the "
-               "camera direction. Reproduce it exactly as the shot's opening frame and animate "
-               "forward from there; do not restage it and do not recompose it.")
+    chained = refs[0][2] == "end_frame"
+    if chained:
+        prev = s["chain"]["from"]
+        out.append(f"Image 1 is the final frame of the preceding shot, {prev}. It defines what "
+                   f"is TRUE in the room at the moment this shot begins — the state and "
+                   f"position of every prop, the lighting, the colour and the time of day. It "
+                   f"does NOT define this shot's framing: the camera has cut to a new angle, "
+                   f"described below. Carry its continuity, not its composition.")
+        out.append("Image 2 is the empty room plate. It defines the shop's architecture and "
+                   "layout — where the counter, the arch and the door are in relation to each "
+                   "other. Take no people from it, and show only the part of the room this "
+                   "shot's framing calls for.")
+    else:
+        out.append("Image 1 is the first frame. It defines the complete opening composition: "
+                   "every subject's position and pose, the prop state, the room, the lighting "
+                   "and the camera direction. Reproduce it exactly as the shot's opening frame "
+                   "and animate forward from there; do not restage it and do not recompose it.")
     for i, (who, _f, kind) in enumerate(refs[1:], start=2):
+        if kind == "plate":
+            continue          # already roled above; it is not a character
         if kind == "appearance":
             c = T["cast"][who]
             # Binding a face into a shot that forbids one is the curtained-archway
@@ -159,12 +202,11 @@ def compile_motion(s: dict, T: dict) -> str:
                    "sleeves beneath them, and nothing above the wrist"
                    if lim and "hands" in lim else c["use"])
             out.append(f"Image {i} defines {who}'s appearance only — {use}. Do not use its "
-                       f"background or layout, and do not let it change the composition defined "
-                       f"by Image 1.")
+                       f"background or layout." + ("" if chained else
+                       " Do not let it change the composition defined by Image 1."))
         else:
-            out.append(f"Image {i} defines {who}'s facial expressions and range only. Do not use "
-                       f"its background or layout, and do not let it change the composition "
-                       f"defined by Image 1 or add a second copy of {who}.")
+            out.append(f"Image {i} defines {who}'s facial expressions and range only. Do not "
+                       f"use its background or layout, and do not add a second copy of {who}.")
     reveal = s.get("reveal_props", [])
     inframe = [pr for pr in s.get("props", []) if pr not in reveal]
     if inframe:
@@ -200,6 +242,10 @@ def compile_motion(s: dict, T: dict) -> str:
              "through the arch behind")
     import re as _re
     beat = _re.sub(r"speaks (his|her) (one )?(short )?line", "speaks", primary_event(s))
+    if chained:
+        fr = s["blocking_use"].split("—", 1)[-1].strip()
+        out.append(f"Frame this shot as {fr[0].lower()}{fr[1:]}")
+        out.append("")
     out.append(f"In {where}, {beat}")
     if insert:
         out.append("The framing stays exactly as tight as the first frame for the whole take. "
@@ -657,8 +703,14 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         "no appearance description outside a reference binding":
             not any(k in "\n".join(l for l in text.lower().splitlines()
                                     if "defines" not in l) for k in APPEARANCE),
-        "the first frame is declared authoritative, with one stated role":
-            "image 1 is the first frame" in t and "do not restage it" in t,
+        "Image 1 has exactly one stated role":
+            ("image 1 is the first frame" in t and "do not restage it" in t)
+            if s.get("keyframe_source") != "chain" else
+            ("image 1 is the final frame of the preceding shot" in t
+             and "carry its continuity, not its composition" in t
+             and "image 2 is the empty room plate" in t),
+        "a chained shot states its own framing":
+            s.get("keyframe_source") != "chain" or "frame this shot as" in t,
         # the guide's checklist: every distinct character bound to a reference.
         # The keyframe alone does not satisfy it - this was an 8.7 on audit.
         "every character bound to its own reference image":
@@ -668,7 +720,8 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
             and all(f"{pr.lower()} is not visible in image 1" in text.lower()
                     for pr in s.get("reveal_props", [])),
         "every reference told what NOT to contribute":
-            text.count("Do not use its background") >= len(s.get("cast", [])),
+            text.count("Do not use its background") >= len(s.get("cast", []))
+            or text.count("do not use its background") >= len(s.get("cast", [])),
         "the take is declared continuous — no invented cuts":
             "one continuous take with no cuts" in t,
         "physics described concretely, not named": "weight is real" in t,
