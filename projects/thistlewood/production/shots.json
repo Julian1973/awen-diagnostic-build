@@ -44,10 +44,16 @@
    "voice_ref": "FR01_Tom.mp3",
    "voice_dir": "EP01_v3",
    "stages": [
-    "Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him. A ginger cat sits upright on the counter. End state: nothing has moved.",
-    "Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. End state: <Tom> still holding <Wrapped Bundle>, still looking at <Richard>, waiting for an answer; the cat has not moved."
+    "Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him, one hand resting on the counter top. Macsen the ginger cat sits upright on the counter between them.",
+    "Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. <Richard> receives it \u2014 his head inclines toward <Tom> and he blinks slowly. The cat's ear turns to the voice. End state: <Tom> still holding <Wrapped Bundle>, waiting for an answer; <Richard> leaning a fraction further in than he was; the cat still watching <Tom>."
    ],
-   "consistency": "Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged."
+   "consistency": "Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged. Everyone in frame stays alive and breathing for the entire shot; no character or animal is ever a frozen image.",
+   "life": {
+    "<Tom>": "breathing visible in the shoulders; the fingers holding the bundle adjust their grip once; a swallow before he speaks",
+    "<Richard>": "listening with his whole body \u2014 his weight settles onto one hand on the counter, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward <Tom> as the sentence goes on",
+    "Macsen the ginger cat": "alive and unbothered \u2014 the tip of the tail flicks twice, one ear rotates toward the voice, the head turns a few degrees to follow <Tom>, and a slow blink",
+    "the room": "the hanging lamp light is steady but the shadows are soft and alive; nothing in the shop is rigid"
+   }
   },
   {
    "id": "FR02",

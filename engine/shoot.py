@@ -76,8 +76,20 @@ def compile_emission(s: dict) -> str:
         out.append(f"Dialogue language: English. <{s['speaker_name']}> says, "
                    f"{s.get('delivery','plainly')}: {{{s['line']}}}")
     for who in s.get("silent_names", []):
-        out.append(f"<{who}> does not speak in this shot and keeps the mouth closed and still.")
+        out.append(f"<{who}> does not speak in this shot: the mouth stays closed, no lip or jaw "
+                   f"movement. <{who}> is NOT frozen — the body keeps living: breathing, small "
+                   f"weight shifts, blinking, and reacting to what is being said.")
     out.append("")
+
+    if s.get("life"):
+        out.append("[Secondary Life]")
+        out.append("Nobody in this frame is a still image. Throughout the whole shot, "
+                   "independently of the main action:")
+        for who, action in s["life"].items():
+            out.append(f"— {who}: {action}")
+        out.append("These movements are small and continuous. They never stop, and they never "
+                   "compete with the main action.")
+        out.append("")
 
     out.append("[Event Script]")
     for i, st in enumerate(s["stages"], start=1):

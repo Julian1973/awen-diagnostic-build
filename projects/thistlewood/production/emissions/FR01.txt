@@ -16,11 +16,19 @@ Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted 
 The camera is locked off and does not move.
 Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Do not take any words from Audio 1.
 Dialogue language: English. <Tom> says, hesitantly and a little embarrassed, as a stranger not sure he is in the right place: {Are you Mr Thistlewood? A lady at the market said — if it's broken, it belongs here.}
-<Richard> does not speak in this shot and keeps the mouth closed and still.
+<Richard> does not speak in this shot: the mouth stays closed, no lip or jaw movement. <Richard> is NOT frozen — the body keeps living: breathing, small weight shifts, blinking, and reacting to what is being said.
+
+[Secondary Life]
+Nobody in this frame is a still image. Throughout the whole shot, independently of the main action:
+— <Tom>: breathing visible in the shoulders; the fingers holding the bundle adjust their grip once; a swallow before he speaks
+— <Richard>: listening with his whole body — his weight settles onto one hand on the counter, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward <Tom> as the sentence goes on
+— Macsen the ginger cat: alive and unbothered — the tip of the tail flicks twice, one ear rotates toward the voice, the head turns a few degrees to follow <Tom>, and a slow blink
+— the room: the hanging lamp light is steady but the shadows are soft and alive; nothing in the shop is rigid
+These movements are small and continuous. They never stop, and they never compete with the main action.
 
 [Event Script]
-Stage 1: Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him. A ginger cat sits upright on the counter. End state: nothing has moved.
-Stage 2: Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. End state: <Tom> still holding <Wrapped Bundle>, still looking at <Richard>, waiting for an answer; the cat has not moved.
+Stage 1: Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him, one hand resting on the counter top. Macsen the ginger cat sits upright on the counter between them.
+Stage 2: Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. <Richard> receives it — his head inclines toward <Tom> and he blinks slowly. The cat's ear turns to the voice. End state: <Tom> still holding <Wrapped Bundle>, waiting for an answer; <Richard> leaning a fraction further in than he was; the cat still watching <Tom>.
 
 [Maintain Consistency]
-Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged.
+Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged. Everyone in frame stays alive and breathing for the entire shot; no character or animal is ever a frozen image.
