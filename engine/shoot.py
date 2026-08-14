@@ -143,9 +143,11 @@ def cmd_assemble(a):
             print(f"  {s['id']:<8} no sound defined — skipping"); continue
         filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0[a]")
         out = AS / f"{s['id']}.mp4"
+        trim = ["-t", str(s["cut_to"])] if s.get("cut_to") else []
+        vcodec = ["-c:v", "libx264", "-crf", "18"] if s.get("cut_to") else ["-c:v", "copy"]
         r = subprocess.run([FF, "-y", *inputs, "-filter_complex", ";".join(filt),
-                            "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac",
-                            "-shortest", str(out)], capture_output=True)
+                            "-map", "0:v", "-map", "[a]", *vcodec, "-c:a", "aac",
+                            *trim, "-shortest", str(out)], capture_output=True)
         print(f"  {s['id']:<8} {'✓ assembled' if r.returncode == 0 else '✗ ' + r.stderr.decode()[-160:]}")
 
 
