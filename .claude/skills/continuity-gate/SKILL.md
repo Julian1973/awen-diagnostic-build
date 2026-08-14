@@ -233,3 +233,32 @@ be misunderstood.
 
 Never invent a finding to look thorough. A clean prompt gets a clean report —
 and the gate's value is entirely in being trusted when it does fire.
+
+---
+
+## PHASE 8 — THE SPEAKER LAW (added after it cost a take)
+
+**8.1 · Every mouth in the frame is assigned.** For each character visible, the
+prompt must state either that they ARE speaking, or that their **mouth stays
+closed and they do not speak**. An unassigned mouth will move.
+> *Earned: a reverse on the grandfather, carrying another character's recorded
+> line from off-screen, described his head, eyebrows, blink and fingers — and
+> said nothing about his mouth. He was rendered talking. The audio was one man;
+> the lips were another.* **BLOCK.**
+
+**8.2 · Attribution beats accuracy.** The route cannot lipsync to our audio and
+never will — it generates mouth movement from the prompt with no knowledge of
+the words. That is survivable: approximate articulation reads perfectly well in
+2D at this scale. What is not survivable is the **wrong character** appearing to
+speak. Spend the prompt's effort on who is talking, not on how precisely.
+
+**8.3 · Prefer the listener shot.** A shot where the speaker is off-screen and
+the on-camera face is explicitly silent is the safest dialogue shot available,
+and in a scene of any length it is usually the better shot anyway — the
+audience would rather watch someone receive a line than deliver it.
+**WARN** if a dialogue scene has no listener shots at all.
+
+**8.4 · Silent characters in group shots.** In any frame with more than one
+character, name the speaker and state that **all others keep their mouths
+closed**. Do not leave it to be inferred from who has the line.
+**BLOCK** on a multi-character dialogue frame that names no speaker.
