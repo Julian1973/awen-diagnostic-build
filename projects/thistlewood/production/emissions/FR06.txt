@@ -22,6 +22,9 @@ There is no musical score of any kind in this shot — no strings, no piano, no 
 Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
 Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks quieter still, almost apologising for the box, the voice getting smaller rather than louder, and says exactly this and nothing else: {Only — it's never played right. Listen.}
 
+[Expression]
+<Tom>: embarrassed, eyes down, mouth set — he is apologising for the object
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Tom: he hesitates before the first word with his mouth already open, his shoulders drop a little on the second half of the line, and he blinks twice

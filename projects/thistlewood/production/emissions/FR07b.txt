@@ -35,6 +35,14 @@ No one speaks in this shot. There is no dialogue, no muttering and no off-screen
 <Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
 <Tom> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Tom> is NOT frozen — the body keeps living, breathing and reacting.
 
+[Expression]
+<Tom>: startled and then self-conscious at being surrounded, not delighted
+<Richard>: steady, watching Tom rather than the children, unreadable
+<Peggi>: wide open delight
+<Albert>: sharp concentration
+<Rose>: soft and serious
+<Lily>: level and assessing
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Peggi: she arrives last and fastest, skidding the final step, and immediately goes up on her toes with both hands gripping the counter edge

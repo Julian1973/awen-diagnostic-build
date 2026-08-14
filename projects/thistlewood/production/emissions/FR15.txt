@@ -25,6 +25,9 @@ There is no musical score of any kind in this shot — no strings, no piano, no 
 Audio 1 defines <Richard>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
 Dialogue language: English, in a soft Cardiff Welsh accent. <Richard> speaks warmly and completely unhurried, to the box more than to the man, and going quieter on the part that matters rather than louder, and says exactly this and nothing else: {Nothing is truly broken. It just needs some TLC. Come back at collecting time.}
 
+[Expression]
+<Richard>: warm and settled, the kindness in the eyes rather than in a smile
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Richard: he holds the Music Box in both hands and one thumb moves once across the worn place on the lid, his breathing is slow, and his shoulders settle as he speaks

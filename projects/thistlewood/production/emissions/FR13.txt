@@ -22,6 +22,9 @@ There is no musical score of any kind in this shot — no strings, no piano, no 
 Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
 Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks quietly, the voice dropping in volume and never in pitch — no wobble and no crack, a man embarrassed to be moved by a music box, and says exactly this and nothing else: {I just want to do what she asked. And I can't even get it to play a proper song.}
 
+[Expression]
+<Tom>: defeated and embarrassed by his own defeat; eyes down, absolutely no smile
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Tom: his head lowers slightly as he speaks, his shoulders drop, and near the end he shakes his head once, very small

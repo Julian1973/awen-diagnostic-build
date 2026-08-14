@@ -22,6 +22,9 @@ There is no musical score of any kind in this shot — no strings, no piano, no 
 Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
 Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks flatly, listing it, a man reciting facts about menders because the facts are easier than the feeling, and says exactly this and nothing else: {Three menders looked at it. Two said scrap it. One said the mechanism's fighting itself — built wrong on purpose.}
 
+[Expression]
+<Tom>: flat and tired, reciting, no expression to speak of
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Tom: his breathing shows at the collar, he blinks on the pauses between the sentences, and one hand comes up into frame and turns over palm-open in a small helpless gesture before it drops away again

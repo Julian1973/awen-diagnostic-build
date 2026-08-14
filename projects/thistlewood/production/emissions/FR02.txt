@@ -22,6 +22,9 @@ There is no musical score of any kind in this shot — no strings, no piano, no 
 Audio 1 defines <Richard>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
 Dialogue language: English, in a soft Cardiff Welsh accent. <Richard> speaks dryly, warmly, with the faintest amusement, in an unhurried Cardiff rhythm, and says exactly this and nothing else: {Somebody's been reading my sign.}
 
+[Expression]
+<Richard>: dry amusement held almost entirely in the eyes; the mouth barely moves beyond speaking
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Richard: both palms rest flat on the counter and one thumb moves once across the grain of the wood, his shoulders rise and fall with an easy breath, and the corner of his mouth lifts a fraction on the last word

@@ -33,6 +33,12 @@ Dialogue language: English, in a soft Cardiff Welsh accent. <Rose> speaks softly
 <Lily> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Lily> is NOT frozen — the body keeps living, breathing and reacting.
 <Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
 
+[Expression]
+<Peggi>: gone quiet and serious
+<Albert>: stilled, listening
+<Lily>: softened
+<Richard>: moved and carefully not showing it
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Rose: she moves in from the midground to the counter as she speaks, her head slightly lowered, and lifts one hand toward the lid

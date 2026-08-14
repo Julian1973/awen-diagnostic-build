@@ -24,6 +24,9 @@ Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. T
 Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks uncertain, half-turned to leave and stopping, a man who expected to be asked something, and says exactly this and nothing else: {Don't you need to know anything about it?}
 <Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
 
+[Expression]
+<Richard>: unbothered, half his attention still on the box
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Tom: his hands are empty at his sides now and one of them lifts slightly and drops again as he asks

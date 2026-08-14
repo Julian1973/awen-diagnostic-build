@@ -22,6 +22,9 @@ There is no musical score of any kind in this shot — no strings, no piano, no 
 Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
 Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks quietly, reporting a fact rather than performing a feeling, looking down at the box rather than at anyone, and says exactly this and nothing else: {It was my gran's. Hers before that, right back. She left it to me with one instruction.}
 
+[Expression]
+<Tom>: quiet and inward, jaw a little tight, absolutely no smile
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Tom: his breathing is shallow and visible at the collar, one hand rests on the counter edge at the bottom of frame and the thumb moves once across the wood, and he swallows once partway through the line

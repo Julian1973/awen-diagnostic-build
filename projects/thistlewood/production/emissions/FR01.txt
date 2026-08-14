@@ -27,6 +27,10 @@ Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. T
 Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place, and says exactly this and nothing else: {Are you Mr Thistlewood? A lady at the market said — if it's broken, it belongs here.}
 <Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
 
+[Expression]
+<Tom>: apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop
+<Richard>: open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Tom: his breathing shows in his shoulders, the fingers holding the bundle adjust their grip once, and he swallows before he speaks

@@ -33,6 +33,12 @@ Dialogue language: English, in a soft Cardiff Welsh accent. <Albert> speaks prec
 <Lily> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Lily> is NOT frozen — the body keeps living, breathing and reacting.
 <Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
 
+[Expression]
+<Peggi>: attention caught, mouth closed
+<Rose>: unmoved by the argument, eyes on the lid
+<Lily>: considering
+<Richard>: sharpening with interest, no smile
+
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
 — Albert: his pencil keeps moving on the open page while he talks and twice he points its tip briefly at the box without looking up

@@ -181,6 +181,15 @@ def compile_emission(s: dict, T: dict) -> str:
             out.append(f"<{who}> does not speak at any point in this shot: the mouth stays "
                        f"closed, with no lip movement and no jaw movement. <{who}> is NOT "
                        f"frozen — the body keeps living, breathing and reacting.")
+    # A silent character's FACE is the last thing left undirected. Body comes from
+    # [Secondary Life] and voice from the delivery note, so an unnamed expression
+    # gets chosen by the model — which is how Tom came back smiling in FR14, four
+    # seconds after saying he cannot get his gran's box to play a proper song.
+    if s.get("faces"):
+        out.append("")
+        out.append("[Expression]")
+        for who, face in s["faces"].items():
+            out.append(f"<{who}>: {face}")
     out.append("")
 
     # ── Secondary life ───────────────────────────────────────────────────────
