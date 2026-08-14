@@ -501,8 +501,11 @@ def compile_keyframe(s: dict, T: dict) -> str:
         if s.get("wardrobe", {}).get(who):
             bits.append(T["wardrobe"][who][s["wardrobe"][who]])
         bits.append(f"Scale: {c['scale']}.")
-        if s.get("faces", {}).get(who):
-            bits.append(f"Expression: {s['faces'][who]}.")
+        # a keyframe is a held moment, so it takes the STILL face; the faces map
+        # is written for motion and says things like "the mouth barely moves"
+        face = s.get("still_faces", {}).get(who) or s.get("faces", {}).get(who)
+        if face:
+            bits.append(f"Expression, held: {face}.")
         if s.get("cast_limit", {}).get(who):
             bits.append(s["cast_limit"][who])
         out.append(" ".join(bits))
@@ -902,6 +905,17 @@ def brief_html(s: dict, T: dict) -> str:
     if s.get("bell"): beds.append(f"shop_door_bell.mp3 at 0.5, {s['bell']}s in")
 
     li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
+    kfp = ""
+    if not kf.exists():
+        sheets = [pathlib.Path(f).name for _w, f, _k in refs[1:]]
+        kfp = (f"""<section><h2>First — the keyframe prompt, for you to generate from</h2>
+<p class="note">Generate this in your own tool with these references: """
+               + ", ".join(f"<code>{H.escape(x)}</code>" for x in
+                           [T["scene_plate"]["file"]] + sheets)
+               + (f", plus {s['chain']['from']}'s keyframe as a continuity reference"
+                  if s.get("chain") else "")
+               + f""". Save it as <code>{s['id']}.png</code> in Drive → Episode 1.</p>
+<pre>{H.escape(compile_keyframe(s, T).rstrip())}</pre></section>""")
     return f"""<title>Thistlewood Firing Brief</title>
 <style>{BRIEF_CSS}</style>
 <div class="wrap">
@@ -930,7 +944,7 @@ recompose it.</p></section>
 
 <section><h2>Laid under at assembly</h2><ul>{li(beds)}</ul></section>
 
-<section><h2>The prompt, in full, exactly as sent</h2>
+{kfp}<section><h2>The animation prompt, in full, exactly as sent</h2>
 <pre>{H.escape(text.rstrip())}</pre></section>
 
 <footer>Compiled fresh at brief time — never read off disk. Nothing outside this page is sent.</footer>

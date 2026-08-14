@@ -148,7 +148,11 @@
         560,
         600
       ],
-      "lead_in": 0.7
+      "lead_in": 0.7,
+      "still_faces": {
+        "Tom": "apologetic and unsure, eyebrows slightly raised, mouth closed, no broad smile — a man braced to be told he has come to the wrong shop",
+        "Richard": "open and unhurried, mild interest, the faintest warmth at the eyes, mouth closed"
+      }
     },
     {
       "id": "FR02",
@@ -188,7 +192,10 @@
         "from": "FR01",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Richard": "dry amusement sitting almost entirely in the eyes, mouth closed and about to open, no broad smile"
+      }
     },
     {
       "id": "FR03",
@@ -262,7 +269,10 @@
         "from": "FR03",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Tom": "quiet and inward, jaw a little tight, eyes down, no smile"
+      }
     },
     {
       "id": "FR05",
@@ -302,7 +312,10 @@
         "from": "FR04",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Richard": "attentive and unreadable, eyebrows drawn very slightly together, mouth closed"
+      }
     },
     {
       "id": "FR06",
@@ -339,7 +352,10 @@
         "from": "FR05",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Tom": "embarrassed, eyes down, mouth set and closed"
+      }
     },
     {
       "id": "FR07",
@@ -625,7 +641,10 @@
         "from": "FR10",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Tom": "flat and tired, almost no expression at all, mouth closed"
+      }
     },
     {
       "id": "FR12",
@@ -669,7 +688,10 @@
         "from": "FR11",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Richard": "grave, mouth closed, the recognition not yet on his face"
+      }
     },
     {
       "id": "FR13",
@@ -706,7 +728,10 @@
         "from": "FR12",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Tom": "defeated and embarrassed by his own defeat, eyes down, mouth closed, no smile"
+      }
     },
     {
       "id": "FR14",
@@ -801,7 +826,10 @@
         "from": "FR14",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Richard": "warm and settled, the kindness in the eyes rather than the mouth, mouth closed"
+      }
     },
     {
       "id": "FR16",
@@ -893,7 +921,10 @@
         "from": "FR16",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "still_faces": {
+        "Richard": "unbothered and unhurried, mouth closed, attention half on the box"
+      }
     }
   ]
 }
