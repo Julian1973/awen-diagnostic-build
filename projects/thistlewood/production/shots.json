@@ -138,7 +138,8 @@
    "end": "the small girl grinning, still on her toes, looking at the box. Nobody else has moved.",
    "line": "Ooh, that's terrible.",
    "delivery": "delighted, at full volume, with no filter at all",
-   "voice_ref": "A1_04_Peggi.mp3"
+   "voice_ref": "_ref_Peggi.mp3",
+   "_ref_note": "voice reference tripled \u2014 the route requires at least 2.0s and this line is shorter"
   },
   {
    "id": "FR09",
@@ -290,7 +291,8 @@
    "cut_to": 3,
    "line": "Don't you need to know anything about it?",
    "delivery": "half-turned to leave, uncertain",
-   "voice_ref": "A1_09_Tom.mp3"
+   "voice_ref": "_ref_Tom_short.mp3",
+   "_ref_note": "voice reference tripled \u2014 the route requires at least 2.0s and this line is shorter"
   },
   {
    "id": "FR17",
@@ -306,9 +308,11 @@
    "cut_to": 3,
    "line": "I expect I'll find out.",
    "delivery": "completely unhurried, already looking back at the box",
-   "voice_ref": "A1_10_Richard.mp3"
+   "voice_ref": "_ref_Richard_short.mp3",
+   "_ref_note": "voice reference tripled \u2014 the route requires at least 2.0s and this line is shorter"
   }
  ],
  "_min_take": "minimax H3 will not render below 5s. Short exchanges are shot at 5 and trimmed to cut_to in assembly \u2014 shoot the minimum, cut to length.",
- "_route": "minimax/h3/reference-to-video. The route generates the speech, so scripted lines go in the PROMPT verbatim and our ElevenLabs recording rides as Audio 1 to fix the voice only. Listener shots generate no speech; their line is laid in post."
+ "_route": "minimax/h3/reference-to-video. The route generates the speech, so scripted lines go in the PROMPT verbatim and our ElevenLabs recording rides as Audio 1 to fix the voice only. Listener shots generate no speech; their line is laid in post.",
+ "_audio_ref_minimum": "reference_audio_urls requires at least 2.0 seconds per clip. Lines shorter than that get their reference tripled; the reference fixes voice only, so repetition costs nothing."
 }
