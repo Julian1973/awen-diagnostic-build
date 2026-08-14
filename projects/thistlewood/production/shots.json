@@ -232,7 +232,11 @@
         "from": "FR02",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "keyframe_props": [
+        "Wrapped Bundle"
+      ],
+      "keyframe_framing": "a close insert looking down onto the counter top, the tied bundle sitting in the middle of frame, two hands resting on the counter either side of it and entering from the bottom of frame. The counter surface fills the frame; no other part of the room is visible except softly out of focus behind"
     },
     {
       "id": "FR04",

@@ -499,39 +499,48 @@ def compile_keyframe(s: dict, T: dict) -> str:
     out.append("## Who is in frame, and where")
     for who in s.get("cast", []):
         c = T["cast"][who]
-        bits = [f"**{who}** — {c['use']}."]
-        if c.get("exclude"):
-            bits.append(c["exclude"])
+        limit = s.get("cast_limit", {}).get(who)
+        if limit and "hands" in limit:
+            bits = [f"**{who}** — only his hands, wrists and jacket cuffs are in this frame: "
+                    f"navy jacket cuffs over rust-red knitted sleeves, an ordinary man's hands."]
+        else:
+            bits = [f"**{who}** — {c['use']}."]
+            if c.get("exclude"):
+                bits.append(c["exclude"])
         if s.get("wardrobe", {}).get(who):
             bits.append(T["wardrobe"][who][s["wardrobe"][who]])
-        bits.append(f"Scale: {c['scale']}.")
+        if not (limit and "hands" in limit):
+            bits.append(f"Scale: {c['scale']}.")
         # a keyframe is a held moment, so it takes the STILL face; the faces map
         # is written for motion and says things like "the mouth barely moves"
         face = s.get("still_faces", {}).get(who) or s.get("faces", {}).get(who)
         if face:
             bits.append(f"Expression, held: {face}.")
-        if s.get("cast_limit", {}).get(who):
-            bits.append(s["cast_limit"][who])
+        if limit:
+            bits.append(limit)
         out.append(" ".join(bits))
         out.append("")
 
     out.append("## Positions at the top of the shot")
-    out.append(opening_state(s))
+    op = opening_state(s)
+    out.append(op[0].upper() + op[1:])
     out.append("")
 
-    if s.get("props"):
+    kprops = s.get("keyframe_props", s.get("props"))
+    if kprops:
         out.append("## Props")
-        for pr in s["props"]:
-            p = T["hero_props"][pr]
-            out.append(f"**{pr}** — {p['desc']}. {p['rule']}")
+        for pr in kprops:
+            out.append(f"**{pr}** — {T['hero_props'][pr]['desc']}. Exactly one is in frame, "
+                       f"in the state the positions below describe.")
         out.append("")
 
     out.append("## Framing")
-    fr = s["blocking_use"].split("—", 1)[-1].strip()
+    fr = s.get("keyframe_framing") or s["blocking_use"].split("—", 1)[-1].strip()
     out.append(fr[0].upper() + fr[1:])
-    out.append("Screen direction: the customer side of the counter is camera-LEFT and the "
-               "shopkeeper's side is camera-RIGHT. Tom and the children face screen-right; "
-               "Richard faces screen-left.")
+    if not s.get("no_faces"):
+        out.append("Screen direction: the customer side of the counter is camera-LEFT and the "
+                   "shopkeeper's side is camera-RIGHT. Tom and the children face screen-right; "
+                   "Richard faces screen-left.")
     out.append("")
 
     out.append("## Style")
@@ -540,7 +549,9 @@ def compile_keyframe(s: dict, T: dict) -> str:
 
     out.append("## Do not")
     out.append("No motion blur and no action lines — this is a held frame. "
-               + ("Every mouth in this frame is CLOSED; nobody is mid-word."
+               + ("No face appears in this frame at all — only hands."
+                  if s.get("no_faces") else
+                  "Every mouth in this frame is CLOSED; nobody is mid-word."
                   if not spk else
                   f"{spk} has not started speaking yet — the mouth is closed and about to "
                   f"open. Every other mouth is closed.")
