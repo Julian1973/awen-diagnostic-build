@@ -728,6 +728,129 @@ def cmd_keyframe(a):
 
 
 
+
+BRIEF_CSS = """
+:root{
+  --paper:#F7F3EC; --ink:#241C14; --ink-soft:#5C4E3F; --rule:#DED4C4;
+  --panel:#FFFDF8; --brass:#A67B2C; --green:#4A5D3A; --rust:#9C4A2F;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#17130F; --ink:#EDE4D6; --ink-soft:#A2937F; --rule:#3A3027;
+    --panel:#1F1A15; --brass:#D2A253; --green:#8FA877; --rust:#D6805F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17130F; --ink:#EDE4D6; --ink-soft:#A2937F; --rule:#3A3027;
+  --panel:#1F1A15; --brass:#D2A253; --green:#8FA877; --rust:#D6805F;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;
+  font:16px/1.6 Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif;
+  padding:2.5rem 1.25rem 5rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem}
+header{display:flex;flex-direction:column;gap:.5rem;
+  border-bottom:2px solid var(--brass);padding-bottom:1rem}
+.eyebrow{font:600 .72rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+h1{margin:0;font-size:2.1rem;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--ink-soft);font-size:.95rem}
+.status{display:inline-flex;align-items:center;gap:.5rem;align-self:flex-start;
+  font:600 .78rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;
+  text-transform:uppercase;padding:.4rem .7rem;border-radius:2px;
+  border:1px solid currentColor}
+.ok{color:var(--green)} .no{color:var(--rust)}
+h2{margin:0 0 .75rem;font:600 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+section{display:flex;flex-direction:column}
+dl{margin:0;display:grid;grid-template-columns:11rem 1fr;gap:.55rem 1.5rem}
+dt{color:var(--ink-soft);font-size:.9rem}
+dd{margin:0;font-variant-numeric:tabular-nums}
+dd code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em}
+.note{color:var(--ink-soft);font-size:.9rem;margin:.75rem 0 0;max-width:62ch}
+pre{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--brass);
+  margin:0;padding:1.25rem 1.4rem;overflow-x:auto;
+  font:13.5px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;
+  white-space:pre-wrap;word-break:break-word;max-width:78ch}
+ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem}
+li::marker{color:var(--brass)}
+footer{color:var(--ink-soft);font-size:.85rem;border-top:1px solid var(--rule);
+  padding-top:1rem}
+"""
+
+
+def brief_html(s: dict, T: dict) -> str:
+    """The firing brief as a page, because a download card is not something you
+    can read at a glance before approving a spend."""
+    import html as H
+    KFR = P / "keyframes"
+    kf = KFR / f"{s['id']}.png"
+    text = compile_motion(s, T)
+    score, fails = gate_motion(text, s, T)
+    ok = score >= FLOOR and kf.exists()
+    vdir = VOICE / s.get("voice_dir", "EP01_v3")
+    line = vdir / s["voice_ref"] if s.get("voice_ref") else None
+    box = s.get("speaker_box")
+
+    rows = [("Route", "minimax/h3/image-to-video · 768P"),
+            ("Duration", f"{s['sec']}s"
+             + (f", trimmed to {s['cut_to']}s at assembly" if s.get("cut_to") else "")),
+            ("Keyframe", f"{kf.name} — " + ("present" if kf.exists() else "MISSING, cannot fire")),
+            ("Gate", f"{score:.2f}" + ("" if not fails else " — " + "; ".join(fails)))]
+    if s.get("chain"):
+        rows.append(("Continuity", f"chained {s['chain']['mode']} from {s['chain']['from']}"))
+
+    audio = []
+    if line:
+        audio.append(f"<strong>{H.escape(line.name)}</strong> — {audio_seconds(line):.2f}s, "
+                     f"lead-in {s.get('lead_in', 0.5)}s. Goes to the sync stage, never to the "
+                     f"video route.")
+        audio.append(f"Speaker box <code>{box}</code> — crops to {H.escape(str(s['speaker']))} "
+                     f"alone so the sync cannot pick the wrong face."
+                     if box else "No speaker box — the whole frame goes to sync, which is safe "
+                                 "because only one face is in it.")
+    elif s.get("vo"):
+        audio.append(f"<strong>{H.escape(s['vo'])}</strong> laid in at assembly. Listener shot — "
+                     f"nobody speaks on camera.")
+    else:
+        audio.append("None. This shot has no line.")
+
+    beds = ["room_bed_120s.mp3 at 0.16"]
+    if "tune" in s.get("sound", []): beds.append("wrong_tune_musicbox_v2.mp3 at 0.32")
+    if s.get("bell"): beds.append(f"shop_door_bell.mp3 at 0.5, {s['bell']}s in")
+
+    li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
+    return f"""<title>Thistlewood Firing Brief</title>
+<style>{BRIEF_CSS}</style>
+<div class="wrap">
+<header>
+  <span class="eyebrow">Thistlewood's · Episode 1 · The Wrong Tune</span>
+  <h1>{s['id']} — firing brief</h1>
+  <p class="sub">{H.escape(T['_scene'].split('.')[0])}</p>
+  <span class="status {'ok' if ok else 'no'}">{'Ready to fire' if ok else 'Not ready'}</span>
+</header>
+
+<section><h2>Specification</h2><dl>
+{''.join(f'<dt>{k}</dt><dd>{H.escape(str(v))}</dd>' for k, v in rows)}
+</dl></section>
+
+<section><h2>Images sent to the video route</h2>
+<ul>{li([H.escape(kf.name) if kf.exists() else 'None — waiting on the keyframe'])}</ul>
+<p class="note">The character sheets and the room plate are <em>not</em> sent here. They were
+references for the keyframe; once it exists it carries what they gave it, and sending them again
+would invite a redraw mid-take.</p></section>
+
+<section><h2>Audio</h2><ul>{li(audio)}</ul></section>
+
+<section><h2>Laid under at assembly</h2><ul>{li(beds)}</ul></section>
+
+<section><h2>The prompt, in full, exactly as sent</h2>
+<pre>{H.escape(text.rstrip())}</pre></section>
+
+<footer>Compiled fresh at brief time — never read off disk. Nothing outside this page is sent.</footer>
+</div>"""
+
+
 def cmd_brief(a):
     """Everything that is about to be sent, printed for approval BEFORE it fires.
 
@@ -741,7 +864,9 @@ def cmd_brief(a):
     T = table()
     KFR, SY = P / "keyframes", P / "synced"
     shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    BR = P / "briefs"; BR.mkdir(parents=True, exist_ok=True)
     for s in shots:
+        (BR / f"{s['id']}.html").write_text(brief_html(s, T))
         kf = KFR / f"{s['id']}.png"
         text = compile_motion(s, T)          # fresh, never off disk
         EM.mkdir(parents=True, exist_ok=True)
