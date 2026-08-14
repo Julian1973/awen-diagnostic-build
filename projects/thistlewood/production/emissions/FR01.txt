@@ -1,35 +1,15 @@
-[Characters]
-<Tom> corresponds to Image 2. Use only his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it.
-<Richard> corresponds to Image 3. Use only his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame.
-<Macsen> corresponds to Image 4. Use only his ginger tabby markings, his white chest and paws, his build and his face. He is a cat and never behaves like a person.
-Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
-Do not interchange these characters' appearances, clothing, positions, actions or dialogue. Each one is only ever himself or herself, and no additional people appear in the room.
-Relative size, read off the body and never off a measurement: Tom — a man in his thirties, ordinary build, a head taller than the counter top; Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip; Macsen — a large domestic cat; sitting upright on the counter his head reaches Richard's elbow.
+[First Frame]
+The supplied image is the FIRST FRAME. It defines the opening composition, every character's position and pose, the prop state, the scene and the camera direction. Everything in it is already correct. Animate this frame forward from where it stands; do not redraw it, do not restage it, and do not change anyone's face, hair or clothing.
 
-[Props]
-<Wrapped Bundle> corresponds to Image 2: a small object bundled in a cream cloth checked in faded red and tied at the top, exactly as held in the hands on that sheet. It belongs only to Tom. There is exactly one of it, it stays wrapped and tied for the whole shot, and no music box is visible at any point. Image 2 also defines <Tom>; in this shot it contributes the wrapped bundle only and never a second person.
+[Subject and Action]
+Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen's ear turns to the voice. By the end: Tom is still holding the wrapped bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
 
-[Scenes]
-<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
+[Camera]
+The camera is locked off at standing eye level in a wide two-shot and does not move for the whole take. This is ONE continuous take with no cuts, no transitions and no change of angle at any point.
 
-[Camera and Blocking]
-The camera is locked off at standing eye level in a wide two-shot and does not move for the whole take.
-Image 5 defines the camera position and the staging only — a wide eye-level view with Tom standing on the customer side of the counter in the left half of frame facing right, Richard standing behind the counter in the right half facing him with his face visible, and the cat on the counter between them. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
-Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
-
-[Style]
-Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
-
-[Audio]
-<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
-There is no musical score of any kind in this shot — no strings, no piano, no underscore. The only sound is the room itself.
-Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
-Dialogue language: English, in a soft Cardiff Welsh accent. <Tom> speaks hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place, and says exactly this and nothing else: {Are you Mr Thistlewood? A lady at the market said — if it's broken, it belongs here.}
-<Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
-
-[Expression]
-<Tom>: apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop
-<Richard>: open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile
+[Performance]
+Tom is apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop.
+Richard is open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile.
 
 [Secondary Life]
 Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
@@ -39,9 +19,16 @@ Nobody in this frame is a still image. Throughout the whole shot, continuously a
 — the room: the hanging lamplight is steady but the shadows breathe; nothing in the shop is rigid
 These movements are small and continuous. They never stop, and they never compete with the main action.
 
-[Event Script]
-Stage 1: Opening state: Tom stands on the customer side of the counter, a pace further back than a confident man would stand, holding the Wrapped Bundle in both hands at chest height and slightly away from his body. Richard stands behind the counter facing him with one hand resting flat on the counter top. Macsen sits upright on the counter between them.
-Stage 2: Primary event: Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen's ear turns to the voice. End state: Tom is still holding the Wrapped Bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
+[Speech]
+Tom is the only person who speaks in this shot, and the delivery is hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place. Animate the mouth as natural conversational speech, with the jaw, cheeks and head carrying the rhythm of someone talking. Do NOT attempt specific words or specific lip shapes — the exact articulation is replaced afterwards from a separate recording, and guessing at words here only fights that pass.
+Richard does not speak: the mouth stays closed with no lip or jaw movement. Richard is NOT frozen — the body keeps living and reacting.
+
+[Audio]
+<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
+There is no music of any kind in this shot — nobody moves to a beat.
+
+[Physics]
+Weight is real: when anyone shifts their balance the whole body answers it, clothing gathers and falls with the movement rather than sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays put unless a hand moves it.
 
 [Maintain Consistency]
-Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Wrapped Bundle>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.
+Every face, hairstyle, garment and prop stays exactly as the first frame defines it for the whole take — nobody changes appearance, nobody is swapped for anyone else, and no extra person enters the room. The room layout, the counter position and the lighting never change. The character count never changes and the prop count never changes: there is exactly one wrapped bundle, held by whoever holds it in the first frame. Everyone in frame stays alive and breathing for the entire shot.

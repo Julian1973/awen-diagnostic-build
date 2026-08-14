@@ -90,21 +90,31 @@ def compile_motion(s: dict, T: dict) -> str:
     out: list[str] = []
     spk = s.get("speaker")
 
+    # sd25-pe first-frame role declaration, in the skill's own form. The single
+    # supplied image gets exactly one stated role and nothing is left inferred.
+    out.append("[First Frame]")
+    out.append("The supplied image is the FIRST FRAME. It defines the opening composition, "
+               "every character's position and pose, the prop state, the scene and the camera "
+               "direction. Everything in it is already correct. Animate this frame forward "
+               "from where it stands; do not redraw it, do not restage it, and do not change "
+               "anyone's face, hair or clothing.")
+    out.append("")
+
     out.append("[Subject and Action]")
-    out.append("The first frame is the shot's opening state and everyone in it is already "
-               "correct — faces, hair, clothing, positions, the room and the props all stay "
-               "exactly as the frame has them. Animate this frame; do not redraw it.")
     out.append(primary_event(s))
     out.append("")
 
     out.append("[Camera]")
-    out.append(f"The camera {s['camera']}.")
+    out.append(f"The camera {s['camera']}. This is ONE continuous take with no cuts, no "
+               f"transitions and no change of angle at any point.")
     out.append("")
 
     if s.get("faces"):
+        # prose, not colon-fragments — the skill is explicit that the descriptive
+        # content reads as prose even under a [Section] label
         out.append("[Performance]")
         for who, face in s["faces"].items():
-            out.append(f"{who}: {face}.")
+            out.append(f"{who} is {face}.".replace("is is ", "is "))
         out.append("")
 
     out.append("[Secondary Life]")
@@ -121,9 +131,12 @@ def compile_motion(s: dict, T: dict) -> str:
     # the wrong face does not.
     out.append("[Speech]")
     if spk:
-        out.append(f"{spk} is the only person speaking in this shot, {s['delivery']}. "
-                   f"Animate the mouth as natural conversational speech with the head and "
-                   f"jaw moving as someone talking — do not attempt specific words.")
+        out.append(f"{spk} is the only person who speaks in this shot, and the delivery is "
+                   f"{s['delivery']}. Animate the mouth as natural conversational speech, with "
+                   f"the jaw, cheeks and head carrying the rhythm of someone talking. Do NOT "
+                   f"attempt specific words or specific lip shapes — the exact articulation is "
+                   f"replaced afterwards from a separate recording, and guessing at words here "
+                   f"only fights that pass.")
     else:
         out.append("Nobody speaks in this shot.")
     for who in humans(s, T):
@@ -139,8 +152,16 @@ def compile_motion(s: dict, T: dict) -> str:
     if s.get("extra_sfx"):
         out.append(s["extra_sfx"])
     if "tune" not in s.get("sound", []):
-        out.append("There is no musical score of any kind in this shot. The only sound is "
-                   "the room itself.")
+        out.append("There is no music of any kind in this shot — nobody moves to a beat.")
+    out.append("")
+
+    # sd25-pe asks for physics described concretely rather than named. Weight,
+    # cloth and hair are what stop a 2D shot reading as cut-outs sliding about.
+    out.append("[Physics]")
+    out.append("Weight is real: when anyone shifts their balance the whole body answers it, "
+               "clothing gathers and falls with the movement rather than sliding over a rigid "
+               "shape, hair and loose fabric settle a beat after the body stops, and anything "
+               "resting on a surface stays put unless a hand moves it.")
     out.append("")
 
     if s.get("ritual"):
@@ -153,8 +174,10 @@ def compile_motion(s: dict, T: dict) -> str:
                "defines it for the whole take — nobody changes appearance, nobody is "
                "swapped for anyone else, and no extra person enters the room. The room "
                "layout, the counter position and the lighting never change. "
-               + (f"Keep exactly one of each prop and its owner unchanged: "
-                  + ", ".join(s["props"]) + "." if s.get("props") else "")
+               + (f"The character count never changes and the prop count never changes: "
+                  "there is exactly one "
+                  + ", one ".join(pr.lower() for pr in s["props"])
+                  + ", held by whoever holds it in the first frame." if s.get("props") else "")
                + " Everyone in frame stays alive and breathing for the entire shot.")
     return "\n".join(out).strip() + "\n"
 
@@ -464,6 +487,67 @@ def opening_state(s: dict) -> str:
     return txt.split("Opening state:", 1)[-1].strip()
 
 
+def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
+    """The gate for the ANIMATION prompt, which is a different document from the
+    old reference-to-video emission and needs different checks.
+
+    Two of these are new and exist because the pipeline changed underneath us:
+    a motion prompt must carry NO dialogue (the words are an audio file now) and
+    NO appearance (the keyframe holds it, and restating it invites a redraw).
+    """
+    t = text.lower()
+    spk = s.get("speaker")
+    silent = [w for w in humans(s, T) if w != spk]
+    vdir = VOICE / s.get("voice_dir", "EP01_v3")
+
+    # Words that describe how somebody LOOKS. In this prompt they are a defect:
+    # the first frame already answers them, and answering them twice is how a
+    # face drifts mid-take.
+    APPEARANCE = ("waistcoat", "parka", "jumper", "cardigan", "dungarees",
+                  "white beard", "gold-rimmed", "braids", "strawberry-blonde",
+                  "corresponds to image", "use only")
+
+    checks = {
+        "no dialogue text in the prompt":
+            (not s.get("line")) or (s["line"].lower() not in t),
+        "no dialogue braces": "{" not in text and "}" not in text,
+        "no appearance description — the keyframe holds it":
+            not any(k in t for k in APPEARANCE),
+        "the first frame is declared authoritative, with one stated role":
+            "the supplied image is the first frame" in t and "do not redraw it" in t,
+        "the take is declared continuous — no invented cuts":
+            "one continuous take with no cuts" in t,
+        "physics described concretely, not named": "weight is real" in t,
+        "camera has a stated behaviour": "the camera " in t,
+        "speaker named or silence declared":
+            bool(spk) or "nobody speaks in this shot" in t,
+        "every silent character explicitly closed":
+            s.get("no_faces", False) or
+            all(f"{w} does not speak" in text for w in silent),
+        "silent characters are not frozen":
+            s.get("no_faces", False) or (not silent) or "is NOT frozen" in text,
+        "ambience specified": "<the quiet room tone" in t,
+        "music excluded unless the box is playing":
+            ("tune" in s.get("sound", [])) or "no music of any kind" in t,
+        "every cast member has a secondary-life line":
+            all(any(w in k for k in s["life"]) for w in s.get("cast", []))
+            or s.get("no_faces", False),
+        "no generation parameters": not any(k in t for k in PARAMS),
+        "no interior states without a visible cue": not any(k in t for k in INTERIOR),
+        "every character named, never described anonymously":
+            not any(k in t for k in ANONYMOUS),
+        "no studio or brand names": not any(k in t for k in BRANDS),
+        "take length inside the route's range": MIN_TAKE <= s["sec"] <= MAX_TAKE,
+        "the recorded line fits inside the take":
+            (not s.get("voice_ref")) or
+            audio_seconds(vdir / s["voice_ref"]) <= (s.get("cut_to") or s["sec"]),
+        "prompt stays short — a motion prompt that runs long is describing the "
+        "picture again": len(text) <= 4000,
+    }
+    fails = [k for k, v in checks.items() if not v]
+    return round(10 - 1.5 * len(fails), 2), fails
+
+
 def gate(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
     t = text.lower()
     files, R = resolve_refs(s, T)
@@ -581,19 +665,21 @@ def cmd_compile(a):
     EM.mkdir(parents=True, exist_ok=True)
     T = table()
     ok = bad = 0
-    for s in load(T, a.scene):
-        text = compile_emission(s, T)
-        score, fails = gate(text, s, T)
-        files, _ = resolve_refs(s, T)
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    for s in shots:
+        text = compile_motion(s, T)
+        score, fails = gate_motion(text, s, T)
         (EM / f"{s['id']}.txt").write_text(text)
+        # The reference set is now ONE image: the keyframe Julian generated. The
+        # audio no longer travels to the video route at all - it goes to the
+        # lipsync pass afterwards, so no 2.0s minimum applies to it any more.
         (EM / f"{s['id']}.refs.json").write_text(json.dumps(
-            # route_ref is what H3 hears (may be a tripled copy, because the route
-            # refuses reference audio under 2.0s); voice_ref is what reaches the cut.
-            {"images": files, "sec": s["sec"],
-             "voice_ref": s.get("route_ref") or s.get("voice_ref"),
-             "voice_dir": s.get("voice_dir", "EP01_v3")}, indent=1))
+            {"keyframe": f"{s['id']}.png", "sec": s["sec"],
+             "voice_ref": s.get("voice_ref"),
+             "voice_dir": s.get("voice_dir", "EP01_v3"),
+             "cut_to": s.get("cut_to")}, indent=1))
         flag = "CLEARED" if score >= FLOOR else "REFUSED"
-        print(f"  {s['id']:<8} {score:>5.2f}  {flag}  {s['sec']:>2}s  {len(files)} refs"
+        print(f"  {s['id']:<8} {score:>5.2f}  {flag}  {s['sec']:>2}s  {len(text)} chars"
               + (f"\n{'':>12}← " + "\n".join(f"{'':>14}{f}" for f in fails).lstrip()
                  if fails else ""))
         ok, bad = (ok + 1, bad) if score >= FLOOR else (ok, bad + 1)
