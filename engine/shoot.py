@@ -31,6 +31,17 @@ P = ROOT / "projects/thistlewood/production"
 SHOTS = P / "shots.json"
 EM, TK, AS = P / "emissions", P / "takes", P / "assembled"
 KF = ROOT / "projects/thistlewood/assets/keyframes"
+ASSETS = ROOT / "projects/thistlewood/assets"
+
+
+def sheet_path(name: str) -> pathlib.Path:
+    """Resolve a sheet name against both asset roots — plain names sit in
+    assets/keyframes, Drive-pulled ones under assets/drive_sheets."""
+    for base in (KF, ASSETS):
+        cand = base / name
+        if cand.exists():
+            return cand
+    return KF / name
 SFX, VOICE = P / "sfx", P / "voice"
 FLOOR = 9.5
 MAX_TAKE = 15          # minimax H3 ceiling
@@ -75,6 +86,24 @@ def humans(s: dict, T: dict) -> list[str]:
     return [c for c in s.get("cast", []) if c != "Macsen"]
 
 
+
+def keyframe_refs(s: dict, T: dict) -> list[tuple[str, str, str]]:
+    """The ordered reference set: the keyframe first, then each character's
+    appearance sheet, then their expression sheet.
+
+    Order is the contract - the prompt calls them Image 1..N by position, so this
+    function and the firing command must walk the same list or the prompt will be
+    describing the wrong picture.
+    """
+    KFR = P / "keyframes"
+    out = [("__keyframe__", str(KFR / f"{s['id']}.png"), "first_frame")]
+    for who in s.get("cast", []):
+        sheets = T["cast"][who].get("sheets", [T["cast"][who]["file"]])
+        for n, sheet in enumerate(sheets):
+            out.append((who, str(sheet_path(sheet)), "appearance" if n == 0 else "expression"))
+    return out
+
+
 def compile_motion(s: dict, T: dict) -> str:
     """Compile the shot's animation prompt on Seedance 2.5's ACTUAL Core Prompt
     Formula — subject and action, scene and environment, visual style, camera,
@@ -95,18 +124,43 @@ def compile_motion(s: dict, T: dict) -> str:
     sp = T["scene_plate"]
     out: list[str] = []
 
-    # Reference role, in the guide's first-frame wording.
-    out.append("The supplied image is the first frame. It defines the opening composition, "
-               "every subject's position and pose, the prop state, the scene and the camera "
-               "direction. Animate forward from it; do not redraw it, do not restage it, and "
-               "do not alter any face, hair or clothing it already contains.")
+    # Reference roles, in the guide's first-frame-plus-appearance form. Image 1 is
+    # the keyframe; the character sheets follow as appearance anchors.
+    #
+    # An earlier version sent the keyframe alone and argued the sheets were
+    # redundant because identity was already in the frame. The guide disagrees -
+    # its own first-frame template pairs @Image 1 with appearance references and
+    # tells them not to change @Image 1's composition - and so did Julian. Nine
+    # seconds is a long time for a face with nothing anchoring it.
+    refs = keyframe_refs(s, T)
+    out.append("Image 1 is the first frame. It defines the complete opening composition: every "
+               "subject's position and pose, the prop state, the room, the lighting and the "
+               "camera direction. Reproduce it exactly as the shot's opening frame and animate "
+               "forward from there; do not restage it and do not recompose it.")
+    for i, (who, _f, kind) in enumerate(refs[1:], start=2):
+        if kind == "appearance":
+            c = T["cast"][who]
+            out.append(f"Image {i} defines {who}'s appearance only — {c['use']}. Do not use its "
+                       f"background or layout, and do not let it change the composition defined "
+                       f"by Image 1.")
+        else:
+            out.append(f"Image {i} defines {who}'s facial expressions and range only. Do not use "
+                       f"its background or layout, and do not let it change the composition "
+                       f"defined by Image 1 or add a second copy of {who}.")
+    if s.get("props"):
+        out.append("Image 1 also defines every prop in this shot — "
+                   + "; ".join(f"the {pr.lower()}, {T['hero_props'][pr]['desc']}"
+                               for pr in s["props"])
+                   + ". Take the props from Image 1 and from nowhere else.")
+    out.append("Every image above shows the SAME people as Image 1. The output contains exactly "
+               "one of each character and no one else.")
     out.append("")
 
     # Subject + primary action + scene, as one prose paragraph.
     where = ("the front room of Thistlewood's, an old antique restorer's shop, with its long "
              "wooden counter, its cabinets of brass and glass, and the lit workshop showing "
              "through the arch behind")
-    out.append(f"In {where}, {primary_event(s)}")
+    out.append(f"In {where}, {primary_event(s)}".replace("speaks his line", "speaks"))
     out.append("")
 
     # Secondary life, as prose rather than a bullet list.
@@ -502,17 +556,25 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
     # the first frame already answers them, and answering them twice is how a
     # face drifts mid-take.
     APPEARANCE = ("waistcoat", "parka", "jumper", "cardigan", "dungarees",
-                  "white beard", "gold-rimmed", "braids", "strawberry-blonde",
-                  "corresponds to image", "use only")
+                  "white beard", "gold-rimmed", "braids", "strawberry-blonde")
 
     checks = {
         "no dialogue text in the prompt":
             (not s.get("line")) or (s["line"].lower() not in t),
         "no dialogue braces": "{" not in text and "}" not in text,
-        "no appearance description — the keyframe holds it":
-            not any(k in t for k in APPEARANCE),
+        "no appearance description outside a reference binding":
+            not any(k in "\n".join(l for l in text.lower().splitlines()
+                                    if "defines" not in l) for k in APPEARANCE),
         "the first frame is declared authoritative, with one stated role":
-            "the supplied image is the first frame" in t and "do not redraw it" in t,
+            "image 1 is the first frame" in t and "do not restage it" in t,
+        # the guide's checklist: every distinct character bound to a reference.
+        # The keyframe alone does not satisfy it - this was an 8.7 on audit.
+        "every character bound to its own reference image":
+            all(f"defines {w}'s appearance only" in text for w in s.get("cast", [])),
+        "every prop bound to a reference too":
+            (not s.get("props")) or "Image 1 also defines every prop" in text,
+        "every reference told what NOT to contribute":
+            text.count("Do not use its background") >= len(s.get("cast", [])),
         "the take is declared continuous — no invented cuts":
             "one continuous take with no cuts" in t,
         "physics described concretely, not named": "weight is real" in t,
@@ -522,6 +584,8 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         "core formula: visual style stated": "the visuals feature" in t,
         "core formula: camera stated": "use a camera that" in t,
         "core formula: audio stated": "audio includes" in t,
+        "the superseded multi-reference grammar is gone":
+            "corresponds to Image" not in text and "[Characters]" not in text,
         "no invented section labels":
             not any(k in text for k in ("[First Frame]", "[Performance]", "[Secondary Life]",
                                         "[Speech]", "[Physics]", "[Subject and Action]",
@@ -556,7 +620,11 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         # Prose runs longer than the old fragment form for the same content, and
         # Julian wants full shot prompts. The ceiling is here to stop the prompt
         # re-describing the picture, not to keep it thin.
-        "prompt does not run away into re-describing the picture": len(text) <= 4800,
+        # binding six characters to two sheets each is legitimately long; the
+        # ceiling scales with the cast rather than punishing group shots
+        "prompt does not run away into re-describing the picture":
+            len(text) <= 4400 + 460 * len(s.get("cast", []))
+                       + 260 * len(s.get("props", [])),
     }
     fails = [k for k, v in checks.items() if not v]
     return max(0.0, round(10 - 1.5 * len(fails), 2)), fails
@@ -792,11 +860,15 @@ def brief_html(s: dict, T: dict) -> str:
     line = vdir / s["voice_ref"] if s.get("voice_ref") else None
     box = s.get("speaker_box")
 
-    rows = [("Route", "minimax/h3/image-to-video · 768P"),
+    refs = keyframe_refs(s, T)
+    rows = [("Route", "minimax/h3/reference-to-video · 768P"),
             ("Duration", f"{s['sec']}s"
              + (f", trimmed to {s['cut_to']}s at assembly" if s.get("cut_to") else "")),
             ("Keyframe", f"{kf.name} — " + ("present" if kf.exists() else "MISSING, cannot fire")),
             ("Gate", f"{score:.2f}" + ("" if not fails else " — " + "; ".join(fails)))]
+    passed, why = audit_ok(s, text)
+    rows.append(("Seedance audit", why + ("" if passed else " — WILL NOT FIRE")))
+    ok = ok and passed
     if s.get("chain"):
         rows.append(("Continuity", f"chained {s['chain']['mode']} from {s['chain']['from']}"))
 
@@ -834,11 +906,15 @@ def brief_html(s: dict, T: dict) -> str:
 {''.join(f'<dt>{k}</dt><dd>{H.escape(str(v))}</dd>' for k, v in rows)}
 </dl></section>
 
-<section><h2>Images sent to the video route</h2>
-<ul>{li([H.escape(kf.name) if kf.exists() else 'None — waiting on the keyframe'])}</ul>
-<p class="note">The character sheets and the room plate are <em>not</em> sent here. They were
-references for the keyframe; once it exists it carries what they gave it, and sending them again
-would invite a redraw mid-take.</p></section>
+<section><h2>Images sent to the video route, in this order</h2>
+<ul>{li([f"<strong>Image {i}</strong> · <code>{H.escape(pathlib.Path(f).name)}</code> — "
+         f"{'the first frame, defining the whole opening composition' if k == 'first_frame' else H.escape(w) + ', ' + k}"
+         + ("" if pathlib.Path(f).exists() else " <strong>— MISSING</strong>")
+         for i, (w, f, k) in enumerate(refs, start=1)])}</ul>
+<p class="note">Order is the contract: the prompt calls these Image 1 to Image {len(refs)} by
+position, so the compiler and the firing command walk the same list. The keyframe leads and
+carries the composition; the sheets that follow anchor identity only and are told not to
+recompose it.</p></section>
 
 <section><h2>Audio</h2><ul>{li(audio)}</ul></section>
 
@@ -849,6 +925,61 @@ would invite a redraw mid-take.</p></section>
 
 <footer>Compiled fresh at brief time — never read off disk. Nothing outside this page is sent.</footer>
 </div>"""
+
+
+
+AUDITS = P / "audits.json"
+
+
+def prompt_hash(text: str) -> str:
+    import hashlib
+    return hashlib.sha256(text.encode()).hexdigest()[:16]
+
+
+def cmd_audit(a):
+    """Record that THIS EXACT prompt passed the Seedance generator.
+
+    The rule was always: through the generator, above 9.5, then fire. It broke
+    the first time the prompt changed materially - seven reference bindings and a
+    different route were added, the audit that existed was of the version before
+    them, and it fired anyway. A rule I have to remember is not a rule.
+
+    So the pass is stamped against the prompt's hash. Change one character of the
+    compiled prompt and the stamp no longer matches, and fire refuses until the
+    generator has been run over the new text. `--pass SCORE` records; bare
+    `audit` reports where each shot stands.
+    """
+    T = table()
+    rec = json.loads(AUDITS.read_text()) if AUDITS.exists() else {}
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
+    for s in shots:
+        h = prompt_hash(compile_motion(s, T))
+        if a.record is not None:
+            rec[s["id"]] = {"hash": h, "score": a.record}
+            print(f"  {s['id']:<8} audit recorded — {a.record} on prompt {h}")
+        else:
+            got = rec.get(s["id"])
+            if not got:
+                print(f"  {s['id']:<8} NEVER AUDITED — prompt {h}")
+            elif got["hash"] != h:
+                print(f"  {s['id']:<8} STALE — audited {got['hash']} at {got['score']}, "
+                      f"prompt is now {h}")
+            else:
+                print(f"  {s['id']:<8} audited {got['score']} on {h} ✓")
+    if a.record is not None:
+        AUDITS.write_text(json.dumps(rec, indent=1, sort_keys=True) + "\n")
+
+
+def audit_ok(s: dict, text: str) -> tuple[bool, str]:
+    rec = json.loads(AUDITS.read_text()) if AUDITS.exists() else {}
+    got, h = rec.get(s["id"]), prompt_hash(text)
+    if not got:
+        return False, "never through the Seedance generator"
+    if got["hash"] != h:
+        return False, f"prompt changed since the audit ({got['hash']} → {h})"
+    if got["score"] < FLOOR:
+        return False, f"audited at {got['score']}, below the {FLOOR} floor"
+    return True, f"audited {got['score']}"
 
 
 def cmd_brief(a):
@@ -880,15 +1011,16 @@ def cmd_brief(a):
         print("=" * 78)
         print(f"{s['id']}  —  FIRING BRIEF")
         print("=" * 78)
-        print(f"  route      minimax/h3/image-to-video · 768P · {s['sec']}s"
+        print(f"  route      minimax/h3/reference-to-video · 768P · {s['sec']}s"
               + (f" · trimmed to {s['cut_to']}s in assembly" if s.get("cut_to") else ""))
         print(f"  keyframe   {kf.name}  {'✓ present' if kf.exists() else '✗ MISSING — cannot fire'}")
         print(f"  gate       {score:.2f}  {'CLEARED' if score >= FLOOR else 'REFUSED — ' + ', '.join(fails)}")
         print()
-        print("  IMAGES SENT TO THE VIDEO ROUTE")
-        print(f"    1. {kf}" if kf.exists() else "    (none — waiting on the keyframe)")
-        print("    The character sheets and the room plate are NOT sent here. They were")
-        print("    references for the keyframe; the keyframe now carries what they gave it.")
+        print("  IMAGES SENT TO THE VIDEO ROUTE, IN THIS ORDER")
+        for i, (who, f, kind) in enumerate(keyframe_refs(s, T), start=1):
+            tag = "first frame" if kind == "first_frame" else f"{who} — {kind}"
+            mark = "" if pathlib.Path(f).exists() else "   ✗ MISSING"
+            print(f"    Image {i}. {pathlib.Path(f).name}  ({tag}){mark}")
         print()
         print("  AUDIO")
         if line:
@@ -923,29 +1055,49 @@ def cmd_brief(a):
 
 
 def cmd_fire(a):
-    """Animate the keyframe. One image in, no audio — the voice arrives at sync."""
+    """Fire the shot on the reference route: keyframe as Image 1, character sheets
+    after it, in exactly the order compile_motion named them.
+
+    This moved off image-to-video, which takes a single image and therefore could
+    not carry the character sheets at all. The trade is real and worth stating:
+    image-to-video guarantees the supplied frame IS the first frame, while
+    reference-to-video composes and has to be TOLD to reproduce Image 1 as the
+    opening composition. We take that trade because a face with nothing anchoring
+    it drifts over nine seconds, and the guide's own first-frame template pairs
+    the frame with appearance references for exactly this reason.
+    """
     TK.mkdir(parents=True, exist_ok=True)
     T = table()
-    KFR = P / "keyframes"
     procs = []
     shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
     for s in shots:
         out = TK / f"{s['id']}.mp4"
-        kf = KFR / f"{s['id']}.png"
-        em = EM / f"{s['id']}.txt"
-        em.parent.mkdir(parents=True, exist_ok=True)
-        em.write_text(compile_motion(s, T))   # recompile at the point of firing
+        refs = keyframe_refs(s, T)
+        kf = pathlib.Path(refs[0][1])
         if not kf.exists():
             print(f"  {s['id']:<8} no keyframe at {kf.name} — waiting on it"); continue
+        missing = [f for _w, f, _k in refs if not pathlib.Path(f).exists()]
+        if missing:
+            print(f"  {s['id']:<8} missing references: {', '.join(pathlib.Path(m).name for m in missing)}")
+            continue
         if out.exists() and not a.force:
             print(f"  {s['id']:<8} already shot — skipping"); continue
+        em = EM / f"{s['id']}.txt"
+        em.parent.mkdir(parents=True, exist_ok=True)
+        em.write_text(compile_motion(s, T))       # recompile at the point of firing
         score, _ = gate_motion(em.read_text(), s, T)
         if score < FLOOR:
             print(f"  {s['id']:<8} REFUSED at {score} — not firing"); continue
-        cmd = [sys.executable, str(ROOT / "engine/fire.py"), "render", "--model", "minimax",
-               "--prompt", str(em), "--image", str(kf),
-               "--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
-        print(f"  {s['id']:<8} firing {s['sec']}s from {kf.name}")
+        passed, why = audit_ok(s, em.read_text())
+        if not passed:
+            print(f"  {s['id']:<8} REFUSED — {why}. Run the generator, then "
+                  f"`audit --shot {s['id']} --pass <score>`."); continue
+        cmd = [sys.executable, str(ROOT / "engine/fire.py"), "render", "--model", "h3",
+               "--prompt", str(em)]
+        for _w, f, _k in refs:
+            cmd += ["--image", f]
+        cmd += ["--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
+        print(f"  {s['id']:<8} firing {s['sec']}s · Image 1 = {kf.name} + {len(refs)-1} sheets")
         procs.append((s["id"], subprocess.Popen(cmd, stdout=subprocess.DEVNULL,
                                                 stderr=subprocess.PIPE)))
     for sid, p_ in procs:
@@ -1098,12 +1250,15 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name, fn in (("keyframe", cmd_keyframe), ("compile", cmd_compile),
-                     ("brief", cmd_brief), ("fire", cmd_fire), ("sync", cmd_sync),
+                     ("audit", cmd_audit), ("brief", cmd_brief),
+                     ("fire", cmd_fire), ("sync", cmd_sync),
                      ("assemble", cmd_assemble), ("cut", cmd_cut)):
         p = sub.add_parser(name)
         p.add_argument("--scene", default="FR")
         p.add_argument("--shot", help="one shot id, for working a scene beat by beat")
         p.add_argument("--force", action="store_true")
+        p.add_argument("--pass", dest="record", type=float,
+                       help="record a Seedance generator score against this exact prompt")
         p.set_defaults(func=fn)
     a = ap.parse_args()
     a.func(a)

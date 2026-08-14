@@ -56,23 +56,32 @@ footer{color:var(--ink-soft);font-size:.85rem;border-top:1px solid var(--rule);
 </header>
 
 <section><h2>Specification</h2><dl>
-<dt>Route</dt><dd>minimax/h3/image-to-video · 768P</dd><dt>Duration</dt><dd>9s</dd><dt>Keyframe</dt><dd>FR01.png — present</dd><dt>Gate</dt><dd>10.00</dd>
+<dt>Route</dt><dd>minimax/h3/reference-to-video · 768P</dd><dt>Duration</dt><dd>9s</dd><dt>Keyframe</dt><dd>FR01.png — present</dd><dt>Gate</dt><dd>10.00</dd><dt>Seedance audit</dt><dd>audited 9.7</dd>
 </dl></section>
 
-<section><h2>Images sent to the video route</h2>
-<ul><li>FR01.png</li></ul>
-<p class="note">The character sheets and the room plate are <em>not</em> sent here. They were
-references for the keyframe; once it exists it carries what they gave it, and sending them again
-would invite a redraw mid-take.</p></section>
+<section><h2>Images sent to the video route, in this order</h2>
+<ul><li><strong>Image 1</strong> · <code>FR01.png</code> — the first frame, defining the whole opening composition</li><li><strong>Image 2</strong> · <code>Tom_model_sheet.jpg</code> — Tom, appearance</li><li><strong>Image 3</strong> · <code>Tom_expressions.jpg</code> — Tom, expression</li><li><strong>Image 4</strong> · <code>Richard_sheet.jpg</code> — Richard, appearance</li><li><strong>Image 5</strong> · <code>Richard_expressions.jpg</code> — Richard, expression</li><li><strong>Image 6</strong> · <code>Macsen_sheet.jpg</code> — Macsen, appearance</li><li><strong>Image 7</strong> · <code>Macsen_expressions.jpg</code> — Macsen, expression</li></ul>
+<p class="note">Order is the contract: the prompt calls these Image 1 to Image 7 by
+position, so the compiler and the firing command walk the same list. The keyframe leads and
+carries the composition; the sheets that follow anchor identity only and are told not to
+recompose it.</p></section>
 
 <section><h2>Audio</h2><ul><li><strong>FR01_Tom.mp3</strong> — 7.63s, lead-in 0.7s. Goes to the sync stage, never to the video route.</li><li>Speaker box <code>[300, 30, 560, 600]</code> — crops to Tom alone so the sync cannot pick the wrong face.</li></ul></section>
 
 <section><h2>Laid under at assembly</h2><ul><li>room_bed_120s.mp3 at 0.16</li></ul></section>
 
 <section><h2>The prompt, in full, exactly as sent</h2>
-<pre>The supplied image is the first frame. It defines the opening composition, every subject&#x27;s position and pose, the prop state, the scene and the camera direction. Animate forward from it; do not redraw it, do not restage it, and do not alter any face, hair or clothing it already contains.
+<pre>Image 1 is the first frame. It defines the complete opening composition: every subject&#x27;s position and pose, the prop state, the room, the lighting and the camera direction. Reproduce it exactly as the shot&#x27;s opening frame and animate forward from there; do not restage it and do not recompose it.
+Image 2 defines Tom&#x27;s appearance only — his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not use its background or layout, and do not let it change the composition defined by Image 1.
+Image 3 defines Tom&#x27;s facial expressions and range only. Do not use its background or layout, and do not let it change the composition defined by Image 1 or add a second copy of Tom.
+Image 4 defines Richard&#x27;s appearance only — his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. Do not use its background or layout, and do not let it change the composition defined by Image 1.
+Image 5 defines Richard&#x27;s facial expressions and range only. Do not use its background or layout, and do not let it change the composition defined by Image 1 or add a second copy of Richard.
+Image 6 defines Macsen&#x27;s appearance only — his ginger tabby markings, his white chest and paws, his build and his face. Do not use its background or layout, and do not let it change the composition defined by Image 1.
+Image 7 defines Macsen&#x27;s facial expressions and range only. Do not use its background or layout, and do not let it change the composition defined by Image 1 or add a second copy of Macsen.
+Image 1 also defines every prop in this shot — the wrapped bundle, a small object about the size of two fists, bundled in a cream cotton cloth checked in faded red, gathered at the top and tied once. Take the props from Image 1 and from nowhere else.
+Every image above shows the SAME people as Image 1. The output contains exactly one of each character and no one else.
 
-In the front room of Thistlewood&#x27;s, an old antique restorer&#x27;s shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen&#x27;s ear turns to the voice. By the end: Tom is still holding the wrapped bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
+In the front room of Thistlewood&#x27;s, an old antique restorer&#x27;s shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Tom speaks across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen&#x27;s ear turns to the voice. By the end: Tom is still holding the wrapped bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
 
 Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Tom, his breathing shows in his shoulders, the fingers holding the bundle adjust their grip once, and he swallows before he speaks; for Richard, he listens with his whole body — his weight settles onto one hand on the counter top, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward Tom as the sentence goes on; for Macsen, the tip of his tail flicks twice, one ear rotates toward the voice, his head turns a few degrees to follow Tom, and he blinks slowly. In the room itself, the hanging lamplight is steady but the shadows breathe; nothing in the shop is rigid.
 
