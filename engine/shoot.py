@@ -947,49 +947,79 @@ def prompt_hash(text: str) -> str:
 
 
 def cmd_audit(a):
-    """Record that THIS EXACT prompt passed the Seedance generator.
+    """The audit LOOP: through the generator, score, revise, back through, until
+    it clears 9.5 — with every round kept.
 
-    The rule was always: through the generator, above 9.5, then fire. It broke
-    the first time the prompt changed materially - seven reference bindings and a
-    different route were added, the audit that existed was of the version before
-    them, and it fired anyway. A rule I have to remember is not a rule.
+    A single stamp only recorded that an audit happened. It did not force the
+    cycle when one failed, and a failure is exactly when the process has to bite:
+    the prompt gets corrected, and the corrected prompt is a NEW prompt that has
+    never been through the generator. Julian: "the itterated version goes back
+    trhough the prompt generaotr until we get it over 9.5."
 
-    So the pass is stamped against the prompt's hash. Change one character of the
-    compiled prompt and the stamp no longer matches, and fire refuses until the
-    generator has been run over the new text. `--pass SCORE` records; bare
-    `audit` reports where each shot stands.
+    So every round is recorded against the hash of the text it scored. A round
+    below the floor leaves the shot unpassed and names what has to change; the
+    revision produces a new hash, which needs its own round. The history stays,
+    because how a prompt got to 9.7 is worth as much as the 9.7.
+
+        audit --shot FR02                         # where does it stand
+        audit --shot FR02 --pass 8.7 --notes "…"  # record a round
     """
     T = table()
     rec = json.loads(AUDITS.read_text()) if AUDITS.exists() else {}
     shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
     for s in shots:
         h = prompt_hash(compile_motion(s, T))
+        entry = rec.setdefault(s["id"], {"rounds": []})
         if a.record is not None:
-            rec[s["id"]] = {"hash": h, "score": a.record}
-            print(f"  {s['id']:<8} audit recorded — {a.record} on prompt {h}")
-        else:
-            got = rec.get(s["id"])
-            if not got:
-                print(f"  {s['id']:<8} NEVER AUDITED — prompt {h}")
-            elif got["hash"] != h:
-                print(f"  {s['id']:<8} STALE — audited {got['hash']} at {got['score']}, "
-                      f"prompt is now {h}")
+            rnd = {"round": len(entry["rounds"]) + 1, "hash": h, "score": a.record,
+                   "notes": a.notes or ""}
+            entry["rounds"].append(rnd)
+            if a.record >= FLOOR:
+                print(f"  {s['id']:<8} round {rnd['round']}: {a.record} on {h} — CLEARS {FLOOR}")
             else:
-                print(f"  {s['id']:<8} audited {got['score']} on {h} ✓")
+                print(f"  {s['id']:<8} round {rnd['round']}: {a.record} on {h} — BELOW {FLOOR}. "
+                      f"Correct the prompt and audit the corrected version; it is a new "
+                      f"prompt and needs its own round.")
+            if rnd["notes"]:
+                print(f"  {'':<8} └ {rnd['notes']}")
+        else:
+            if not entry["rounds"]:
+                print(f"  {s['id']:<8} NEVER AUDITED — prompt {h}")
+                continue
+            for r in entry["rounds"]:
+                mark = "✓" if r["score"] >= FLOOR else "✗"
+                live = "  ← current prompt" if r["hash"] == h else ""
+                print(f"  {s['id']:<8} round {r['round']}  {r['score']:>4} {mark}  {r['hash']}{live}"
+                      + (f"\n  {'':<8}         {r['notes']}" if r["notes"] else ""))
+            ok, why = audit_ok(s, compile_motion(s, T))
+            print(f"  {'':<8} → {why}")
     if a.record is not None:
         AUDITS.write_text(json.dumps(rec, indent=1, sort_keys=True) + "\n")
 
 
 def audit_ok(s: dict, text: str) -> tuple[bool, str]:
+    """Has THIS text been through the generator and cleared the floor?
+
+    Only a round whose hash matches the current prompt counts. Earlier rounds are
+    history: they scored a different document.
+    """
     rec = json.loads(AUDITS.read_text()) if AUDITS.exists() else {}
-    got, h = rec.get(s["id"]), prompt_hash(text)
-    if not got:
+    entry = rec.get(s["id"], {})
+    rounds = entry.get("rounds", [])
+    h = prompt_hash(text)
+    if not rounds:
         return False, "never through the Seedance generator"
-    if got["hash"] != h:
-        return False, f"prompt changed since the audit ({got['hash']} → {h})"
-    if got["score"] < FLOOR:
-        return False, f"audited at {got['score']}, below the {FLOOR} floor"
-    return True, f"audited {got['score']}"
+    mine = [r for r in rounds if r["hash"] == h]
+    if not mine:
+        last = rounds[-1]
+        return False, (f"prompt changed since round {last['round']} "
+                       f"({last['hash']} at {last['score']} → {h}); "
+                       f"the corrected version needs its own round")
+    best = max(r["score"] for r in mine)
+    if best < FLOOR:
+        return False, (f"round {mine[-1]['round']} scored {best}, below the {FLOOR} floor — "
+                       f"correct it and re-audit")
+    return True, f"cleared at {best} on round {mine[-1]['round']} of {len(rounds)}"
 
 
 def cmd_brief(a):
@@ -1269,6 +1299,7 @@ def main():
         p.add_argument("--force", action="store_true")
         p.add_argument("--pass", dest="record", type=float,
                        help="record a Seedance generator score against this exact prompt")
+        p.add_argument("--notes", help="what the generator said to change")
         p.set_defaults(func=fn)
     a = ap.parse_args()
     a.func(a)

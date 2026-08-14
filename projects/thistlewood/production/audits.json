@@ -1,6 +1,18 @@
 {
  "FR01": {
-  "hash": "681611e19e2398ef",
-  "score": 9.7
+  "rounds": [
+   {
+    "hash": "681611e19e2398ef",
+    "notes": "first recorded round; the 8.7 that preceded it scored the pre-binding prompt and was never stamped",
+    "round": 1,
+    "score": 9.7
+   },
+   {
+    "hash": "411e0dd4b104bcb5",
+    "notes": "reference order regrouped: all appearance sheets before expressions, expressions capped at the 8-image stable range. Same checklist result as round 1; grouping reads cleaner. Same two deductions: style paragraph restates what Image 1 carries, camera sentence mildly redundant.",
+    "round": 2,
+    "score": 9.7
+   }
+  ]
  }
 }

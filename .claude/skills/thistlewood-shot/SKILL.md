@@ -109,16 +109,43 @@ compiler and the firing command must walk the same list.
 
 ---
 
-## 5 · The audit is stamped against the prompt's hash
+## 5 · The audit is a LOOP, not a stamp, and it runs until 9.5
 
-`audit --pass <score>` records a Seedance generator score against a hash of that
-exact prompt. `fire` refuses if no audit exists, if the score is below 9.5, or if
-the prompt has changed by one character since.
+```
+compile → generator → score
+   ├─ ≥9.5 → record the round, fire
+   └─ <9.5 → apply what the generator said → NEW prompt, NEW hash
+             → back through the generator → repeat
+```
 
-> *Earned: the prompt was materially rewritten — seven reference bindings and a
-> different route — and fired against an audit of the version before the change.
-> Julian: "no you should have retested the seedance prompt generator before
-> firing." A rule that has to be remembered is not a rule.*
+```bash
+python3 engine/shoot.py audit --shot FR02 --pass 8.7 --notes "characters bound to nothing"
+# correct the prompt …
+python3 engine/shoot.py audit --shot FR02 --pass 9.7 --notes "bindings added"
+python3 engine/shoot.py audit --shot FR02          # the whole history
+```
+
+Every round is recorded against the hash of the text it scored, and **only a
+round whose hash matches the current prompt counts** — earlier rounds scored a
+different document. `fire` refuses unless the current prompt has a passing round
+of its own.
+
+**A correction produces a new prompt that has never been through the generator.**
+That is the whole point of the loop: the fix is not the end of the audit, it is
+the start of the next round. Keep the history — how a prompt reached 9.7 is worth
+as much as the 9.7.
+
+> *Earned twice. First: the prompt was materially rewritten — seven reference
+> bindings and a different route — and fired against an audit of the version
+> before the change. Julian: "no you should have retested the seedance prompt
+> generator before firing." Then, once a single stamp existed, it recorded that
+> an audit had happened without forcing the cycle when one failed. Julian: "the
+> itterated version goes back trhough the prompt generaotr until we get it over
+> 9.5."*
+>
+> *The loop proved itself the hour it was built: capping the reference set
+> reordered FR01's sheets, which changed its prompt, which invalidated its 9.7
+> and blocked the fire until round 2 was run.*
 
 ---
 
