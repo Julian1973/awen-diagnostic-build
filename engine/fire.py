@@ -202,6 +202,93 @@ def render(args) -> None:
     print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)  source: {video_url}")
 
 
+def talk(args) -> None:
+    """An on-screen speaker, driven by our own recorded line.
+
+    minimax H3 has no audio input at all, so any mouth it draws is invented —
+    which reads as amateur the moment a scene is dialogue-heavy. infinitalk
+    takes the keyframe, OUR ElevenLabs line and the emission together, and the
+    mouth is driven by the audio rather than guessed from the prompt.
+
+    House split: H3 for shots with no on-screen speaker; this for every shot
+    where somebody talks.
+    """
+    route = "fal-ai/infinitalk"
+    prompt = pathlib.Path(args.prompt).read_text(encoding="utf-8").strip()
+    img = args.image if str(args.image).startswith("http") else upload_image(pathlib.Path(args.image))
+    aud = args.audio if str(args.audio).startswith("http") else upload_image(pathlib.Path(args.audio))
+    payload = {"image_url": img, "audio_url": aud, "prompt": prompt,
+               "resolution": args.resolution, "num_frames": args.frames,
+               "acceleration": "regular"}
+    print(f"  talking {route} · {args.resolution} · {args.frames} frames")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(5)
+        st, sb = _req(job["status_url"], headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"talk failed: {sb[:400].decode(errors='replace')}")
+    st, sb = _req(job["response_url"], headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    res = json.loads(sb)
+    url = (res.get("video") or {}).get("url") if isinstance(res.get("video"), dict) else res.get("video")
+    if not url:
+        sys.exit(f"no video in result: {json.dumps(res)[:400]}")
+    out = pathlib.Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
+    _, data = _req(url, timeout=600)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)")
+
+
+def lipsync(args) -> None:
+    """Drive a rendered take's mouth from our own recorded dialogue.
+
+    The render route generates mouth movement with no knowledge of the words,
+    which reads as amateur the moment a scene is dialogue-heavy. This is the
+    stage that fixes it: picture in, our ElevenLabs line in, synced picture out.
+    """
+    route = "fal-ai/sync-lipsync/v2"
+    vid = args.video if str(args.video).startswith("http") else upload_image(pathlib.Path(args.video))
+    aud = args.audio if str(args.audio).startswith("http") else upload_image(pathlib.Path(args.audio))
+    payload = {"video_url": vid, "audio_url": aud, "model": args.quality, "sync_mode": "cut_off"}
+    print(f"  lipsync {route} · {args.quality}")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(5)
+        st, sb = _req(job["status_url"], headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"lipsync failed: {sb[:400].decode(errors='replace')}")
+    st, sb = _req(job["response_url"], headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    res = json.loads(sb)
+    url = (res.get("video") or {}).get("url") if isinstance(res.get("video"), dict) else res.get("video")
+    if not url:
+        sys.exit(f"no video in result: {json.dumps(res)[:400]}")
+    out = pathlib.Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
+    _, data = _req(url, timeout=600)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)")
+
+
 def voice(args) -> None:
     key = _need(os.environ.get("ELEVENLABS_API_KEY", ""), "ELEVENLABS_API_KEY")
     payload = {
@@ -243,6 +330,24 @@ def main() -> None:
     r.add_argument("--out", default="clip.mp4")
     r.add_argument("--timeout", type=int, default=900)
     r.set_defaults(func=render)
+
+    t = sub.add_parser("talk", help="on-screen speaker driven by our recorded line")
+    t.add_argument("--prompt", required=True)
+    t.add_argument("--image", required=True)
+    t.add_argument("--audio", required=True)
+    t.add_argument("--resolution", default="720p", choices=["480p", "720p"])
+    t.add_argument("--frames", type=int, default=200)
+    t.add_argument("--out", required=True)
+    t.add_argument("--timeout", type=int, default=900)
+    t.set_defaults(func=talk)
+
+    l = sub.add_parser("lipsync", help="drive a take's mouth from our recorded dialogue")
+    l.add_argument("--video", required=True)
+    l.add_argument("--audio", required=True)
+    l.add_argument("--quality", default="lipsync-2-pro", choices=["lipsync-2", "lipsync-2-pro"])
+    l.add_argument("--out", required=True)
+    l.add_argument("--timeout", type=int, default=900)
+    l.set_defaults(func=lipsync)
 
     v = sub.add_parser("voice", help="render an approved line through ElevenLabs")
     v.add_argument("--text", required=True)
