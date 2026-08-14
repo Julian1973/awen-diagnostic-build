@@ -283,8 +283,36 @@
     {
       "id": "FR07",
       "sec": 9,
-      "_approved": "APPROVED 2026-08-13 as the studio's first take (POS-001) — Tom winds the box and the wrong tune spills out. Already shot and assembled; compile and fire skip it.",
-      "skip": true
+      "_supersedes": "POS-001, approved 2026-08-13 and superseded by the room change on the 14th. The approved take was shot in the old shop with different lighting and a figure who is not in this scene; it will not cut with the other sixteen. Approval does not survive a set change.",
+      "blocking": "SETUP-B_insert_hands_box.png",
+      "blocking_use": "the camera position and the staging only — a close insert looking down onto the counter top with the cloth and the open box filling the middle of frame and two hands entering from the bottom of frame. The surface is the shop counter itself, seen from the customer side; there is no table and no second counter in this shot.",
+      "cast": [
+        "Tom"
+      ],
+      "cast_limit": {
+        "Tom": "Only Tom's hands, wrists and jacket cuffs appear in this frame. His face is never in shot at any point and no other person appears."
+      },
+      "wardrobe": {},
+      "props": [
+        "Music Box"
+      ],
+      "camera": "is locked off in a close insert looking down onto the counter top and does not move for the whole take",
+      "speaker": null,
+      "no_faces": true,
+      "sound": [
+        "room",
+        "tune"
+      ],
+      "extra_sfx": "<a small brass key being turned in a clockwork barrel, five slow ratcheting clicks, and then the soft whirr of a cylinder beginning to revolve under a steel comb>",
+      "life": {
+        "Tom": "his hands are alive throughout — the fingers turn the key in small deliberate stages, pause, and then withdraw and settle on the counter either side of the box, one thumb moving once",
+        "the box": "the brass cylinder turns steadily and the comb teeth flicker as they are plucked, so the sound is visibly coming from the mechanism",
+        "the room": "the lamplight moves across the turning brass"
+      },
+      "stages": [
+        "Opening state: the open Music Box stands in the middle of the folded cream checked cloth on the counter, its brass cylinder still. Tom's two hands rest on the counter either side of it, navy jacket cuffs and rust-red knitted sleeves showing at the bottom of frame, the small brass key between his fingers.",
+        "Primary event: Tom's fingers turn the brass key in five slow deliberate stages, winding the barrel, and then let go. The cylinder begins to revolve, the comb teeth are plucked one after another, and the tune starts. His hands withdraw to rest on the cloth either side of the box and go still. End state: the Music Box playing alone in the middle of the frame with the cylinder turning, Tom's two hands resting either side of it, one thumb moving once against the cloth."
+      ]
     },
     {
       "id": "FR07b",
