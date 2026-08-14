@@ -227,6 +227,59 @@ def render(args) -> None:
     print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)  source: {video_url}")
 
 
+def still(args) -> None:
+    """Generate a shot's KEYFRAME — the first frame the animation runs from.
+
+    This is the stage the pipeline was missing. Without a keyframe, a video
+    route composes the shot itself from loose references and re-invents the
+    room's dressing on every single shot, which is exactly what continuity
+    drift looks like. With one, the dressing is decided ONCE in a still that
+    can be looked at, corrected and re-run for pennies, and the video route's
+    only job is to move it.
+
+    Reference images go in as a set — room plate first, then the character
+    sheets — and the prompt says who stands where at the top of the shot.
+    """
+    route = "fal-ai/nano-banana/edit"
+    prompt = pathlib.Path(args.prompt).read_text(encoding="utf-8").strip()
+    urls = [u if str(u).startswith("http") else upload_image(pathlib.Path(u))
+            for u in args.image]
+    payload = {"prompt": prompt, "image_urls": urls,
+               "num_images": 1, "output_format": "png",
+               "aspect_ratio": args.aspect}
+    print(f"  keyframe {route} · {len(urls)} refs · {len(prompt)} chars")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(4)
+        st, sb = _req(job["status_url"], headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"keyframe failed: {sb[:400].decode(errors='replace')}")
+    else:
+        sys.exit(f"timed out after {args.timeout}s")
+    st, sb = _req(job["response_url"], headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    res = json.loads(sb)
+    imgs = res.get("images") or []
+    if not imgs:
+        sys.exit(f"no image in result: {json.dumps(res)[:400]}")
+    url = imgs[0]["url"] if isinstance(imgs[0], dict) else imgs[0]
+    out = pathlib.Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    st, data = _req(url, timeout=300)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1000:.0f} KB)  source: {url}")
+
+
 def talk(args) -> None:
     """An on-screen speaker, driven by our own recorded line.
 
@@ -367,6 +420,14 @@ def main() -> None:
     t.add_argument("--out", required=True)
     t.add_argument("--timeout", type=int, default=900)
     t.set_defaults(func=talk)
+
+    k = sub.add_parser("still", help="generate a shot's keyframe from its references")
+    k.add_argument("--prompt", required=True)
+    k.add_argument("--image", action="append", required=True)
+    k.add_argument("--aspect", default="16:9")
+    k.add_argument("--out", required=True)
+    k.add_argument("--timeout", type=int, default=600)
+    k.set_defaults(func=still)
 
     l = sub.add_parser("lipsync", help="drive a take's mouth from our recorded dialogue")
     l.add_argument("--video", required=True)

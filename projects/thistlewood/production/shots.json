@@ -8,8 +8,9 @@
   "scene_plate": {
     "name": "Front Room",
     "file": "PL-04b_front_room_master.png",
-    "use": "the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light",
-    "exclude": "Do not take any people from this image — it is an empty room and the room is all it contributes."
+    "use": "the long wooden counter running down the right of the room, the curved glass display cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle of the floor, the arched opening behind the counter with its curtains tied back at either side and the lit workshop clearly visible through it, the glazed front door at the right with a brass bell on a spring above it, the two hanging green enamel lamps, the plank floor and the warm honeyed interior light",
+    "exclude": "Do not take any people from this image — it is an empty room and the room is all it contributes.",
+    "lock": "Hold the room exactly as the reference has it. There is ONE counter, ONE arched opening to the workshop and ONE glazed front door — never a second of any of them. The opening behind the counter is an ARCH you can see the workshop through, not a flat curtained alcove."
   },
   "cast": {
     "Tom": {
@@ -61,13 +62,13 @@
   "hero_props": {
     "Wrapped Bundle": {
       "file": "Tom_sheet.jpg",
-      "desc": "a small object bundled in a cream cloth checked in faded red and tied at the top, exactly as held in the hands on that sheet",
+      "desc": "a small object about the size of two fists, bundled in a cream cotton cloth checked in faded red, gathered at the top and tied once",
       "rule": "It belongs only to Tom. There is exactly one of it, it stays wrapped and tied for the whole shot, and no music box is visible at any point."
     },
     "Music Box": {
       "file": "Tom_sheet.jpg",
-      "desc": "the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years",
-      "rule": "There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time."
+      "desc": "a small worn walnut music box, about the size of two fists, with a hinged lid standing open, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one pale worn place on the lid where a thumb has rested for a hundred years",
+      "rule": "There is exactly one music box and it is never cracked, split or broken open."
     }
   },
   "ambience": {

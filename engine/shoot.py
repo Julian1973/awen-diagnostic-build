@@ -73,6 +73,97 @@ def humans(s: dict, T: dict) -> list[str]:
     return [c for c in s.get("cast", []) if c != "Macsen"]
 
 
+def compile_motion(s: dict, T: dict) -> str:
+    """Compile the shot's ANIMATION prompt, for image-to-video off the keyframe.
+
+    Everything the old reference-to-video prompt spent its length on — who each
+    character is, what they are wearing, where the counter sits, what the room
+    contains — is ALREADY IN THE FIRST FRAME. Restating it here does not help;
+    it invites the model to redraw what it can already see, which is how a face
+    drifts inside a single take.
+
+    So this prompt does one job: it moves the keyframe. Performance, camera,
+    secondary life, and what must not change. No appearance. No dialogue — the
+    words arrive as an audio file and the mouth is driven by the lipsync pass,
+    not guessed from text.
+    """
+    out: list[str] = []
+    spk = s.get("speaker")
+
+    out.append("[Subject and Action]")
+    out.append("The first frame is the shot's opening state and everyone in it is already "
+               "correct — faces, hair, clothing, positions, the room and the props all stay "
+               "exactly as the frame has them. Animate this frame; do not redraw it.")
+    out.append(primary_event(s))
+    out.append("")
+
+    out.append("[Camera]")
+    out.append(f"The camera {s['camera']}.")
+    out.append("")
+
+    if s.get("faces"):
+        out.append("[Performance]")
+        for who, face in s["faces"].items():
+            out.append(f"{who}: {face}.")
+        out.append("")
+
+    out.append("[Secondary Life]")
+    out.append("Nobody in this frame is a still image. Throughout the whole shot, "
+               "continuously and independently of the main action:")
+    for who, action in s["life"].items():
+        out.append(f"— {who}: {action}")
+    out.append("These movements are small and continuous. They never stop, and they never "
+               "compete with the main action.")
+    out.append("")
+
+    # The mouth. The words are NOT here — they arrive as audio and the lipsync
+    # pass drives the articulation. All this has to do is say who is talking, so
+    # the wrong face does not.
+    out.append("[Speech]")
+    if spk:
+        out.append(f"{spk} is the only person speaking in this shot, {s['delivery']}. "
+                   f"Animate the mouth as natural conversational speech with the head and "
+                   f"jaw moving as someone talking — do not attempt specific words.")
+    else:
+        out.append("Nobody speaks in this shot.")
+    for who in humans(s, T):
+        if who == spk:
+            continue
+        out.append(f"{who} does not speak: the mouth stays closed with no lip or jaw "
+                   f"movement. {who} is NOT frozen — the body keeps living and reacting.")
+    out.append("")
+
+    out.append("[Audio]")
+    for key in s.get("sound", []):
+        out.append(T["ambience"][key])
+    if s.get("extra_sfx"):
+        out.append(s["extra_sfx"])
+    if "tune" not in s.get("sound", []):
+        out.append("There is no musical score of any kind in this shot. The only sound is "
+                   "the room itself.")
+    out.append("")
+
+    if s.get("ritual"):
+        out.append("[Ritual]")
+        out.append(s["ritual"])
+        out.append("")
+
+    out.append("[Maintain Consistency]")
+    out.append("Every face, hairstyle, garment and prop stays exactly as the first frame "
+               "defines it for the whole take — nobody changes appearance, nobody is "
+               "swapped for anyone else, and no extra person enters the room. The room "
+               "layout, the counter position and the lighting never change. "
+               + (f"Keep exactly one of each prop and its owner unchanged: "
+                  + ", ".join(s["props"]) + "." if s.get("props") else "")
+               + " Everyone in frame stays alive and breathing for the entire shot.")
+    return "\n".join(out).strip() + "\n"
+
+
+def primary_event(s: dict) -> str:
+    """Stage 2 — what actually happens, minus the stage labels."""
+    return s["stages"][1].replace("Primary event:", "").replace("End state:", "By the end:").strip()
+
+
 def compile_emission(s: dict, T: dict) -> str:
     """Compile one shot into the sd25-pe multi-reference template.
 
@@ -275,6 +366,104 @@ def audio_seconds(path: pathlib.Path) -> float:
     return (int(m[1]) * 3600 + int(m[2]) * 60 + float(m[3])) if m else 0.0
 
 
+def compile_keyframe(s: dict, T: dict) -> str:
+    """Compile the shot's KEYFRAME PROMPT — the still that the animation runs from.
+
+    This is a description of ONE FROZEN MOMENT: the first frame of the shot.
+    No motion verbs, no dialogue, no 'then', no 'as he speaks'. Everything is a
+    state — who is standing where, holding what, facing which way, wearing what.
+    If it describes a change, the image model draws the change as a blur or
+    draws the end of it, and the shot starts in the wrong place.
+    """
+    out: list[str] = []
+    sp, spk = T["scene_plate"], s.get("speaker")
+
+    out.append(f"# {s['id']} — KEYFRAME")
+    out.append("")
+    out.append("A single still frame from a hand-drawn 2D animated children's series: the "
+               "FIRST frame of a shot. One moment, frozen. Not a poster, not a montage, no "
+               "panels, no text anywhere in the image.")
+    out.append("")
+
+    # Chain-linking. Two different jobs, and confusing them is how a reverse
+    # ends up looking like a jump cut of the same angle.
+    ch = s.get("chain")
+    if ch:
+        out.append("## Continuity — chain-linked")
+        if ch["mode"] == "continue":
+            out.append(f"START FROM the last frame of {ch['from']} (supplied as a reference). "
+                       f"The camera has not cut: this is the same angle continuing, so the "
+                       f"framing, the dressing, the light and every prop position carry over "
+                       f"exactly. Change only what this shot's positions below say changed.")
+        else:
+            out.append(f"The last frame of {ch['from']} is supplied as a CONTINUITY reference "
+                       f"only. The camera HAS cut, so do not copy its framing — take from it "
+                       f"the state of the room and the props: what is on the counter, where "
+                       f"the box and cloth are, how the lamps are lit, who is holding what. "
+                       f"The framing comes from the Framing section below.")
+        out.append("")
+
+    out.append("## The room")
+    out.append(f"{sp['use'][0].upper()}{sp['use'][1:]}. {sp['lock']} {sp['exclude']}")
+    out.append("")
+
+    out.append("## Who is in frame, and where")
+    for who in s.get("cast", []):
+        c = T["cast"][who]
+        bits = [f"**{who}** — {c['use']}."]
+        if c.get("exclude"):
+            bits.append(c["exclude"])
+        if s.get("wardrobe", {}).get(who):
+            bits.append(T["wardrobe"][who][s["wardrobe"][who]])
+        bits.append(f"Scale: {c['scale']}.")
+        if s.get("faces", {}).get(who):
+            bits.append(f"Expression: {s['faces'][who]}.")
+        if s.get("cast_limit", {}).get(who):
+            bits.append(s["cast_limit"][who])
+        out.append(" ".join(bits))
+        out.append("")
+
+    out.append("## Positions at the top of the shot")
+    out.append(opening_state(s))
+    out.append("")
+
+    if s.get("props"):
+        out.append("## Props")
+        for pr in s["props"]:
+            p = T["hero_props"][pr]
+            out.append(f"**{pr}** — {p['desc']}. {p['rule']}")
+        out.append("")
+
+    out.append("## Framing")
+    fr = s["blocking_use"].split("—", 1)[-1].strip()
+    out.append(fr[0].upper() + fr[1:])
+    out.append("Screen direction: the customer side of the counter is camera-LEFT and the "
+               "shopkeeper's side is camera-RIGHT. Tom and the children face screen-right; "
+               "Richard faces screen-left.")
+    out.append("")
+
+    out.append("## Style")
+    out.append(T["style"])
+    out.append("")
+
+    out.append("## Do not")
+    out.append("No motion blur and no action lines — this is a held frame. "
+               + ("Every mouth in this frame is CLOSED; nobody is mid-word."
+                  if not spk else
+                  f"{spk} has not started speaking yet — the mouth is closed and about to "
+                  f"open. Every other mouth is closed.")
+               + " No text, lettering, signage or watermark anywhere in the image. No 3D "
+                 "render, no photorealism, no painterly brushwork. No extra people beyond "
+                 "those named above.")
+    return "\n".join(out).strip() + "\n"
+
+
+def opening_state(s: dict) -> str:
+    """Stage 1 of the event script, stripped of its label — the frozen moment."""
+    txt = s["stages"][0]
+    return txt.split("Opening state:", 1)[-1].strip()
+
+
 def gate(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
     t = text.lower()
     files, R = resolve_refs(s, T)
@@ -413,6 +602,29 @@ def cmd_compile(a):
         sys.exit(f"REFUSED {bad} shot(s). Fix the shot table; nothing fires below the floor.")
 
 
+def cmd_keyframe(a):
+    """Write the keyframe prompt(s) — what Julian generates the first frame from.
+
+    --shot FR01 for one beat; --scene FR for the lot. Beat by beat is the house
+    default: a keyframe that is wrong costs a re-prompt, and a keyframe that is
+    wrong and already animated costs a re-render.
+    """
+    KFP = P / "keyframe_prompts"
+    KFP.mkdir(parents=True, exist_ok=True)
+    T = table()
+    shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot
+             else load(T, a.scene))
+    if not shots:
+        sys.exit(f"no shot matched {a.shot or a.scene}")
+    for s in shots:
+        text = compile_keyframe(s, T)
+        (KFP / f"{s['id']}.md").write_text(text)
+        refs = [T["scene_plate"]["file"]] + [T["cast"][w]["file"] for w in s.get("cast", [])]
+        if s.get("chain"):
+            refs.append(f"LAST FRAME of {s['chain']['from']}")
+        print(f"  {s['id']:<8} keyframe prompt written · references: {', '.join(dict.fromkeys(refs))}")
+
+
 def cmd_fire(a):
     TK.mkdir(parents=True, exist_ok=True)
     T = table()
@@ -513,10 +725,11 @@ def cmd_cut(a):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name, fn in (("compile", cmd_compile), ("fire", cmd_fire),
-                     ("assemble", cmd_assemble), ("cut", cmd_cut)):
+    for name, fn in (("keyframe", cmd_keyframe), ("compile", cmd_compile),
+                     ("fire", cmd_fire), ("assemble", cmd_assemble), ("cut", cmd_cut)):
         p = sub.add_parser(name)
-        p.add_argument("--scene", required=True)
+        p.add_argument("--scene", default="FR")
+        p.add_argument("--shot", help="one shot id, for working a scene beat by beat")
         p.add_argument("--force", action="store_true")
         p.set_defaults(func=fn)
     a = ap.parse_args()
