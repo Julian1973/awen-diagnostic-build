@@ -102,6 +102,18 @@
    "cut_to": 4
   },
   {
+   "id": "FR07",
+   "keyframe": "SETUP-B_insert_hands_box.png",
+   "sec": 9,
+   "_note": "APPROVED 2026-08-13 as the studio's first take (POS-001). Already shot and assembled.",
+   "establish": "placeholder \u2014 this shot is already approved and is not recompiled",
+   "camera": "is locked off and does not move",
+   "no_faces": true,
+   "open": "-",
+   "event": "-",
+   "end": "-"
+  },
+  {
    "id": "FR08",
    "keyframe": "SETUP-E_children_no_apron.png",
    "sec": 5,
