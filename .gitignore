@@ -12,3 +12,4 @@ __pycache__/
 projects/*/assets/
 projects/*/production/takes/
 projects/*/production/voice/**/*.mp3
+projects/*/production/assembled/**/*.mp4
