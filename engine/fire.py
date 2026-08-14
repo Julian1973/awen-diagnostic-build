@@ -85,6 +85,28 @@ MODELS = {
     # Takes ONE image and no @Image N role syntax, so a two-reference beat
     # cannot be expressed here at all; the second reference's information has
     # to survive in prose or be lost.
+    # THE RIGHT ROUTE. minimax/h3/reference-to-video takes an ARRAY of reference
+    # images, an ARRAY of reference AUDIO clips, and generates native sound.
+    # Everything the studio assumed on 2026-08-13 — one image only, no audio,
+    # no lipsync, a bespoke keyframe per shot — came from reading the
+    # image-to-video wrapper instead of this one. Julian: "surely minimax if you
+    # deliver all the references should put it all together." He was right.
+    "h3": {
+        "route": "minimax/h3/reference-to-video",
+        "refs": "many",
+        "resolutions": ["480P", "768P", "2K", "4K"],
+        "durations": [str(n) for n in range(5, 16)],
+        "prompt_ceiling": 50000,
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "reference_image_urls": urls,
+            **({"reference_audio_urls": a.audio} if getattr(a, "audio", None) else {}),
+            "resolution": a.resolution,
+            "duration": int(a.duration),
+            "aspect_ratio": "16:9",
+            "enable_prompt_expansion": False,
+        },
+    },
     "minimax": {
         "route": "minimax/h3/image-to-video",
         "refs": "one",
@@ -162,6 +184,9 @@ def render(args) -> None:
     if spec["refs"] == "one" and len(image_urls) > 1:
         sys.exit(f"REFUSED — {args.model} accepts one image; {len(image_urls)} were given. "
                  f"Choose deliberately rather than letting the extras be dropped silently.")
+    if getattr(args, "audio", None):
+        args.audio = [u if str(u).startswith("http") else upload_image(pathlib.Path(u))
+                      for u in args.audio]
     payload = spec["build"](prompt, image_urls, args)
     print(f"  submitting {route} · {args.resolution} · {args.duration}s "
           f"· {len(image_urls)} refs · {len(prompt)} chars")
@@ -327,6 +352,8 @@ def main() -> None:
     r.add_argument("--resolution", default="768P")
     r.add_argument("--duration", default=12)
     r.add_argument("--no-audio", action="store_true")
+    r.add_argument("--audio", action="append",
+                   help="reference audio (repeatable) — h3 route only; the model speaks to it")
     r.add_argument("--out", default="clip.mp4")
     r.add_argument("--timeout", type=int, default=900)
     r.set_defaults(func=render)
