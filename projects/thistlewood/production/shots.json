@@ -350,7 +350,9 @@
       "stages": [
         "Opening state: Peggi is up on her toes at the counter edge in the foreground with both hands gripping it, her chin barely clearing the counter top, looking at the Music Box. Albert is beside her with his notebook open, Rose stands a little further back, Lily furthest back with her arms folded, and Richard is behind the counter.",
         "Primary event: Peggi says her short delighted line, bouncing once on her toes as she says it, both hands still gripping the counter edge. Nobody else speaks, but the others react — Albert's pencil keeps moving, Rose leans in a fraction, Lily steadies Peggi with one hand, Richard breathes something that is almost a laugh. End state: Peggi grinning, still on her toes, looking at the box; the other three still in their own postures at their own depths."
-      ]
+      ],
+      "route_ref": "_route_refs/FR08_Peggi.mp3",
+      "_route_ref_note": "tripled - the route refuses reference audio under 2.0s and this line is shorter. It fixes voice only, so repetition is free."
     },
     {
       "id": "FR09",
@@ -632,7 +634,9 @@
       "stages": [
         "Opening state: Tom stands in the left half of frame half-turned toward the glazed front door, his hands empty at his sides, stopping. Richard is behind the counter at the right in his apron with the Music Box in his hands. Macsen is on the counter.",
         "Primary event: Tom turns back a little and asks one short question, one hand lifting slightly and dropping again. Richard does not stop handling the box; only his eyes come up. End state: Tom half-turned and waiting with his hand back at his side, Richard still holding the box with his eyes now on Tom."
-      ]
+      ],
+      "route_ref": "_route_refs/FR16_Tom.mp3",
+      "_route_ref_note": "tripled - the route refuses reference audio under 2.0s and this line is shorter. It fixes voice only, so repetition is free."
     },
     {
       "id": "FR17",
@@ -666,7 +670,9 @@
       "stages": [
         "Opening state: Richard stands behind the counter in his apron looking off screen-left, the Music Box in his hands.",
         "Primary event: Richard answers in four words, already turning his eyes back down to the box before he has finished, entirely unhurried. End state: Richard looking down at the box, his mouth closed, his hands still on it."
-      ]
+      ],
+      "route_ref": "_route_refs/FR17_Richard.mp3",
+      "_route_ref_note": "tripled - the route refuses reference audio under 2.0s and this line is shorter. It fixes voice only, so repetition is free."
     }
   ]
 }

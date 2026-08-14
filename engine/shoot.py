@@ -255,6 +255,17 @@ PARAMS = ("768p", "480p", "16:9", "resolution", "seconds long", "fps", "aspect r
 BRANDS = ("ghibli", "pixar", "disney", "aardman", "cbeebies")
 
 
+def audio_seconds(path: pathlib.Path) -> float:
+    """Length of a voice file, in seconds. 0.0 if it is not there."""
+    if not path.exists():
+        return 0.0
+    import imageio_ffmpeg
+    r = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-i", str(path)],
+                       capture_output=True)
+    m = re.search(r"Duration: (\d+):(\d+):(\d+\.\d+)", r.stderr.decode())
+    return (int(m[1]) * 3600 + int(m[2]) * 60 + float(m[3])) if m else 0.0
+
+
 def gate(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
     t = text.lower()
     files, R = resolve_refs(s, T)
@@ -343,6 +354,16 @@ def gate(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
 
         # — clock —
         "take length inside the route's range": MIN_TAKE <= s["sec"] <= MAX_TAKE,
+        # The route rejects reference audio under 2.0s and says so only in a
+        # stderr the batch swallows. FR08, FR16 and FR17 all vanished this way.
+        "reference audio meets the route's 2.0s minimum":
+            (not s.get("voice_ref")) or
+            audio_seconds(VOICE / s.get("voice_dir", "EP01_v3")
+                          / (s.get("route_ref") or s["voice_ref"])) >= 2.0,
+        "the recorded line fits inside the take":
+            (not s.get("voice_ref")) or
+            audio_seconds(VOICE / s.get("voice_dir", "EP01_v3") / s["voice_ref"])
+            <= (s.get("cut_to") or s["sec"]),
     }
     fails = [k for k, v in checks.items() if not v]
     return round(10 - 1.5 * len(fails), 2), fails
@@ -368,7 +389,10 @@ def cmd_compile(a):
         files, _ = resolve_refs(s, T)
         (EM / f"{s['id']}.txt").write_text(text)
         (EM / f"{s['id']}.refs.json").write_text(json.dumps(
-            {"images": files, "sec": s["sec"], "voice_ref": s.get("voice_ref"),
+            # route_ref is what H3 hears (may be a tripled copy, because the route
+            # refuses reference audio under 2.0s); voice_ref is what reaches the cut.
+            {"images": files, "sec": s["sec"],
+             "voice_ref": s.get("route_ref") or s.get("voice_ref"),
              "voice_dir": s.get("voice_dir", "EP01_v3")}, indent=1))
         flag = "CLEARED" if score >= FLOOR else "REFUSED"
         print(f"  {s['id']:<8} {score:>5.2f}  {flag}  {s['sec']:>2}s  {len(files)} refs"
