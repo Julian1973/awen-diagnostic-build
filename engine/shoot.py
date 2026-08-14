@@ -433,22 +433,27 @@ def cmd_assemble(a):
             inputs += pre + ["-i", str(src)]
             d = s.get("vo_delay", 400)
             filt.append(f"[{n}:a]volume=1.0,adelay={d}|{d}[vo]"); n += 1
-        inputs += ["-i", str(SFX / "shop_room_tone.mp3")]
+        # Room tone is 8s of recording and the longest shot is 12s, so it is looped
+        # rather than trimmed. Trimming it silently shortened FR01 from 9s to 8s —
+        # -shortest cut the PICTURE to fit the sound bed, which is backwards.
+        inputs += ["-stream_loop", "-1", "-i", str(SFX / "shop_room_tone.mp3")]
         filt.append(f"[{n}:a]volume=0.18,atrim=0:{s['sec']},asetpts=N/SR/TB[tone]"); n += 1
         labels = (["[vo]"] if line_file else []) + ["[tone]"]
         # The music box is diegetic — it is the only music in Act One and it comes
         # out of the box in frame, so it rides under the dialogue rather than over it.
         if "tune" in s.get("sound", []):
-            inputs += ["-i", str(SFX / "wrong_tune_musicbox_v2.mp3")]
+            inputs += ["-stream_loop", "-1", "-i", str(SFX / "wrong_tune_musicbox_v2.mp3")]
             filt.append(f"[{n}:a]volume=0.34,atrim=0:{s['sec']},asetpts=N/SR/TB[box]")
             labels.append("[box]"); n += 1
         filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0[a]")
         out = AS / f"{s['id']}.mp4"
-        trim = ["-t", str(s["cut_to"])] if s.get("cut_to") else []
+        # Length is stated, never inferred. -shortest let whichever input ran out
+        # first decide the cut; the shot table decides it.
+        length = s.get("cut_to") or s["sec"]
         vcodec = ["-c:v", "libx264", "-crf", "18"] if s.get("cut_to") else ["-c:v", "copy"]
         r = subprocess.run([FF, "-y", *inputs, "-filter_complex", ";".join(filt),
                             "-map", "0:v", "-map", "[a]", *vcodec, "-c:a", "aac",
-                            *trim, "-shortest", str(out)], capture_output=True)
+                            "-t", str(length), str(out)], capture_output=True)
         print(f"  {s['id']:<8} {'✓ assembled' if r.returncode == 0 else '✗ ' + r.stderr.decode()[-160:]}")
 
 
