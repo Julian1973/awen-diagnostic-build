@@ -9,6 +9,9 @@ Do not interchange the characters' appearances, clothing, actions or dialogue.
 [Scenes]
 <Front Room> references Image 1. Use only the wooden counter, the shelves of curiosities, the glazed front door, the bow window and the warm interior lighting.
 
+[Camera and Blocking]
+Image 4 defines the CAMERA POSITION and the BLOCKING of this shot, and nothing else. Copy from it: the framing and camera height, <Tom> standing on the customer side in the LEFT half of the frame facing right, <Richard> standing BEHIND the counter in the RIGHT half FACING <Tom> with his face visible to camera, and the cat on the counter between them. Do not take the room, the furniture, the lighting or the character designs from Image 4 — those come from Images 1, 2 and 3.
+
 [Style]
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
 
