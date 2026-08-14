@@ -186,12 +186,26 @@ def compile_motion(s: dict, T: dict) -> str:
     out.append("")
 
     # Subject + primary action + scene, as one prose paragraph.
-    where = ("the front room of Thistlewood's, an old antique restorer's shop, with its long "
+    # Describing the whole room to a tight insert is an instruction to BUILD one.
+    # FR03's keyframe was a counter top filling the frame; the prompt recited the
+    # cabinets and the workshop arch, and the take pulled back and invented a
+    # bright kitchen with a window in it. On an insert the room is whatever the
+    # first frame already shows, and nothing more may appear.
+    insert = bool(s.get("no_faces"))
+    where = ("Thistlewood's antique shop, of which this frame shows only the counter top and "
+             "the warm shadow behind it"
+             if insert else
+             "the front room of Thistlewood's, an old antique restorer's shop, with its long "
              "wooden counter, its cabinets of brass and glass, and the lit workshop showing "
              "through the arch behind")
     import re as _re
     beat = _re.sub(r"speaks (his|her) (one )?(short )?line", "speaks", primary_event(s))
     out.append(f"In {where}, {beat}")
+    if insert:
+        out.append("The framing stays exactly as tight as the first frame for the whole take. "
+                   "It never widens and never pulls back, and no further part of the room — no "
+                   "window, no doorway, no wall, no furniture beyond what Image 1 already "
+                   "contains — becomes visible at any point.")
     out.append("")
 
     # Secondary life, as prose rather than a bullet list.
@@ -255,8 +269,9 @@ def compile_motion(s: dict, T: dict) -> str:
     out.append("")
 
     # The one label the guide's own templates define.
-    keep = ["Keep the hands, the sleeves and cuffs, the room, the counter surface and the "
-            "lighting consistent from the first frame to the last."
+    keep = ["Keep the hands, the sleeves and cuffs, the counter surface and the lighting "
+            "exactly as the first frame has them from first frame to last, and keep the "
+            "framing locked at the first frame's tightness — nothing outside it is revealed."
             if s.get("no_faces") else
             "Keep every character's identity, face, hair and clothing, the number of "
             "characters, the room layout, the counter position, the lighting and the screen "
@@ -640,6 +655,9 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         # of the compiler invented [First Frame]/[Performance]/[Secondary Life]/
         # [Speech]/[Physics] labels that appear nowhere in it.
         "core formula: visual style stated": "the visuals feature" in t,
+        "an insert is told not to reveal more of the room":
+            (not s.get("no_faces")) or
+            ("never widens and never pulls back" in t and "becomes visible at any point" in t),
         "core formula: camera stated": "use a camera that" in t,
         "core formula: audio stated": "audio includes" in t,
         "the superseded multi-reference grammar is gone":

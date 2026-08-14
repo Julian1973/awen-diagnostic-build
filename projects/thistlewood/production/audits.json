@@ -44,6 +44,12 @@
     "notes": "all six round-1 faults corrected: music box now declared NOT in Image 1 and revealed during the shot; expression sheet suppressed on a faceless shot; appearance binding narrowed to hands and cuffs so it no longer contradicts the no-face rule; 'the SAME people as Image 1' replaced with a no-face declaration; prop-count grammar fixed; physics rewritten for cloth, heft and cuffs instead of balance and hair. Residual: style paragraph restates what Image 1 carries; camera sentence mildly redundant.",
     "round": 2,
     "score": 9.6
+   },
+   {
+    "hash": "7885ca5a4af23381",
+    "notes": "round 2 shipped a take that invented a bright kitchen with a window behind the counter, because the scene clause recited the whole room to a frame that shows only a counter top. The room description is now scoped to what the insert actually shows, and a framing lock states the frame never widens and nothing outside Image 1 is revealed. Gated so an insert cannot be handed a room it does not show.",
+    "round": 3,
+    "score": 9.7
    }
   ]
  }

@@ -182,7 +182,31 @@ rectangle, so everything around it lands on identical pixels.
 
 ---
 
-## 8 · Direct the face, not just the body and the voice
+## 8 · Describe the FRAME, not the location
+
+Everything a prompt names is something the model may draw, and anything it names
+that the first frame does not contain is a gap the model will fill.
+
+On a wide, the room IS the frame and describing it anchors the shot. On an
+insert the room is *outside* the frame, and describing it is an invitation.
+
+Every insert carries a framing lock as its own sentence: the frame never widens,
+never pulls back, and nothing beyond Image 1 becomes visible. Gated — an insert
+cannot compile without it.
+
+> *Earned: FR03 is a counter top, a bundle and two hands. The prompt opened, as
+> every prompt did, by reciting the whole shop — cabinets, arch, workshop
+> beyond. The take pulled back and built a bright kitchen with a window in it,
+> two stops cooler than the shots either side. The keyframe was not ignored; it
+> was COMPLETED. Julian: "there is no contiuntity in the rrom." (NEG-004)*
+
+**The test before writing any scene clause: is this visible in the keyframe?**
+If not it does not belong in the prompt — and on a tight frame say so
+explicitly, because silence is a gap too.
+
+---
+
+## 9 · Direct the face, not just the body and the voice
 
 `[Secondary Life]` directs bodies, the delivery note directs voices, the speaker
 law directs mouths — and an undirected **expression** gets filled in with the
@@ -197,7 +221,7 @@ smiling**.
 
 ---
 
-## 9 · Chain-linking has two modes and they are different jobs
+## 10 · Chain-linking has two modes and they are different jobs
 
 - **`continue`** — the camera holds. The previous take's last frame *is* this
   first frame.
@@ -208,7 +232,7 @@ Before the previous shot is animated, use its **keyframe** instead.
 
 ---
 
-## 10 · Approval does not survive a set change
+## 11 · Approval does not survive a set change
 
 An approved take is exempt from *re-firing*. It is never exempt from *canon*.
 When a plate, lock, sheet or script line changes, every approved asset
