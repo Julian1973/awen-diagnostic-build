@@ -1,21 +1,26 @@
-Image 1 is the opening frame and defines the room, the characters, their faces, hair, clothing and the lighting. Refer to it strictly.
-Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and delivery. Do not take words from Audio 1.
+[Characters]
+<Tom> corresponds to Image 2. Use only his face, his short dark hair greying at the temples, his navy hooded parka, the rust-red crewneck jumper and the grey checked collar beneath it.
+<Richard> corresponds to Image 1. Use only his face, white hair and beard, round gold glasses, green waistcoat and rolled white shirtsleeves. He wears no apron in this shot.
+Do not interchange the characters' appearances, clothing, actions or dialogue.
 
-Dialogue language: English. The man in the navy parka says, hopefully and a little embarrassed: "Are you Mr Thistlewood? A lady at the market said — if it's broken, it belongs here."
+[Props]
+<Wrapped Bundle> corresponds to Image 2. a small object wrapped in cream checked cloth and tied. It belongs only to <Tom>, stays wrapped and tied throughout, and no music box is visible at any point.
 
+[Scenes]
+<Front Room> references Image 1. Use only the wooden counter, the shelves of curiosities, the glazed front door, the bow window and the warm interior lighting.
+
+[Style]
 Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills with a subtle paper texture. Soft amber-warm palette with honeyed light. Cosy storybook atmosphere with quiet melancholy underneath. No 3D rendering, no photorealism, no painterly brushwork.
 
-A wide view of an antique shop interior. A man in a navy hooded parka stands on the customer side of a wooden counter holding a bundle wrapped in cream checked cloth in both hands at chest height. An old man with white hair, a white beard and round glasses stands behind the counter in a green waistcoat and rolled shirtsleeves, no apron. A ginger cat sits upright on the counter.
-
+[Motion and Audio]
 The camera is locked off and does not move.
+Audio 1 defines <Tom>'s voice characteristics only — timbre, age and accent. Do not take any words from Audio 1.
+Dialogue language: English. <Tom> says, hesitantly and a little embarrassed, as a stranger not sure he is in the right place: {Are you Mr Thistlewood? A lady at the market said — if it's broken, it belongs here.}
+<Richard> does not speak in this shot and keeps the mouth closed and still.
 
-The man in the navy parka speaks the line above, the lips and jaw moving in time with the spoken words.
-The old man behind the counter does not speak at any point in this shot; the mouth stays closed and still throughout, no lip or jaw movement.
+[Event Script]
+Stage 1: Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him. A ginger cat sits upright on the counter. End state: nothing has moved.
+Stage 2: Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. End state: <Tom> still holding <Wrapped Bundle>, still looking at <Richard>, waiting for an answer; the cat has not moved.
 
-Opening state: the man in the parka standing a pace back from the counter, the wrapped bundle held away from his body, looking at the old man.
-
-Primary event: he speaks to the old man across the counter, his eyebrows lifting slightly on the question, weight shifting once from one foot to the other.
-
-End state: the man in the parka still holding the bundle, still looking at the old man, waiting for an answer. The cat has not moved.
-
-The bundle stays wrapped and tied. No box is visible anywhere in the frame.
+[Maintain Consistency]
+Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged.

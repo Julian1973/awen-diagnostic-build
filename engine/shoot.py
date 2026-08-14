@@ -31,49 +31,64 @@ STYLE = ("Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers 
 
 
 def compile_emission(s: dict) -> str:
-    """Build one emission from the shot record, in H3 reference grammar.
+    """Compile a shot into the sd25-pe multi-reference template.
 
-    The route generates the speech itself, so the scripted line goes in the
-    PROMPT verbatim. Our ElevenLabs recording rides along as Audio 1 to fix the
-    voice — timbre, age, accent — but never supplies the words.
+    Structure is the skill's; the clock is H3's. See docs/SD25PE_TO_H3_CROSSOVER.md
+    — the template, roles, exclusions, braces and consistency block all transfer;
+    the 30-second stage arithmetic does not, so a shot carries two stages, never
+    four, and reference tags are unprefixed because minimax documents "Image 1".
     """
-    out = ["Image 1 is the opening frame and defines the room, the characters, their faces, "
-           "hair, clothing and the lighting. Refer to it strictly."]
-    for i, role in enumerate(s.get("extra_refs_roles", []), start=2):
-        out.append(f"Image {i} defines {role}.")
-    if s.get("line"):
-        out.append("Audio 1 defines the speaking VOICE ONLY — its timbre, age, accent and "
-                   "delivery. Do not take words from Audio 1.")
-    out.append("")
+    out = []
 
-    if s.get("line"):
-        out.append(f"Dialogue language: English. {s['speaker']} says, {s.get('delivery','plainly')}: "
-                   f"\"{s['line']}\"")
+    # [Characters] — named subjects bound to references, never described in
+    # competing prose. One line per character, one reference each.
+    if s.get("characters"):
+        out.append("[Characters]")
+        for c in s["characters"]:
+            out.append(f"<{c['name']}> corresponds to Image {c['ref']}. "
+                       f"Use only {c['use']}.")
+        if len(s["characters"]) > 1:
+            out.append("Do not interchange the characters' appearances, clothing, "
+                       "actions or dialogue.")
         out.append("")
 
-    out += [STYLE, "", s["establish"], "", f"The camera {s['camera']}.", ""]
-
-    # THE SPEAKER LAW — every visible mouth is assigned, always.
-    if s.get("speaker") and s.get("line"):
-        out.append(f"{s['speaker']} speaks the line above, the lips and jaw moving in time with "
-                   f"the spoken words.")
-    silent = s.get("silent", [])
-    if silent:
-        out.append(" ".join(
-            f"{who} does not speak at any point in this shot; the mouth stays closed and "
-            f"still throughout, no lip or jaw movement." for who in silent))
-    out.append("")
-
-    out.append(f"Opening state: {s['open']}")
-    out.append("")
-    out.append(f"Primary event: {s['event']}")
-    out.append("")
-    if s.get("then"):
-        out.append(f"Then: {s['then']}")
+    if s.get("props"):
+        out.append("[Props]")
+        for pr in s["props"]:
+            out.append(f"<{pr['name']}> corresponds to Image {pr['ref']}. {pr['rule']}")
         out.append("")
-    out.append(f"End state: {s['end']}")
-    if s.get("hold"):
-        out.append(f"\n{s['hold']}")
+
+    if s.get("scene_ref"):
+        out.append("[Scenes]")
+        out.append(f"<{s['scene_ref']['name']}> references Image {s['scene_ref']['ref']}. "
+                   f"Use only {s['scene_ref']['use']}.")
+        out.append("")
+
+    out.append("[Style]")
+    out.append(STYLE)
+    out.append("")
+
+    out.append("[Motion and Audio]")
+    out.append(f"The camera {s['camera']}.")
+    if s.get("line"):
+        out.append(f"Audio 1 defines <{s['speaker_name']}>'s voice characteristics only — "
+                   f"timbre, age and accent. Do not take any words from Audio 1.")
+        out.append(f"Dialogue language: English. <{s['speaker_name']}> says, "
+                   f"{s.get('delivery','plainly')}: {{{s['line']}}}")
+    for who in s.get("silent_names", []):
+        out.append(f"<{who}> does not speak in this shot and keeps the mouth closed and still.")
+    out.append("")
+
+    out.append("[Event Script]")
+    for i, st in enumerate(s["stages"], start=1):
+        out.append(f"Stage {i}: {st}")
+    out.append("")
+
+    out.append("[Maintain Consistency]")
+    out.append(s.get("consistency",
+        "Keep every character's identity, hair and clothing exactly as their reference "
+        "defines them, keep the prop count and its ownership unchanged, keep the room "
+        "layout and lighting unchanged, and keep the speaker relationship consistent."))
     return "\n".join(out).strip() + "\n"
 
 

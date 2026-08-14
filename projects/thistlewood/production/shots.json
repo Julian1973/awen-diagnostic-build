@@ -4,22 +4,49 @@
  "shots": [
   {
    "id": "FR01",
-   "keyframe": "SETUP-A_master_two_shot.png",
    "sec": 7,
-   "establish": "A wide view of an antique shop interior. A man in a navy hooded parka stands on the customer side of a wooden counter holding a bundle wrapped in cream checked cloth in both hands at chest height. An old man with white hair, a white beard and round glasses stands behind the counter in a green waistcoat and rolled shirtsleeves, no apron. A ginger cat sits upright on the counter.",
-   "camera": "is locked off and does not move",
-   "speaker": "The man in the navy parka",
-   "silent": [
-    "The old man behind the counter"
+   "keyframe": "SETUP-A_master_two_shot.png",
+   "extra_refs": [
+    "L5937.jpeg"
    ],
-   "apron_matters": true,
-   "open": "the man in the parka standing a pace back from the counter, the wrapped bundle held away from his body, looking at the old man.",
-   "event": "he speaks to the old man across the counter, his eyebrows lifting slightly on the question, weight shifting once from one foot to the other.",
-   "end": "the man in the parka still holding the bundle, still looking at the old man, waiting for an answer. The cat has not moved.",
-   "hold": "The bundle stays wrapped and tied. No box is visible anywhere in the frame.",
+   "scene_ref": {
+    "name": "Front Room",
+    "ref": 1,
+    "use": "the wooden counter, the shelves of curiosities, the glazed front door, the bow window and the warm interior lighting"
+   },
+   "characters": [
+    {
+     "name": "Tom",
+     "ref": 2,
+     "use": "his face, his short dark hair greying at the temples, his navy hooded parka, the rust-red crewneck jumper and the grey checked collar beneath it"
+    },
+    {
+     "name": "Richard",
+     "ref": 1,
+     "use": "his face, white hair and beard, round gold glasses, green waistcoat and rolled white shirtsleeves. He wears no apron in this shot"
+    }
+   ],
+   "props": [
+    {
+     "name": "Wrapped Bundle",
+     "ref": 2,
+     "rule": "a small object wrapped in cream checked cloth and tied. It belongs only to <Tom>, stays wrapped and tied throughout, and no music box is visible at any point."
+    }
+   ],
+   "camera": "is locked off and does not move",
+   "speaker_name": "Tom",
+   "silent_names": [
+    "Richard"
+   ],
+   "delivery": "hesitantly and a little embarrassed, as a stranger not sure he is in the right place",
    "line": "Are you Mr Thistlewood? A lady at the market said \u2014 if it's broken, it belongs here.",
-   "delivery": "hopefully and a little embarrassed",
-   "voice_ref": "A1_01_Tom.mp3"
+   "voice_ref": "FR01_Tom.mp3",
+   "voice_dir": "EP01_v3",
+   "stages": [
+    "Opening state: <Tom> stands on the customer side of the counter, a pace further back than a confident person would, holding <Wrapped Bundle> in both hands at chest height and slightly away from his body. <Richard> stands behind the counter facing him. A ginger cat sits upright on the counter. End state: nothing has moved.",
+    "Primary event: <Tom> speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. End state: <Tom> still holding <Wrapped Bundle>, still looking at <Richard>, waiting for an answer; the cat has not moved."
+   ],
+   "consistency": "Keep <Tom> and <Richard> exactly as their references define them and never interchange them. Keep exactly one <Wrapped Bundle>, in <Tom>'s hands, wrapped and tied for the whole shot. Keep the counter between them with <Tom> on the customer side throughout. Keep the room layout and the warm interior lighting unchanged."
   },
   {
    "id": "FR02",
