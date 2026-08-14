@@ -1141,11 +1141,15 @@ def cmd_fire(a):
         if missing:
             print(f"  {s['id']:<8} missing references: {', '.join(pathlib.Path(m).name for m in missing)}")
             continue
-        if out.exists() and not a.force:
-            print(f"  {s['id']:<8} already shot — skipping"); continue
         em = EM / f"{s['id']}.txt"
         em.parent.mkdir(parents=True, exist_ok=True)
         em.write_text(compile_motion(s, T))       # recompile at the point of firing
+        stamp = TK / f"{s['id']}.prompt"
+        h = prompt_hash(em.read_text())
+        if out.exists() and not a.force:
+            if stamp.exists() and stamp.read_text().strip() == h:
+                print(f"  {s['id']:<8} already shot from this prompt — skipping"); continue
+            print(f"  {s['id']:<8} existing take is from a different prompt — re-firing")
         score, _ = gate_motion(em.read_text(), s, T)
         if score < FLOOR:
             print(f"  {s['id']:<8} REFUSED at {score} — not firing"); continue
@@ -1160,9 +1164,11 @@ def cmd_fire(a):
         cmd += ["--resolution", "768P", "--duration", str(s["sec"]), "--out", str(out)]
         print(f"  {s['id']:<8} firing {s['sec']}s · Image 1 = {kf.name} + {len(refs)-1} sheets")
         procs.append((s["id"], subprocess.Popen(cmd, stdout=subprocess.DEVNULL,
-                                                stderr=subprocess.PIPE)))
-    for sid, p_ in procs:
+                                                stderr=subprocess.PIPE), h))
+    for sid, p_, h in procs:
         err = p_.communicate()[1].decode()[-200:]
+        if p_.returncode == 0:
+            (TK / f"{sid}.prompt").write_text(h + "\n")
         print(f"  {sid:<8} {'✓' if p_.returncode == 0 else '✗ ' + err}")
 
 
