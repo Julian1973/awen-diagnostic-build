@@ -14,5 +14,21 @@
     "score": 9.7
    }
   ]
+ },
+ "FR02": {
+  "rounds": [
+   {
+    "hash": "d14d4d406687e48e",
+    "notes": "dangling 'his one short line' referring to absent dialogue; 'Richard is dry amusement...' ungrammatical noun-phrase after 'is'; the mouth-corner lift stated three separate times across action, secondary life and performance",
+    "round": 1,
+    "score": 8.9
+   },
+   {
+    "hash": "bcf12cae9d7fe9f6",
+    "notes": "round 1 faults all corrected: dangling line reference removed and now refused by the gate, performance line made adjectival, mouth-corner lift reduced from three statements to action plus end state. Residual: style paragraph restates what Image 1 carries; camera sentence mildly redundant; 'the delivery is dryly' construction slightly awkward.",
+    "round": 2,
+    "score": 9.6
+   }
+  ]
  }
 }

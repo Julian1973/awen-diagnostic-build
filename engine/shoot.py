@@ -170,7 +170,9 @@ def compile_motion(s: dict, T: dict) -> str:
     where = ("the front room of Thistlewood's, an old antique restorer's shop, with its long "
              "wooden counter, its cabinets of brass and glass, and the lit workshop showing "
              "through the arch behind")
-    out.append(f"In {where}, {primary_event(s)}".replace("speaks his line", "speaks"))
+    import re as _re
+    beat = _re.sub(r"speaks (his|her) (one )?(short )?line", "speaks", primary_event(s))
+    out.append(f"In {where}, {beat}")
     out.append("")
 
     # Secondary life, as prose rather than a bullet list.
@@ -424,6 +426,8 @@ def compile_emission(s: dict, T: dict) -> str:
 # a machine can verify. Passing this is a necessary condition for firing, not a
 # sufficient one: a shot still gets read by a human before it goes in the cut.
 
+_re_line = re.compile(r"\b(his|her|the) (one )?(short )?line\b")
+
 INTERIOR = ("realises", "remembers", "understands that", "has understood", "feels sad",
             "feels happy", "is nervous", "wants to", "is thinking", "is listening intently",
             "recognising", "not understanding", "knowing that")
@@ -599,6 +603,9 @@ def gate_motion(text: str, s: dict, T: dict) -> tuple[float, list[str]]:
         "core formula: audio stated": "audio includes" in t,
         "the superseded multi-reference grammar is gone":
             "corresponds to Image" not in text and "[Characters]" not in text,
+        # nothing may point at dialogue the prompt no longer carries
+        "no dangling reference to an absent line":
+            not _re_line.search(t),
         "no invented section labels":
             not any(k in text for k in ("[First Frame]", "[Performance]", "[Secondary Life]",
                                         "[Speech]", "[Physics]", "[Subject and Action]",

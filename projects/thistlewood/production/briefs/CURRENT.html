@@ -52,15 +52,15 @@ footer{color:var(--ink-soft);font-size:.85rem;border-top:1px solid var(--rule);
   <span class="eyebrow">Thistlewood's · Episode 1 · The Wrong Tune</span>
   <h1>FR02 — firing brief</h1>
   <p class="sub">FR — INT</p>
-  <span class="status no">Not ready</span>
+  <span class="status ok">Ready to fire</span>
 </header>
 
 <section><h2>Specification</h2><dl>
-<dt>Route</dt><dd>minimax/h3/reference-to-video · 768P</dd><dt>Duration</dt><dd>5s, trimmed to 4s at assembly</dd><dt>Keyframe</dt><dd>FR02.png — MISSING, cannot fire</dd><dt>Gate</dt><dd>10.00</dd><dt>Seedance audit</dt><dd>never through the Seedance generator — WILL NOT FIRE</dd><dt>Continuity</dt><dd>chained cut from FR01</dd>
+<dt>Route</dt><dd>minimax/h3/reference-to-video · 768P</dd><dt>Duration</dt><dd>5s, trimmed to 4s at assembly</dd><dt>Keyframe</dt><dd>FR02.png — present</dd><dt>Gate</dt><dd>10.00</dd><dt>Seedance audit</dt><dd>cleared at 9.6 on round 2 of 2</dd><dt>Continuity</dt><dd>chained cut from FR01</dd>
 </dl></section>
 
 <section><h2>Images sent to the video route, in this order</h2>
-<ul><li><strong>Image 1</strong> · <code>FR02.png</code> — the first frame, defining the whole opening composition <strong>— MISSING</strong></li><li><strong>Image 2</strong> · <code>Richard_sheet.jpg</code> — Richard, appearance</li><li><strong>Image 3</strong> · <code>Macsen_sheet.jpg</code> — Macsen, appearance</li><li><strong>Image 4</strong> · <code>Richard_expressions.jpg</code> — Richard, expression</li><li><strong>Image 5</strong> · <code>Macsen_expressions.jpg</code> — Macsen, expression</li></ul>
+<ul><li><strong>Image 1</strong> · <code>FR02.png</code> — the first frame, defining the whole opening composition</li><li><strong>Image 2</strong> · <code>Richard_sheet.jpg</code> — Richard, appearance</li><li><strong>Image 3</strong> · <code>Macsen_sheet.jpg</code> — Macsen, appearance</li><li><strong>Image 4</strong> · <code>Richard_expressions.jpg</code> — Richard, expression</li><li><strong>Image 5</strong> · <code>Macsen_expressions.jpg</code> — Macsen, expression</li></ul>
 <p class="note">Order is the contract: the prompt calls these Image 1 to Image 5 by
 position, so the compiler and the firing command walk the same list. The keyframe leads and
 carries the composition; the sheets that follow anchor identity only and are told not to
@@ -70,35 +70,7 @@ recompose it.</p></section>
 
 <section><h2>Laid under at assembly</h2><ul><li>room_bed_120s.mp3 at 0.16</li></ul></section>
 
-<section><h2>First — the keyframe prompt, for you to generate from</h2>
-<p class="note">Generate this in your own tool with these references: <code>PL-04b_front_room_master.png</code>, <code>Richard_sheet.jpg</code>, <code>Macsen_sheet.jpg</code>, <code>Richard_expressions.jpg</code>, <code>Macsen_expressions.jpg</code>, plus FR01's keyframe as a continuity reference. Save it as <code>FR02.png</code> in Drive → Episode 1.</p>
-<pre># FR02 — KEYFRAME
-
-A single still frame from a hand-drawn 2D animated children&#x27;s series: the FIRST frame of a shot. One moment, frozen. Not a poster, not a montage, no panels, no text anywhere in the image.
-
-## Continuity — chain-linked
-The last frame of FR01 — or FR01&#x27;s own keyframe if that take is not shot yet — is supplied as a CONTINUITY reference only. The camera HAS cut, so do not copy its framing — take from it the state of the room and the props: what is on the counter, where the box and cloth are, how the lamps are lit, who is holding what. The framing comes from the Framing section below.
-
-## The room
-The long wooden counter running down the right of the room, the curved glass display cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle of the floor, the arched opening behind the counter with its curtains tied back at either side and the lit workshop clearly visible through it, the glazed front door at the right with a brass bell on a spring above it, the two hanging green enamel lamps, the plank floor and the warm honeyed interior light. Hold the room exactly as the reference has it. There is ONE counter, ONE arched opening to the workshop and ONE glazed front door — never a second of any of them. The opening behind the counter is an ARCH you can see the workshop through, not a flat curtained alcove. Do not take any people from this image — it is an empty room and the room is all it contributes.
-
-## Who is in frame, and where
-**Richard** — his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame. Scale: a tall broad older man; standing behind the counter the counter top meets him at the hip. Expression, held: dry amusement sitting almost entirely in the eyes, mouth closed and about to open, no broad smile.
-
-**Macsen** — his ginger tabby markings, his white chest and paws, his build and his face. He is a cat and never behaves like a person. Scale: a large domestic cat; sitting upright on the counter his head reaches Richard&#x27;s elbow.
-
-## Positions at the top of the shot
-Richard stands behind the counter looking off screen-left at Tom, both palms flat on the counter top, entirely at ease. Macsen sits on the counter at the edge of frame.
-
-## Framing
-A closer reverse on Richard behind the counter, chest-up, framed slightly right of centre, looking off screen-left at Tom, with the near edge of the counter across the bottom of frame
-Screen direction: the customer side of the counter is camera-LEFT and the shopkeeper&#x27;s side is camera-RIGHT. Tom and the children face screen-right; Richard faces screen-left.
-
-## Style
-Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
-
-## Do not
-No motion blur and no action lines — this is a held frame. Richard has not started speaking yet — the mouth is closed and about to open. Every other mouth is closed. No text, lettering, signage or watermark anywhere in the image. No 3D render, no photorealism, no painterly brushwork. No extra people beyond those named above.</pre></section><section><h2>The animation prompt, in full, exactly as sent</h2>
+<section><h2>The animation prompt, in full, exactly as sent</h2>
 <pre>Image 1 is the first frame. It defines the complete opening composition: every subject&#x27;s position and pose, the prop state, the room, the lighting and the camera direction. Reproduce it exactly as the shot&#x27;s opening frame and animate forward from there; do not restage it and do not recompose it.
 Image 2 defines Richard&#x27;s appearance only — his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. Do not use its background or layout, and do not let it change the composition defined by Image 1.
 Image 3 defines Macsen&#x27;s appearance only — his ginger tabby markings, his white chest and paws, his build and his face. Do not use its background or layout, and do not let it change the composition defined by Image 1.
@@ -106,11 +78,11 @@ Image 4 defines Richard&#x27;s facial expressions and range only. Do not use its
 Image 5 defines Macsen&#x27;s facial expressions and range only. Do not use its background or layout, and do not let it change the composition defined by Image 1 or add a second copy of Macsen.
 Every image above shows the SAME people as Image 1. The output contains exactly one of each character and no one else.
 
-In the front room of Thistlewood&#x27;s, an old antique restorer&#x27;s shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Richard speaks his one short line, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. By the end: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left.
+In the front room of Thistlewood&#x27;s, an old antique restorer&#x27;s shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Richard speaks, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. By the end: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left.
 
-Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Richard, both palms rest flat on the counter and one thumb moves once across the grain of the wood, his shoulders rise and fall with an easy breath, and the corner of his mouth lifts a fraction on the last word; for Macsen, sitting beside him at the frame edge, he yawns once and resettles his front paws. In the room itself, the light from the workshop archway behind him is warm and alive.
+Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Richard, both palms rest flat on the counter and one thumb moves once across the grain of the wood, and his shoulders rise and fall with an easy breath; for Macsen, sitting beside him at the frame edge, he yawns once and resettles his front paws. In the room itself, the light from the workshop archway behind him is warm and alive.
 
-The performances read as follows: Richard is dry amusement held almost entirely in the eyes; the mouth barely moves beyond speaking.
+The performances read as follows: Richard is dry and amused, the humour sitting almost entirely in the eyes rather than the mouth.
 
 Richard is the only person who speaks, and the delivery is dryly, warmly, with the faintest amusement, in an unhurried Cardiff rhythm. Animate the mouth as natural conversational speech, the jaw and cheeks and head carrying a talking rhythm, but do not attempt specific words or specific lip shapes — the articulation is replaced from a separate recording afterwards and guessing at words here only fights that pass.
 

@@ -177,16 +177,16 @@
         "room"
       ],
       "life": {
-        "Richard": "both palms rest flat on the counter and one thumb moves once across the grain of the wood, his shoulders rise and fall with an easy breath, and the corner of his mouth lifts a fraction on the last word",
+        "Richard": "both palms rest flat on the counter and one thumb moves once across the grain of the wood, and his shoulders rise and fall with an easy breath",
         "Macsen": "sitting beside him at the frame edge, he yawns once and resettles his front paws",
         "the room": "the light from the workshop archway behind him is warm and alive"
       },
       "stages": [
         "Opening state: Richard stands behind the counter looking off screen-left at Tom, both palms flat on the counter top, entirely at ease. Macsen sits on the counter at the edge of frame.",
-        "Primary event: Richard speaks his one short line, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. End state: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left."
+        "Primary event: Richard speaks, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. End state: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left."
       ],
       "faces": {
-        "Richard": "dry amusement held almost entirely in the eyes; the mouth barely moves beyond speaking"
+        "Richard": "dry and amused, the humour sitting almost entirely in the eyes rather than the mouth"
       },
       "chain": {
         "from": "FR01",
