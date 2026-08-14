@@ -14,42 +14,70 @@
   },
   "cast": {
     "Tom": {
-      "file": "Tom_sheet.jpg",
+      "file": "drive_sheets/Tom_model_sheet.jpg",
       "use": "his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes",
       "exclude": "Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it.",
-      "scale": "a man in his thirties, ordinary build, a head taller than the counter top"
+      "scale": "a man in his thirties, ordinary build, a head taller than the counter top",
+      "sheets": [
+        "drive_sheets/Tom_model_sheet.jpg",
+        "drive_sheets/Tom_expressions.jpg"
+      ]
     },
     "Richard": {
       "file": "Richard_sheet.jpg",
       "use": "his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build",
-      "scale": "a tall broad older man; standing behind the counter the counter top meets him at the hip"
+      "scale": "a tall broad older man; standing behind the counter the counter top meets him at the hip",
+      "sheets": [
+        "Richard_sheet.jpg",
+        "Richard_expressions.jpg"
+      ]
     },
     "Macsen": {
-      "file": "Macsen_sheet.jpg",
+      "file": "drive_sheets/Macsen_sheet.jpg",
       "use": "his ginger tabby markings, his white chest and paws, his build and his face",
       "exclude": "He is a cat and never behaves like a person.",
-      "scale": "a large domestic cat; sitting upright on the counter his head reaches Richard's elbow"
+      "scale": "a large domestic cat; sitting upright on the counter his head reaches Richard's elbow",
+      "sheets": [
+        "drive_sheets/Macsen_sheet.jpg",
+        "drive_sheets/Macsen_expressions.jpg"
+      ]
     },
     "Peggi": {
-      "file": "Peggi_turnaround.jpg",
+      "file": "drive_sheets/Peggi_turnaround.jpg",
       "use": "her face, her two dark braids, her blue dungarees over a striped long-sleeved shirt",
-      "scale": "much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it"
+      "scale": "much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it",
+      "sheets": [
+        "drive_sheets/Peggi_turnaround.jpg",
+        "drive_sheets/Peggi_expressions.jpg"
+      ]
     },
     "Albert": {
-      "file": "Albert_sheet.jpg",
+      "file": "drive_sheets/Albert_sheet.jpg",
       "use": "his face, his neat mid-brown hair, his brown knitted jumper over a collared shirt. He wears no glasses of any kind",
       "exclude": "Do not give him glasses — in this room only Richard wears glasses.",
-      "scale": "a boy of twelve; his head reaches Richard's chest"
+      "scale": "a boy of twelve; his head reaches Richard's chest",
+      "sheets": [
+        "drive_sheets/Albert_sheet.jpg",
+        "drive_sheets/Albert_book_pencil.jpg"
+      ]
     },
     "Rose": {
-      "file": "Rose_sheet.jpg",
+      "file": "drive_sheets/Rose_sheet.jpg",
       "use": "her face, her strawberry-blonde hair, her green cardigan worn over a small floral-print dress",
-      "scale": "a girl of nine; half a head shorter than Albert"
+      "scale": "a girl of nine; half a head shorter than Albert",
+      "sheets": [
+        "drive_sheets/Rose_sheet.jpg",
+        "drive_sheets/Rose_poses.jpg"
+      ]
     },
     "Lily": {
-      "file": "Lily_turnaround.jpg",
+      "file": "drive_sheets/Lily_turnaround.jpg",
       "use": "her face, her long red hair worn in one braid over the shoulder, her green field jacket over a plain shirt and jeans",
-      "scale": "the eldest and tallest of the four children; her head reaches Richard's shoulder"
+      "scale": "the eldest and tallest of the four children; her head reaches Richard's shoulder",
+      "sheets": [
+        "drive_sheets/Lily_turnaround.jpg",
+        "drive_sheets/Lily_expressions.jpg"
+      ]
     }
   },
   "wardrobe": {

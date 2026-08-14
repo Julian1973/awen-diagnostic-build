@@ -619,7 +619,9 @@ def cmd_keyframe(a):
     for s in shots:
         text = compile_keyframe(s, T)
         (KFP / f"{s['id']}.md").write_text(text)
-        refs = [T["scene_plate"]["file"]] + [T["cast"][w]["file"] for w in s.get("cast", [])]
+        refs = [T["scene_plate"]["file"]]
+        for w in s.get("cast", []):
+            refs += T["cast"][w].get("sheets", [T["cast"][w]["file"]])
         if s.get("chain"):
             refs.append(f"LAST FRAME of {s['chain']['from']}")
         print(f"  {s['id']:<8} keyframe prompt written · references: {', '.join(dict.fromkeys(refs))}")
