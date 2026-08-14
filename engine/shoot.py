@@ -866,7 +866,9 @@ def cmd_brief(a):
     shots = ([s for s in T["shots"] if s["id"] == a.shot] if a.shot else load(T, a.scene))
     BR = P / "briefs"; BR.mkdir(parents=True, exist_ok=True)
     for s in shots:
-        (BR / f"{s['id']}.html").write_text(brief_html(s, T))
+        page = brief_html(s, T)
+        (BR / f"{s['id']}.html").write_text(page)
+        (BR / "CURRENT.html").write_text(page)   # the stable side-panel URL
         kf = KFR / f"{s['id']}.png"
         text = compile_motion(s, T)          # fresh, never off disk
         EM.mkdir(parents=True, exist_ok=True)

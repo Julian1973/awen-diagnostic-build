@@ -1,0 +1,93 @@
+<title>Thistlewood Firing Brief</title>
+<style>
+:root{
+  --paper:#F7F3EC; --ink:#241C14; --ink-soft:#5C4E3F; --rule:#DED4C4;
+  --panel:#FFFDF8; --brass:#A67B2C; --green:#4A5D3A; --rust:#9C4A2F;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#17130F; --ink:#EDE4D6; --ink-soft:#A2937F; --rule:#3A3027;
+    --panel:#1F1A15; --brass:#D2A253; --green:#8FA877; --rust:#D6805F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17130F; --ink:#EDE4D6; --ink-soft:#A2937F; --rule:#3A3027;
+  --panel:#1F1A15; --brass:#D2A253; --green:#8FA877; --rust:#D6805F;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;
+  font:16px/1.6 Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif;
+  padding:2.5rem 1.25rem 5rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem}
+header{display:flex;flex-direction:column;gap:.5rem;
+  border-bottom:2px solid var(--brass);padding-bottom:1rem}
+.eyebrow{font:600 .72rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+h1{margin:0;font-size:2.1rem;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--ink-soft);font-size:.95rem}
+.status{display:inline-flex;align-items:center;gap:.5rem;align-self:flex-start;
+  font:600 .78rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;
+  text-transform:uppercase;padding:.4rem .7rem;border-radius:2px;
+  border:1px solid currentColor}
+.ok{color:var(--green)} .no{color:var(--rust)}
+h2{margin:0 0 .75rem;font:600 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+section{display:flex;flex-direction:column}
+dl{margin:0;display:grid;grid-template-columns:11rem 1fr;gap:.55rem 1.5rem}
+dt{color:var(--ink-soft);font-size:.9rem}
+dd{margin:0;font-variant-numeric:tabular-nums}
+dd code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em}
+.note{color:var(--ink-soft);font-size:.9rem;margin:.75rem 0 0;max-width:62ch}
+pre{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--brass);
+  margin:0;padding:1.25rem 1.4rem;overflow-x:auto;
+  font:13.5px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;
+  white-space:pre-wrap;word-break:break-word;max-width:78ch}
+ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem}
+li::marker{color:var(--brass)}
+footer{color:var(--ink-soft);font-size:.85rem;border-top:1px solid var(--rule);
+  padding-top:1rem}
+</style>
+<div class="wrap">
+<header>
+  <span class="eyebrow">Thistlewood's · Episode 1 · The Wrong Tune</span>
+  <h1>FR01 — firing brief</h1>
+  <p class="sub">FR — INT</p>
+  <span class="status ok">Ready to fire</span>
+</header>
+
+<section><h2>Specification</h2><dl>
+<dt>Route</dt><dd>minimax/h3/image-to-video · 768P</dd><dt>Duration</dt><dd>9s</dd><dt>Keyframe</dt><dd>FR01.png — present</dd><dt>Gate</dt><dd>10.00</dd>
+</dl></section>
+
+<section><h2>Images sent to the video route</h2>
+<ul><li>FR01.png</li></ul>
+<p class="note">The character sheets and the room plate are <em>not</em> sent here. They were
+references for the keyframe; once it exists it carries what they gave it, and sending them again
+would invite a redraw mid-take.</p></section>
+
+<section><h2>Audio</h2><ul><li><strong>FR01_Tom.mp3</strong> — 7.63s, lead-in 0.7s. Goes to the sync stage, never to the video route.</li><li>Speaker box <code>[300, 30, 560, 600]</code> — crops to Tom alone so the sync cannot pick the wrong face.</li></ul></section>
+
+<section><h2>Laid under at assembly</h2><ul><li>room_bed_120s.mp3 at 0.16</li></ul></section>
+
+<section><h2>The prompt, in full, exactly as sent</h2>
+<pre>The supplied image is the first frame. It defines the opening composition, every subject&#x27;s position and pose, the prop state, the scene and the camera direction. Animate forward from it; do not redraw it, do not restage it, and do not alter any face, hair or clothing it already contains.
+
+In the front room of Thistlewood&#x27;s, an old antique restorer&#x27;s shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Tom speaks his line across the counter, his eyebrows lifting slightly on the question and his weight shifting once from one foot to the other. Richard receives it — his head inclines toward Tom and he blinks slowly. Macsen&#x27;s ear turns to the voice. By the end: Tom is still holding the wrapped bundle and waiting for an answer, Richard is leaning a fraction further in than he was, and Macsen is still watching Tom.
+
+Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Tom, his breathing shows in his shoulders, the fingers holding the bundle adjust their grip once, and he swallows before he speaks; for Richard, he listens with his whole body — his weight settles onto one hand on the counter top, the other hand lifts a fraction and resettles, he blinks slowly once, and his head inclines a little toward Tom as the sentence goes on; for Macsen, the tip of his tail flicks twice, one ear rotates toward the voice, his head turns a few degrees to follow Tom, and he blinks slowly. In the room itself, the hanging lamplight is steady but the shadows breathe; nothing in the shop is rigid.
+
+The performances read as follows: Tom is apologetic and unsure, eyebrows slightly raised, not smiling broadly — a man braced to be told he has come to the wrong shop; Richard is open and unhurried, mild interest, the faintest warmth at the eyes but no wide smile.
+
+Tom is the only person who speaks, and the delivery is hesitantly and a little embarrassed, like a stranger who is not sure he has come to the right place. Animate the mouth as natural conversational speech, the jaw and cheeks and head carrying a talking rhythm, but do not attempt specific words or specific lip shapes — the articulation is replaced from a separate recording afterwards and guessing at words here only fights that pass. Richard does not speak: the mouth stays closed with no lip or jaw movement, though Richard is never frozen — the body keeps living and reacting.
+
+The visuals feature hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork. Weight is real throughout: a shift of balance travels through the whole body, clothing gathers and falls with the movement instead of sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays where it is unless a hand moves it.
+
+Use a camera that is locked off at standing eye level in a wide two-shot and does not move for the whole take, in one continuous take with no cuts, no transitions and no change of angle at any point.
+
+Audio includes &lt;the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door&gt;. There is no music of any kind in this shot and nobody moves to a beat.
+
+[Maintain Consistency]
+Keep every character&#x27;s identity, face, hair and clothing, the number of characters, the room layout, the counter position, the lighting and the screen direction consistent from the first frame to the last. The prop count never changes: there is exactly one wrapped bundle, and it stays with whoever holds it in the first frame. Every character and animal in frame stays alive and breathing for the whole take.</pre></section>
+
+<footer>Compiled fresh at brief time — never read off disk. Nothing outside this page is sent.</footer>
+</div>
