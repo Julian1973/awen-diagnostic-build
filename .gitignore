@@ -14,3 +14,4 @@ projects/*/production/takes/
 projects/*/production/voice/**/*.mp3
 projects/*/production/assembled/**/*.mp4
 projects/*/production/SEQUENCE_*.mp4
+projects/*/assets/characters/

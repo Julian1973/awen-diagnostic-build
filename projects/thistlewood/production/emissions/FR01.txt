@@ -1,10 +1,10 @@
 [Characters]
-<Tom> corresponds to Image 2. Use only his face, his short dark hair greying at the temples, his navy hooded parka, the rust-red crewneck jumper and the grey checked collar beneath it.
-<Richard> corresponds to Image 1. Use only his face, white hair and beard, round gold glasses, green waistcoat and rolled white shirtsleeves. He wears no apron in this shot.
+<Tom> corresponds to Image 2. Use only his face, his short dark hair greying at the temples, his navy hooded parka, the rust-red crewneck jumper and the grey checked collar beneath it. Do not use the white background of his sheet.
+<Richard> corresponds to Image 3. Use only his face, white hair and beard, round gold glasses, and his build. In this shot he wears his green waistcoat over rolled white shirtsleeves and NO APRON. Do not use the background of his sheet.
 Do not interchange the characters' appearances, clothing, actions or dialogue.
 
 [Props]
-<Wrapped Bundle> corresponds to Image 2. a small object wrapped in cream checked cloth and tied. It belongs only to <Tom>, stays wrapped and tied throughout, and no music box is visible at any point.
+<Wrapped Bundle> corresponds to Image 2. a small object wrapped in cream checked cloth and tied, as held in Image 2. It belongs only to <Tom>, stays wrapped and tied throughout, and no music box is visible at any point.
 
 [Scenes]
 <Front Room> references Image 1. Use only the wooden counter, the shelves of curiosities, the glazed front door, the bow window and the warm interior lighting.
