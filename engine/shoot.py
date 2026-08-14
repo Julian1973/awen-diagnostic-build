@@ -436,6 +436,12 @@ def cmd_assemble(a):
         inputs += ["-i", str(SFX / "shop_room_tone.mp3")]
         filt.append(f"[{n}:a]volume=0.18,atrim=0:{s['sec']},asetpts=N/SR/TB[tone]"); n += 1
         labels = (["[vo]"] if line_file else []) + ["[tone]"]
+        # The music box is diegetic — it is the only music in Act One and it comes
+        # out of the box in frame, so it rides under the dialogue rather than over it.
+        if "tune" in s.get("sound", []):
+            inputs += ["-i", str(SFX / "wrong_tune_musicbox_v2.mp3")]
+            filt.append(f"[{n}:a]volume=0.34,atrim=0:{s['sec']},asetpts=N/SR/TB[box]")
+            labels.append("[box]"); n += 1
         filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0[a]")
         out = AS / f"{s['id']}.mp4"
         trim = ["-t", str(s["cut_to"])] if s.get("cut_to") else []
