@@ -414,12 +414,14 @@ def compile_keyframe(s: dict, T: dict) -> str:
     if ch:
         out.append("## Continuity — chain-linked")
         if ch["mode"] == "continue":
-            out.append(f"START FROM the last frame of {ch['from']} (supplied as a reference). "
+            out.append(f"START FROM the last frame of {ch['from']} (supplied as a reference; if "
+                       f"that take is not shot yet, use {ch['from']}'s keyframe). "
                        f"The camera has not cut: this is the same angle continuing, so the "
                        f"framing, the dressing, the light and every prop position carry over "
                        f"exactly. Change only what this shot's positions below say changed.")
         else:
-            out.append(f"The last frame of {ch['from']} is supplied as a CONTINUITY reference "
+            out.append(f"The last frame of {ch['from']} — or {ch['from']}'s own keyframe if that "
+                       f"take is not shot yet — is supplied as a CONTINUITY reference "
                        f"only. The camera HAS cut, so do not copy its framing — take from it "
                        f"the state of the room and the props: what is on the counter, where "
                        f"the box and cloth are, how the lamps are lit, who is holding what. "
@@ -709,7 +711,7 @@ def cmd_keyframe(a):
         for w in s.get("cast", []):
             refs += T["cast"][w].get("sheets", [T["cast"][w]["file"]])
         if s.get("chain"):
-            refs.append(f"LAST FRAME of {s['chain']['from']}")
+            refs.append(f"last frame of {s['chain']['from']} (or its keyframe)")
         print(f"  {s['id']:<8} keyframe prompt written · references: {', '.join(dict.fromkeys(refs))}")
 
 

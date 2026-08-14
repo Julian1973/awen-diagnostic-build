@@ -176,6 +176,10 @@
       ],
       "faces": {
         "Richard": "dry amusement held almost entirely in the eyes; the mouth barely moves beyond speaking"
+      },
+      "chain": {
+        "from": "FR01",
+        "mode": "cut"
       }
     },
     {
@@ -208,7 +212,11 @@
       "stages": [
         "Opening state: the wrapped bundle sits on the counter top in the middle of frame, still tied. Tom's two hands rest on the counter either side of it, navy jacket cuffs and rust-red knitted sleeves showing at the bottom of frame.",
         "Primary event: Tom's fingers pull the knot loose and fold the cream checked cloth open, corner by corner, revealing the music box. He lifts the lid so the brass cylinder and steel comb are visible, sets the box a fraction straighter on the open cloth as carefully as an apology, and then withdraws both hands slowly toward the bottom of frame, the fingertips leaving last. End state: the music box stands open alone in the middle of the open cloth with the small brass key beside it, both hands gone from frame, and the lamplight resting on the brass."
-      ]
+      ],
+      "chain": {
+        "from": "FR02",
+        "mode": "cut"
+      }
     },
     {
       "id": "FR04",
@@ -240,6 +248,10 @@
       ],
       "faces": {
         "Tom": "quiet and inward, jaw a little tight, absolutely no smile"
+      },
+      "chain": {
+        "from": "FR03",
+        "mode": "cut"
       }
     },
     {
@@ -275,6 +287,10 @@
       ],
       "faces": {
         "Richard": "attentive and unreadable, eyebrows drawing very slightly together, no smile"
+      },
+      "chain": {
+        "from": "FR04",
+        "mode": "cut"
       }
     },
     {
@@ -307,6 +323,10 @@
       ],
       "faces": {
         "Tom": "embarrassed, eyes down, mouth set — he is apologising for the object"
+      },
+      "chain": {
+        "from": "FR05",
+        "mode": "cut"
       }
     },
     {
@@ -341,7 +361,11 @@
       "stages": [
         "Opening state: the open music box stands in the middle of the folded cream checked cloth on the counter, its brass cylinder still. Tom's two hands rest on the counter either side of it, navy jacket cuffs and rust-red knitted sleeves showing at the bottom of frame, the small brass key between his fingers.",
         "Primary event: Tom's fingers turn the brass key in five slow deliberate stages, winding the barrel, and then let go. The cylinder begins to revolve, the comb teeth are plucked one after another, and the tune starts. His hands withdraw to rest on the cloth either side of the box and go still. End state: the music box playing alone in the middle of the frame with the cylinder turning, Tom's two hands resting either side of it, one thumb moving once against the cloth."
-      ]
+      ],
+      "chain": {
+        "from": "FR06",
+        "mode": "continue"
+      }
     },
     {
       "id": "FR07b",
@@ -391,6 +415,10 @@
         "Albert": "sharp concentration",
         "Rose": "soft and serious",
         "Lily": "level and assessing"
+      },
+      "chain": {
+        "from": "FR07",
+        "mode": "cut"
       }
     },
     {
@@ -439,6 +467,10 @@
         "Albert": "concentrating, faintly indignant",
         "Rose": "unsmiling, absorbed",
         "Lily": "fond and patient"
+      },
+      "chain": {
+        "from": "FR07b",
+        "mode": "continue"
       }
     },
     {
@@ -485,6 +517,10 @@
         "Rose": "unmoved by the argument, eyes on the lid",
         "Lily": "considering",
         "Richard": "sharpening with interest, no smile"
+      },
+      "chain": {
+        "from": "FR08",
+        "mode": "continue"
       }
     },
     {
@@ -531,6 +567,10 @@
         "Albert": "stilled, listening",
         "Lily": "softened",
         "Richard": "moved and carefully not showing it"
+      },
+      "chain": {
+        "from": "FR09",
+        "mode": "continue"
       }
     },
     {
@@ -563,6 +603,10 @@
       ],
       "faces": {
         "Tom": "flat and tired, reciting, no expression to speak of"
+      },
+      "chain": {
+        "from": "FR10",
+        "mode": "cut"
       }
     },
     {
@@ -602,6 +646,10 @@
       ],
       "faces": {
         "Richard": "grave; recognition arriving behind the eyes with nothing on the mouth"
+      },
+      "chain": {
+        "from": "FR11",
+        "mode": "cut"
       }
     },
     {
@@ -634,6 +682,10 @@
       ],
       "faces": {
         "Tom": "defeated and embarrassed by his own defeat; eyes down, absolutely no smile"
+      },
+      "chain": {
+        "from": "FR12",
+        "mode": "cut"
       }
     },
     {
@@ -683,6 +735,10 @@
         "Albert": "rapt",
         "Rose": "tender",
         "Lily": "quietly impressed"
+      },
+      "chain": {
+        "from": "FR13",
+        "mode": "cut"
       }
     },
     {
@@ -719,6 +775,10 @@
       ],
       "faces": {
         "Richard": "warm and settled, the kindness in the eyes rather than in a smile"
+      },
+      "chain": {
+        "from": "FR14",
+        "mode": "cut"
       }
     },
     {
@@ -758,6 +818,10 @@
       "_route_ref_note": "tripled - the route refuses reference audio under 2.0s and this line is shorter. It fixes voice only, so repetition is free.",
       "faces": {
         "Richard": "unbothered, half his attention still on the box"
+      },
+      "chain": {
+        "from": "FR15",
+        "mode": "cut"
       }
     },
     {
@@ -794,7 +858,11 @@
         "Primary event: Richard answers in four words, already turning his eyes back down to the box before he has finished, entirely unhurried. End state: Richard looking down at the box, his mouth closed, his hands still on it."
       ],
       "route_ref": "_route_refs/FR17_Richard.mp3",
-      "_route_ref_note": "tripled - the route refuses reference audio under 2.0s and this line is shorter. It fixes voice only, so repetition is free."
+      "_route_ref_note": "tripled - the route refuses reference audio under 2.0s and this line is shorter. It fixes voice only, so repetition is free.",
+      "chain": {
+        "from": "FR16",
+        "mode": "cut"
+      }
     }
   ]
 }
