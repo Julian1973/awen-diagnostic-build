@@ -152,7 +152,8 @@
       "still_faces": {
         "Tom": "apologetic and unsure, eyebrows slightly raised, mouth closed, no broad smile — a man braced to be told he has come to the wrong shop",
         "Richard": "open and unhurried, mild interest, the faintest warmth at the eyes, mouth closed"
-      }
+      },
+      "room_scope": "full"
     },
     {
       "id": "FR02",
@@ -195,7 +196,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Richard": "dry amusement sitting almost entirely in the eyes, mouth closed and about to open, no broad smile"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR03",
@@ -240,13 +242,14 @@
       "_accepted_variance": "FR03's bundle reads as a crisply wrapped parcel where FR01's is a soft round gathered cloth. Raised 2026-08-14 and accepted by Julian: 'this is a trailer and sometimes we can let it run'. The canon description was corrected at the same time, so everything downstream of FR03 carries the soft rounded shape. Do not re-flag this one.",
       "reveal_props": [
         "Music Box"
-      ]
+      ],
+      "room_scope": "none"
     },
     {
       "id": "FR04",
       "sec": 9,
       "blocking": "SETUP-C_single_tom.png",
-      "blocking_use": "the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him The surface directly in front of him at the bottom of frame IS the shop counter itself, seen from the customer side. There is no table, no second counter and no other display surface anywhere in this shot.",
+      "blocking_use": "the camera position and the staging only — a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him. The surface directly in front of him at the bottom of frame IS the shop counter itself, seen from the customer side. There is no table, no second counter and no other display surface anywhere in this shot.",
       "cast": [
         "Tom"
       ],
@@ -280,7 +283,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Tom": "quiet and inward, jaw a little tight, eyes down, no smile"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR05",
@@ -323,7 +327,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Richard": "attentive and unreadable, eyebrows drawn very slightly together, mouth closed"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR06",
@@ -363,7 +368,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Tom": "embarrassed, eyes down, mouth set and closed"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR07",
@@ -402,7 +408,8 @@
         "from": "FR06",
         "mode": "continue"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "room_scope": "none"
     },
     {
       "id": "FR07b",
@@ -457,7 +464,8 @@
         "from": "FR07",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "room_scope": "full"
     },
     {
       "id": "FR08",
@@ -510,7 +518,8 @@
         "from": "FR07b",
         "mode": "continue"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "room_scope": "full"
     },
     {
       "id": "FR09",
@@ -561,7 +570,8 @@
         "from": "FR08",
         "mode": "continue"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "room_scope": "full"
     },
     {
       "id": "FR10",
@@ -612,7 +622,8 @@
         "from": "FR09",
         "mode": "continue"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "room_scope": "full"
     },
     {
       "id": "FR11",
@@ -652,7 +663,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Tom": "flat and tired, almost no expression at all, mouth closed"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR12",
@@ -699,7 +711,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Richard": "grave, mouth closed, the recognition not yet on his face"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR13",
@@ -739,7 +752,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Tom": "defeated and embarrassed by his own defeat, eyes down, mouth closed, no smile"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR14",
@@ -793,7 +807,8 @@
         "from": "FR13",
         "mode": "cut"
       },
-      "lead_in": 0.5
+      "lead_in": 0.5,
+      "room_scope": "full"
     },
     {
       "id": "FR15",
@@ -837,7 +852,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Richard": "warm and settled, the kindness in the eyes rather than the mouth, mouth closed"
-      }
+      },
+      "room_scope": "partial"
     },
     {
       "id": "FR16",
@@ -888,7 +904,8 @@
         660
       ],
       "lead_in": 0.5,
-      "bell": 3.2
+      "bell": 3.2,
+      "room_scope": "full"
     },
     {
       "id": "FR17",
@@ -932,7 +949,8 @@
       "lead_in": 0.5,
       "still_faces": {
         "Richard": "unbothered and unhurried, mouth closed, attention half on the box"
-      }
+      },
+      "room_scope": "partial"
     }
   ]
 }

@@ -535,8 +535,27 @@ def compile_keyframe(s: dict, T: dict) -> str:
                        f"The framing comes from the Framing section below.")
         out.append("")
 
+    # NEG-004 again, one stage earlier. On a chest-up single the room behind the
+    # head is soft and partial; reciting the cabinet, the arch, the door and the
+    # display table is an instruction to fit all of them in behind him.
+    scope = s.get("room_scope", "full")
     out.append("## The room")
-    out.append(f"{sp['use'][0].upper()}{sp['use'][1:]}. {sp['lock']} {sp['exclude']}")
+    if scope == "none":
+        out.append("Almost none of the room is visible in this frame — only the counter "
+                   "surface and warm shadow behind it. Do not put a window, a doorway, a wall "
+                   "of cabinets or any furniture into the background: there is nothing back "
+                   "there but soft darkness and the shop's honeyed light falling across the "
+                   "counter.")
+    elif scope == "partial":
+        out.append("Only a shallow slice of the shop is visible behind the figure, and it is "
+                   "soft and out of focus: warm honeyed light, the suggestion of dark wooden "
+                   "shelving and brass, and nothing legible. Do NOT compose the whole room "
+                   "into this frame — the arch to the workshop, the glazed front door, the "
+                   "curved glass cabinet and the round display table are all OUT of this shot "
+                   "unless the framing below names them.")
+    else:
+        out.append(f"{sp['use'][0].upper()}{sp['use'][1:]}. {sp['lock']}")
+    out.append(sp["exclude"])
     out.append("")
 
     out.append("## Who is in frame, and where")
@@ -597,7 +616,9 @@ def compile_keyframe(s: dict, T: dict) -> str:
                   "Every mouth in this frame is CLOSED; nobody is mid-word."
                   if not spk else
                   f"{spk} has not started speaking yet — the mouth is closed and about to "
-                  f"open. Every other mouth is closed.")
+                  f"open."
+                  + (" Every other mouth in frame is closed."
+                     if len(humans(s, T)) > 1 else ""))
                + " No text, lettering, signage or watermark anywhere in the image. No 3D "
                  "render, no photorealism, no painterly brushwork. No extra people beyond "
                  "those named above.")
