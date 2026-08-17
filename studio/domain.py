@@ -1,0 +1,392 @@
+"""domain.py — the production rules, as pure functions.
+
+**No database. No filesystem. No network.** State arrives as plain dicts and
+decisions come back as plain dicts, which is what lets this be a separately
+testable service instead of a second source of truth sitting next to Supabase.
+
+Everything in here was earned on a real production. The comments name what each
+rule cost, because a rule with a scar attached gets followed and an invented
+best-practice does not.
+
+The SaaS owns persistence, auth, tenancy and queueing. This owns the answer to
+one question: *given this state of the world, what is true, and what refuses?*
+"""
+from __future__ import annotations
+import hashlib
+from typing import Any, Literal, TypedDict
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# capability resolution — nothing above this layer names a model
+# ─────────────────────────────────────────────────────────────────────────────
+
+class Derived(TypedDict):
+    prompt_carries_dialogue: bool
+    must_assert_composition: bool
+    needs_speaker_box_when_multi_face: bool
+    refs_max: int
+    dur: list[int]
+    discard_generated_audio: bool
+
+
+def resolve_stack(registry: dict, house: dict) -> dict:
+    """Turn provider NAMES into capability dicts, once, at the top."""
+    return {
+        kind: {"key": house[kind], **registry[kind][house[kind]]}
+        for kind in ("image", "video", "voice", "lipsync")
+    }
+
+
+def derive(stack: dict) -> Derived:
+    """Pipeline behaviour that falls out of CAPABILITY rather than configuration.
+
+    This is the whole agnostic argument. A new provider inherits the correct
+    behaviour without anyone remembering its quirks, because these are branched
+    on rather than written in a wiki.
+    """
+    v, l = stack["video"], stack["lipsync"]
+    return {
+        # A route that invents speech from the prompt will animate the mouth to
+        # what it invented; our recording then plays over the top and the two can
+        # never agree. So the words stay out entirely.
+        "prompt_carries_dialogue": v["speech"] == "none",
+        # A composing route must be TOLD to reproduce the supplied frame. A route
+        # with a literal first frame need not be.
+        "must_assert_composition": not v["first_frame"],
+        # No lipsync route measured accepts a face selector. On a two-shot it
+        # finds a face and drives it — and the first time it ran it put one man's
+        # line on the other man's mouth.
+        "needs_speaker_box_when_multi_face": not l["face_select"],
+        "refs_max": v["refs_max"],
+        "dur": v["dur"],
+        "discard_generated_audio": v["audio_out"],
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# the gates — they refuse, or they are not gates
+# ─────────────────────────────────────────────────────────────────────────────
+
+class Gate(TypedDict):
+    id: str
+    name: str
+    passed: bool
+    detail: str
+    code: str
+
+
+def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
+                   prompt: dict | None, audits: list[dict], stack: dict,
+                   settings: dict) -> list[Gate]:
+    """Every gate, evaluated against supplied state. Nothing is read; nothing is
+    written. The caller decides what to do with a refusal."""
+    d = derive(stack)
+    g: list[Gate] = []
+
+    pending = [b["name"] for b in boards if b.get("decision") == "pending"]
+    g.append({"id": "A", "name": "boards decided", "passed": not pending,
+              "code": "BOARDS_PENDING",
+              "detail": ("pending: " + ", ".join(pending)) if pending
+                        else "every board carries a written decision"})
+
+    unlocked = [f"{a['tag']}({a.get('status')})" for a in assets
+                if a.get("required", True) and a.get("status") != "locked"]
+    g.append({"id": "B", "name": "rows locked", "passed": not unlocked,
+              "code": "LOCKED_ASSETS_REQUIRED",
+              "detail": ("not locked: " + ", ".join(unlocked)) if unlocked
+                        else "every required asset is locked"})
+
+    # GATE C — the audit must belong to THIS text.
+    #
+    # Rounds are stamped against a hash of the exact words they scored. A
+    # correction produces a prompt that has never been scored, and that is the
+    # entire point: a prompt was once rewritten materially — seven new reference
+    # bindings and a different route — and fired against the audit of the version
+    # before the change.
+    floor = settings.get("audit_floor", 9.5)
+    if not prompt:
+        g.append({"id": "C", "name": "prompt audited", "passed": False,
+                  "code": "NO_PROMPT", "detail": "nothing compiled yet"})
+    else:
+        mine = [a["score"] for a in audits if a.get("hash") == prompt.get("hash")]
+        best = max(mine) if mine else None
+        g.append({"id": "C", "name": "prompt audited",
+                  "passed": bool(best is not None and best >= floor),
+                  "code": "AUDIT_INVALIDATED" if mine else "AUDIT_MISSING",
+                  "detail": (f"cleared at {best} on the current text"
+                             if best is not None and best >= floor
+                             else (f"best round on this text is {best}, floor is {floor}"
+                                   if best is not None
+                                   else "the current text has no round of its own"))})
+
+    # GATE D — a mouth cannot be driven onto the right face by hope.
+    faces = sum(1 for a in assets if a.get("type") == "character")
+    has_line = bool(shot.get("speaker"))
+    needs = d["needs_speaker_box_when_multi_face"] and faces > 1 and has_line
+    g.append({"id": "D", "name": "speaker assigned",
+              "passed": (not needs) or bool(shot.get("speaker_box")),
+              "code": "SPEAKER_BOX_REQUIRED",
+              "detail": (f"{faces} faces and a line, and the sync route cannot choose "
+                         f"— a speaker box is required"
+                         if needs and not shot.get("speaker_box")
+                         else ("boxed to " + str(shot.get("speaker"))
+                               if shot.get("speaker_box")
+                               else "single face or no line; nothing to disambiguate"))})
+
+    # GATE E — the reference budget is a capability, not a preference.
+    n_refs = 1 + len(assets)
+    g.append({"id": "E", "name": "reference budget", "passed": n_refs <= d["refs_max"],
+              "code": "REFERENCE_BUDGET_EXCEEDED",
+              "detail": f"{n_refs} references against a ceiling of {d['refs_max']}"})
+
+    # GATE F — the clock the route actually honours.
+    lo, hi = d["dur"]
+    sec = shot.get("seconds", lo)
+    g.append({"id": "F", "name": "duration in range", "passed": lo <= sec <= hi,
+              "code": "DURATION_OUT_OF_RANGE",
+              "detail": f"{sec}s against {lo}–{hi}s"})
+    return g
+
+
+def blocking(gates: list[Gate]) -> list[Gate]:
+    return [g for g in gates if not g["passed"]]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# the prompt
+# ─────────────────────────────────────────────────────────────────────────────
+
+def prompt_hash(text: str) -> str:
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
+                   stack: dict) -> dict:
+    """Compile one shot into the resolved provider's grammar.
+
+    Receives ONLY a validated shot, immutable asset snapshots, and project
+    settings. It never looks up "latest asset by tag" — that is what keeps a
+    prompt version reproducible after the asset moves on.
+    """
+    d = derive(stack)
+    card = shot.get("card", {})
+    ident = card.get("identity", {})
+    lines: list[str] = []
+    manifest: list[dict] = []
+
+    # ── Image 1: where the first frame comes from ───────────────────────────
+    src = shot.get("frame_source", "keyframe")
+    if src == "keyframe":
+        manifest.append({"order": 1, "role": "first frame",
+                         "path": shot.get("keyframe_path", ""),
+                         "controls": "the complete opening composition"})
+        lines.append(
+            "Image 1 is the first frame. It defines the complete opening composition: every "
+            "subject's position and pose, the prop state, the room, the lighting and the "
+            "camera direction. Reproduce it exactly as the shot's opening frame and animate "
+            "forward from there; do not restage it and do not recompose it."
+            if d["must_assert_composition"] else
+            "Image 1 is the first frame of this shot.")
+    else:
+        cont = src == "chain_continue"
+        prev = shot.get("chain_from", "the preceding shot")
+        manifest.append({"order": 1, "role": "previous last frame",
+                         "path": shot.get("continuity_path", ""),
+                         "controls": "continuity" + (" and composition" if cont else "")})
+        lines.append(
+            f"Image 1 is the final frame of the preceding shot, {prev}. " +
+            ("The camera has NOT cut: this is the same angle continuing, so its framing, "
+             "dressing, light and prop positions all carry over exactly."
+             if cont else
+             "It defines what is TRUE in the room at the moment this shot begins — the state "
+             "and position of every prop, the lighting and the colour. It does NOT define this "
+             "shot's framing: the camera has cut to a new angle, described below. Carry its "
+             "continuity, not its composition."))
+
+    # ── the sheets: one role each, and what they must NOT contribute ────────
+    for i, a in enumerate(assets, start=2):
+        if len(manifest) >= d["refs_max"]:
+            break
+        manifest.append({"order": i, "role": f"{a['tag']} appearance",
+                         "path": a.get("hero_path", ""),
+                         "controls": a.get("descriptor", ""),
+                         "must_not_touch": a.get("must_not_contribute", "")})
+        lines.append(f"Image {i} defines {a.get('name', a['tag'])}'s appearance only — "
+                     f"{a.get('descriptor','')}. "
+                     + (a.get("must_not_contribute")
+                        or "Do not use its background or layout."))
+    lines.append("")
+
+    # ── room scope: describe the FRAME, not the location ────────────────────
+    #
+    # A prompt is a list of things the model may draw, so anything it names that
+    # is not in the frame is a gap the model will fill. A counter-top insert was
+    # once handed the whole shop and built a bright kitchen with a window in it.
+    scope = shot.get("room_scope", "full")
+    where = ident.get("location", "the location")
+    desc = ident.get("description", "")
+    if scope == "none":
+        lines.append(f"In {where}, of which this frame shows only what Image 1 already "
+                     f"contains, {desc}")
+        lines.append("The framing stays exactly as tight as the first frame for the whole "
+                     "take. It never widens and never pulls back, and no further part of the "
+                     "location becomes visible at any point.")
+    elif scope == "partial":
+        lines.append(f"In {where}, of which only a shallow soft slice is visible behind the "
+                     f"figure, {desc}")
+    else:
+        lines.append(f"In {where}, {desc}")
+    lines.append("")
+
+    if card.get("direction", {}).get("acting"):
+        lines.append(card["direction"]["acting"]); lines.append("")
+
+    # ── the mouth ───────────────────────────────────────────────────────────
+    spk = shot.get("speaker")
+    if spk:
+        name = next((a.get("name", a["tag"]) for a in assets if a["tag"] == spk), spk)
+        if d["prompt_carries_dialogue"]:
+            lines.append(f'{name} says: "{ident.get("dialogue","")}"')
+        else:
+            lines.append(
+                f"{name} is the only person who speaks. Animate the mouth as natural "
+                f"conversational speech, the jaw and head carrying a talking rhythm, but do "
+                f"NOT attempt specific words or lip shapes — the articulation is replaced from "
+                f"a separate recording afterwards, and guessing at words here only fights that "
+                f"pass.")
+        for a in assets:
+            if a.get("type") == "character" and a["tag"] != spk:
+                n = a.get("name", a["tag"])
+                lines.append(f"{n} does not speak: the mouth stays closed, though {n} is never "
+                             f"frozen — the body keeps living and reacting.")
+        lines.append("")
+
+    # ── expression: the channel that gets filled in with 'pleasant' ─────────
+    faces = {a["tag"]: (shot.get("expressions", {}).get(a["tag"])
+                        or a.get("default_expression"))
+             for a in assets if a.get("type") == "character"}
+    faces = {k: v for k, v in faces.items() if v}
+    if faces:
+        lines.append("The performances read as follows: " + "; ".join(
+            f"{next((a.get('name', k) for a in assets if a['tag'] == k), k)} is {v}"
+            for k, v in faces.items()) + ".")
+        lines.append("")
+
+    if project.get("style_lock"):
+        lines.append(f"The visuals feature {project['style_lock']}"); lines.append("")
+
+    cam = card.get("cameraEdit", {})
+    if cam:
+        lines.append(" ".join(x for x in [
+            f"Use a {cam.get('size','')}".strip(), cam.get("angle", ""),
+            cam.get("movement", "locked off"),
+            f"on a {cam.get('lens')}" if cam.get("lens") else "",
+            "in one continuous take with no cuts."] if x))
+        lines.append("")
+
+    if card.get("audio"):
+        lines.append(f"Audio includes {card['audio']}"); lines.append("")
+
+    keep = ["Keep every character's identity, face, hair and clothing, the number of "
+            "characters, the layout, the lighting and the screen direction consistent from "
+            "the first frame to the last."]
+    props = [a.get("name", a["tag"]) for a in assets if a.get("type") == "prop"]
+    if props:
+        keep.append("The prop count never changes: exactly one " + ", one ".join(props) + ".")
+    lines.append("[Maintain Consistency]")
+    lines.append(" ".join(keep))
+
+    text = "\n".join(lines).strip() + "\n"
+    return {"text": text, "hash": prompt_hash(text), "manifest": manifest,
+            "reference_count": len(manifest)}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# downstream invalidation
+# ─────────────────────────────────────────────────────────────────────────────
+
+def impact(*, asset_tag: str, shots: list[dict], prompts: list[dict],
+           jobs: list[dict], selects: list[dict]) -> dict:
+    """What does revising this asset make provisional?
+
+    An approval is stamped against a state of the world, not against a file.
+    Nothing is deleted; approved becomes provisional, and provisional needs a
+    human to look again.
+
+    Earned: an approved take was the one shot nobody rebuilt when the room
+    changed, precisely because it was the one shot everybody trusted. Sixteen
+    individual reviews missed it; one contact sheet caught it in seconds.
+    """
+    touched = [s["code"] for s in shots if asset_tag in s.get("asset_tags", [])]
+    return {
+        "asset": asset_tag,
+        "shots": touched,
+        "prompt_versions": [{"shot": p["shot"], "version": p["version"]}
+                            for p in prompts if p["shot"] in touched],
+        "audits_invalidated": [p["hash"] for p in prompts if p["shot"] in touched],
+        "takes": [{"shot": j["shot"], "attempt": j["attempt"]}
+                  for j in jobs if j["shot"] in touched],
+        "selects_needing_review": [s["shot"] for s in selects if s["shot"] in touched],
+        "rule": ("Nothing is deleted. Approved becomes provisional, because an approval is "
+                 "stamped against a state of the world and the world moved."),
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# the stress matrix
+# ─────────────────────────────────────────────────────────────────────────────
+
+def stress_matrix(*, asset: dict, co_stars: list[str], scene_light: str) -> dict:
+    """The conditions an asset must survive before it may lock.
+
+    Cheap stills, before one expensive video render. A passport built on one
+    lucky image is a false victory — and our sheets travel as references on
+    EVERY shot, so an untested sheet is a fault multiplied by every shot the
+    character appears in.
+    """
+    return {
+        "asset": asset["tag"],
+        "angles": ["front", "three-quarter", "profile", "back"],
+        "sizes": ["wide", "mid", "close"],
+        "light": scene_light or "the actual scene light, not the sheet's neutral ground",
+        "two_shots": co_stars or [],
+        "note": ("A character who holds up alone often breaks the moment he shares a frame, "
+                 "which is why the two-shots are not optional."),
+    }
+
+
+def stress_verdict(*, runs: int, passed: int, required: int) -> dict:
+    ok = runs >= required and passed >= required
+    return {"verdict": "pass" if ok else "fail", "runs": runs, "passed": passed,
+            "required": required,
+            "detail": ("locked" if ok else
+                       f"below {required}/{required} — the row stays draft and the scenes it "
+                       f"blocks stay closed")}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# iteration policy
+# ─────────────────────────────────────────────────────────────────────────────
+
+def iteration_advice(*, round_n: int, score: float, settings: dict) -> dict:
+    """Past a point, a failing shot does not need better words.
+
+    Earned: three rounds on one shot, and the fix that landed on the third was
+    structural — scope the room — not verbal.
+    """
+    floor = settings.get("audit_floor", 9.5)
+    simplify = settings.get("simplify_at", 8)
+    cap = settings.get("attempt_cap", 15)
+    if score >= floor:
+        return {"action": "proceed", "message": f"clears {floor}"}
+    if round_n >= cap:
+        return {"action": "blocked",
+                "message": f"attempt cap {cap} reached on this framing — this shot must be "
+                           f"re-designed, not re-worded"}
+    if round_n >= simplify:
+        return {"action": "simplify",
+                "message": f"past round {simplify} the SHOT is wrong, not the sentence — "
+                           f"split the beat, drop an action, or change the angle"}
+    return {"action": "correct",
+            "message": "correct the prompt, then audit the corrected text: it is a new prompt "
+                       "that has never been scored"}

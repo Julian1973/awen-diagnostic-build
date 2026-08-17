@@ -27,6 +27,8 @@ from __future__ import annotations
 import argparse, hashlib, json, os, pathlib, sqlite3, subprocess, sys, time
 
 ROOT = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT))
+import domain                                   # the rules live in exactly one place
 REG = json.loads((ROOT / "providers.json").read_text())
 TREE = ["assets", "prompts", "generations", "selects", "edit", "color", "sound",
         "master", "docs"]
@@ -151,18 +153,9 @@ def stack(conn) -> dict:
 
 
 def derive(s: dict) -> dict:
-    """Pipeline decisions that fall out of CAPABILITY, not configuration. This is
-    what makes the studio agnostic rather than merely configurable — a new
-    provider inherits the right behaviour without anyone remembering its quirks."""
-    v, l = s["video"], s["lipsync"]
-    return {
-        "prompt_carries_dialogue": v["speech"] == "none",
-        "must_assert_composition": not v["first_frame"],
-        "needs_speaker_box_when_multi_face": not l["face_select"],
-        "refs_max": v["refs_max"],
-        "dur": v["dur"],
-        "discard_generated_audio": v["audio_out"],
-    }
+    """Delegated to domain.derive so the CLI and the SaaS can never disagree
+    about what a capability implies."""
+    return domain.derive(s)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
