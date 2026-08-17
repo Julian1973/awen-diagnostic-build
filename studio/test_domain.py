@@ -216,6 +216,41 @@ check("the matrix includes a two-shot beside every co-star", m["two_shots"] == [
 check("and tests in the SCENE's light, not the sheet's", "amber" in m["light"])
 
 
+
+# ── the stress RUN: cells, review, staleness ────────────────────────────────
+print("\nthe stress run")
+
+cells = domain.stress_cells(
+    asset={"tag": "tom", "type": "character", "version": 2, "descriptor": "navy parka"},
+    co_stars=["Richard"], scene_lights=["amber lamplight"])
+dims = {c["dimension"] for c in cells}
+check("a character run covers angle, size, scene light and two-shots",
+      {"angle", "shot_size", "scene_light", "two_shot"} <= dims)
+check("the rear angle is in it — the view nobody tests and every walk-away shot needs",
+      any("rear" in c["id"] for c in cells))
+check("every cell is frozen to the asset revision",
+      all(c["asset_revision"] == 2 for c in cells))
+
+prop_dims = {c["dimension"] for c in domain.stress_cells(
+    asset={"tag": "box", "type": "prop", "version": 1, "descriptor": "walnut box"})}
+check("a prop is tested at scale WITH its character and in the held state",
+      {"scale_with_character", "held_state"} <= prop_dims)
+
+reviews_all = {c["id"]: {"passed": True} for c in cells}
+check("a fully passed run of enough cells locks",
+      domain.stress_run_verdict(cells=cells, reviews=reviews_all,
+                                asset_revision=2, required=10)["verdict"] == "pass")
+check("an unreviewed cell is NOT a pass — the verdict is incomplete",
+      domain.stress_run_verdict(cells=cells, reviews={cells[0]["id"]: {"passed": True}},
+                                asset_revision=2, required=10)["verdict"] == "incomplete")
+one_fail = {**reviews_all, cells[3]["id"]: {"passed": False, "notes": "smiling again"}}
+check("ONE failed cell fails the whole run — 10/10 means no cell may fail",
+      domain.stress_run_verdict(cells=cells, reviews=one_fail,
+                                asset_revision=2, required=10)["verdict"] == "fail")
+check("a revised asset makes the run STALE, not merely failed",
+      domain.stress_run_verdict(cells=cells, reviews=reviews_all,
+                                asset_revision=3, required=10)["verdict"] == "stale")
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))

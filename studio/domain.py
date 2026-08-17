@@ -390,3 +390,96 @@ def iteration_advice(*, round_n: int, score: float, settings: dict) -> dict:
     return {"action": "correct",
             "message": "correct the prompt, then audit the corrected text: it is a new prompt "
                        "that has never been scored"}
+
+
+def stress_cells(*, asset: dict, co_stars: list[str] | None = None,
+                 scene_lights: list[str] | None = None,
+                 variants: list[str] | None = None) -> list[dict]:
+    """The full combat matrix as individually reviewable CELLS.
+
+    Each cell is one cheap still with its own generation spec, provenance slot
+    and pass/fail. The dimensions are per asset type, and they are counted from
+    working productions rather than guessed. A cell list is a plan; nothing here
+    generates or stores anything.
+    """
+    tag, kind = asset["tag"], asset.get("type", "character")
+    lights = scene_lights or ["the actual scene light, not a neutral studio ground"]
+    cells: list[dict] = []
+
+    def cell(cid: str, dim: str, spec: str) -> None:
+        cells.append({"id": f"{tag}:{cid}", "dimension": dim, "spec": spec,
+                      "asset": tag, "asset_revision": asset.get("version", 1)})
+
+    if kind == "character":
+        for a in ("front", "three-quarter", "profile", "rear", "close"):
+            cell(f"angle-{a}", "angle",
+                 f"{asset.get('descriptor','')} — a full study from the {a} view, under "
+                 f"{lights[0]}, matching the reference sheet exactly")
+        for s in ("wide", "medium", "close"):
+            cell(f"size-{s}", "shot_size",
+                 f"{asset.get('descriptor','')} — a {s} shot in the scene's own setting, "
+                 f"under {lights[0]}")
+        for i, l in enumerate(lights):
+            cell(f"light-{i+1}", "scene_light",
+                 f"{asset.get('descriptor','')} — standing in {l}; the light is the test")
+        for co in (co_stars or []):
+            cell(f"two-shot-{co.lower().replace(' ', '-')}", "two_shot",
+                 f"{asset.get('descriptor','')} together with {co}, both exactly as their "
+                 f"sheets define them — a character who holds up alone often breaks the "
+                 f"moment he shares a frame")
+        for v in (variants or []):
+            cell(f"variant-{v}", "state_variant",
+                 f"the {v} state variant, exactly as its own passport defines it")
+    elif kind == "location":
+        for c, d, s in (("wide", "geography", "the whole space, wide, establishing the "
+                         "geography and every fixed feature"),
+                        ("angles", "working_angles", "the working camera angles the "
+                         "breakdown actually uses"),
+                        ("light", "light_states", "every lighting state its scenes need"),
+                        ("bounds", "camera_bounds", "the boundaries the camera never "
+                         "crosses, checked visually"),
+                        ("props", "hero_props", "its known hero props in place")):
+            cell(c, d, f"{asset.get('descriptor','')} — {s}")
+    elif kind == "prop":
+        for c, d, s in (("hero", "hero", "the hero view"),
+                        ("side", "side", "the side view"),
+                        ("scale", "scale_with_character", "held by its owner so the scale "
+                         "reads off the body, never off a measurement"),
+                        ("held", "held_state", "in use, in the hands that use it"),
+                        ("light", "scene_light", f"under {lights[0]}")):
+            cell(c, d, f"{asset.get('descriptor','')} — {s}")
+        for v in (variants or []):
+            cell(f"variant-{v}", "state_variant", f"the {v} state, as its passport defines it")
+    else:  # style board
+        for c in ("palette", "lighting-direction", "optics", "texture",
+                  "camera-movement", "edit-tempo"):
+            cell(c, "style", f"the locked style's {c.replace('-', ' ')}, demonstrated")
+    return cells
+
+
+def stress_run_verdict(*, cells: list[dict], reviews: dict,
+                       asset_revision: int, required: int) -> dict:
+    """The verdict over a reviewed run. Pure; the caller persists it.
+
+    - every cell must be reviewed — an unreviewed cell is not a pass
+    - one failed cell fails the run: 10/10 means NO cell may fail
+    - a run made against an older asset revision is STALE, not merely failed —
+      any revision invalidates prior stress results outright
+    """
+    stale = [c["id"] for c in cells if c.get("asset_revision") != asset_revision]
+    if stale:
+        return {"verdict": "stale", "detail": f"run was made against an older revision "
+                f"of the asset ({len(stale)} cells) — re-plan and re-run", "stale": stale}
+    unreviewed = [c["id"] for c in cells if c["id"] not in reviews]
+    if unreviewed:
+        return {"verdict": "incomplete",
+                "detail": f"{len(unreviewed)} of {len(cells)} cells unreviewed",
+                "unreviewed": unreviewed}
+    failed = [cid for cid, r in reviews.items() if not r.get("passed")]
+    if failed or len(cells) < required:
+        return {"verdict": "fail", "failed": failed,
+                "detail": (f"{len(failed)} cells failed" if failed else
+                           f"only {len(cells)} cells against a floor of {required}")
+                          + " — the row stays draft and its scenes stay closed"}
+    return {"verdict": "pass", "cells": len(cells),
+            "detail": f"{len(cells)}/{len(cells)} — clear to lock"}

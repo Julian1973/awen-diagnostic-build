@@ -64,6 +64,14 @@ OPS = {
         asset=r["asset"], co_stars=r.get("co_stars", []),
         scene_light=r.get("scene_light", "")),
 
+    "stress_cells": lambda r: {"cells": domain.stress_cells(
+        asset=r["asset"], co_stars=r.get("co_stars"),
+        scene_lights=r.get("scene_lights"), variants=r.get("variants"))},
+
+    "stress_run_verdict": lambda r: domain.stress_run_verdict(
+        cells=r["cells"], reviews=r.get("reviews", {}),
+        asset_revision=r["asset_revision"], required=r.get("required", 10)),
+
     "stress_verdict": lambda r: domain.stress_verdict(
         runs=r["runs"], passed=r["passed"], required=r.get("required", 10)),
 
