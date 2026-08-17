@@ -1128,6 +1128,11 @@ def cmd_audit(a):
             rnd = {"round": len(entry["rounds"]) + 1, "hash": h, "score": a.record,
                    "notes": a.notes or ""}
             entry["rounds"].append(rnd)
+            n = rnd["round"]
+            if n >= 8 and a.record < FLOOR:
+                print(f"  {s['id']:<8} ROUND {n} BELOW FLOOR — stop rewording. A shot that has "
+                      f"not landed by now needs a SIMPLER SHOT, not better sentences: split the "
+                      f"beat in two, drop an action, or change the angle.")
             if a.record >= FLOOR:
                 print(f"  {s['id']:<8} round {rnd['round']}: {a.record} on {h} — CLEARS {FLOOR}")
             else:
@@ -1419,6 +1424,8 @@ def cmd_assemble(a):
             filt.append(f"[{n}:a]volume=0.5,adelay={d}|{d}[bell]"); labels.append("[bell]"); n += 1
         filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0[a]")
         length = s.get("cut_to") or s["sec"]
+        tail = s.get("tail_trim", 0.4)      # the last beat of a generation drifts
+        length = max(1.0, length - tail)
         r = subprocess.run([FF, "-y", *inputs, "-filter_complex", ";".join(filt),
                             "-map", "0:v", "-map", "[a]", "-c:v", "libx264", "-crf", "17",
                             "-c:a", "aac", "-t", str(length), str(AS / f"{s['id']}.mp4")],
