@@ -67,11 +67,11 @@ export class StudioEngine {
   /** Start the long-lived worker. One process per queue worker is plenty. */
   start(): void {
     this.proc = spawn(this.python, [this.script, '--serve'], { stdio: 'pipe' });
-    createInterface({ input: this.proc.stdout }).on('line', (line) => {
+    createInterface({ input: this.proc.stdout }).on('line', (line: string) => {
       const resolve = this.queue.shift();
       if (resolve) resolve(JSON.parse(line));
     });
-    this.proc.stderr.on('data', (b) => console.error('[engine]', String(b)));
+    this.proc.stderr.on('data', (b: unknown) => console.error('[engine]', String(b)));
   }
 
   private call<T>(req: Record<string, unknown>): Promise<Reply<T>> {
