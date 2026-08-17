@@ -1,0 +1,210 @@
+<title>Studio Memory</title>
+<style>
+:root{
+  --paper:#F6F3ED; --ink:#1C1A17; --soft:#5E574C; --rule:#DDD6C8;
+  --panel:#FFFEFA; --verd:#2E6B63; --amber:#A8760F; --rust:#9A3B2A;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#14130F; --ink:#EBE5D8; --soft:#9A9081; --rule:#332F27;
+    --panel:#1C1A15; --verd:#6FB3A8; --amber:#D9A648; --rust:#D9765C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14130F; --ink:#EBE5D8; --soft:#9A9081; --rule:#332F27;
+  --panel:#1C1A15; --verd:#6FB3A8; --amber:#D9A648; --rust:#D9765C;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;padding:3rem 1.25rem 6rem;
+  font:16.5px/1.62 Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif}
+.wrap{max-width:58rem;margin:0 auto;display:flex;flex-direction:column;gap:3rem}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.eyebrow{font:600 .7rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--verd)}
+h1{margin:.5rem 0 0;font-size:3rem;font-weight:600;letter-spacing:-.02em;line-height:1.05;
+  text-wrap:balance}
+.lede{font-size:1.2rem;color:var(--soft);max-width:44ch;margin:.75rem 0 0}
+header{border-bottom:2px solid var(--verd);padding-bottom:1.75rem}
+h2{margin:0 0 1rem;font:600 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--verd)}
+section{display:flex;flex-direction:column}
+.claim{font-size:1.45rem;line-height:1.4;margin:0;max-width:40ch;text-wrap:balance}
+.claim b{color:var(--amber);font-weight:600}
+.rules{display:grid;gap:.85rem;counter-reset:r;margin:0;padding:0;list-style:none}
+.rules li{counter-increment:r;display:grid;grid-template-columns:2rem 1fr;gap:1rem;
+  align-items:baseline}
+.rules li::before{content:counter(r,decimal-leading-zero);
+  font:600 .78rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--verd)}
+.stages{display:flex;flex-direction:column;gap:0}
+.phase{font:600 .68rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--soft);margin:1.25rem 0 .6rem}
+.stage{display:grid;grid-template-columns:2.2rem 11rem 1fr;gap:1rem;padding:.5rem 0;
+  border-bottom:1px solid var(--rule);align-items:baseline}
+.stage .n{font:600 .78rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--soft)}
+.stage .t{font-weight:600}
+.stage .d{color:var(--soft);font-size:.94rem}
+.stage.new .t{color:var(--amber)}
+.gate{display:grid;grid-template-columns:2.2rem 1fr;gap:1rem;margin:.9rem 0;padding:.75rem 1rem;
+  background:var(--panel);border:1px solid var(--rust);border-left:4px solid var(--rust)}
+.gate .g{font:600 .78rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--rust)}
+.gate p{margin:0;font-size:.96rem}
+.gate b{color:var(--rust)}
+.law{border-left:3px solid var(--amber);padding:0 0 0 1.25rem;margin:0 0 1.9rem}
+.law h3{margin:0 0 .4rem;font-size:1.1rem;font-weight:600}
+.law p{margin:0 0 .6rem;max-width:62ch}
+.scar{color:var(--soft);font-size:.93rem;font-style:italic;max-width:62ch;margin:0}
+.scar::before{content:"Earned — ";font-style:normal;font-weight:600;color:var(--amber)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th{text-align:left;font:600 .68rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--soft);
+  padding:0 1rem .6rem 0;border-bottom:1px solid var(--rule)}
+td{padding:.6rem 1rem .6rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;color:var(--verd)}
+.scroll{overflow-x:auto}
+.open{background:var(--panel);border:1px solid var(--rule);padding:1.4rem 1.5rem}
+.open h3{margin:0 0 .5rem;font-size:1.05rem}
+.open p{margin:0 0 .6rem;color:var(--soft);max-width:64ch}
+footer{border-top:1px solid var(--rule);padding-top:1.25rem;color:var(--soft);font-size:.9rem}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Production OS · provider-agnostic</span>
+  <h1>Studio Memory</h1>
+  <p class="lede">One script in, one film out, on any stack. Three systems merged, and every disagreement written down rather than smoothed over.</p>
+</header>
+
+<section>
+  <h2>The premise</h2>
+  <p class="claim">The model has no memory between generations, so <b>the pipeline is the memory</b>. A face is redrawn from scratch every time; if what he looks like is not in the request, the request gets a different man.</p>
+  <p class="claim" style="margin-top:1.5rem">And the sentence that prevents the most damage: a prompt is a list of things the model may draw, so <b>anything it names that is not in the frame is a gap the model will fill</b>.</p>
+</section>
+
+<section>
+  <h2>The four rules</h2>
+  <ol class="rules">
+    <li>Nothing generates for the film until every asset it uses is locked.</li>
+    <li>One asset, one passport — descriptor plus files, copied verbatim, never shortened.</li>
+    <li>Edits are surgical: one declared change per version, everything else byte-identical.</li>
+    <li>Everything versioned and logged, because an unlogged good shot cannot be reproduced.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>The stages and the gates</h2>
+  <div class="stages">
+
+    <div class="phase">Pre-production · runs in reverse</div>
+    <div class="stage"><span class="n">01</span><span class="t">breakdown</span><span class="d">script becomes scenes and shot cards</span></div>
+    <div class="stage"><span class="n">02</span><span class="t">references</span><span class="d">images collected as specification, every one captioned</span></div>
+    <div class="stage"><span class="n">03</span><span class="t">bible lock</span><span class="d">every board closes on a written decision</span></div>
+    <div class="stage"><span class="n">04</span><span class="t">passports</span><span class="d">characters, locations and props get descriptors and sheets</span></div>
+    <div class="stage new"><span class="n">05</span><span class="t">stress test</span><span class="d">proved under combat conditions before it is trusted</span></div>
+
+    <div class="gate"><span class="g">A</span><p><b>Boards decided.</b> No board a shot depends on may still be pending. A style approved verbally means the director and the prompt engineer are holding two different films.</p></div>
+    <div class="gate"><span class="g">B</span><p><b>Rows locked.</b> Every required asset reads locked — checked at compile <em>and again at submit</em>, because an asset can be deprecated in between.</p></div>
+
+    <div class="phase">Production · the loop the application drives</div>
+    <div class="stage"><span class="n">06</span><span class="t">generate</span><span class="d">shots produced from cards and locked passports</span></div>
+    <div class="stage new"><span class="n">07</span><span class="t">sync</span><span class="d">the recorded line drives the mouth — exists in neither source system</span></div>
+    <div class="stage"><span class="n">08</span><span class="t">assemble</span><span class="d">picture, dialogue, effects, room tone; edges trimmed</span></div>
+
+    <div class="gate"><span class="g">C</span><p><b>Prompt audited.</b> The current text has a passing round <em>of its own</em> — stamped against its hash, because a correction is a prompt that has never been scored.</p></div>
+    <div class="gate"><span class="g">D</span><p><b>Speaker assigned.</b> A multi-face shot with a line has a speaker box, because no lipsync route can be told which face to drive.</p></div>
+
+    <div class="phase">Finishing · human, on purpose</div>
+    <div class="stage"><span class="n">09</span><span class="t">colour</span><span class="d">unify neighbours, then grade</span></div>
+    <div class="stage"><span class="n">10</span><span class="t">sound</span><span class="d">clean the voice, rebuild effects, mix</span></div>
+    <div class="stage"><span class="n">11</span><span class="t">master</span><span class="d">deliverables, and the means of production archived</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Never name a model — name a capability</h2>
+  <p style="margin:0 0 1.25rem;max-width:62ch;color:var(--soft)">The registry resolves it. These flags are branched on, not documented, so a new provider inherits the right behaviour automatically.</p>
+  <div class="scroll"><table>
+    <tr><th>Flag</th><th>What it decides</th></tr>
+    <tr><td><code>speech: generated</code></td><td>dialogue words must not enter the prompt at all</td></tr>
+    <tr><td><code>first_frame: false</code></td><td>composition must be asserted, never assumed</td></tr>
+    <tr><td><code>face_select: false</code></td><td>a multi-face shot needs a speaker box</td></tr>
+    <tr><td><code>refs_max</code></td><td>how long a reference set may be before identity slips</td></tr>
+    <tr><td><code>dur</code></td><td>shorter beats are shot at the floor and trimmed</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>The laws, and what each one cost</h2>
+
+  <div class="law">
+    <h3>No dialogue words in a prompt</h3>
+    <p>The route generates speech from the prompt and animates the mouth to what it invented. Our recording then plays over the top, and the two can never agree. The mouth is directed as a talking rhythm, and the prompt says <em>why</em> — so nobody helpfully puts the line back.</p>
+    <p class="scar">the voice deteriorated, then a section arrived completely different. A mish-mash.</p>
+  </div>
+
+  <div class="law">
+    <h3>The speaker box</h3>
+    <p>A lipsync service takes a video and an audio file, finds a face and drives it. Not one route measured accepts a face selector. So a multi-face shot declares the region holding the speaker and nobody else: crop, upscale, sync, composite back at the same coordinates.</p>
+    <p class="scar">one man's line was animated onto the other man's mouth — the speaker law failing one stage further downstream than the speaker law could reach.</p>
+  </div>
+
+  <div class="law">
+    <h3>Describe the frame, not the location</h3>
+    <p>Every shot declares how much of its location it actually shows: full, partial, or none. The test before writing any scene clause is whether the thing is visible in the frame. On a tight frame, say so explicitly — silence is a gap too.</p>
+    <p class="scar">a counter-top insert was handed the standard clause reciting the whole shop, and built a bright kitchen with a window in it. The keyframe was not ignored — it was completed.</p>
+  </div>
+
+  <div class="law">
+    <h3>The audit is a loop, not a stamp</h3>
+    <p>Score, correct, then <em>re-score the corrected text</em>. Rounds are stamped against a hash of the exact words they scored, and only a round matching the current text counts.</p>
+    <p class="scar">a prompt was rewritten materially and fired against the audit of the version before the change.</p>
+  </div>
+
+  <div class="law">
+    <h3>Direct the face</h3>
+    <p>Body comes from the secondary-life block, voice from the delivery note, the mouth from the speaker law — and an expression left unstated gets filled in with the average of every similar scene, which is <em>pleasant</em>. Where the beat needs it, say <strong>not smiling</strong>.</p>
+    <p class="scar">a man smiled warmly through three consecutive shots about his grandmother's broken heirloom.</p>
+  </div>
+
+  <div class="law">
+    <h3>Scale by body landmark, never by number</h3>
+    <p><em>"Her head reaches his shoulder"</em> survives; a measurement does not. Metres for location geometry are fine — the ban is on bodies.</p>
+    <p class="scar">heights in centimetres came back with the ladder inverted and the largest gap rendered as no gap at all.</p>
+  </div>
+
+  <div class="law">
+    <h3>Chain the end frame</h3>
+    <p>The previous take's last frame is the next shot's Image 1 — continuity when the camera cuts, composition when it holds. The room cannot drift when Image 1 <em>is</em> the previous frame rather than a fresh generation of the same room. Generate keyframes per setup, not per shot, and have a human make them.</p>
+    <p class="scar">a generated keyframe turned an archway into a curtained recess and lost a door bell. The hand-made one held every lock.</p>
+  </div>
+
+  <div class="law">
+    <h3>Approval does not survive a set change</h3>
+    <p>When a plate, a lock or a script line moves, every approved asset downstream is provisional again. Review a scene on one contact sheet, not shot by shot.</p>
+    <p class="scar">the one approved take was the only shot nobody rebuilt when the room changed — because it was the one shot everybody trusted. Sixteen individual reviews missed it; one contact sheet caught it in four seconds.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Where this overrules its sources</h2>
+  <div class="open">
+    <h3>Both source systems assume the video model lip-syncs</h3>
+    <p>The model generates the voice, and a sound team cleans that same voice afterwards. For a production with a cast — recorded voice IDs, directed performances — that is backwards. The recording should drive the mouth, not the other way round.</p>
+    <p style="margin:0">Hence stage 07, which exists in neither of them.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The open question, deliberately unresolved</h2>
+  <div class="open">
+    <h3>No negative prompts</h3>
+    <p>Higgsfield writes every prohibition as what <em>is</em> in frame, with no "do not" anywhere. Ours are full of them, and are currently producing approved takes.</p>
+    <p style="margin:0">That is a real methodological difference and it deserves a controlled A/B on one shot — not a compiler rewrite on the strength of an article.</p>
+  </div>
+</section>
+
+<footer>
+  <strong>Definition of ready.</strong> Credentials never reach the browser · a shot cannot generate on a draft asset · a shot cannot generate on an unaudited prompt · a multi-face shot cannot sync without a speaker box · a crash cannot double-charge a provider · every output archived under our control · every selected take reconstructs its own provenance · human review is the final gate · and the provider changes through the adapter rather than a rewrite.
+</footer>
+
+</div>
