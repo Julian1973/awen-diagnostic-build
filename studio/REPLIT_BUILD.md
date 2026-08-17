@@ -187,3 +187,39 @@ review → approve into selects → export the edit manifest.
 - Script/asset changes mark downstream approvals provisional (never deleted).
 - Human review is the final acceptance gate.
 - The provider changes through the adapter, not a rewrite.
+
+---
+
+## Audit addendum — gaps found on final review; build these, do not lose them
+
+1. **Seed the lessons bank.** On project creation, load `studio/lessons.json`
+   into the `lessons` table and surface each lesson beside the control that
+   enforces it (e.g. NEG-005 on the speaker-box tool). A rule with a scar
+   attached gets followed.
+2. **The keyframe prompt generator.** The "human" image provider needs the
+   prompt the director generates from. Canonical implementation:
+   `compile_keyframe` in `engine/shoot.py` — a FROZEN MOMENT: no motion verbs,
+   still-face expressions (not the motion `faces` map), props split into
+   in-frame vs revealed-during-shot, room scoped exactly as the animation
+   prompt scopes it, and no screen-direction/eyeline text on faceless inserts.
+   Port it beside `compile_prompt`.
+3. **Scene contact-sheet gate.** Before a scene can be marked complete, the
+   review room renders every selected take's frame on ONE sheet and requires a
+   recorded continuity sign-off. Sixteen individual reviews missed what one
+   sheet caught in four seconds (NEG-003).
+4. **Reference-audio constraints as capability fields.** Where a provider
+   accepts reference audio, the registry row carries `audio_ref_min_seconds` /
+   `audio_ref_max_seconds` (measured: 2.0–15s on the current route) and the
+   gate refuses a clip outside them — short lines are repeated, since a voice
+   reference takes no words.
+5. **The audit override guard.** Recording a passing round on text whose latest
+   round FAILED requires an explicit, logged override (NEG-006, second half).
+6. **In-frame text tasks.** Any text that must be legible on screen — signs,
+   labels, titles — is a row in an edit-task list attached to the shot, never
+   part of a generation prompt. Video models write text badly; titles belong to
+   the edit.
+7. **Negative-prompt policy field.** Per-project:
+   `allowed | positive_first | disallowed | experiment`. Deliberately
+   unresolved; ship `allowed` as default and run the logged A/B before changing
+   it.
+

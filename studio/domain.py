@@ -483,3 +483,32 @@ def stress_run_verdict(*, cells: list[dict], reviews: dict,
                           + " — the row stays draft and its scenes stay closed"}
     return {"verdict": "pass", "cells": len(cells),
             "detail": f"{len(cells)}/{len(cells)} — clear to lock"}
+
+
+def validate_asset(*, asset: dict) -> dict:
+    """Passport validation, before an asset may even enter the stress test.
+
+    The scale check is NEG-008: heights in centimetres rendered a height ladder
+    inverted. Models cannot see 118cm; they can see a shoulder.
+    """
+    import re
+    problems = []
+    if not asset.get("descriptor"):
+        problems.append({"code": "NO_DESCRIPTOR",
+                         "message": "an asset with no descriptor is a different "
+                                    "asset in every generation"})
+    if re.search(r"\b\d+\s?(cm|centimetres?|centimeters?|inches|in\.|ft|feet|metres?"
+                 r"|meters?|m tall)\b", (asset.get("scale_landmark", "")
+                                          + " " + asset.get("descriptor", "")).lower()):
+        problems.append({"code": "SCALE_BY_NUMBER",
+                         "message": "body scale uses a measurement — state it as a "
+                                    "landmark: 'her head reaches his shoulder'"})
+    if asset.get("type") == "character" and not asset.get("scale_landmark"):
+        problems.append({"code": "NO_SCALE_LANDMARK",
+                         "message": "a character with no scale landmark gets a "
+                                    "different height whenever he shares a frame"})
+    if asset.get("type") == "character" and not asset.get("default_expression"):
+        problems.append({"code": "NO_DEFAULT_EXPRESSION",
+                         "message": "an unstated face is filled in with 'pleasant' "
+                                    "(NEG-002)"})
+    return {"valid": not problems, "problems": problems}

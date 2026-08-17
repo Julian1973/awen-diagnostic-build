@@ -79,6 +79,9 @@ OPS = {
     "iteration": lambda r: domain.iteration_advice(
         round_n=r["round"], score=r["score"], settings=r.get("settings", {})),
 
+    # passport validation before the stress test
+    "validate_asset": lambda r: domain.validate_asset(asset=r["asset"]),
+
     # the registry itself, for a provider-picker UI
     "registry": lambda r: REGISTRY,
 }

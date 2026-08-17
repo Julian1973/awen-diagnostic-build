@@ -251,6 +251,24 @@ check("a revised asset makes the run STALE, not merely failed",
       domain.stress_run_verdict(cells=cells, reviews=reviews_all,
                                 asset_revision=3, required=10)["verdict"] == "stale")
 
+
+# ── passport validation ─────────────────────────────────────────────────────
+print("\npassport validation")
+
+v = domain.validate_asset(asset={"tag": "t", "type": "character",
+    "descriptor": "a man", "scale_landmark": "118cm tall",
+    "default_expression": "warm"})
+check("centimetres for a body are refused (NEG-008)",
+      any(p["code"] == "SCALE_BY_NUMBER" for p in v["problems"]))
+v = domain.validate_asset(asset={"tag": "t", "type": "character",
+    "descriptor": "a man", "scale_landmark": "her head reaches his shoulder",
+    "default_expression": "warm"})
+check("a landmark passes", v["valid"])
+v = domain.validate_asset(asset={"tag": "t", "type": "character",
+    "descriptor": "a man", "scale_landmark": "head at his shoulder"})
+check("a character with no default expression is flagged (NEG-002)",
+      any(p["code"] == "NO_DEFAULT_EXPRESSION" for p in v["problems"]))
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))
