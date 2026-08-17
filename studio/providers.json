@@ -1,0 +1,122 @@
+{
+  "_": "The provider registry. NOTHING in the engine names a model; it names a CAPABILITY and looks it up here. Swap a row and the whole studio moves without a line of pipeline changing — which is the point, because the model table ages in months and the stages do not.",
+
+  "_capability_contract": {
+    "refs_max": "how many reference images the route holds before identity starts slipping. The compiler will not build a longer set.",
+    "first_frame": "true if the route treats image 1 as a literal first frame it must reproduce. false if it composes from references and has to be TOLD to reproduce one.",
+    "audio_in": "true if the route accepts reference audio. Voice character only on every route we have measured — none of them take words from it.",
+    "audio_out": "true if the route generates its own audio. Always discarded when the production has cast recordings; kept only when it does not.",
+    "speech": "'generated' if the route invents speech from the prompt (so the prompt must carry NO dialogue and the mouth is driven later), 'none' if silent.",
+    "face_select": "true if a lipsync route can be told WHICH face to drive. Every route measured so far says false, which is why speaker boxes exist.",
+    "dur": "[min, max] seconds the route will render. Beats shorter than min are shot at min and trimmed.",
+    "grammar": "which prompt grammar the compiler emits for this route."
+  },
+
+  "image": {
+    "nano-banana": {
+      "transport": "fal",
+      "route": "fal-ai/nano-banana/edit",
+      "refs_max": 8,
+      "out": "image",
+      "notes": "Multi-reference edit. Used for keyframes and stress-test sheets."
+    },
+    "flux-kontext-max": {
+      "transport": "fal",
+      "route": "fal-ai/flux-pro/kontext/max",
+      "refs_max": 4,
+      "out": "image"
+    },
+    "gemini-flash-image": {
+      "transport": "fal",
+      "route": "fal-ai/gemini-25-flash-image/edit",
+      "refs_max": 8,
+      "out": "image"
+    },
+    "human": {
+      "transport": "manual",
+      "route": null,
+      "refs_max": 30,
+      "out": "image",
+      "notes": "The director generates it in their own tool and drops the file in. Slowest per image and by some distance the most accurate — a generated keyframe turned an archway into a curtained recess and lost a door bell; the human one held every lock. Default for hero keyframes."
+    }
+  },
+
+  "video": {
+    "minimax-h3-ref": {
+      "transport": "fal",
+      "route": "minimax/h3/reference-to-video",
+      "refs_max": 8,
+      "first_frame": false,
+      "audio_in": true,
+      "audio_out": true,
+      "speech": "generated",
+      "dur": [5, 15],
+      "resolutions": ["480P", "768P", "2K", "4K"],
+      "grammar": "seedance-core",
+      "notes": "Composes from references; reproduces a supplied frame reliably when Image 1 is roled as the opening composition and told not to be recomposed. Reference audio fixes voice character only."
+    },
+    "minimax-h3-i2v": {
+      "transport": "fal",
+      "route": "minimax/h3/image-to-video",
+      "refs_max": 1,
+      "first_frame": true,
+      "audio_in": false,
+      "audio_out": true,
+      "speech": "generated",
+      "dur": [5, 15],
+      "resolutions": ["768P", "2K", "4K"],
+      "grammar": "seedance-core",
+      "notes": "Guarantees the supplied frame IS the first frame, but cannot carry character sheets alongside it. Use when composition matters more than identity anchoring."
+    },
+    "seedance-2.5-ref": {
+      "transport": "higgsfield",
+      "route": "seedance-2.5/reference-to-video",
+      "refs_max": 10,
+      "first_frame": false,
+      "audio_in": true,
+      "audio_out": true,
+      "speech": "generated-lipsynced",
+      "dur": [5, 30],
+      "resolutions": ["1080p"],
+      "grammar": "seedance-core",
+      "notes": "One-shots 30s at 1080p with dialogue lip-synced and effects in the same pass. UNVERIFIED on this account — transport not wired. Its generated voice is the wrong way round for a production with a cast; use it for picture and discard the voice, or use it where there is no cast."
+    }
+  },
+
+  "voice": {
+    "elevenlabs-v3": {
+      "transport": "elevenlabs",
+      "route": "eleven_v3",
+      "directed": true,
+      "notes": "Takes inline performance direction — [hesitant], [pause], [warm, dry amusement]. Performance is written from the script's parentheticals and the character's cadence card, never left to the model."
+    }
+  },
+
+  "lipsync": {
+    "sync-v2": {
+      "transport": "fal",
+      "route": "fal-ai/sync-lipsync/v2",
+      "models": ["lipsync-2", "lipsync-2-pro"],
+      "face_select": false,
+      "notes": "Drives a mouth from OUR recording. Cannot be told which face — on a multi-face frame it picks one, and it picked the wrong one the first time it ran. Hence speaker boxes."
+    },
+    "latentsync": { "transport": "fal", "route": "fal-ai/latentsync", "face_select": false },
+    "veed": { "transport": "fal", "route": "veed/lipsync", "face_select": false },
+    "musetalk": { "transport": "fal", "route": "fal-ai/musetalk", "face_select": false }
+  },
+
+  "house": {
+    "_": "What THIS production runs. One video model, deliberately: one grammar, one set of quirks, one consistency behaviour to learn.",
+    "image": "human",
+    "image_fallback": "nano-banana",
+    "video": "minimax-h3-ref",
+    "voice": "elevenlabs-v3",
+    "lipsync": "sync-v2",
+    "resolution": "768P",
+    "floor": 9.5,
+    "attempt_cap": 15,
+    "simplify_at": 8,
+    "tail_trim": 0.4,
+    "repeatability": 10
+  }
+}
