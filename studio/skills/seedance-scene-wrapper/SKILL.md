@@ -185,11 +185,11 @@ state, and lighting state.
 @Image 2 is the location appearance authority only. Do not take framing,
 character placement, pose, action, or a camera direction from it.
 
-[IF frame_source = scene_plate OR keyframe AND characters_visible]
+[IF (frame_source = scene_plate OR frame_source = keyframe) AND characters_visible]
 @Image 2..N define character identity only: preserve design, proportions,
 costume, and key markings. Do not take pose, framing, acting, or composition
 from these references.
-[IF frame_source = chain_cut OR chain_continue AND characters_visible]
+[IF (frame_source = chain_cut OR frame_source = chain_continue) AND characters_visible]
 @Image 3..N define character identity only: preserve design, proportions,
 costume, and key markings. Do not take pose, framing, acting, or composition
 from these references.
@@ -308,6 +308,35 @@ If frame_source is chain_cut or chain_continue:
   require chain_from (the predecessor shot)
   require continuity_requirements with at least one item
   require the predecessor's end_hold_seconds >= 1   (no held frame, nothing to inherit)
+
+If frame_source is keyframe:
+  require keyframe_id
+  require continuity_requirements with at least one item
+```
+
+The same rule binds a keyframe wrapper — gate `K` enforces it. A complete
+keyframe establish, so the contract cannot be misread:
+
+```json
+{
+  "shot_role": "establish",
+  "duration_seconds": 4,
+  "establish_job": "threat",
+  "camera_action": "slow crane down",
+  "frame_source": "keyframe",
+  "keyframe_id": "scene_07_establish_comp_v03",
+  "continuity_requirements": [
+    "den centred in the lower third",
+    "storm bank fills the upper half",
+    "Ivy remains at lower-right",
+    "blue pre-dawn lighting"
+  ],
+  "characters_visible": true,
+  "character_blocking": "Ivy remains small at lower-right, then walks toward the den",
+  "end_frame": "The den remains centred in lower third beneath the storm bank; Ivy is at lower-right",
+  "end_hold_seconds": 1,
+  "edit_handle_frames": { "head": 8, "tail": 10 }
+}
 ```
 
 ```json
