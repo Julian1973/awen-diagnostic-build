@@ -183,6 +183,22 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
                   "detail": "; ".join(conflicts) if conflicts else
                             "attachments agree with the declared frame"})
 
+        # GATE K — "keyframe" means an APPROVED exact opening composition, not an
+        # ambiguous alternative spelling for "reference image". A wrapper using
+        # it must name the approved frame and say which first-frame facts are
+        # immutable.
+        if shot.get("frame_source") == "keyframe":
+            kmiss = []
+            if not shot.get("keyframe_id"):
+                kmiss.append("no keyframe_id — which approved start frame is this?")
+            if not (shot.get("continuity_requirements") or []):
+                kmiss.append("no continuity_requirements — name the first-frame facts "
+                             "that are immutable")
+            g.append({"id": "K", "name": "keyframe specified", "passed": not kmiss,
+                      "code": "KEYFRAME_UNDERSPECIFIED",
+                      "detail": "; ".join(kmiss) if kmiss else
+                                f"reproducing approved frame {shot.get('keyframe_id')}"})
+
         # GATE J — a wrapper is 3–5 seconds by definition. Longer is a scene
         # wearing a wrapper's clothes; shorter cannot hold its end frame. Rare
         # exceptions go through an explicit override with a written reason,
@@ -263,10 +279,10 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
                          "path": shot.get("keyframe_path", ""),
                          "controls": "the complete opening composition"})
         lines.append(
-            "Image 1 is the first frame. It defines the complete opening composition: every "
-            "subject's position and pose, the prop state, the room, the lighting and the "
-            "camera direction. Reproduce it exactly as the shot's opening frame and animate "
-            "forward from there; do not restage it and do not recompose it."
+            "Image 1 is the start-frame and composition authority. Begin by reproducing its "
+            "exact camera framing, character placement, prop placement, lighting state and "
+            "spatial layout; perform only the declared camera action afterward. Do not "
+            "reinterpret, redesign, or introduce off-frame elements from this reference."
             if d["must_assert_composition"] else
             "Image 1 is the first frame of this shot.")
     elif src == "scene_plate":

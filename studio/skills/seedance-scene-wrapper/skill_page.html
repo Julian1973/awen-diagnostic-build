@@ -153,6 +153,12 @@ EXIT BUTTON (3–5s) — the frame now shows: [the consequence]
   <p><strong>The reference-authority lines are COMPILED from <code>frame_source</code>, never pasted as a static block</strong> — a generic "@Image 1 is the location authority" is wrong the moment a chained end frame takes the first slot, and references telling the model competing stories is one of the highest-leverage failure modes in AI video:</p>
 <pre>16:9 animated cinematic shot.
 
+[IF frame_source = keyframe]
+@Image 1 is the start-frame and composition authority. Begin by reproducing
+its exact camera framing, character placement, prop placement, lighting state,
+and spatial layout. Perform only the declared camera action afterward. Do not
+reinterpret, redesign, or introduce off-frame elements from this reference.
+
 [IF frame_source = scene_plate]
 @Image 1 is the location authority. Take its architecture, layout, palette,
 and motivated lighting only. Do not copy any incidental framing, character
@@ -174,7 +180,7 @@ state, and lighting state.
 @Image 2 is the location appearance authority only. Do not take framing,
 character placement, pose, action, or a camera direction from it.
 
-[IF frame_source = scene_plate AND characters_visible]
+[IF frame_source = scene_plate OR keyframe AND characters_visible]
 @Image 2..N define character identity only: preserve design, proportions,
 costume, and key markings. Do not take pose, framing, acting, or composition
 from these references.
@@ -220,6 +226,10 @@ final second.</pre>
     <p>Refuses character sheets attached to a declared character-free frame. The authority <em>wording</em> cannot conflict — it is compiled from <code>frame_source</code> — so this gate polices the one thing that still can: the attachment list.</p>
   </div>
   <div class="gate">
+    <h3>K · KEYFRAME_UNDERSPECIFIED</h3>
+    <p>Refuses <code>frame_source: keyframe</code> on a wrapper unless <code>keyframe_id</code> names the approved start frame AND <code>continuity_requirements</code> says which first-frame facts are immutable. "Keyframe" means <em>exact reconstruction of an approved composition</em> — never an ambiguous alternative spelling for "reference image".</p>
+  </div>
+  <div class="gate">
     <h3>J · WRAPPER_DURATION_INVALID</h3>
     <p>Refuses an establish or button outside 3–5 seconds. Longer is a scene wearing a wrapper's clothes; shorter cannot hold its end frame. Rare exceptions go through an explicit override with a <strong>written reason</strong>, never through drift.</p>
   </div>
@@ -232,7 +242,7 @@ final second.</pre>
   "duration_seconds": 4,
   "establish_job": "threat",
   "camera_action": "slow crane down",
-  "frame_source": "keyframe",
+  "frame_source": "scene_plate",
   "characters_visible": true,
   "character_blocking": "Ivy appears small at lower-right, walking toward the den",
   "end_frame": "Wide den centred in lower third; storm bank occupies upper half;
@@ -284,7 +294,7 @@ final second.</pre>
 </section>
 
 <footer>
-  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering and the sacred-facts emission live in <code>compile_prompt</code>; gates G, H and I refuse with machine codes; the held second is a validated number. 77 domain tests, each naming the incident it protects.
+  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering and the sacred-facts emission live in <code>compile_prompt</code>; gates G, H and I refuse with machine codes; the held second is a validated number. 81 domain tests, each naming the incident it protects.
 </footer>
 
 </div>

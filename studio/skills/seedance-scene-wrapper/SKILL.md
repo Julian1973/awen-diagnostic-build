@@ -157,6 +157,13 @@ video:
 ```
 16:9 animated cinematic shot.
 
+[IF frame_source = keyframe]
+@Image 1 is the start-frame and composition authority. Begin by reproducing
+its exact camera framing, character placement, prop placement, lighting state,
+and spatial layout. Preserve these facts at the first frame; perform only the
+declared camera action afterward. Do not reinterpret, redesign, or introduce
+off-frame elements from this reference.
+
 [IF frame_source = scene_plate]
 @Image 1 is the location authority. Take its architecture, layout, palette,
 and motivated lighting only. Do not copy any incidental framing, character
@@ -178,7 +185,7 @@ state, and lighting state.
 @Image 2 is the location appearance authority only. Do not take framing,
 character placement, pose, action, or a camera direction from it.
 
-[IF frame_source = scene_plate AND characters_visible]
+[IF frame_source = scene_plate OR keyframe AND characters_visible]
 @Image 2..N define character identity only: preserve design, proportions,
 costume, and key markings. Do not take pose, framing, acting, or composition
 from these references.
@@ -201,9 +208,16 @@ For the button, swap the closing block for: *"The wider frame now shows
 CONSEQUENCE. The camera slowly ACTION, then holds on COMPOSITION for the final
 second. No new dialogue."*
 
-`frame_source: scene_plate` names a location plate composing a fresh shot;
-`keyframe` is reserved for a literal generated first frame that must be
-reproduced exactly. **The character-reference start index is computed, never
+The four sources, and what keeps the wrapper stable across scenes without
+every generation becoming an uncontrolled continuation of the last:
+
+- **`scene_plate`** — design the first composition from an approved location
+  source. The normal source for a fresh establishing shot.
+- **`keyframe`** — reproduce an explicitly approved opening composition (a
+  prior generated still, a storyboard frame, a previous shot's first frame).
+- **`chain_cut`** — inherit the important world state but compose a new shot.
+- **`chain_continue`** — begin from the inherited image and continue its
+  composition and camera logic. **The character-reference start index is computed, never
 pasted** — it is `1 + (2 if chained else 1)` — because a sheet claiming a slot
 another reference already declared is two references telling the model
 competing stories.
@@ -239,6 +253,22 @@ Two companion gates guard the reference set itself:
   a declared character-free frame. The authority *wording* cannot conflict —
   it is compiled from `frame_source` — so this gate polices the one thing that
   still can: the attachment list.
+- **`K · KEYFRAME_UNDERSPECIFIED`** — refuses `frame_source: keyframe` on a
+  wrapper unless `keyframe_id` names the approved start frame AND
+  `continuity_requirements` says which first-frame facts are immutable. This
+  keeps "keyframe" meaning *exact reconstruction of an approved composition* —
+  never an ambiguous alternative spelling for "reference image":
+
+  ```json
+  { "frame_source": "keyframe",
+    "keyframe_id": "scene_07_establish_comp_v03",
+    "continuity_requirements": [
+      "den centred in lower third",
+      "storm bank fills upper half",
+      "Ivy remains at lower-right",
+      "blue pre-dawn lighting" ] }
+  ```
+
 - **`J · WRAPPER_DURATION_INVALID`** — refuses an establish or button outside
   3–5 seconds. Longer is a scene wearing a wrapper's clothes; shorter cannot
   hold its end frame. Rare exceptions go through an explicit override with a
@@ -259,7 +289,7 @@ Two companion gates guard the reference set itself:
   "duration_seconds": 4,
   "establish_job": "threat",
   "camera_action": "slow crane down",
-  "frame_source": "keyframe",
+  "frame_source": "scene_plate",
   "characters_visible": true,
   "character_blocking": "Ivy appears small at lower-right, walking toward the den",
   "end_frame": "Wide den centred in lower third; storm bank occupies upper half; Ivy at lower-right",

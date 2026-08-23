@@ -144,7 +144,7 @@ check("the silent character is closed but not frozen",
 check("every reference is told what not to contribute",
       out["text"].count("Do not use its background") >= 2)
 check("composition is asserted on a composing route",
-      "do not restage it" in out["text"])
+      "Begin by reproducing its exact camera framing" in out["text"])
 
 out2 = domain.compile_prompt(shot={**shot, "room_scope": "none"}, assets=assets,
                              project={}, stack=stack_of("minimax-h3-ref"))
@@ -297,7 +297,8 @@ check("a button HOLDS its final composition for the next scene to inherit",
 # ── wrapper density + character absence ─────────────────────────────────────
 print("\nwrapper density")
 
-wrap = {**shot, "seconds": 4, "shot_role": "establish", "speaker": None,
+wrap = {**shot, "seconds": 4, "frame_source": "scene_plate",
+        "plate_path": "plate.png", "shot_role": "establish", "speaker": None,
         "establish_job": "location", "camera_action": "slow crane down",
         "end_frame": "the shop small at centre, arcade glass above",
         "characters_visible": False,
@@ -449,6 +450,39 @@ g = domain.evaluate_gates(shot=wrap, assets=[], prompt={"hash": "H"},
                           audits=[{"hash": "H", "score": 9.7}],
                           stack=stack_of("minimax-h3-ref"), **BASE)
 check("J passes a 4-second wrapper", {x["id"]: x for x in g}["J"]["passed"] is True)
+
+
+# ── gate K: keyframe means exact reconstruction ─────────────────────────────
+print("\nkeyframe means exact reconstruction")
+
+kf = {**wrap, "frame_source": "keyframe"}
+g = domain.evaluate_gates(shot=kf, assets=[], prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("K refuses a wrapper keyframe with no id and no immutable facts",
+      {x["id"]: x for x in g}["K"]["passed"] is False)
+
+g = domain.evaluate_gates(
+    shot={**kf, "keyframe_id": "scene_07_establish_comp_v03",
+          "continuity_requirements": ["den centred in lower third",
+                                       "blue pre-dawn lighting"]},
+    assets=[], prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("K passes an approved frame with named immutable facts",
+      {x["id"]: x for x in g}["K"]["passed"] is True)
+
+g = domain.evaluate_gates(shot=wrap, assets=[], prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("K does not fire on a scene_plate wrapper — the normal establish case",
+      "K" not in {x["id"] for x in g})
+
+kfp = domain.compile_prompt(
+    shot={**shot, "keyframe_path": "kf.png"}, assets=assets, project={},
+    stack=stack_of("minimax-h3-ref"))
+check("the keyframe branch declares start-frame authority and forbids off-frame imports",
+      "start-frame and composition authority" in kfp["text"]
+      and "off-frame elements" in kfp["text"])
 
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
