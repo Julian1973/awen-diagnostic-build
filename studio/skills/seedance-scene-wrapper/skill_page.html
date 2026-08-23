@@ -101,6 +101,11 @@ footer{color:var(--soft);font-size:.88rem;border-top:1px solid var(--rule);paddi
 </section>
 
 <section>
+  <h2>Entry geography is a coverage shot, not a fourth role</h2>
+  <p>The engine allows exactly <code>establish | coverage | button</code>. Entry/geography is <strong><code>shot_role: coverage</code></strong> with <code>coverage_function: entry_geography</code>: it may carry dialogue and performance, it inherits the establisher's screen geography, and it may use the establisher's held frame as its continuity authority. The wrapper gates apply only to establish and button — entry coverage is where dialogue becomes legal.</p>
+</section>
+
+<section>
   <h2>The laws this inherits — do not relax them</h2>
   <ol>
     <li><strong>Wrapper beats carry no dialogue.</strong> Ambience only. If a line must bridge into the button, it is laid in the edit, not generated.</li>
@@ -169,10 +174,12 @@ state, and lighting state.
 @Image 2 is the location appearance authority only. Do not take framing,
 character placement, pose, action, or a camera direction from it.
 
-[IF characters_visible]
-@Image 3..N define character identity only: preserve design, proportions,
+[IF frame_source = scene_plate AND characters_visible]
+@Image 2..N define character identity only: preserve design, proportions,
 costume, and key markings. Do not take pose, framing, acting, or composition
 from these references.
+[IF frame_source = chain_cut OR chain_continue AND characters_visible]
+@Image 3..N define character identity only — same constraints.
 [IF characters_visible = false]
 No character references are attached. Character-free frame; no characters
 enter or appear — no silhouettes, reflections, shadows, or background figures.
@@ -183,7 +190,7 @@ makes one slow MOVEMENT to reveal THE JOB. Ambient sound only: &lt;...&gt;. No m
 unless diegetic. The shot ends on COMPOSITION, held completely stable for the
 final second.</pre>
   <p>For the button, swap the closing block for: <em>"The wider frame now shows CONSEQUENCE. The camera slowly ACTION, then holds on COMPOSITION for the final second. No new dialogue."</em></p>
-  <p><code>frame_source: scene_plate</code> names a location plate composing a fresh shot; <code>keyframe</code> is reserved for a literal generated first frame that must be reproduced exactly.</p>
+  <p><code>frame_source: scene_plate</code> names a location plate composing a fresh shot; <code>keyframe</code> is reserved for a literal generated first frame that must be reproduced exactly. <strong>The character-reference start index is computed, never pasted</strong> — <code>1 + (2 if chained else 1)</code> — because a sheet claiming a slot another reference already declared is two references telling the model competing stories.</p>
 </section>
 
 <section>
@@ -211,6 +218,10 @@ final second.</pre>
   <div class="gate">
     <h3>I · REFERENCE_AUTHORITY_CONFLICT</h3>
     <p>Refuses character sheets attached to a declared character-free frame. The authority <em>wording</em> cannot conflict — it is compiled from <code>frame_source</code> — so this gate polices the one thing that still can: the attachment list.</p>
+  </div>
+  <div class="gate">
+    <h3>J · WRAPPER_DURATION_INVALID</h3>
+    <p>Refuses an establish or button outside 3–5 seconds. Longer is a scene wearing a wrapper's clothes; shorter cannot hold its end frame. Rare exceptions go through an explicit override with a <strong>written reason</strong>, never through drift.</p>
   </div>
 </section>
 
@@ -263,12 +274,17 @@ final second.</pre>
 
 <section>
   <h2>The contract</h2>
-  <div class="contract">Scene Plate → Establish → Entry Coverage → Dramatic Coverage → Button → Next Scene</div>
+  <div class="contract" style="text-align:left;white-space:pre">Scene plate
+  → Opening establish   silent, 3–5s, one visual job, one move, held end frame
+  → Entry geography     coverage role, maps characters into the established world
+  → Dramatic coverage   director-led dialogue and performance
+  → Exit button         silent, 3–5s, visible consequence, one move, held end frame
+  → Next scene</div>
   <p style="margin-top:1rem">Every handoff has an owner, every reference has a role, dialogue stays confined to performance coverage, and every wrapper clip exits on a stable editorial frame.</p>
 </section>
 
 <footer>
-  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering and the sacred-facts emission live in <code>compile_prompt</code>; gates G, H and I refuse with machine codes; the held second is a validated number. 71 domain tests, each naming the incident it protects.
+  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering and the sacred-facts emission live in <code>compile_prompt</code>; gates G, H and I refuse with machine codes; the held second is a validated number. 77 domain tests, each naming the incident it protects.
 </footer>
 
 </div>

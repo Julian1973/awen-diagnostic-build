@@ -1,6 +1,7 @@
 ---
 
 
+
 name: seedance-scene-wrapper
 description: "The scene wrapper for Seedance 2.5 — every scene opens on an establishing shot with ONE declared job (location, scale, threat or emotion) and closes on an exit button that shows the consequence and holds its final frame for the next scene. Use when breaking a scene into shots, writing an establishing/opening/closing/wide/master shot, planning scene transitions, or whenever a scene starts on coverage with no orientation. Wrapper beats are separate short generations, carry no dialogue, and chain their held end frames."
 ---
@@ -54,6 +55,30 @@ A wrapper beat must state one of two things, never neither:
 - **Present:** name only their **screen position, scale, and one quiet action**.
   No performance, no dialogue, no story action in a wrapper beat — those belong
   to coverage.
+
+## Entry geography is a coverage shot, not a fourth role
+
+The engine allows exactly `establish | coverage | button`. Entry/geography is
+**`shot_role: coverage`** with `coverage_function: entry_geography`: it may
+carry dialogue and performance, it inherits the establisher's screen geography,
+and it may use the establisher's held frame as its continuity authority:
+
+```json
+{
+  "shot_role": "coverage",
+  "coverage_function": "entry_geography",
+  "frame_source": "chain_cut",
+  "chain_from": "scene_07_establish",
+  "continuity_requirements": [
+    "same dawn light",
+    "the arcade doorway remains screen-left",
+    "Ivy enters from lower-right"
+  ]
+}
+```
+
+Do not invent an unsupported entry role — the wrapper gates apply only to
+`establish` and `button`, and entry coverage is where dialogue becomes legal.
 
 ## The laws this inherits (do not relax them)
 
@@ -150,7 +175,11 @@ state, and lighting state.
 @Image 2 is the location appearance authority only. Do not take framing,
 character placement, pose, action, or a camera direction from it.
 
-[IF characters_visible]
+[IF frame_source = scene_plate AND characters_visible]
+@Image 2..N define character identity only: preserve design, proportions,
+costume, and key markings. Do not take pose, framing, acting, or composition
+from these references.
+[IF frame_source = chain_cut OR chain_continue AND characters_visible]
 @Image 3..N define character identity only: preserve design, proportions,
 costume, and key markings. Do not take pose, framing, acting, or composition
 from these references.
@@ -171,7 +200,10 @@ second. No new dialogue."*
 
 `frame_source: scene_plate` names a location plate composing a fresh shot;
 `keyframe` is reserved for a literal generated first frame that must be
-reproduced exactly.
+reproduced exactly. **The character-reference start index is computed, never
+pasted** — it is `1 + (2 if chained else 1)` — because a sheet claiming a slot
+another reference already declared is two references telling the model
+competing stories.
 
 ## The wrapper-density gate
 
@@ -204,6 +236,17 @@ Two companion gates guard the reference set itself:
   a declared character-free frame. The authority *wording* cannot conflict —
   it is compiled from `frame_source` — so this gate polices the one thing that
   still can: the attachment list.
+- **`J · WRAPPER_DURATION_INVALID`** — refuses an establish or button outside
+  3–5 seconds. Longer is a scene wearing a wrapper's clothes; shorter cannot
+  hold its end frame. Rare exceptions go through an explicit override with a
+  written reason, never through drift:
+
+  ```json
+  { "duration_seconds": 6,
+    "wrapper_duration_override": {
+      "approved": true,
+      "reason": "Slow dawn reveal required to land a music transition." } }
+  ```
 
 ## The wrapper shot schema
 
@@ -270,7 +313,12 @@ holds).
 ## The contract
 
 ```
-Scene Plate → Establish → Entry Coverage → Dramatic Coverage → Button → Next Scene
+Scene plate
+  → Opening establish   silent, 3–5s, one visual job, one move, held end frame
+  → Entry geography     coverage role, maps characters into the established world
+  → Dramatic coverage   director-led dialogue and performance
+  → Exit button         silent, 3–5s, visible consequence, one move, held end frame
+  → Next scene
 ```
 
 Every handoff has an owner, every reference has a role, dialogue stays confined

@@ -297,7 +297,7 @@ check("a button HOLDS its final composition for the next scene to inherit",
 # ── wrapper density + character absence ─────────────────────────────────────
 print("\nwrapper density")
 
-wrap = {**shot, "shot_role": "establish", "speaker": None,
+wrap = {**shot, "seconds": 4, "shot_role": "establish", "speaker": None,
         "establish_job": "location", "camera_action": "slow crane down",
         "end_frame": "the shop small at centre, arcade glass above",
         "characters_visible": False,
@@ -405,6 +405,50 @@ g = domain.evaluate_gates(shot={**wrap, "end_hold_seconds": 0.5},
                           stack=stack_of("minimax-h3-ref"), **BASE)
 check("G validates the hold as a NUMBER, not prose",
       {x["id"]: x for x in g}["G"]["passed"] is False)
+
+
+# ── dynamic character index + the duration gate ─────────────────────────────
+print("\ndynamic reference index and wrapper duration")
+
+sp2 = domain.compile_prompt(
+    shot={**shot, "frame_source": "scene_plate", "plate_path": "plate.png"},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("on a scene plate, the first character sheet is Image 2",
+      "Image 2 defines Tom's appearance only" in sp2["text"])
+
+ch2 = domain.compile_prompt(
+    shot={**shot, "frame_source": "chain_cut", "chain_from": "S0",
+          "plate_path": "plate.png", "continuity_requirements": ["x"]},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("on a chain with a plate, the first character sheet is Image 3 — no slot collision",
+      "Image 3 defines Tom's appearance only" in ch2["text"]
+      and "Image 2 defines Tom" not in ch2["text"])
+
+g = domain.evaluate_gates(shot={**wrap, "seconds": 6}, assets=[],
+                          prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("J refuses a 6-second wrapper — a scene wearing a wrapper's clothes",
+      {x["id"]: x for x in g}["J"]["passed"] is False)
+
+g = domain.evaluate_gates(
+    shot={**wrap, "seconds": 6, "wrapper_duration_override":
+          {"approved": True, "reason": "slow dawn reveal to land a music transition"}},
+    assets=[], prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("J accepts an explicit override WITH a written reason",
+      {x["id"]: x for x in g}["J"]["passed"] is True)
+
+g = domain.evaluate_gates(
+    shot={**wrap, "seconds": 6, "wrapper_duration_override": {"approved": True}},
+    assets=[], prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("J refuses an override with no reason — drift needs a signature",
+      {x["id"]: x for x in g}["J"]["passed"] is False)
+
+g = domain.evaluate_gates(shot=wrap, assets=[], prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("J passes a 4-second wrapper", {x["id"]: x for x in g}["J"]["passed"] is True)
 
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:

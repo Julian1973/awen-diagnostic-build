@@ -183,6 +183,22 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
                   "detail": "; ".join(conflicts) if conflicts else
                             "attachments agree with the declared frame"})
 
+        # GATE J — a wrapper is 3–5 seconds by definition. Longer is a scene
+        # wearing a wrapper's clothes; shorter cannot hold its end frame. Rare
+        # exceptions go through an explicit override with a written reason,
+        # never through drift.
+        wsec = float(shot.get("seconds", shot.get("duration_seconds", 4)))
+        ov = shot.get("wrapper_duration_override") or {}
+        dur_ok = 3 <= wsec <= 5 or (ov.get("approved") and ov.get("reason"))
+        g.append({"id": "J", "name": "wrapper duration", "passed": bool(dur_ok),
+                  "code": "WRAPPER_DURATION_INVALID",
+                  "detail": (f"{wsec}s within 3–5s" if 3 <= wsec <= 5 else
+                             (f"{wsec}s by override: {ov.get('reason')}"
+                              if dur_ok else
+                              f"{wsec}s outside 3–5s — a longer wrapper is a scene "
+                              f"wearing a wrapper's clothes; override with a written "
+                              f"reason if the exception is real"))})
+
     # GATE H — a chain must name its sacred facts. "Preserve continuity" is too
     # broad: the system needs to know which visual facts are sacred and which it
     # is free to redesign.
@@ -298,7 +314,7 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
     ref_assets = ([a for a in assets if a.get("type") != "character"]
                   if (shot.get("shot_role") in ("establish", "button")
                       and not shot.get("characters_visible", True)) else assets)
-    for i, a in enumerate(ref_assets, start=2):
+    for i, a in enumerate(ref_assets, start=len(manifest) + 1):
         if len(manifest) >= d["refs_max"]:
             break
         manifest.append({"order": i, "role": f"{a['tag']} appearance",

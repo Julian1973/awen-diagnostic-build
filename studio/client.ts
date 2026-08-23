@@ -22,6 +22,7 @@ export type GateCode =
   | 'WRAPPER_OVERLOADED'
   | 'CHAIN_UNDERSPECIFIED'
   | 'REFERENCE_AUTHORITY_CONFLICT'
+  | 'WRAPPER_DURATION_INVALID'
   | 'NO_PROMPT';
 
 export type Gate = {
