@@ -1,0 +1,274 @@
+<title>Seedance Scene Wrapper</title>
+<style>
+:root{
+  --paper:#F6F3ED; --ink:#1C1A17; --soft:#5E574C; --rule:#DDD6C8;
+  --panel:#FFFEFA; --verd:#2E6B63; --amber:#A8760F; --rust:#9A3B2A;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#14130F; --ink:#EBE5D8; --soft:#9A9081; --rule:#332F27;
+    --panel:#1C1A15; --verd:#6FB3A8; --amber:#D9A648; --rust:#D9765C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14130F; --ink:#EBE5D8; --soft:#9A9081; --rule:#332F27;
+  --panel:#1C1A15; --verd:#6FB3A8; --amber:#D9A648; --rust:#D9765C;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;padding:3rem 1.25rem 6rem;
+  font:16.5px/1.62 Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif}
+.wrap{max-width:56rem;margin:0 auto;display:flex;flex-direction:column;gap:2.5rem}
+.mono,code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+code{font-size:.88em;color:var(--verd)}
+.eyebrow{font:600 .7rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--verd)}
+h1{margin:.4rem 0 0;font-size:2.6rem;font-weight:600;letter-spacing:-.02em;
+  line-height:1.08;text-wrap:balance;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+header{border-bottom:2px solid var(--verd);padding-bottom:1.6rem}
+.thesis{font-size:1.25rem;line-height:1.45;max-width:44ch;margin:1rem 0 0}
+.thesis b{color:var(--amber)}
+.install{margin-top:1rem;color:var(--soft);font-size:.9rem;max-width:64ch}
+h2{margin:0 0 .9rem;font:600 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--verd)}
+section p{margin:0 0 .8rem;max-width:66ch}
+section li{max-width:62ch}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th{text-align:left;font:600 .66rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--soft);
+  padding:0 1rem .55rem 0;border-bottom:1px solid var(--rule)}
+td{padding:.55rem 1rem .55rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.scroll{overflow-x:auto}
+pre{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--verd);
+  margin:.4rem 0 1rem;padding:1.1rem 1.3rem;overflow-x:auto;font-size:13px;line-height:1.7;
+  white-space:pre;color:var(--ink)}
+ul,ol{margin:0 0 .8rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.45rem}
+li::marker{color:var(--amber)}
+.gate{background:var(--panel);border:1px solid var(--rust);border-left:4px solid var(--rust);
+  padding:1rem 1.25rem;margin:.6rem 0}
+.gate h3{margin:0 0 .5rem;font:600 .8rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:var(--rust)}
+.gate p,.gate li{font-size:.94rem}
+.rulebox{border-left:3px solid var(--amber);padding:.1rem 0 .1rem 1.2rem;margin:.8rem 0}
+.rulebox p{margin:.3rem 0}
+.contract{background:var(--panel);border:1px solid var(--rule);padding:1.2rem 1.4rem;
+  text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92rem}
+em{font-style:italic}
+strong{font-weight:600}
+.amber{color:var(--amber)}
+footer{color:var(--soft);font-size:.88rem;border-top:1px solid var(--rule);padding-top:1.1rem}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Portable skill · Seedance 2.5 · Codex / Claude / any agent</span>
+  <h1>seedance-scene-wrapper</h1>
+  <p class="thesis">Every scene opens with an establishing shot and closes with a button, and each is <b>its own short generation</b> — never a request buried inside a long one.</p>
+  <p class="install"><strong>Codex install:</strong> paste the skill body into <code>AGENTS.md</code> (or <code>~/.codex/AGENTS.md</code>), or reference it: <em>"For any Seedance scene work, follow studio/skills/seedance-scene-wrapper/SKILL.md exactly."</em> &nbsp;<strong>Claude install:</strong> drop the folder into <code>.claude/skills/</code> as-is.</p>
+</header>
+
+<section>
+  <h2>The wrapper</h2>
+  <div class="scroll"><table>
+    <tr><th>Beat</th><th>Job</th><th>Length</th><th>Coverage</th></tr>
+    <tr><td><strong>Opening establish</strong></td><td>where are we, when, what emotional temperature</td><td>3–5s</td><td>extreme-wide or wide; static, slow crane, or one gentle drift</td></tr>
+    <tr><td><strong>Entry / geography</strong></td><td>place the characters inside that world</td><td>wide → medium-wide</td><td>reveal who is where, relative positions</td></tr>
+    <tr><td><strong>Dramatic coverage</strong></td><td>the script and the performances</td><td>the scene</td><td>mediums, closes, reactions, inserts — the director's plan</td></tr>
+    <tr><td><strong>Exit / button</strong></td><td>the consequence, and the scene's full stop</td><td>3–5s</td><td>wide pull-back, rise, hold, or one symbolic close detail</td></tr>
+  </table></div>
+  <p style="margin-top:1rem">The button is not an "establishing shot at the end" — it is an <strong>exit shot</strong>: it shows what the scene <em>changed</em> in the wider world, or lands one memorable emotional image. Resolution (pull back as they walk home), cliffhanger (hold wide as a small shape moves in the distance), transition (rise and match-cut into the next location's shape or palette), or emotional button (stay close, then widen to show them alone in a huge space).</p>
+</section>
+
+<section>
+  <h2>The one-job rule</h2>
+  <p><strong>Give every establishing shot exactly one job, and name it.</strong> A generic aerial is a postcard, not a shot. The four jobs:</p>
+  <ul>
+    <li><strong>Location</strong> — <em>"misty dawn over the arcade — reveals where we are"</em></li>
+    <li><strong>Scale</strong> — <em>"the tiny figures dwarfed beneath towering clover — reveals the scale of their world"</em></li>
+    <li><strong>Threat</strong> — <em>"the den warm in foreground, a storm gathering behind the hills — foreshadows danger"</em></li>
+    <li><strong>Emotion</strong> — <em>"the empty playground after the friends leave — loneliness after the argument"</em></li>
+  </ul>
+  <div class="rulebox"><p><strong class="amber">If you cannot write the job in one clause, the shot has no reason to exist.</strong></p></div>
+</section>
+
+<section>
+  <h2>Characters are optional — and their absence is declared</h2>
+  <p>A wrapper beat must state one of two things, never neither:</p>
+  <ul>
+    <li><strong>Absent:</strong> <em>"Character-free frame; no characters enter or appear — no silhouettes, reflections, shadows, or background figures."</em> — and the character sheets are <strong>excluded from the reference set entirely</strong>, because a supplied reference is an invitation to invent someone into the frame.</li>
+    <li><strong>Present:</strong> name only their <strong>screen position, scale, and one quiet action</strong>. No performance, no dialogue, no story action in a wrapper beat — those belong to coverage.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>The laws this inherits — do not relax them</h2>
+  <ol>
+    <li><strong>Wrapper beats carry no dialogue.</strong> Ambience only. If a line must bridge into the button, it is laid in the edit, not generated.</li>
+    <li><strong>One dominant camera action per shot</strong>, then the end frame is <strong>held completely stable for the final full second</strong> — that held frame is what the edit cuts on and what the next shot may inherit.</li>
+    <li><strong>Describe the frame, not the location.</strong> An establisher is usually <code>room_scope: full</code> — the one beat where reciting the geography is correct. Coverage and buttons scope down. Anything a prompt names that is not in the frame is a gap the model will fill.</li>
+    <li><strong>Chain the end frame.</strong> The establisher's held final frame is the entry shot's <strong>primary continuity reference</strong>. It takes the Image 1 slot only when composition continuity outranks the approved scene plate (<code>chain_continue</code>, or a <code>chain_cut</code> where prop/light state must carry); otherwise the scene plate stays Image 1 — a new scene's first duty is to re-establish its designed location, lighting and architecture. The button's held frame is the <em>next scene's</em> transition authority under the same rule.</li>
+    <li><strong>References are roled AND ordered</strong>, and the order is conditional:
+<pre>If frame_source is chain_cut or chain_continue:
+  Image 1 = predecessor's held end frame  (continuity — and composition
+            authority only on chain_continue)
+  Image 2 = approved scene plate          (location appearance only)
+Else:
+  Image 1 = approved scene plate          (location authority)
+Image N+ = character identity sheets      (excluded on a character-free frame)
+Audio    = never attached to an establish or button generation</pre>
+    Each reference states what it must NOT contribute. The wording must make the authority hierarchy unmistakable — a scene plate listed first will otherwise be privileged over the actual predecessor composition.</li>
+    <li><strong>Trim 6–12 frames of breathing room</strong> on the establish and the button at the edit; generations drift at their edges.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>The scene plan block</h2>
+  <p>Produce this per scene before any prompt is written:</p>
+<pre>SCENE [n] — [title]
+Purpose:         [what changes, emotionally or narratively]
+Location/time:   [place, time, weather, atmosphere]
+Continuity in:   [what must match the previous scene's button]
+Continuity out:  [the exact held composition the button hands onward]
+
+OPENING ESTABLISH (3–5s) — job: [location | scale | threat | emotion]: [one clause]
+  Frame: [foreground / midground / background]. Camera: [one action].
+  Characters: [where, if visible — small, unnamed action].
+  End frame: [precise composition, HELD one second].
+
+COVERAGE — [the director's shot list; this skill does not write it]
+
+EXIT BUTTON (3–5s) — the frame now shows: [the consequence]
+  Camera: [pull back | rise | hold | pan — one only].
+  End frame: [precise held composition → next scene].</pre>
+</section>
+
+<section>
+  <h2>The Seedance 2.5 prompt pattern</h2>
+  <p>Wrapper beats are generated as <strong>separate short clips</strong>. Non-negotiables first, prose not fragments, one camera action, an explicit end state.</p>
+  <p><strong>The reference-authority lines are COMPILED from <code>frame_source</code>, never pasted as a static block</strong> — a generic "@Image 1 is the location authority" is wrong the moment a chained end frame takes the first slot, and references telling the model competing stories is one of the highest-leverage failure modes in AI video:</p>
+<pre>16:9 animated cinematic shot.
+
+[IF frame_source = scene_plate]
+@Image 1 is the location authority. Take its architecture, layout, palette,
+and motivated lighting only. Do not copy any incidental framing, character
+pose, or action from it.
+
+[IF frame_source = chain_cut]
+@Image 1 is the continuity authority. Preserve its relevant props, character
+state, lighting state, and spatial relationships, but compose a new shot.
+@Image 2 is the location appearance authority. Take its architecture, material,
+palette, and lighting design only; do not copy its framing, character
+placement, or action.
+Sacred continuity facts, preserved exactly: [continuity_requirements].
+Everything not named may be freely recomposed.
+
+[IF frame_source = chain_continue]
+@Image 1 is the continuity and composition authority. Begin from its held
+composition and preserve camera direction, spatial layout, props, character
+state, and lighting state.
+@Image 2 is the location appearance authority only. Do not take framing,
+character placement, pose, action, or a camera direction from it.
+
+[IF characters_visible]
+@Image 3..N define character identity only: preserve design, proportions,
+costume, and key markings. Do not take pose, framing, acting, or composition
+from these references.
+[IF characters_visible = false]
+No character references are attached. Character-free frame; no characters
+enter or appear — no silhouettes, reflections, shadows, or background figures.
+
+[ESTABLISH] Extreme-wide view of LOCATION at TIME: foreground ELEMENT, midground
+ENVIRONMENT, distant LANDMARK. [Character blocking, if visible.] The camera
+makes one slow MOVEMENT to reveal THE JOB. Ambient sound only: &lt;...&gt;. No music
+unless diegetic. The shot ends on COMPOSITION, held completely stable for the
+final second.</pre>
+  <p>For the button, swap the closing block for: <em>"The wider frame now shows CONSEQUENCE. The camera slowly ACTION, then holds on COMPOSITION for the final second. No new dialogue."</em></p>
+  <p><code>frame_source: scene_plate</code> names a location plate composing a fresh shot; <code>keyframe</code> is reserved for a literal generated first frame that must be reproduced exactly.</p>
+</section>
+
+<section>
+  <h2>The gates</h2>
+  <div class="gate">
+    <h3>G · WRAPPER_OVERLOADED</h3>
+    <p>An establish or button prompt is <strong>refused</strong> if it contains any of:</p>
+    <ul>
+      <li>spoken dialogue, quoted speech, or an attached dialogue audio source</li>
+      <li>more than one camera-movement verb</li>
+      <li>more than one meaningful character action</li>
+      <li>more than one intended narrative reveal</li>
+      <li>no explicit end-frame description</li>
+      <li>no one-second stable hold</li>
+      <li>a character or prop named in the prompt but absent from the declared frame</li>
+      <li>characters marked visible with no blocking stated</li>
+    </ul>
+    <p>The camera-verb and hold checks run on the <strong>structured fields</strong> (<code>camera_action</code>, <code>end_hold_seconds</code>), not on compiled prose — prose-only detection mistakes "pull back and hold" for two movements, and a hold is validated as a number, never by hunting for wording.</p>
+    <p>This gate protects the whole system from a director — or an agent — gradually turning a 4-second visual beat into a miniature scene.</p>
+  </div>
+  <div class="gate">
+    <h3>H · CHAIN_UNDERSPECIFIED</h3>
+    <p>Refuses a <code>chain_cut</code>/<code>chain_continue</code> shot with no predecessor named, no <code>continuity_requirements</code>, or a predecessor whose end frame was never held — there is no stable frame to inherit.</p>
+  </div>
+  <div class="gate">
+    <h3>I · REFERENCE_AUTHORITY_CONFLICT</h3>
+    <p>Refuses character sheets attached to a declared character-free frame. The authority <em>wording</em> cannot conflict — it is compiled from <code>frame_source</code> — so this gate polices the one thing that still can: the attachment list.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The wrapper shot schema</h2>
+<pre>{
+  "shot_role": "establish",
+  "duration_seconds": 4,
+  "establish_job": "threat",
+  "camera_action": "slow crane down",
+  "frame_source": "keyframe",
+  "characters_visible": true,
+  "character_blocking": "Ivy appears small at lower-right, walking toward the den",
+  "end_frame": "Wide den centred in lower third; storm bank occupies upper half;
+                Ivy at lower-right",
+  "end_hold_seconds": 1,
+  "edit_handle_frames": { "head": 8, "tail": 10 }
+}</pre>
+  <p><strong>When <code>frame_source</code> is <code>chain_cut</code> or <code>chain_continue</code>, <code>continuity_requirements</code> is REQUIRED</strong> — at least one item. "Preserve continuity" is too broad: the system must know which visual facts are sacred and which it is free to redesign. Validation:</p>
+<pre>If frame_source is chain_cut or chain_continue:
+  require chain_from (the predecessor shot)
+  require continuity_requirements with at least one item
+  require the predecessor's end_hold_seconds >= 1   (no held frame, nothing to inherit)</pre>
+<pre>{
+  "shot_role": "button",
+  "duration_seconds": 4,
+  "button_change": "the cosy den is now dark and empty after the group leaves",
+  "camera_action": "slow pull-back",
+  "frame_source": "chain_cut",
+  "chain_from": "coverage_04",
+  "continuity_requirements": [
+    "den remains dark",
+    "lantern remains at upper-left distance",
+    "wet grass and blue moonlight continue",
+    "no characters visible"
+  ],
+  "characters_visible": false,
+  "end_frame": "the dark den small at centre, framed by tall grass; a distant
+                moving lantern at upper-left",
+  "end_hold_seconds": 1,
+  "handoff_to_scene": 8
+}</pre>
+  <div class="rulebox"><p>Dialogue and audio policy are <strong>not fields — they are consequences</strong>: a wrapper beat's speaker is stripped by the compiler and refused by the gate. A policy field can be set wrong; a derivation cannot.</p></div>
+</section>
+
+<section>
+  <h2>In this studio's engine</h2>
+  <p><code>shots.shot_role</code> = <code>establish | coverage | button</code>, with <code>establish_job</code> and <code>button_change</code>. The compiler (<code>studio/domain.py::compile_prompt</code>) enforces the no-dialogue rule and the held end frame automatically; the gates and audit loop apply to wrapper beats exactly as to coverage. Chain the entry shot from the establisher with <code>frame_source: chain_cut</code> (or <code>chain_continue</code> if the camera holds).</p>
+</section>
+
+<section>
+  <h2>The contract</h2>
+  <div class="contract">Scene Plate → Establish → Entry Coverage → Dramatic Coverage → Button → Next Scene</div>
+  <p style="margin-top:1rem">Every handoff has an owner, every reference has a role, dialogue stays confined to performance coverage, and every wrapper clip exits on a stable editorial frame.</p>
+</section>
+
+<footer>
+  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering and the sacred-facts emission live in <code>compile_prompt</code>; gates G, H and I refuse with machine codes; the held second is a validated number. 71 domain tests, each naming the incident it protects.
+</footer>
+
+</div>
