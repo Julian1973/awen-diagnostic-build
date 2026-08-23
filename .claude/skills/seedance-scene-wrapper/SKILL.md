@@ -33,6 +33,12 @@ wide as a small shape moves in the distance), transition (rise and match-cut
 into the next location's shape or palette), or emotional button (stay close,
 then widen to show them alone in a huge space).
 
+Seedance 2.5 can one-take 30 seconds and even sequence internal cuts, but the
+wrapper still generates establish and button as **separate short clips**: a
+single long multi-beat generation surrenders control over exactly when the held
+frame lands and how continuity chains into the next scene — and the model's own
+release notes flag multi-subject interaction stability as its weakest ground.
+
 ## The one-job rule
 
 **Give every establishing shot exactly one job, and name it.** A generic aerial
@@ -220,6 +226,70 @@ pasted** — it is `1 + (2 if chained else 1)` — because a sheet claiming a sl
 another reference already declared is two references telling the model
 competing stories.
 
+## Keyframe grounding — what the model actually does with anchors
+
+Verified against Seedance 2.5's documented frame-anchoring behaviour:
+
+- A **first frame is required** for image-to-video; a last frame alone is
+  rejected — the model needs a defined starting point.
+- **First + last frame together produce interpolation** between the two
+  states, not free generation. Never attach a last frame to a wrapper beat
+  unless interpolation IS the intent.
+- **Multi-keyframe sequences** are an ordered list the prompt must declare as
+  sequential ("Use @Image 1 through @Image N as keyframes in this order").
+- Anchors are **named individually** — a combined "these two are the first and
+  last frames" does not reliably bind either one.
+
+This is why `keyframe` is a structurally distinct request type, not an
+alternative spelling of "reference image" — and why gate `K` refuses the
+underspecified form.
+
+## The ensemble manifest — multi-character keyframes
+
+Headcount is not the risk; **an unbound subject is**. ByteDance's own flagship
+examples bind eighteen subjects one-to-one (@Image 5 strictly the lead
+vocalist, @Images 11–14 the choir), and every documented drift type — identity,
+costume, performance, spatial — traces back to unmanaged binding, never to the
+number of characters.
+
+The operating rule: **`keyframe` remains fully valid for complex ensemble
+shots, provided every visible character is individually bound** — one
+reference, one screen zone, one declared pose, and any composition-critical
+contact or occlusion named explicitly:
+
+```json
+"ensemble_manifest": [
+  { "character": "tom",  "screen_zone": "left third",
+    "pose": "standing, bundle held at chest" },
+  { "character": "rich", "screen_zone": "right third",
+    "pose": "one hand resting on the counter",
+    "contact": "none — the counter stays between them" }
+]
+```
+
+Gate `K` refuses a keyframe wrapper with two or more visible characters and no
+complete manifest. **If the manifest cannot be built yet** — positions, poses,
+or contact points not yet decided by the director — **fall back to
+`scene_plate` or `chain_cut`**: not because the model cannot do ensemble
+keyframes, but because an underspecified manifest is the documented failure
+driver. The compiler emits one binding line per entry and closes the set:
+*"No character leaves their named zone, and no contact occurs beyond what is
+named above."*
+
+Reference discipline holds below any platform ceiling: start under eight
+references and add one only after naming the specific missing fact it fixes —
+fifty inconsistent images are fifty versions of the same problem. For groups,
+establish individuals in earlier shots and keep group action modest; a crowd
+is a few grouped composite references, not many singles.
+
+## The near-miss rule
+
+A wrapper beat that is 90% right is not regenerated. Seedance 2.5's
+region-level and timestamp-level editing can redraw a prop, fix a costume
+detail, or retime a range while preserving the approved composition — verify
+five seconds either side of the edit for flicker or contamination. Full
+regeneration is for composition failures, not detail failures.
+
 ## The wrapper-density gate
 
 An establish or button prompt is **refused** (gate `G · WRAPPER_OVERLOADED`) if
@@ -253,9 +323,12 @@ Two companion gates guard the reference set itself:
   still can: the attachment list.
 - **`K · KEYFRAME_UNDERSPECIFIED`** — refuses `frame_source: keyframe` on a
   wrapper unless `keyframe_id` names the approved start frame AND
-  `continuity_requirements` says which first-frame facts are immutable. This
-  keeps "keyframe" meaning *exact reconstruction of an approved composition* —
-  never an ambiguous alternative spelling for "reference image":
+  `continuity_requirements` says which first-frame facts are immutable — and,
+  with two or more visible characters, unless an `ensemble_manifest` binds
+  every one of them to a screen zone and a declared pose (the refusal names
+  the fallback: `scene_plate` or `chain_cut`). This keeps "keyframe" meaning
+  *exact reconstruction of an approved composition* — never an ambiguous
+  alternative spelling for "reference image":
 
   ```json
   { "frame_source": "keyframe",
@@ -310,6 +383,10 @@ If frame_source is chain_cut or chain_continue:
 If frame_source is keyframe:
   require keyframe_id
   require continuity_requirements with at least one item
+  if two or more characters are visible:
+    require ensemble_manifest binding EVERY visible character to one
+    reference, one screen_zone and one declared pose (contact named
+    explicitly where composition-critical)
 ```
 
 The same rule binds a keyframe wrapper — gate `K` enforces it. A complete

@@ -484,6 +484,65 @@ check("the keyframe branch declares start-frame authority and forbids off-frame 
       "start-frame and composition authority" in kfp["text"]
       and "off-frame elements" in kfp["text"])
 
+# ── the ensemble manifest: multi-character keyframes bind every subject ─────
+print("\nthe ensemble manifest")
+
+# the documented failure driver on multi-character keyframes is an unbound
+# subject, not headcount — ByteDance's own flagship examples bind 18 subjects
+# one-to-one; practitioner drift reports all trace back to unmanaged binding
+ekf = {**wrap, "frame_source": "keyframe", "characters_visible": True,
+       "keyframe_id": "scene_07_establish_comp_v03",
+       "continuity_requirements": ["den centred in lower third"]}
+g = domain.evaluate_gates(shot=ekf, assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+by = {x["id"]: x for x in g}
+check("K refuses a two-character keyframe with no ensemble manifest",
+      by["K"]["passed"] is False)
+check("and the refusal names the fallback, not just the failure",
+      "scene_plate or chain_cut" in by["K"]["detail"])
+
+manifest = [{"character": "tom", "screen_zone": "left third",
+             "pose": "standing, bundle held at chest"},
+            {"character": "rich", "screen_zone": "right third",
+             "pose": "one hand resting on the counter"}]
+g = domain.evaluate_gates(
+    shot={**ekf, "ensemble_manifest": [manifest[0],
+          {"character": "rich", "screen_zone": "right third"}]},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("K refuses a manifest entry with a zone but no declared pose",
+      {x["id"]: x for x in g}["K"]["passed"] is False)
+
+g = domain.evaluate_gates(shot={**ekf, "ensemble_manifest": manifest},
+                          assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+by = {x["id"]: x for x in g}
+check("K passes when every visible character is bound to a zone and pose",
+      by["K"]["passed"] is True)
+check("and the manifest satisfies G's blocking requirement — no double demand",
+      by["G"]["passed"] is True)
+
+g = domain.evaluate_gates(
+    shot={**ekf, "character_blocking": "Tom small at lower-right"},
+    assets=[assets[0]], prompt={"hash": "H"},
+    audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("a single-character keyframe needs no manifest — the rule must not over-fire",
+      {x["id"]: x for x in g}["K"]["passed"] is True)
+
+em = domain.compile_prompt(
+    shot={**ekf, "keyframe_path": "kf.png", "ensemble_manifest": manifest},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("the compiler binds each character to their named zone and pose",
+      "Tom holds the left third of frame, standing, bundle held at chest."
+      in em["text"]
+      and "Richard holds the right third of frame" in em["text"])
+check("and locks the zones — no unnamed movement or contact",
+      "No character leaves their named zone" in em["text"])
+
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))

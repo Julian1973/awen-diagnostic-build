@@ -157,6 +157,7 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
         if not shot.get("end_frame"):
             problems.append("no explicit end-frame description — nothing to hold or inherit")
         if shot.get("characters_visible", True) and not shot.get("character_blocking") \
+                and not shot.get("ensemble_manifest") \
                 and any(a.get("type") == "character" for a in assets):
             problems.append("characters marked visible with no blocking — position, scale "
                             "and one quiet action, or declare the frame character-free")
@@ -186,7 +187,10 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
         # GATE K — "keyframe" means an APPROVED exact opening composition, not an
         # ambiguous alternative spelling for "reference image". A wrapper using
         # it must name the approved frame and say which first-frame facts are
-        # immutable.
+        # immutable. With two or more characters it must also carry an ensemble
+        # manifest — the documented failure driver on multi-character keyframes
+        # is an unbound subject, not headcount, so every visible character is
+        # individually bound to a reference, a screen zone and a declared pose.
         if shot.get("frame_source") == "keyframe":
             kmiss = []
             if not shot.get("keyframe_id"):
@@ -194,6 +198,20 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
             if not (shot.get("continuity_requirements") or []):
                 kmiss.append("no continuity_requirements — name the first-frame facts "
                              "that are immutable")
+            cast = [a["tag"] for a in assets if a.get("type") == "character"]
+            if shot.get("characters_visible", True) and len(cast) >= 2:
+                man = {e.get("character"): e
+                       for e in (shot.get("ensemble_manifest") or [])}
+                unbound = [t for t in cast
+                           if t not in man
+                           or not (man[t].get("screen_zone") and man[t].get("pose"))]
+                if unbound:
+                    kmiss.append(
+                        f"ensemble keyframe with unbound characters "
+                        f"({', '.join(unbound)}) — each needs one reference, one "
+                        f"screen zone and one declared pose, with any "
+                        f"composition-critical contact named; if that manifest "
+                        f"cannot be built yet, fall back to scene_plate or chain_cut")
             g.append({"id": "K", "name": "keyframe specified", "passed": not kmiss,
                       "code": "KEYFRAME_UNDERSPECIFIED",
                       "detail": "; ".join(kmiss) if kmiss else
@@ -370,6 +388,18 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
             lines.append("Character-free frame: no characters enter or appear at any point — "
                          "no silhouettes, reflections, shadows or background figures. No "
                          "character references are attached.")
+        elif shot.get("ensemble_manifest"):
+            # every subject individually bound — the documented failure driver on
+            # multi-character shots is an unbound subject, never headcount
+            for e in shot["ensemble_manifest"]:
+                nm = next((a.get("name", a["tag"]) for a in assets
+                           if a["tag"] == e.get("character")), e.get("character"))
+                line = f"{nm} holds the {e.get('screen_zone')} of frame, {e.get('pose')}."
+                if e.get("contact"):
+                    line += f" Contact: {e['contact']}."
+                lines.append(line)
+            lines.append("No character leaves their named zone, and no contact occurs "
+                         "beyond what is named above.")
         elif shot.get("character_blocking"):
             lines.append(f"Characters in frame: {shot['character_blocking']} — position, "
                          f"scale and one quiet action only; no performance, no story beat.")

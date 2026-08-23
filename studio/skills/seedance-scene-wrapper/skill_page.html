@@ -77,6 +77,7 @@ footer{color:var(--soft);font-size:.88rem;border-top:1px solid var(--rule);paddi
     <tr><td><strong>Exit / button</strong></td><td>the consequence, and the scene's full stop</td><td>3–5s</td><td>wide pull-back, rise, hold, or one symbolic close detail</td></tr>
   </table></div>
   <p style="margin-top:1rem">The button is not an "establishing shot at the end" — it is an <strong>exit shot</strong>: it shows what the scene <em>changed</em> in the wider world, or lands one memorable emotional image. Resolution (pull back as they walk home), cliffhanger (hold wide as a small shape moves in the distance), transition (rise and match-cut into the next location's shape or palette), or emotional button (stay close, then widen to show them alone in a huge space).</p>
+  <p>Seedance 2.5 can one-take 30 seconds and even sequence internal cuts, but the wrapper still generates establish and button as <strong>separate short clips</strong>: a single long multi-beat generation surrenders control over exactly when the held frame lands and how continuity chains into the next scene — and the model's own release notes flag multi-subject interaction stability as its weakest ground.</p>
 </section>
 
 <section>
@@ -200,6 +201,34 @@ final second.</pre>
 </section>
 
 <section>
+  <h2>Keyframe grounding — what the model actually does with anchors</h2>
+  <p>Verified against Seedance 2.5's documented frame-anchoring behaviour:</p>
+  <ul>
+    <li>A <strong>first frame is required</strong> for image-to-video; a last frame alone is rejected — the model needs a defined starting point.</li>
+    <li><strong>First + last frame together produce interpolation</strong> between the two states, not free generation. Never attach a last frame to a wrapper beat unless interpolation IS the intent.</li>
+    <li><strong>Multi-keyframe sequences</strong> are an ordered list the prompt must declare as sequential ("Use @Image 1 through @Image N as keyframes in this order").</li>
+    <li>Anchors are <strong>named individually</strong> — a combined "these two are the first and last frames" does not reliably bind either one.</li>
+  </ul>
+  <p>This is why <code>keyframe</code> is a structurally distinct request type, not an alternative spelling of "reference image" — and why gate <code>K</code> refuses the underspecified form.</p>
+</section>
+
+<section>
+  <h2>The ensemble manifest — multi-character keyframes</h2>
+  <p>Headcount is not the risk; <strong>an unbound subject is</strong>. ByteDance's own flagship examples bind eighteen subjects one-to-one (@Image 5 strictly the lead vocalist, @Images 11–14 the choir), and every documented drift type — identity, costume, performance, spatial — traces back to unmanaged binding, never to the number of characters.</p>
+  <p>The operating rule: <strong><code>keyframe</code> remains fully valid for complex ensemble shots, provided every visible character is individually bound</strong> — one reference, one screen zone, one declared pose, and any composition-critical contact or occlusion named explicitly:</p>
+<pre>"ensemble_manifest": [
+  { "character": "tom",  "screen_zone": "left third",
+    "pose": "standing, bundle held at chest" },
+  { "character": "rich", "screen_zone": "right third",
+    "pose": "one hand resting on the counter",
+    "contact": "none — the counter stays between them" }
+]</pre>
+  <p>Gate <code>K</code> refuses a keyframe wrapper with two or more visible characters and no complete manifest. <strong>If the manifest cannot be built yet</strong> — positions, poses, or contact points not yet decided by the director — <strong>fall back to <code>scene_plate</code> or <code>chain_cut</code></strong>: not because the model cannot do ensemble keyframes, but because an underspecified manifest is the documented failure driver. The compiler emits one binding line per entry and closes the set: <em>"No character leaves their named zone, and no contact occurs beyond what is named above."</em></p>
+  <p>Reference discipline holds below any platform ceiling: start under eight references and add one only after naming the specific missing fact it fixes — fifty inconsistent images are fifty versions of the same problem. For groups, establish individuals in earlier shots and keep group action modest; a crowd is a few grouped composite references, not many singles.</p>
+  <div class="rulebox"><p><strong>The near-miss rule.</strong> A wrapper beat that is 90% right is not regenerated. Seedance 2.5's region-level and timestamp-level editing can redraw a prop, fix a costume detail, or retime a range while preserving the approved composition — verify five seconds either side of the edit for flicker or contamination. Full regeneration is for composition failures, not detail failures.</p></div>
+</section>
+
+<section>
   <h2>The gates</h2>
   <div class="gate">
     <h3>G · WRAPPER_OVERLOADED</h3>
@@ -227,7 +256,7 @@ final second.</pre>
   </div>
   <div class="gate">
     <h3>K · KEYFRAME_UNDERSPECIFIED</h3>
-    <p>Refuses <code>frame_source: keyframe</code> on a wrapper unless <code>keyframe_id</code> names the approved start frame AND <code>continuity_requirements</code> says which first-frame facts are immutable. "Keyframe" means <em>exact reconstruction of an approved composition</em> — never an ambiguous alternative spelling for "reference image".</p>
+    <p>Refuses <code>frame_source: keyframe</code> on a wrapper unless <code>keyframe_id</code> names the approved start frame AND <code>continuity_requirements</code> says which first-frame facts are immutable — and, with two or more visible characters, unless an <code>ensemble_manifest</code> binds every one of them to a screen zone and a declared pose (the refusal names the fallback: <code>scene_plate</code> or <code>chain_cut</code>). "Keyframe" means <em>exact reconstruction of an approved composition</em> — never an ambiguous alternative spelling for "reference image".</p>
   </div>
   <div class="gate">
     <h3>J · WRAPPER_DURATION_INVALID</h3>
@@ -258,7 +287,11 @@ final second.</pre>
 
 If frame_source is keyframe:
   require keyframe_id
-  require continuity_requirements with at least one item</pre>
+  require continuity_requirements with at least one item
+  if two or more characters are visible:
+    require ensemble_manifest binding EVERY visible character to one
+    reference, one screen_zone and one declared pose (contact named
+    explicitly where composition-critical)</pre>
   <p>The same rule binds a keyframe wrapper — gate <code>K</code> enforces it. A complete keyframe establish, so the contract cannot be misread:</p>
 <pre>{
   "shot_role": "establish",
@@ -319,7 +352,7 @@ If frame_source is keyframe:
 </section>
 
 <footer>
-  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering, keyframe reconstruction, and sacred-facts emission live in <code>compile_prompt</code>; gates G, H, I, J, and K refuse with machine codes; the held second and wrapper duration are validated numbers. 81 domain tests, each naming the incident it protects.
+  Every rule on this page has teeth in code: the character-free exclusion, the conditional Image 1 ordering, keyframe reconstruction, ensemble binding, and sacred-facts emission live in <code>compile_prompt</code>; gates G, H, I, J, and K refuse with machine codes; the held second and wrapper duration are validated numbers. 89 domain tests, each naming the incident it protects.
 </footer>
 
 </div>
