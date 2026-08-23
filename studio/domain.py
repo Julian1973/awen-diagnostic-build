@@ -217,6 +217,27 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
                         or "Do not use its background or layout."))
     lines.append("")
 
+    # ── scene wrapper: establish / coverage / button ────────────────────────
+    #
+    # An establisher has ONE declared job (location, scale, threat or emotion)
+    # and no dialogue; a button shows the consequence in the wider frame and
+    # holds its final composition so the next scene can inherit it. Both are
+    # generated as their own short clips and cut in the edit — never asked of
+    # one long generation.
+    role = shot.get("shot_role", "coverage")
+    if role == "establish":
+        job = shot.get("establish_job", "orient the audience in the location")
+        lines.append(f"This is the scene's opening establishing shot, and it has one job: "
+                     f"{job}. Nothing else competes with that job.")
+        lines.append("")
+    elif role == "button":
+        change = shot.get("button_change", "what the scene has changed")
+        lines.append(f"This is the scene's closing shot — its full stop. The wider frame now "
+                     f"shows {change}. One camera action only, then the final composition is "
+                     f"HELD, completely stable, for the last full second, so the edit can cut "
+                     f"or the next scene can inherit this exact image.")
+        lines.append("")
+
     # ── room scope: describe the FRAME, not the location ────────────────────
     #
     # A prompt is a list of things the model may draw, so anything it names that
@@ -242,7 +263,11 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
         lines.append(card["direction"]["acting"]); lines.append("")
 
     # ── the mouth ───────────────────────────────────────────────────────────
-    spk = shot.get("speaker")
+    spk = None if role in ("establish", "button") else shot.get("speaker")
+    if role in ("establish", "button") and shot.get("speaker"):
+        # the wrapper beats are ambience-only; a line here belongs to coverage
+        lines.append("Nobody speaks in this shot; it plays on ambience alone.")
+        lines.append("")
     if spk:
         name = next((a.get("name", a["tag"]) for a in assets if a["tag"] == spk), spk)
         if d["prompt_carries_dialogue"]:

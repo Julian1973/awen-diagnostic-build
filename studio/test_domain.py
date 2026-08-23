@@ -269,6 +269,29 @@ v = domain.validate_asset(asset={"tag": "t", "type": "character",
 check("a character with no default expression is flagged (NEG-002)",
       any(p["code"] == "NO_DEFAULT_EXPRESSION" for p in v["problems"]))
 
+
+# ── the scene wrapper ───────────────────────────────────────────────────────
+print("\nthe scene wrapper")
+
+est = domain.compile_prompt(
+    shot={**shot, "shot_role": "establish",
+          "establish_job": "reveal the scale of the shop against the arcade"},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("an establisher declares its ONE job",
+      "one job: reveal the scale" in est["text"])
+check("an establisher carries no dialogue even when a speaker is set",
+      "only person who speaks" not in est["text"]
+      and "plays on ambience alone" in est["text"])
+
+btn = domain.compile_prompt(
+    shot={**shot, "shot_role": "button",
+          "button_change": "the box now sits alone on the counter, the shop empty"},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("a button shows the consequence in the wider frame",
+      "the box now sits alone" in btn["text"])
+check("a button HOLDS its final composition for the next scene to inherit",
+      "HELD, completely stable" in btn["text"])
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))
