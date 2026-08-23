@@ -160,10 +160,46 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
                 and any(a.get("type") == "character" for a in assets):
             problems.append("characters marked visible with no blocking — position, scale "
                             "and one quiet action, or declare the frame character-free")
+        # the hold is validated as a NUMBER, not by hunting for wording in prose
+        if float(shot.get("end_hold_seconds", 1)) < 1:
+            problems.append("end_hold_seconds under 1 — the held second is what the edit "
+                            "cuts on and the next shot inherits")
         g.append({"id": "G", "name": "wrapper density", "passed": not problems,
                   "code": "WRAPPER_OVERLOADED",
                   "detail": "; ".join(problems) if problems else
                             "one job, one camera action, a held end frame"})
+
+        # GATE I — reference authority conflict. A technically good prompt still
+        # fails if its references tell the model competing stories. The wording
+        # itself is compiled from frame_source so it cannot conflict; what CAN
+        # conflict is the attachment list.
+        conflicts = []
+        if not shot.get("characters_visible", True) \
+                and any(a.get("type") == "character" for a in assets):
+            conflicts.append("character sheets attached to a declared character-free frame "
+                             "— the reference is the invitation to invent someone")
+        g.append({"id": "I", "name": "reference authority", "passed": not conflicts,
+                  "code": "REFERENCE_AUTHORITY_CONFLICT",
+                  "detail": "; ".join(conflicts) if conflicts else
+                            "attachments agree with the declared frame"})
+
+    # GATE H — a chain must name its sacred facts. "Preserve continuity" is too
+    # broad: the system needs to know which visual facts are sacred and which it
+    # is free to redesign.
+    if shot.get("frame_source") in ("chain_cut", "chain_continue"):
+        missing = []
+        if not shot.get("chain_from"):
+            missing.append("no predecessor shot named")
+        if not (shot.get("continuity_requirements") or []):
+            missing.append("no continuity_requirements — name the sacred facts, at least one")
+        if float(shot.get("predecessor_end_hold_seconds", 1)) < 1:
+            missing.append("the predecessor's end frame was not held for a full second — "
+                           "there is no stable frame to inherit")
+        g.append({"id": "H", "name": "chain specified", "passed": not missing,
+                  "code": "CHAIN_UNDERSPECIFIED",
+                  "detail": "; ".join(missing) if missing else
+                            f"chained from {shot.get('chain_from')} with "
+                            f"{len(shot.get('continuity_requirements', []))} sacred facts"})
 
     # GATE F — the clock the route actually honours.
     lo, hi = d["dur"]
@@ -201,6 +237,10 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
     manifest: list[dict] = []
 
     # ── Image 1: where the first frame comes from ───────────────────────────
+    # The authority wording is COMPILED from frame_source, never a static block —
+    # a generic "Image 1 is the location authority" line is wrong the moment a
+    # chained end frame takes the first slot, and references telling the model
+    # competing stories is one of the highest-leverage failure modes there is.
     src = shot.get("frame_source", "keyframe")
     if src == "keyframe":
         manifest.append({"order": 1, "role": "first frame",
@@ -213,6 +253,15 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
             "forward from there; do not restage it and do not recompose it."
             if d["must_assert_composition"] else
             "Image 1 is the first frame of this shot.")
+    elif src == "scene_plate":
+        # a location plate is NOT a literal first frame: the shot composes fresh
+        manifest.append({"order": 1, "role": "location authority",
+                         "path": shot.get("plate_path", ""),
+                         "controls": "architecture, layout, palette, motivated lighting"})
+        lines.append(
+            "Image 1 is the location authority. Take its architecture, layout, palette and "
+            "motivated lighting only. Do not copy any incidental framing, character pose or "
+            "action from it — this shot composes its own frame, described below.")
     else:
         cont = src == "chain_continue"
         prev = shot.get("chain_from", "the preceding shot")
@@ -221,13 +270,29 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
                          "controls": "continuity" + (" and composition" if cont else "")})
         lines.append(
             f"Image 1 is the final frame of the preceding shot, {prev}. " +
-            ("The camera has NOT cut: this is the same angle continuing, so its framing, "
-             "dressing, light and prop positions all carry over exactly."
+            ("It is the continuity AND composition authority: begin from its held "
+             "composition and preserve camera direction, spatial layout, props, character "
+             "state and lighting state."
              if cont else
-             "It defines what is TRUE in the room at the moment this shot begins — the state "
-             "and position of every prop, the lighting and the colour. It does NOT define this "
-             "shot's framing: the camera has cut to a new angle, described below. Carry its "
-             "continuity, not its composition."))
+             "It is the continuity authority: preserve its relevant props, character state, "
+             "lighting state and spatial relationships, but compose a NEW shot — it does not "
+             "define this shot's framing, which the description below does."))
+        if shot.get("plate_path") or shot.get("scene_plate_attached"):
+            manifest.append({"order": 2, "role": "location appearance",
+                             "path": shot.get("plate_path", ""),
+                             "controls": "architecture, material, palette, lighting design"})
+            lines.append(
+                "Image 2 is the location appearance authority only. Take its architecture, "
+                "materials, palette and lighting design; do not take framing, character "
+                "placement, pose, action or a camera direction from it.")
+        # continuity is a LIST of sacred facts, not a mood. "Preserve continuity"
+        # is too broad — the model must know which facts are sacred and which it
+        # is free to redesign.
+        reqs = shot.get("continuity_requirements") or []
+        if reqs:
+            lines.append("Sacred continuity facts, preserved exactly: "
+                         + "; ".join(reqs)
+                         + ". Everything not named here may be freely recomposed.")
 
     # ── the sheets: one role each, and what they must NOT contribute ────────
     ref_assets = ([a for a in assets if a.get("type") != "character"]
@@ -270,8 +335,9 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
         lines.append("")
     if wrapper:
         if not chars_visible:
-            lines.append("Character-free frame: no characters enter or appear at any point, "
-                         "even for a moment at an edge.")
+            lines.append("Character-free frame: no characters enter or appear at any point — "
+                         "no silhouettes, reflections, shadows or background figures. No "
+                         "character references are attached.")
         elif shot.get("character_blocking"):
             lines.append(f"Characters in frame: {shot['character_blocking']} — position, "
                          f"scale and one quiet action only; no performance, no story beat.")

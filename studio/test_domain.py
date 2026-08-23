@@ -158,7 +158,8 @@ out3 = domain.compile_prompt(
     shot={**shot, "frame_source": "chain_cut", "chain_from": "S0"},
     assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
 check("a cut carries continuity, explicitly NOT composition",
-      "Carry its continuity, not its composition" in out3["text"])
+      "It is the continuity authority" in out3["text"]
+      and "compose a NEW shot" in out3["text"])
 
 out4 = domain.compile_prompt(
     shot={**shot, "expressions": {"tom": "not smiling, embarrassed"}},
@@ -332,6 +333,77 @@ g = domain.evaluate_gates(shot={k: v for k, v in wrap.items() if k != "end_frame
                           audits=[{"hash": "H", "score": 9.7}],
                           stack=stack_of("minimax-h3-ref"), **BASE)
 check("G refuses a wrapper with no explicit end frame",
+      {x["id"]: x for x in g}["G"]["passed"] is False)
+
+
+# ── conditional authority + the chain contract ──────────────────────────────
+print("\nreference authority and the chain contract")
+
+sp = domain.compile_prompt(
+    shot={**shot, "frame_source": "scene_plate", "plate_path": "plate.png"},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("a scene plate is a location authority, not a first frame",
+      "Do not copy any incidental framing" in sp["text"]
+      and "first frame" not in sp["text"].split("\n")[0].lower())
+
+ch = domain.compile_prompt(
+    shot={**shot, "frame_source": "chain_cut", "chain_from": "S0",
+          "plate_path": "plate.png",
+          "continuity_requirements": ["the den remains dark",
+                                       "the lantern stays at upper-left distance"]},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("a chained shot demotes the plate to appearance-only at Image 2",
+      "Image 2 is the location appearance authority only" in ch["text"])
+check("sacred continuity facts are named, and everything else is freed",
+      "Sacred continuity facts, preserved exactly: the den remains dark" in ch["text"]
+      and "may be freely recomposed" in ch["text"])
+
+cfree = domain.compile_prompt(
+    shot={**wrap}, assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("absolute absence forbids silhouettes, reflections and shadows",
+      "no silhouettes, reflections, shadows or background figures" in cfree["text"])
+
+g = domain.evaluate_gates(
+    shot={**wrap, "frame_source": "chain_cut", "chain_from": "S0"},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("H refuses a chain with no sacred facts named",
+      {x["id"]: x for x in g}["H"]["passed"] is False)
+
+g = domain.evaluate_gates(
+    shot={**wrap, "frame_source": "chain_cut", "chain_from": "S0",
+          "continuity_requirements": ["den stays dark"]},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("H passes once the sacred facts exist",
+      {x["id"]: x for x in g}["H"]["passed"] is True)
+
+g = domain.evaluate_gates(
+    shot={**wrap, "frame_source": "chain_cut", "chain_from": "S0",
+          "continuity_requirements": ["x"], "predecessor_end_hold_seconds": 0},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("H refuses a predecessor with no held end frame to inherit",
+      {x["id"]: x for x in g}["H"]["passed"] is False)
+
+g = domain.evaluate_gates(shot=wrap, assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("I refuses character sheets attached to a character-free frame",
+      {x["id"]: x for x in g}["I"]["passed"] is False)
+
+g = domain.evaluate_gates(shot=wrap, assets=[a for a in assets
+                                             if a["type"] != "character"],
+                          prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("I passes when the attachments agree with the declared frame",
+      {x["id"]: x for x in g}["I"]["passed"] is True)
+
+g = domain.evaluate_gates(shot={**wrap, "end_hold_seconds": 0.5},
+                          assets=[], prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("G validates the hold as a NUMBER, not prose",
       {x["id"]: x for x in g}["G"]["passed"] is False)
 
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")

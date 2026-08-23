@@ -1,5 +1,6 @@
 ---
 
+
 name: seedance-scene-wrapper
 description: "The scene wrapper for Seedance 2.5 — every scene opens on an establishing shot with ONE declared job (location, scale, threat or emotion) and closes on an exit button that shows the consequence and holds its final frame for the next scene. Use when breaking a scene into shots, writing an establishing/opening/closing/wide/master shot, planning scene transitions, or whenever a scene starts on coverage with no orientation. Wrapper beats are separate short generations, carry no dialogue, and chain their held end frames."
 ---
@@ -46,7 +47,8 @@ If you cannot write the job in one clause, the shot has no reason to exist.
 
 A wrapper beat must state one of two things, never neither:
 
-- **Absent:** *"Character-free frame; no characters enter or appear."* — and the
+- **Absent:** *"Character-free frame; no characters enter or appear — no
+  silhouettes, reflections, shadows, or background figures."* — and the
   character sheets are **excluded from the reference set entirely**, because a
   supplied reference is an invitation to invent someone into the frame.
 - **Present:** name only their **screen position, scale, and one quiet action**.
@@ -116,23 +118,60 @@ EXIT BUTTON (3–5s) — the frame now shows: [the consequence]
 ## The Seedance 2.5 prompt pattern
 
 Wrapper beats are generated as **separate short clips**. Non-negotiables first,
-prose not fragments, one camera action, an explicit end state:
+prose not fragments, one camera action, an explicit end state.
+
+**The reference-authority lines are COMPILED from `frame_source`, never pasted
+as a static block** — a generic "@Image 1 is the location authority" is wrong
+the moment a chained end frame takes the first slot, and references telling the
+model competing stories is one of the highest-leverage failure modes in AI
+video:
 
 ```
-16:9 animated cinematic shot. @Image 1 is the location authority — take the
-architecture, layout and light from it and nothing else. @Image 2..N define the
-characters' appearance only; do not let them change the composition.
+16:9 animated cinematic shot.
+
+[IF frame_source = scene_plate]
+@Image 1 is the location authority. Take its architecture, layout, palette,
+and motivated lighting only. Do not copy any incidental framing, character
+pose, or action from it.
+
+[IF frame_source = chain_cut]
+@Image 1 is the continuity authority. Preserve its relevant props, character
+state, lighting state, and spatial relationships, but compose a new shot.
+@Image 2 is the location appearance authority. Take its architecture, material,
+palette, and lighting design only; do not copy its framing, character
+placement, or action.
+Sacred continuity facts, preserved exactly: [continuity_requirements].
+Everything not named may be freely recomposed.
+
+[IF frame_source = chain_continue]
+@Image 1 is the continuity and composition authority. Begin from its held
+composition and preserve camera direction, spatial layout, props, character
+state, and lighting state.
+@Image 2 is the location appearance authority only. Do not take framing,
+character placement, pose, action, or a camera direction from it.
+
+[IF characters_visible]
+@Image 3..N define character identity only: preserve design, proportions,
+costume, and key markings. Do not take pose, framing, acting, or composition
+from these references.
+[IF characters_visible = false]
+No character references are attached. Character-free frame; no characters
+enter or appear — no silhouettes, reflections, shadows, or background figures.
 
 [ESTABLISH] Extreme-wide view of LOCATION at TIME: foreground ELEMENT, midground
-ENVIRONMENT, distant LANDMARK. CHARACTERS appear small at POSITION, doing one
-quiet legible action. The camera makes one slow MOVEMENT to reveal THE JOB.
-Ambient sound only: <...>. No music unless diegetic. The shot ends on
-COMPOSITION, held completely stable for the final second.
+ENVIRONMENT, distant LANDMARK. [Character blocking, if visible.] The camera
+makes one slow MOVEMENT to reveal THE JOB. Ambient sound only: <...>. No music
+unless diegetic. The shot ends on COMPOSITION, held completely stable for the
+final second.
 ```
 
-For the button, swap the middle for: *"The wider frame now shows CONSEQUENCE.
-The camera slowly ACTION, then holds on COMPOSITION for the final second. No
-new dialogue."*
+For the button, swap the closing block for: *"The wider frame now shows
+CONSEQUENCE. The camera slowly ACTION, then holds on COMPOSITION for the final
+second. No new dialogue."*
+
+`frame_source: scene_plate` names a location plate composing a fresh shot;
+`keyframe` is reserved for a literal generated first frame that must be
+reproduced exactly.
 
 ## The wrapper-density gate
 
@@ -148,8 +187,23 @@ it contains any of:
 - a character or prop named in the prompt but absent from the declared frame
 - characters marked visible with no blocking stated
 
+The camera-verb and hold checks run on the **structured fields**
+(`camera_action`, `end_hold_seconds`), not on compiled prose — prose-only
+detection mistakes "pull back and hold" for two movements, and a hold is
+validated as a number, never by hunting for wording.
+
 This gate protects the whole system from a director — or an agent — gradually
 turning a 4-second visual beat into a miniature scene.
+
+Two companion gates guard the reference set itself:
+
+- **`H · CHAIN_UNDERSPECIFIED`** — refuses a `chain_cut`/`chain_continue` shot
+  with no predecessor named, no `continuity_requirements`, or a predecessor
+  whose end frame was never held (there is no stable frame to inherit).
+- **`I · REFERENCE_AUTHORITY_CONFLICT`** — refuses character sheets attached to
+  a declared character-free frame. The authority *wording* cannot conflict —
+  it is compiled from `frame_source` — so this gate polices the one thing that
+  still can: the attachment list.
 
 ## The wrapper shot schema
 
@@ -168,6 +222,18 @@ turning a 4-second visual beat into a miniature scene.
 }
 ```
 
+**When `frame_source` is `chain_cut` or `chain_continue`,
+`continuity_requirements` is REQUIRED** — at least one item. "Preserve
+continuity" is too broad: the system must know which visual facts are sacred
+and which it is free to redesign. Validation:
+
+```
+If frame_source is chain_cut or chain_continue:
+  require chain_from (the predecessor shot)
+  require continuity_requirements with at least one item
+  require the predecessor's end_hold_seconds >= 1   (no held frame, nothing to inherit)
+```
+
 ```json
 {
   "shot_role": "button",
@@ -175,6 +241,13 @@ turning a 4-second visual beat into a miniature scene.
   "button_change": "the cosy den is now dark and empty after the group leaves",
   "camera_action": "slow pull-back",
   "frame_source": "chain_cut",
+  "chain_from": "coverage_04",
+  "continuity_requirements": [
+    "den remains dark",
+    "lantern remains at upper-left distance",
+    "wet grass and blue moonlight continue",
+    "no characters visible"
+  ],
   "characters_visible": false,
   "end_frame": "the dark den small at centre, framed by tall grass; a distant moving lantern at upper-left",
   "end_hold_seconds": 1,
@@ -193,3 +266,14 @@ no-dialogue rule and the held end frame automatically; the gates and audit loop
 apply to wrapper beats exactly as to coverage. Chain the entry shot from the
 establisher with `frame_source: chain_cut` (or `chain_continue` if the camera
 holds).
+
+## The contract
+
+```
+Scene Plate → Establish → Entry Coverage → Dramatic Coverage → Button → Next Scene
+```
+
+Every handoff has an owner, every reference has a role, dialogue stays confined
+to performance coverage, and every wrapper clip exits on a stable editorial
+frame.
+
