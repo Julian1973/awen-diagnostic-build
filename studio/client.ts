@@ -19,6 +19,7 @@ export type GateCode =
   | 'SPEAKER_BOX_REQUIRED'
   | 'REFERENCE_BUDGET_EXCEEDED'
   | 'DURATION_OUT_OF_RANGE'
+  | 'WRAPPER_OVERLOADED'
   | 'NO_PROMPT';
 
 export type Gate = {

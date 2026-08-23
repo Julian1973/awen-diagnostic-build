@@ -292,6 +292,48 @@ check("a button shows the consequence in the wider frame",
 check("a button HOLDS its final composition for the next scene to inherit",
       "HELD, completely stable" in btn["text"])
 
+
+# ── wrapper density + character absence ─────────────────────────────────────
+print("\nwrapper density")
+
+wrap = {**shot, "shot_role": "establish", "speaker": None,
+        "establish_job": "location", "camera_action": "slow crane down",
+        "end_frame": "the shop small at centre, arcade glass above",
+        "characters_visible": False,
+        "card": {"identity": {"location": "the arcade", "description": "dawn light."}}}
+cf = domain.compile_prompt(shot=wrap, assets=assets, project={},
+                           stack=stack_of("minimax-h3-ref"))
+check("a character-free wrapper says so in words",
+      "Character-free frame: no characters enter or appear" in cf["text"])
+check("and EXCLUDES the character sheets — the reference is the invitation",
+      cf["reference_count"] == 1)
+
+g = domain.evaluate_gates(shot=wrap, assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("a clean wrapper passes the density gate",
+      {x["id"]: x for x in g}["G"]["passed"] is True)
+
+g = domain.evaluate_gates(shot={**wrap, "speaker": "tom"}, assets=assets,
+                          prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("G refuses dialogue on a wrapper beat",
+      {x["id"]: x for x in g}["G"]["passed"] is False)
+
+g = domain.evaluate_gates(shot={**wrap, "camera_action": "crane down then pan left"},
+                          assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("G refuses a second camera verb — someone is smuggling a scene into a beat",
+      {x["id"]: x for x in g}["G"]["passed"] is False)
+
+g = domain.evaluate_gates(shot={k: v for k, v in wrap.items() if k != "end_frame"},
+                          assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("G refuses a wrapper with no explicit end frame",
+      {x["id"]: x for x in g}["G"]["passed"] is False)
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))

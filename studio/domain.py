@@ -139,6 +139,32 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
               "code": "REFERENCE_BUDGET_EXCEEDED",
               "detail": f"{n_refs} references against a ceiling of {d['refs_max']}"})
 
+    # GATE G — wrapper density. An establish or button is ONE image with one
+    # camera action and an explicit held end frame. Dialogue, a second camera
+    # verb, or a missing end frame means someone is smuggling a scene into a
+    # beat, and the gate exists so that drift is refused rather than reviewed.
+    role = shot.get("shot_role", "coverage")
+    if role in ("establish", "button"):
+        problems = []
+        if shot.get("speaker") or (shot.get("card", {}).get("identity", {})
+                                       .get("dialogue")):
+            problems.append("dialogue attached — wrapper beats play on ambience alone")
+        verbs = [v for v in ("crane", "pan", "push", "pull", "rise", "drift",
+                             "dolly", "orbit", "track", "zoom", "tilt", "glide")
+                 if v in str(shot.get("camera_action", "")).lower()]
+        if len(verbs) > 1:
+            problems.append(f"more than one camera verb ({', '.join(verbs)}) — one action only")
+        if not shot.get("end_frame"):
+            problems.append("no explicit end-frame description — nothing to hold or inherit")
+        if shot.get("characters_visible", True) and not shot.get("character_blocking") \
+                and any(a.get("type") == "character" for a in assets):
+            problems.append("characters marked visible with no blocking — position, scale "
+                            "and one quiet action, or declare the frame character-free")
+        g.append({"id": "G", "name": "wrapper density", "passed": not problems,
+                  "code": "WRAPPER_OVERLOADED",
+                  "detail": "; ".join(problems) if problems else
+                            "one job, one camera action, a held end frame"})
+
     # GATE F — the clock the route actually honours.
     lo, hi = d["dur"]
     sec = shot.get("seconds", lo)
@@ -204,7 +230,10 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
              "continuity, not its composition."))
 
     # ── the sheets: one role each, and what they must NOT contribute ────────
-    for i, a in enumerate(assets, start=2):
+    ref_assets = ([a for a in assets if a.get("type") != "character"]
+                  if (shot.get("shot_role") in ("establish", "button")
+                      and not shot.get("characters_visible", True)) else assets)
+    for i, a in enumerate(ref_assets, start=2):
         if len(manifest) >= d["refs_max"]:
             break
         manifest.append({"order": i, "role": f"{a['tag']} appearance",
@@ -225,6 +254,8 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
     # generated as their own short clips and cut in the edit — never asked of
     # one long generation.
     role = shot.get("shot_role", "coverage")
+    wrapper = role in ("establish", "button")
+    chars_visible = shot.get("characters_visible", True)
     if role == "establish":
         job = shot.get("establish_job", "orient the audience in the location")
         lines.append(f"This is the scene's opening establishing shot, and it has one job: "
@@ -236,6 +267,17 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
                      f"shows {change}. One camera action only, then the final composition is "
                      f"HELD, completely stable, for the last full second, so the edit can cut "
                      f"or the next scene can inherit this exact image.")
+        lines.append("")
+    if wrapper:
+        if not chars_visible:
+            lines.append("Character-free frame: no characters enter or appear at any point, "
+                         "even for a moment at an edge.")
+        elif shot.get("character_blocking"):
+            lines.append(f"Characters in frame: {shot['character_blocking']} — position, "
+                         f"scale and one quiet action only; no performance, no story beat.")
+        if shot.get("end_frame"):
+            lines.append(f"The shot ends on: {shot['end_frame']} — held completely stable "
+                         f"for the final full second.")
         lines.append("")
 
     # ── room scope: describe the FRAME, not the location ────────────────────

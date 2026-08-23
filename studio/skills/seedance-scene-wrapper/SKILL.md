@@ -47,6 +47,17 @@ is a postcard, not a shot. The four jobs:
 
 If you cannot write the job in one clause, the shot has no reason to exist.
 
+## Characters are optional — and their absence is DECLARED
+
+A wrapper beat must state one of two things, never neither:
+
+- **Absent:** *"Character-free frame; no characters enter or appear."* — and the
+  character sheets are **excluded from the reference set entirely**, because a
+  supplied reference is an invitation to invent someone into the frame.
+- **Present:** name only their **screen position, scale, and one quiet action**.
+  No performance, no dialogue, no story action in a wrapper beat — those belong
+  to coverage.
+
 ## The laws this inherits (do not relax them)
 
 1. **Wrapper beats carry no dialogue.** Ambience only. If a line must bridge
@@ -59,11 +70,28 @@ If you cannot write the job in one clause, the shot has no reason to exist.
    Coverage and buttons scope down. Anything a prompt names that is not in the
    frame is a gap the model will fill.
 4. **Chain the end frame.** The establisher's held final frame is the entry
-   shot's Image 1 (continuity on a cut, composition on a hold). The button's
-   held frame is the *next scene's* transition authority.
-5. **References are roled**: the scene plate is the location authority, the
-   character sheets are identity only, the previous end frame is continuity —
-   and each states what it must NOT contribute.
+   shot's **primary continuity reference**. It takes the Image 1 slot only when
+   composition continuity outranks the approved scene plate (`chain_continue`,
+   or a `chain_cut` where prop/light state must carry); otherwise the scene
+   plate stays Image 1 — a new scene's first duty is to re-establish its
+   designed location, lighting and architecture. The button's held frame is the
+   *next scene's* transition authority under the same rule.
+5. **References are roled AND ordered**, and the order is conditional:
+
+   ```
+   If frame_source is chain_cut or chain_continue:
+     Image 1 = predecessor's held end frame  (continuity — and composition
+               authority only on chain_continue)
+     Image 2 = approved scene plate          (location appearance only)
+   Else:
+     Image 1 = approved scene plate          (location authority)
+   Image N+ = character identity sheets      (excluded on a character-free frame)
+   Audio    = never attached to an establish or button generation
+   ```
+
+   Each reference states what it must NOT contribute. The wording must make the
+   authority hierarchy unmistakable — a scene plate listed first will otherwise
+   be privileged over the actual predecessor composition.
 6. **Trim 6–12 frames of breathing room** on the establish and the button at
    the edit; generations drift at their edges.
 
@@ -110,6 +138,57 @@ COMPOSITION, held completely stable for the final second.
 For the button, swap the middle for: *"The wider frame now shows CONSEQUENCE.
 The camera slowly ACTION, then holds on COMPOSITION for the final second. No
 new dialogue."*
+
+## The wrapper-density gate
+
+An establish or button prompt is **refused** (gate `G · WRAPPER_OVERLOADED`) if
+it contains any of:
+
+- spoken dialogue, quoted speech, or an attached dialogue audio source
+- more than one camera-movement verb
+- more than one meaningful character action
+- more than one intended narrative reveal
+- no explicit end-frame description
+- no one-second stable hold
+- a character or prop named in the prompt but absent from the declared frame
+- characters marked visible with no blocking stated
+
+This gate protects the whole system from a director — or an agent — gradually
+turning a 4-second visual beat into a miniature scene.
+
+## The wrapper shot schema
+
+```json
+{
+  "shot_role": "establish",
+  "duration_seconds": 4,
+  "establish_job": "threat",
+  "camera_action": "slow crane down",
+  "frame_source": "keyframe",
+  "characters_visible": true,
+  "character_blocking": "Ivy appears small at lower-right, walking toward the den",
+  "end_frame": "Wide den centred in lower third; storm bank occupies upper half; Ivy at lower-right",
+  "end_hold_seconds": 1,
+  "edit_handle_frames": { "head": 8, "tail": 10 }
+}
+```
+
+```json
+{
+  "shot_role": "button",
+  "duration_seconds": 4,
+  "button_change": "the cosy den is now dark and empty after the group leaves",
+  "camera_action": "slow pull-back",
+  "frame_source": "chain_cut",
+  "characters_visible": false,
+  "end_frame": "the dark den small at centre, framed by tall grass; a distant moving lantern at upper-left",
+  "end_hold_seconds": 1,
+  "handoff_to_scene": 8
+}
+```
+
+Dialogue and audio policy are not fields — they are consequences: a wrapper
+beat's speaker is stripped by the compiler and refused by the gate.
 
 ## In this studio's engine
 
