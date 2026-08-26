@@ -550,7 +550,7 @@ exs = {"code": "S9", "seconds": 9, "frame_source": "scene_plate",
        "plate_path": "plate.png", "room_scope": "partial",
        "card": {"identity": {"location": "the shop", "description": "dawn."}}}
 good_ext = {"mode": "forward", "source_clip": "S8_take3",
-            "task_type": "extend",
+            "source_approved": True, "task_type": "extend",
             "already_true": ["the door is already closed",
                              "Tom holds the bundle in both hands"],
             "identity_anchors": ["rust-red crewneck jumper",
@@ -589,6 +589,13 @@ g = domain.evaluate_gates(
 check("L refuses task type left on Auto — a continuation read as a new clip",
       {x["id"]: x for x in g}["L"]["passed"] is False)
 
+g = domain.evaluate_gates(
+    shot={**exs, "extension": {**good_ext, "source_approved": False}},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("L refuses extending an unapproved master — drift compounds downstream",
+      {x["id"]: x for x in g}["L"]["passed"] is False)
+
 g = domain.evaluate_gates(shot={**exs, "extension": good_ext},
                           assets=assets, prompt={"hash": "H"},
                           audits=[{"hash": "H", "score": 9.7}],
@@ -605,8 +612,10 @@ check("L stays silent on a shot with no extension — the rule must not over-fir
 ep = domain.compile_prompt(shot={**exs, "extension": good_ext},
                            assets=assets, project={},
                            stack=stack_of("minimax-h3-ref"))
-check("the compiler extends @Video1 without the word 'reference' near it",
-      "Extend @Video1 forward." in ep["text"]
+check("the compiler asserts direct audiovisual continuation and no scene reset",
+      "Extend the video forward from @Video1." in ep["text"]
+      and "audiovisual continuation" in ep["text"]
+      and "Do not reset the scene." in ep["text"]
       and "reference @Video1" not in ep["text"])
 check("already-true facts are stated as do-not-repeat",
       "ALREADY TRUE" in ep["text"]

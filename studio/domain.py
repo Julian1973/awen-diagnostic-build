@@ -263,6 +263,10 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
             lmiss.append(f"unknown mode '{ext.get('mode')}' — forward, backward or bridge")
         if not ext.get("source_clip"):
             lmiss.append("no source_clip — which clip does this continue?")
+        elif not ext.get("source_approved"):
+            lmiss.append("source clip not marked approved — never extend an "
+                         "unapproved or drifting master; it becomes the "
+                         "continuity authority for everything after it")
         if not (ext.get("already_true") or []):
             lmiss.append("no already_true facts — completed actions will replay at the cut")
         anchors = ext.get("identity_anchors") or []
@@ -321,11 +325,13 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
 
     # ── continuation from a source CLIP (extension / bridge) ────────────────
     #
-    # The word "reference" is deliberately absent around @Video1: field testing
-    # found it pushes the model toward generating a lookalike instead of
-    # continuing the real footage. The delta rule does the heavy lifting —
-    # already-true facts are stated so completed actions never replay at the
-    # cut, and only the new action is described.
+    # Continuation control comes from explicit continuation language and clear
+    # asset roles — the compiler uses the bare @Video1 tag and states the
+    # audiovisual continuation directly. (The field claim that the word
+    # "reference" near the tag causes lookalike generation is UNVERIFIED; the
+    # explicit language below is what actually does the work.) The delta rule
+    # does the heavy lifting: already-true facts are stated so completed
+    # actions never replay at the cut, and only the new beat is described.
     ext = shot.get("extension")
     if ext:
         mode = ext.get("mode", "forward")
@@ -339,23 +345,33 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
         else:
             direction = "forward" if mode == "forward" else "backward"
             lines.append(
-                f"Extend @Video1 {direction}. The "
-                + ("first frame of the extension continues directly from the last "
-                   "frame of @Video1." if mode == "forward" else
-                   "final frame of the extension leads directly into the first "
-                   "frame of @Video1."))
+                f"Extend the video {direction} from @Video1. Begin as a direct "
+                + ("audiovisual continuation of its ending."
+                   if mode == "forward" else
+                   "audiovisual lead-in to its opening.")
+                + " Preserve inherited motion, performance, composition, "
+                  "character state, screen direction, lighting, geography, "
+                  "music, ambience and sound state. Do not reset the scene.")
         if ext.get("already_true"):
             lines.append("ALREADY TRUE — established facts; do not repeat or "
-                         "reintroduce them: " + "; ".join(ext["already_true"]) + ".")
+                         "reintroduce them: " + "; ".join(ext["already_true"])
+                         + ". These facts are established; continue without "
+                           "replaying them.")
         if ext.get("identity_anchors"):
             lines.append("Identity anchors, unchanged throughout: "
                          + "; ".join(ext["identity_anchors"]) + ".")
         if ext.get("lighting"):
             # lighting is what slips on chains — carried as literal repeated text
             lines.append(f"Lighting, carried exactly: {ext['lighting']}")
+        if ext.get("audio_state"):
+            lines.append(f"Inherited music and ambience: {ext['audio_state']}")
         lines.append("Describe nothing that has already happened. Only the new "
-                     "action, camera move and end state follow. Do not alter "
-                     "locked geography or the identity anchors above.")
+                     "beat, camera and end state follow. Do not alter locked "
+                     "geography or the identity anchors above.")
+        if shot.get("end_frame") and shot.get("shot_role", "coverage") == "coverage":
+            lines.append(f"LANDING FRAME: {shot['end_frame']} Settle into a "
+                         f"brief living hold without freezing or introducing "
+                         f"new action.")
         lines.append("")
 
     # ── Image 1: where the first frame comes from ───────────────────────────
