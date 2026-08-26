@@ -543,6 +543,86 @@ check("and locks the zones — no unnamed movement or contact",
       "No character leaves their named zone" in em["text"])
 
 
+# ── gate L: an extension knows what is already true ─────────────────────────
+print("\nthe extension contract")
+
+exs = {"code": "S9", "seconds": 9, "frame_source": "scene_plate",
+       "plate_path": "plate.png", "room_scope": "partial",
+       "card": {"identity": {"location": "the shop", "description": "dawn."}}}
+good_ext = {"mode": "forward", "source_clip": "S8_take3",
+            "task_type": "extend",
+            "already_true": ["the door is already closed",
+                             "Tom holds the bundle in both hands"],
+            "identity_anchors": ["rust-red crewneck jumper",
+                                 "grey checked collar"],
+            "lighting": "warm amber lamplight from screen-left, soft shadows."}
+
+g = domain.evaluate_gates(shot={**exs, "extension": {"mode": "forward"}},
+                          assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+by = {x["id"]: x for x in g}
+check("L refuses an extension with no source, no facts and no anchors",
+      by["L"]["passed"] is False)
+check("and names the replay failure — completed actions will replay at the cut",
+      "replay at the cut" in by["L"]["detail"])
+
+g = domain.evaluate_gates(
+    shot={**exs, "extension": {**good_ext,
+          "identity_anchors": ["a", "b", "c", "d"]}},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("L refuses four identity anchors — over-specifying invites contradictions",
+      {x["id"]: x for x in g}["L"]["passed"] is False)
+
+g = domain.evaluate_gates(
+    shot={**exs, "extension": {**good_ext, "mode": "bridge"}},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("L refuses a bridge with no declared geography master",
+      {x["id"]: x for x in g}["L"]["passed"] is False)
+
+g = domain.evaluate_gates(
+    shot={**exs, "extension": {**good_ext, "task_type": "auto"}},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("L refuses task type left on Auto — a continuation read as a new clip",
+      {x["id"]: x for x in g}["L"]["passed"] is False)
+
+g = domain.evaluate_gates(shot={**exs, "extension": good_ext},
+                          assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("L passes a complete forward extension",
+      {x["id"]: x for x in g}["L"]["passed"] is True)
+
+g = domain.evaluate_gates(shot=exs, assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("L stays silent on a shot with no extension — the rule must not over-fire",
+      "L" not in {x["id"] for x in g})
+
+ep = domain.compile_prompt(shot={**exs, "extension": good_ext},
+                           assets=assets, project={},
+                           stack=stack_of("minimax-h3-ref"))
+check("the compiler extends @Video1 without the word 'reference' near it",
+      "Extend @Video1 forward." in ep["text"]
+      and "reference @Video1" not in ep["text"])
+check("already-true facts are stated as do-not-repeat",
+      "ALREADY TRUE" in ep["text"]
+      and "the door is already closed" in ep["text"]
+      and "do not repeat" in ep["text"].lower())
+check("lighting is carried as literal text",
+      "Lighting, carried exactly: warm amber lamplight" in ep["text"])
+
+bp = domain.compile_prompt(
+    shot={**exs, "extension": {**good_ext, "mode": "bridge",
+          "geography_master": "@Video1"}},
+    assets=assets, project={}, stack=stack_of("minimax-h3-ref"))
+check("a bridge names its sole geography master",
+      "sole geography" in bp["text"] and "@Video1" in bp["text"])
+
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))

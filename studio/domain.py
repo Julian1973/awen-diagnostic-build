@@ -251,6 +251,39 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
                             f"chained from {shot.get('chain_from')} with "
                             f"{len(shot.get('continuity_requirements', []))} sacred facts"})
 
+    # GATE L — an extension must know what is already true. The documented
+    # failure is not a broken frame but a completed action replaying at the
+    # cut (a door closing twice), a drifting identity, or a bridge placing
+    # props by whichever clip it privately preferred. Anchors are capped at
+    # three because over-specifying identity invites contradictions.
+    ext = shot.get("extension")
+    if ext is not None:
+        lmiss = []
+        if ext.get("mode", "forward") not in ("forward", "backward", "bridge"):
+            lmiss.append(f"unknown mode '{ext.get('mode')}' — forward, backward or bridge")
+        if not ext.get("source_clip"):
+            lmiss.append("no source_clip — which clip does this continue?")
+        if not (ext.get("already_true") or []):
+            lmiss.append("no already_true facts — completed actions will replay at the cut")
+        anchors = ext.get("identity_anchors") or []
+        if not anchors:
+            lmiss.append("no identity_anchors — name 2–3 verifiable traits")
+        elif len(anchors) > 3:
+            lmiss.append(f"{len(anchors)} identity anchors — over-specifying invites "
+                         f"contradictions; pick the 2–3 that matter")
+        if ext.get("mode") == "bridge" and not ext.get("geography_master"):
+            lmiss.append("bridge with no geography_master — the highest-risk case "
+                         "for props and characters landing in the wrong place")
+        if ext.get("task_type", "extend") != "extend":
+            lmiss.append("task type not pinned to 'extend' — Auto can read a "
+                         "continuation as a brand-new clip request")
+        g.append({"id": "L", "name": "extension specified", "passed": not lmiss,
+                  "code": "EXTENSION_UNDERSPECIFIED",
+                  "detail": "; ".join(lmiss) if lmiss else
+                            f"{ext.get('mode', 'forward')} continuation of "
+                            f"{ext.get('source_clip')} with "
+                            f"{len(ext.get('already_true', []))} established facts"})
+
     # GATE F — the clock the route actually honours.
     lo, hi = d["dur"]
     sec = shot.get("seconds", lo)
@@ -285,6 +318,45 @@ def compile_prompt(*, shot: dict, assets: list[dict], project: dict,
     ident = card.get("identity", {})
     lines: list[str] = []
     manifest: list[dict] = []
+
+    # ── continuation from a source CLIP (extension / bridge) ────────────────
+    #
+    # The word "reference" is deliberately absent around @Video1: field testing
+    # found it pushes the model toward generating a lookalike instead of
+    # continuing the real footage. The delta rule does the heavy lifting —
+    # already-true facts are stated so completed actions never replay at the
+    # cut, and only the new action is described.
+    ext = shot.get("extension")
+    if ext:
+        mode = ext.get("mode", "forward")
+        if mode == "bridge":
+            lines.append(
+                f"Connect @Video1 and @Video2 with a seamless bridge. "
+                f"{ext.get('geography_master', '@Video1')} is the sole geography "
+                f"master: every prop, character position and spatial relationship "
+                f"comes from it alone. Match image, colour, camera movement, "
+                f"rhythm and sound across both joins.")
+        else:
+            direction = "forward" if mode == "forward" else "backward"
+            lines.append(
+                f"Extend @Video1 {direction}. The "
+                + ("first frame of the extension continues directly from the last "
+                   "frame of @Video1." if mode == "forward" else
+                   "final frame of the extension leads directly into the first "
+                   "frame of @Video1."))
+        if ext.get("already_true"):
+            lines.append("ALREADY TRUE — established facts; do not repeat or "
+                         "reintroduce them: " + "; ".join(ext["already_true"]) + ".")
+        if ext.get("identity_anchors"):
+            lines.append("Identity anchors, unchanged throughout: "
+                         + "; ".join(ext["identity_anchors"]) + ".")
+        if ext.get("lighting"):
+            # lighting is what slips on chains — carried as literal repeated text
+            lines.append(f"Lighting, carried exactly: {ext['lighting']}")
+        lines.append("Describe nothing that has already happened. Only the new "
+                     "action, camera move and end state follow. Do not alter "
+                     "locked geography or the identity anchors above.")
+        lines.append("")
 
     # ── Image 1: where the first frame comes from ───────────────────────────
     # The authority wording is COMPILED from frame_source, never a static block —
