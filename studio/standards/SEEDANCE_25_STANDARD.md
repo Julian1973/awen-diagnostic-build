@@ -58,7 +58,16 @@ roles. The task family is declared first (OFFICIAL task set):
 | Seamless bridge | A missing transition must connect two source clips | The clips have incompatible geography — that needs a motivated scene change, not a bridge |
 
 HOUSE: reject a technically smooth bridge if it changes story logic, character
-identity or spatial geography.
+identity or spatial geography. On any bridge, declare one clip the **sole
+geography master** — bridges and backward extensions are the highest-risk
+case for props or characters landing in the wrong place.
+
+ByteDance's own extension prompt, verbatim (OFFICIAL — the anchor wording to
+build on):
+
+> "Extend the video. Continue from the visuals and subjects in @Video 1 and
+> generate another 30-second clip, keeping the character subjects, scene,
+> visual style, and sound effects consistent."
 
 ## 3. Parameter locks — OFFICIAL
 

@@ -165,6 +165,106 @@ mood beat the older model can be the better read of the same sentence.
 
 ---
 
+## Source 2 — extension & multi-round chaining research (Aug 2026)
+
+Compiled research on Seedance extension workflows (ByteDance official
+examples plus Kapwing / Morphic / Melies / ComfyUI / Crepal guides). One
+claim in it is OFFICIAL — ByteDance's own extension prompt — and has been
+promoted into `SEEDANCE_25_STANDARD.md`. The rest is PRACTITIONER.
+
+### The delta rule — [NEW], the strongest claim in the source
+
+An extension prompt describes **only what happens after the handoff frame**,
+and explicitly states what is *already true* so the model does not replay it:
+
+> "The door is already closed. Do not repeat the closing motion."
+
+The documented failure is the action repeating at the cut (a door closing
+twice). Extension treats the prior clip as ground truth; the prompt carries
+delta only. **Compiler candidate: chained shots emit an "already true — do
+not repeat" clause built from the predecessor's end state.** This is our
+"describe the frame, not the location" law extended into time: describe the
+change, not the history.
+
+### The extension anchor block — [ALIGNS + NEW]
+
+The tested continuation structure opens with an explicit anchor clause:
+
+```
+Extend @Video1 forward.
+The first frame of the extension continues directly from the last frame
+of @Video1.
+[Already-true facts that must not repeat.]
+[The new action, camera move, and end state — nothing else.]
+CONTINUITY: [2–3 fixed identity anchors]
+CONSTRAINTS: do not reintroduce completed actions; do not alter locked
+geography.
+```
+
+- **[NEW] Pin Task Type to "Extend"** — left on Auto, a loosely-worded
+  continuation can be read as a brand-new clip request. Worker-level
+  setting, never trusted to inference.
+
+### Identity anchors — [REFINES]
+
+- **2–3 distinctive, verifiable anchors** (red scarf, nose ring, green wool
+  coat) beat a full biography — **over-specifying invites contradictions**.
+  Refines our sacred-facts law with a count: continuity_requirements on
+  identity should be few and checkable, not exhaustive.
+- **Restate anchors at continuity risk points**: after cuts, after occlusion,
+  after a major angle change, whenever a character re-enters frame.
+- **[NEW] Re-anchor from the ORIGINAL reference, never a generated frame**,
+  when drift is systemic — errors compound generation-over-generation. Our
+  pipeline already conforms structurally (character sheets attach to every
+  chained shot; the held frame carries composition, the sheets carry
+  identity) — this names *why* that split matters.
+- **[NEW] State facts vs identity facts are separate rule types**:
+  accumulated dirt, wet clothing, a torn sleeve are *state* continuity
+  ("soot accumulates and never resets"), not identity — they need their own
+  explicit carry rule or they silently reset at every cut.
+- **[TENSION] Reference strength 70–80%** claimed optimal (>~85% stiff,
+  <~60% drifts) — note the gold template (Source: official video template)
+  sets identity-critical weights at 0.86, *above* this source's stiffness
+  line. Unresolved; the weight-mechanism test in the adoption queue should
+  settle both at once.
+
+### Geography — [ALIGNS, two additions]
+
+One labelled location reference reused every round (our scene-plate law);
+explicit spatial assignment per subject before motion (our ensemble
+manifest); clay-render blocking for complex geography (already in the 2.5
+standard). New:
+
+- **[NEW] Tie every camera move to a triggering action** — "As his feet
+  leave the ground, move from rear tracking into a low side angle" — so the
+  cut's spatial logic is causally grounded, not arbitrary. Composes with
+  Source 1's "anchor every move to a subject": anchor to a subject AND to a
+  cause.
+- **[REFINES] On a bridge between two separately generated clips, declare
+  one clip the sole geography master** — bridges/backward extensions are the
+  highest-risk case for props or characters appearing in the wrong place.
+  Extends the 2.5 standard's bridge workflow with an authority declaration,
+  exactly our frame_source philosophy.
+
+### Process — [ALIGNS]
+
+The source's recommended shot ledger (shot ID, anchors, seed, notes), QA
+pass (anchor audit, lost-prop scan, cross-shot lighting check) and
+last-frame "state ledger" are our closing-state ledger, dailies review and
+held-frame law under other names. One addition worth testing:
+
+- **[NEW] Lighting described as Source → Direction → Quality → Effect** —
+  a four-part formula that makes the lighting line concrete enough to carry
+  word-for-word across a chain (composes with Source 1's lighting-carry
+  rule).
+
+Platform note for the Replit build: third-party front-ends advertise
+extension to ~180 s total, and a ComfyUI "Extend Video" node graph automates
+last-frame-trim-and-splice for scripting — a reference implementation if we
+automate the chain loop server-side.
+
+---
+
 ## Adoption queue
 
 Test-first (one cheap run each) before promoting to HOUSE:
@@ -175,3 +275,13 @@ Test-first (one cheap run each) before promoting to HOUSE:
 4. Draft-tier / final-tier render policy in the worker.
 5. While/then chain phrasing + one-verb-per-subject as audit criteria.
 6. The 15–20 total-reference working ceiling alongside gate E's route cap.
+7. The delta rule: compiler emits an "already true — do not repeat" clause
+   on chained shots, built from the predecessor's end state.
+8. Task Type pinned to Extend in the worker's request builder, never Auto.
+9. Anchor count discipline: 2–3 identity anchors in
+   continuity_requirements, restated at occlusion/re-entry points.
+10. The reference-weight test (one experiment settles three claims:
+    {1.0–1.5} labels vs numeric weights vs the 70–80% band vs 0.86).
+11. Lighting as Source → Direction → Quality → Effect, carried verbatim.
+12. State-vs-identity continuity: an explicit "accumulates and never
+    resets" rule type for wear, wetness, damage.
