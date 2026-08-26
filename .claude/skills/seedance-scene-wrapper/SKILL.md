@@ -122,7 +122,9 @@ Do not invent an unsupported entry role — the wrapper gates apply only to
    authority hierarchy unmistakable — a scene plate listed first will otherwise
    be privileged over the actual predecessor composition.
 6. **Trim 6–12 frames of breathing room** on the establish and the button at
-   the edit; generations drift at their edges.
+   the edit; generations drift at their edges. On a chained or extended
+   junction the provider's own fix is exact: **trim 6 frames from the end of
+   the preceding clip and 1 frame from the start of the following clip**.
 
 ## The scene plan block
 
