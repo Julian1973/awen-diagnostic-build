@@ -144,7 +144,70 @@ sketch and prop information each get their own image — mixing them in one
 image weakens constraint and causes pose drift, character misalignment and
 props in the wrong context. (Now also OFFICIAL in the 2.5 guide.)
 
-## 7. The provider's quality policy — and our mechanical version
+## 7. The gold video template — worked anatomy
+
+Source: the official *Seedance 2.0 Video Template* (a complete worked
+production request — the "Mila" mansion scene — plus the agent structure
+around it). Same provenance rule: OFFICIAL-2.0 structure, provider-endorsed
+for 2.5; every numeric control UNVERIFIED on 2.5 until we fire it.
+
+The full request anatomy, in the template's own order:
+
+```
+SCENARIO DESCRIPTION   scene bound to @Image1, atmosphere as observable
+                       fact, format line (16:9 cinematic widescreen)
+MOTION SLIDER          Consistency NN / Creativity NN   (e.g. 80/20)
+RENDERING MODE         named flags (e.g. High Quality + Cloth Simulation)
+STYLE DESCRIPTION      (separate block, may be empty)
+CHARACTER DESCRIPTION  every character bound @ImageN with current state;
+                       then "Core Action" prose; then framing notes
+REFERENCE WEIGHT       numeric per-reference (e.g. @Image4 → 0.86)
+AUDIO HIERARCHY        named sound layers ranked against the lines;
+                       "BGM strictly prohibited" stated in the positive text
+CAMERA MOVEMENT        timestamped shots in continuous intervals:
+                       0–3s: Shot 1: [shot size, based on @ImageN] +
+                       [one camera move] + subject action
+                       — with per-shot dialogue lines and per-shot SFX
+NEGATIVE PROMPT        one consolidated block at the end
+```
+
+What this template teaches beyond the prompt guide:
+
+- **Every shot names its composition source** ("based on @Image 1", "revised
+  @Image 2") — frame_source per shot inside one request, exactly our
+  conditional authority compilation.
+- **Dialogue and sound are per-shot, inside the shot's time interval** —
+  never a floating audio paragraph (the prompt guide's "sound assigned to no
+  storyboard is generated randomly" failure, solved structurally).
+- **New numeric controls** (all UNVERIFIED on 2.5 until tested): the
+  Motion Slider consistency/creativity split; named rendering-mode flags
+  (cloth simulation); per-reference weights around 0.86 for identity-critical
+  characters — a different mechanism from the prompt guide's inline
+  `{1.0–1.5}` labels; test which of the two 2.5 honours.
+- **Physics is directed, not assumed**: wet-cloth behaviour, tear dynamics
+  and milk splash are named in the positive text AND guarded in the negative
+  block ("distorted fluid effects", "no cloth physics simulation").
+- **Negative-prompt evidence**: this gold template ends with a LARGE negative
+  wall — general quality negatives plus shot-specific ones ("paper appearing
+  out of nowhere in Mila's hand"). That is the opposite pole from the prompt
+  guide's "keep negatives minimal". Both are official. Our negative-prompt
+  A/B stays open, now with the two official poles as its arms — and note the
+  wall's tail is genuinely surgical (shot-specific risks), which may be the
+  real lesson: a big wall of *specific* negatives, never a generic one.
+- **No-BGM enforcement is doubled**: stated positively in the audio hierarchy
+  AND negatively ("background soundtrack, pure background music,
+  non-diegetic score") — matches our wrapper ambience law.
+
+The template also sketches the provider's intended **agent structure**:
+a Director Agent (storyboard splitting for consistency and smooth
+transitions, avoiding excessive shot switching; lighting/physics rationality;
+style selection) feeding a Production Agent (asset generation — character
+orthographic views, scene images, storyboard frames; storyboard video; and
+**storyboard quality/consistency scoring**). That is this pipeline's shape:
+director/compile stage, generation worker, audit scoring — one more piece of
+partnership evidence that we run the architecture ByteDance recommends.
+
+## 8. The provider's quality policy — and our mechanical version
 
 The guide recommends clients institutionalise prompt quality (OFFICIAL-2.0):
 mandatory review of every prompt before generation; a daily published
@@ -159,7 +222,7 @@ lessons bank is the weekly review with scars attached. **This is partnership
 evidence: ByteDance's own recommended operating policy, implemented as
 refusing code rather than as management guidance.**
 
-## 8. Precedence
+## 9. Precedence
 
 Structure and method: this document. Technical boundaries: `SEEDANCE_25_
 STANDARD.md`. Enforcement: `studio/domain.py` and its gates. Code > standard >
