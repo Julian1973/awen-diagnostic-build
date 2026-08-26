@@ -236,11 +236,18 @@ Verified against Seedance 2.5's documented frame-anchoring behaviour:
   rejected — the model needs a defined starting point.
 - **First + last frame together produce interpolation** between the two
   states, not free generation. Never attach a last frame to a wrapper beat
-  unless interpolation IS the intent.
+  unless interpolation IS the intent — and the two frames need **identical
+  dimensions**, or the last frame stretches.
+- **Aspect ratio is a locked parameter** on first-frame work (locked to the
+  first frame) and on edits/extensions (locked to the source). Never fight a
+  locked parameter in the prose prompt — match the asset and set the request.
 - **Multi-keyframe sequences** are an ordered list the prompt must declare as
   sequential ("Use @Image 1 through @Image N as keyframes in this order").
 - Anchors are **named individually** — a combined "these two are the first and
   last frames" does not reliably bind either one.
+- **Keyframes outrank storyboards for moment control**: separate keyframe
+  images give strictly closer visual alignment; a multi-panel storyboard grid
+  guides plot at a high level and is not a frame-by-frame control surface.
 
 This is why `keyframe` is a structurally distinct request type, not an
 alternative spelling of "reference image" — and why gate `K` refuses the
@@ -278,9 +285,17 @@ driver. The compiler emits one binding line per entry and closes the set:
 *"No character leaves their named zone, and no contact occurs beyond what is
 named above."*
 
-Reference discipline holds below any platform ceiling: start under eight
-references and add one only after naming the specific missing fact it fixes —
-fifty inconsistent images are fifty versions of the same problem. For groups,
+Reference discipline holds below any platform ceiling — and it is now
+**official provider guidance**, not just practitioner lore: 1–8 image-led
+subjects is the stated stable range (9–12 is a stretch that expects retries),
+and the binding rule is the provider's own words — *"do not place the only
+mapping information inside the reference image; bind every asset explicitly
+in the written prompt; for several subjects, list each character-to-image and
+character-to-audio relationship separately."* Start under eight references and
+add one only after naming the specific missing fact it fixes — fifty
+inconsistent images are fifty versions of the same problem. Above five
+subjects prefer single-view references, and when multiple angles are needed
+upload **separate images per angle**, never a combined sheet. For groups,
 establish individuals in earlier shots and keep group action modest; a crowd
 is a few grouped composite references, not many singles.
 

@@ -10,6 +10,10 @@ generations at a scripted scene with a cast).
 
 Where they disagree, the reason is written down.
 
+Provider-specific law lives in `studio/standards/` — official capability
+boundaries per provider, labelled OFFICIAL / HOUSE / UNVERIFIED, kept in
+lockstep with the gates that enforce them.
+
 ---
 
 ## The premise everything rests on

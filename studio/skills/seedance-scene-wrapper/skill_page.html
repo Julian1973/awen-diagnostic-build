@@ -205,9 +205,11 @@ final second.</pre>
   <p>Verified against Seedance 2.5's documented frame-anchoring behaviour:</p>
   <ul>
     <li>A <strong>first frame is required</strong> for image-to-video; a last frame alone is rejected — the model needs a defined starting point.</li>
-    <li><strong>First + last frame together produce interpolation</strong> between the two states, not free generation. Never attach a last frame to a wrapper beat unless interpolation IS the intent.</li>
+    <li><strong>First + last frame together produce interpolation</strong> between the two states, not free generation. Never attach a last frame to a wrapper beat unless interpolation IS the intent — and the two frames need <strong>identical dimensions</strong>, or the last frame stretches.</li>
+    <li><strong>Aspect ratio is a locked parameter</strong> on first-frame work (locked to the first frame) and on edits/extensions (locked to the source). Never fight a locked parameter in the prose prompt — match the asset and set the request.</li>
     <li><strong>Multi-keyframe sequences</strong> are an ordered list the prompt must declare as sequential ("Use @Image 1 through @Image N as keyframes in this order").</li>
     <li>Anchors are <strong>named individually</strong> — a combined "these two are the first and last frames" does not reliably bind either one.</li>
+    <li><strong>Keyframes outrank storyboards for moment control</strong>: separate keyframe images give strictly closer visual alignment; a multi-panel storyboard grid guides plot at a high level and is not a frame-by-frame control surface.</li>
   </ul>
   <p>This is why <code>keyframe</code> is a structurally distinct request type, not an alternative spelling of "reference image" — and why gate <code>K</code> refuses the underspecified form.</p>
 </section>
@@ -224,7 +226,7 @@ final second.</pre>
     "contact": "none — the counter stays between them" }
 ]</pre>
   <p>Gate <code>K</code> refuses a keyframe wrapper with two or more visible characters and no complete manifest. <strong>If the manifest cannot be built yet</strong> — positions, poses, or contact points not yet decided by the director — <strong>fall back to <code>scene_plate</code> or <code>chain_cut</code></strong>: not because the model cannot do ensemble keyframes, but because an underspecified manifest is the documented failure driver. The compiler emits one binding line per entry and closes the set: <em>"No character leaves their named zone, and no contact occurs beyond what is named above."</em></p>
-  <p>Reference discipline holds below any platform ceiling: start under eight references and add one only after naming the specific missing fact it fixes — fifty inconsistent images are fifty versions of the same problem. For groups, establish individuals in earlier shots and keep group action modest; a crowd is a few grouped composite references, not many singles.</p>
+  <p>Reference discipline holds below any platform ceiling — and it is now <strong>official provider guidance</strong>, not just practitioner lore: 1–8 image-led subjects is the stated stable range (9–12 is a stretch that expects retries), and the binding rule is the provider's own words — <em>"do not place the only mapping information inside the reference image; bind every asset explicitly in the written prompt; for several subjects, list each character-to-image and character-to-audio relationship separately."</em> Start under eight references and add one only after naming the specific missing fact it fixes — fifty inconsistent images are fifty versions of the same problem. Above five subjects prefer single-view references, and when multiple angles are needed upload <strong>separate images per angle</strong>, never a combined sheet. For groups, establish individuals in earlier shots and keep group action modest; a crowd is a few grouped composite references, not many singles.</p>
   <div class="rulebox"><p><strong>The near-miss rule.</strong> A wrapper beat that is 90% right is not regenerated. Seedance 2.5's region-level and timestamp-level editing can redraw a prop, fix a costume detail, or retime a range while preserving the approved composition — verify five seconds either side of the edit for flicker or contamination. Full regeneration is for composition failures, not detail failures.</p></div>
 </section>
 
