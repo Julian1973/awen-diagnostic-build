@@ -1,0 +1,238 @@
+<title>Scene Delivery Loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root{
+    --paper:#F2F3F1; --surface:#FBFBFA; --ink:#16201C; --ink-soft:#4A5450;
+    --muted:#6E7873; --rule:#D7DBD6; --rule-soft:#E5E8E4;
+    --go:#1F6F5C; --go-wash:#E4EDE9;
+    --refuse:#A33B2A; --refuse-wash:#F5E6E2;
+    --hold:#8A6412; --hold-wash:#F4ECDA;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#111614; --surface:#19201D; --ink:#E7EDE9; --ink-soft:#B3BEB8;
+      --muted:#8B9691; --rule:#2B3531; --rule-soft:#232B28;
+      --go:#5FBFA4; --go-wash:#1B2A26;
+      --refuse:#E08472; --refuse-wash:#2C1E1B;
+      --hold:#D6AC5A; --hold-wash:#2A2318;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#111614; --surface:#19201D; --ink:#E7EDE9; --ink-soft:#B3BEB8;
+    --muted:#8B9691; --rule:#2B3531; --rule-soft:#232B28;
+    --go:#5FBFA4; --go-wash:#1B2A26;
+    --refuse:#E08472; --refuse-wash:#2C1E1B;
+    --hold:#D6AC5A; --hold-wash:#2A2318;
+  }
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+    font-size:16px; line-height:1.55; margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:53rem; margin:0 auto; padding:3rem 1.5rem 5rem}
+  header{border-bottom:2px solid var(--ink); padding-bottom:1.1rem; margin-bottom:2.5rem}
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 .6rem
+  }
+  h1{
+    font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;
+    font-weight:700; font-size:clamp(2.1rem,5vw,3rem); line-height:1.04;
+    letter-spacing:-.015em; margin:0 0 .5rem; text-wrap:balance;
+  }
+  .standfirst{color:var(--ink-soft); font-size:1.05rem; margin:0; max-width:40rem}
+  h2{
+    font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;
+    font-size:1.05rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    margin:0; display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap;
+  }
+  .cadence{
+    font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.08em;
+    text-transform:uppercase; font-weight:500; color:var(--muted);
+    border:1px solid var(--rule); border-radius:2px; padding:.15rem .45rem;
+  }
+  section{margin-bottom:3rem}
+  .phase-head{margin-bottom:1.4rem}
+  .phase-note{color:var(--muted); font-size:.9rem; margin:.5rem 0 0}
+  ol.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0}
+  ol.steps li{
+    display:grid; grid-template-columns:2.6rem 1fr; gap:1rem;
+    padding:1.15rem 0; border-top:1px solid var(--rule-soft);
+  }
+  ol.steps li:first-child{border-top:1px solid var(--rule)}
+  .num{
+    font-family:"IBM Plex Mono",monospace; font-size:.8rem; font-weight:600;
+    color:var(--go); padding-top:.15rem; letter-spacing:.02em;
+  }
+  .step-name{
+    font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;
+    font-weight:600; font-size:1.15rem; letter-spacing:.01em; margin:0 0 .3rem;
+  }
+  .step-body{margin:0; color:var(--ink-soft)}
+  .step-body strong{color:var(--ink); font-weight:600}
+  .done{
+    margin:.65rem 0 0; padding:.5rem .7rem; background:var(--go-wash);
+    border-left:2px solid var(--go); font-size:.9rem; color:var(--ink);
+  }
+  .done b{
+    font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--go); display:block; margin-bottom:.15rem;
+  }
+  code,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.88em}
+  code{background:var(--rule-soft); padding:.1rem .32rem; border-radius:2px}
+  .rule-callout{
+    background:var(--surface); border:1px solid var(--rule); padding:1.3rem 1.4rem;
+    display:flex; flex-direction:column; gap:.55rem;
+  }
+  .rule-callout p{margin:0}
+  .rule-callout .line{
+    font-family:"IBM Plex Mono",monospace; font-size:.95rem; font-weight:500;
+    color:var(--go); letter-spacing:.01em;
+  }
+  .tablewrap{overflow-x:auto; border-top:1px solid var(--ink)}
+  table{border-collapse:collapse; width:100%; min-width:34rem; font-size:.92rem}
+  th,td{text-align:left; vertical-align:top; padding:.75rem .9rem .75rem 0; border-bottom:1px solid var(--rule-soft)}
+  th{
+    font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--muted); font-weight:500; padding-top:.6rem;
+  }
+  td.code{font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--refuse); white-space:nowrap; padding-right:1.2rem}
+  td.fix{color:var(--ink-soft)}
+  td.fix b{color:var(--ink); font-weight:600}
+  .questions{display:flex; flex-direction:column; gap:0; border-top:1px solid var(--ink)}
+  .questions div{padding:1rem 0; border-bottom:1px solid var(--rule-soft); display:grid; grid-template-columns:2.6rem 1fr; gap:1rem}
+  .questions .q{font-size:1.08rem; color:var(--ink); margin:0}
+  .closer{margin-top:1.6rem; color:var(--muted); font-size:.92rem; max-width:42rem}
+  footer{margin-top:3.5rem; padding-top:1.1rem; border-top:1px solid var(--rule); color:var(--muted); font-size:.8rem; font-family:"IBM Plex Mono",monospace; letter-spacing:.02em}
+  @media (max-width:520px){
+    ol.steps li,.questions div{grid-template-columns:1.9rem 1fr; gap:.7rem}
+    .wrap{padding-top:2rem}
+  }
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Enaid Creative · production card</p>
+  <h1>Scene Delivery Loop</h1>
+  <p class="standfirst">Two decisions before a scene starts, five steps per shot, and one rule about order. Everything else in the pipeline is machinery that enforces this.</p>
+</header>
+
+<section>
+  <div class="phase-head">
+    <h2>Scene zero <span class="cadence">once per scene · ~5 min</span></h2>
+    <p class="phase-note">The half-day Scene 1 lost was spent here — after the fact, at approval, three takes deep.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <span class="num">01</span>
+      <div>
+        <p class="step-name">Cast</p>
+        <p class="step-body">List everyone the scene puts on screen. Each is exactly one of two things. <strong>Named cast</strong> — the audience must recognise them; they speak, act or recur — needs a locked single-subject pack and its own reference slot on every shot they appear in. <strong>Unnamed presence</strong> — background, no line, never recognised again — stays out of the cast and is never named in the prompt. There is no third state: a named character without a pack is a stranger waiting to be invented.</p>
+        <p class="done"><b>Done when</b><code>cb_canon.py status Ep1</code> reports <span class="mono">stubs: none</span> for everyone this scene stages.</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">02</span>
+      <div>
+        <p class="step-name">Split</p>
+        <p class="step-body">One dramatic change per shot. Maximum <strong>three causal stages and three motivated views</strong>; 6–15 seconds for character work. Thirty seconds is a ceiling, not a target. A shot carrying a read, a wrong word, an embarrassment, an entrance, a line and a retry is six shots wearing one shot's clothes — and it will cost four takes to find that out.</p>
+        <p class="done"><b>Done when</b>You can say what changes, in one sentence, for every shot in the scene.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <div class="phase-head">
+    <h2>Every shot <span class="cadence">repeats · the studio's four stages</span></h2>
+  </div>
+  <ol class="steps">
+    <li>
+      <span class="num">03</span>
+      <div>
+        <p class="step-name">Direct</p>
+        <p class="step-body">The beat, the blocking, the landing frame. Name the opening state, the single change, and the exact image the next shot inherits.</p>
+        <p class="done"><b>Done when</b>The landing frame is written precisely enough to open the following shot.</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">04</span>
+      <div>
+        <p class="step-name">See</p>
+        <p class="step-body">The keyframe. You generate it from the prompt written for you — that is what buys 100% accuracy on composition. Compose <strong>motion room</strong> into it: empty space in the direction the movement goes.</p>
+        <p class="done"><b>Done when</b>The frame is approved and every face that carries the scene is bigger than a tenth of frame.</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">05</span>
+      <div>
+        <p class="step-name">Hear</p>
+        <p class="step-body">The ElevenLabs performance. It is the authority for words, cadence, delivery, mouth timing and silence — the prompt never invents a line and never re-times one.</p>
+        <p class="done"><b>Done when</b>The take is approved and mapped to the correct speaker.</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">06</span>
+      <div>
+        <p class="step-name">Watch</p>
+        <p class="step-body">Compile the prompt, score it, clear the gates, fire. Draft at 720p while hunting composition; spend 4K once the shot is locked.</p>
+        <p class="done"><b>Done when</b>The audit scores 9.5+ <em>on the current text</em> and no gate refuses.</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">07</span>
+      <div>
+        <p class="step-name">Judge</p>
+        <p class="step-body">Approve, or reject with the reason. The reason <em>is</em> the correction — it becomes the next fire's direction. Reject at the first failed gate rather than accepting a compromised take and compounding it.</p>
+        <p class="done"><b>Done when</b>The closing state is recorded. The record, not memory, opens the next shot.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <div class="phase-head"><h2>The one rule about order</h2></div>
+  <div class="rule-callout">
+    <p class="line">cast → direction → fire → approve</p>
+    <p>Cast is an input to the prompt compile. Clear a stale direction before settling the cast and it goes stale again the moment the cast changes. Reverse any two of these and the work is done twice.</p>
+  </div>
+</section>
+
+<section>
+  <div class="phase-head">
+    <h2>When it refuses</h2>
+    <p class="phase-note">A refusal is the pipeline naming a fault it can still fix for free. Read the code, go back to the step it belongs to.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Refusal</th><th>What it means, and where to go</th></tr></thead>
+      <tbody>
+        <tr><td class="code">CAST_UNREFERENCED<br>CAST CANON INCOMPLETE</td><td class="fix">Someone on screen has nothing to be drawn from. <b>Back to step 01</b> — lock the pack, or declare the role an unnamed presence.</td></tr>
+        <tr><td class="code">direction is stale</td><td class="fix">The direction changed under the stored prompt; the take you are approving came from a prompt that no longer exists. <b>Re-prepare direction, then re-fire</b> — never approve through it.</td></tr>
+        <tr><td class="code">still says Approve<br>after you approved</td><td class="fix">Not a UI glitch and not a lost click. The stage <em>was</em> approved, then an upstream change moved its input signature, so it stopped counting as current. Approving again cannot fix it — there is nothing wrong with the approval. <b>Re-prepare that stage, then approve the fresh candidate.</b></td></tr>
+        <tr><td class="code">AUDIT_MISSING<br>AUDIT_INVALIDATED</td><td class="fix">The text moved after it was scored. <b>Re-score the current words</b>; a correction is a new prompt and needs its own round.</td></tr>
+        <tr><td class="code">WRAPPER_OVERLOADED</td><td class="fix">A beat is carrying a scene. <b>Back to step 02</b> — split it.</td></tr>
+        <tr><td class="code">SPEAKER_BOX_REQUIRED</td><td class="fix">Two faces and one line, and the sync route cannot choose. <b>Box the speaker</b> before the sync pass.</td></tr>
+        <tr><td class="code">KEYFRAME_UNDERSPECIFIED</td><td class="fix">A keyframe with no named frame, no immutable facts, or an ensemble with unbound characters. <b>Name them.</b></td></tr>
+        <tr><td class="code">EXTENSION_UNDERSPECIFIED</td><td class="fix">Continuing footage without an approved master, already-true facts, or 2–3 identity anchors. <b>Fill them in</b> — and never extend a drifting clip.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="phase-head"><h2>The three questions</h2></div>
+  <div class="questions">
+    <div><span class="num">Q1</span><p class="q">Who is in this frame, and does every one of them have a reference?</p></div>
+    <div><span class="num">Q2</span><p class="q">What single thing changes?</p></div>
+    <div><span class="num">Q3</span><p class="q">What is the last frame, and can the next shot start from it?</p></div>
+  </div>
+  <p class="closer">Five standards, two skills and thirteen gates exist to enforce these three answers. You never need to read any of it to produce — it needs reading only when something refuses, and the refusal tells you which page.</p>
+</section>
+
+<footer>Enaid Creative · scene delivery loop v1 · written after Ep1 Scene 1, 3 Sep 2026</footer>
+</div>
