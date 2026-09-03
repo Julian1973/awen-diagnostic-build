@@ -632,6 +632,59 @@ check("a bridge names its sole geography master",
       "sole geography" in bp["text"] and "@Video1" in bp["text"])
 
 
+# ── gate M: a staged character with no reference is an invented stranger ─────
+print("\nthe cast is referenced")
+
+# THE INCIDENT (Ep1 S1.SH01/SH02, 3 Sep): a Teacher and a Classmate were staged
+# in frame with no locked identity pack, rendered as generic people through
+# three rejected takes each, and only refused at APPROVAL time — after the spend
+blind = {"code": "S1", "seconds": 9, "characters_visible": True,
+         "character_blocking": "the Teacher walks in beside the board",
+         "frame_source": "scene_plate", "plate_path": "p.png"}
+g = domain.evaluate_gates(shot=blind, assets=[], prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+by = {x["id"]: x for x in g}
+check("M refuses a character staged in frame with no reference attached",
+      by["M"]["passed"] is False,
+      "the Teacher was staged walking into frame with no locked pack and "
+      "rendered as a stranger three times before approval refused")
+check("and it says what will happen instead of only what is missing",
+      "invented stranger" in by["M"]["detail"])
+check("and it offers both legitimate exits — lock it, or declare it unnamed",
+      "unnamed background presence" in by["M"]["detail"])
+
+g = domain.evaluate_gates(
+    shot={**blind, "speaker": "teacher"}, assets=assets, prompt={"hash": "H"},
+    audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+by = {x["id"]: x for x in g}
+check("M refuses a SPEAKER with no identity reference, even when others have one",
+      by["M"]["passed"] is False and "teacher" in by["M"]["detail"])
+
+g = domain.evaluate_gates(
+    shot={**blind, "ensemble_manifest": [
+        {"character": "tom", "screen_zone": "left third", "pose": "standing"},
+        {"character": "teacher", "screen_zone": "right third", "pose": "at the board"}]},
+    assets=assets, prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("M refuses an ensemble entry naming somebody with no reference",
+      {x["id"]: x for x in g}["M"]["passed"] is False)
+
+g = domain.evaluate_gates(shot=blind, assets=assets, prompt={"hash": "H"},
+                          audits=[{"hash": "H", "score": 9.7}],
+                          stack=stack_of("minimax-h3-ref"), **BASE)
+check("M passes once the staged cast has references attached",
+      {x["id"]: x for x in g}["M"]["passed"] is True)
+
+g = domain.evaluate_gates(
+    shot={**blind, "characters_visible": False, "character_blocking": None},
+    assets=[], prompt={"hash": "H"}, audits=[{"hash": "H", "score": 9.7}],
+    stack=stack_of("minimax-h3-ref"), **BASE)
+check("M stays quiet on a declared character-free frame — no over-fire",
+      {x["id"]: x for x in g}["M"]["passed"] is True)
+
+
 print(f"\n  {len(PASS)} passed · {len(FAIL)} failed")
 if FAIL:
     print("  FAILED: " + ", ".join(FAIL))

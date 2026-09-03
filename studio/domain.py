@@ -288,6 +288,45 @@ def evaluate_gates(*, shot: dict, assets: list[dict], boards: list[dict],
                             f"{ext.get('source_clip')} with "
                             f"{len(ext.get('already_true', []))} established facts"})
 
+    # GATE M — a character staged on screen with no identity reference is an
+    # invented stranger, and the model will happily draw one.
+    #
+    # THE INCIDENT (Ep1 S1.SH01 and S1.SH02, 3 Sep): a Teacher and a Classmate
+    # were staged in frame with no locked identity pack. The engine degraded
+    # them to "an unnamed presence, no reference attached" and rendered generic
+    # people through three rejected takes on each shot, and only refused at
+    # APPROVAL time — after the money. The fault was knowable before the first
+    # fire: the cast named in the direction had nobody to draw it from.
+    chars_on = shot.get("characters_visible", True)
+    char_assets = {a["tag"]: a for a in assets if a.get("type") == "character"}
+    named: list[str] = []
+    if shot.get("speaker"):
+        named.append(shot["speaker"])
+    named += [e["character"] for e in (shot.get("ensemble_manifest") or [])
+              if e.get("character")]
+    unref = [t for t in dict.fromkeys(named) if t not in char_assets]
+    staged_blind = bool(chars_on and not char_assets
+                        and (shot.get("character_blocking") or named))
+    if chars_on and (unref or staged_blind):
+        why = []
+        if unref:
+            why.append("named with no identity reference attached: "
+                       + ", ".join(unref))
+        elif staged_blind:
+            why.append("characters are staged in frame but no identity "
+                       "reference is attached")
+        why.append("an unreferenced character renders as an invented stranger "
+                   "— lock the identity pack and attach it, or declare the role "
+                   "an unnamed background presence and keep it out of the cast")
+        g.append({"id": "M", "name": "cast referenced", "passed": False,
+                  "code": "CAST_UNREFERENCED", "detail": " — ".join(why)})
+    else:
+        g.append({"id": "M", "name": "cast referenced", "passed": True,
+                  "code": "CAST_UNREFERENCED",
+                  "detail": (f"{len(char_assets)} character reference(s) attached"
+                             if char_assets else
+                             "no characters staged in this frame")})
+
     # GATE F — the clock the route actually honours.
     lo, hi = d["dur"]
     sec = shot.get("seconds", lo)

@@ -25,6 +25,7 @@ export type GateCode =
   | 'WRAPPER_DURATION_INVALID'
   | 'KEYFRAME_UNDERSPECIFIED'
   | 'EXTENSION_UNDERSPECIFIED'
+  | 'CAST_UNREFERENCED'
   | 'NO_PROMPT';
 
 export type Gate = {
