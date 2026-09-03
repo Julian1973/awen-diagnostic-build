@@ -1,0 +1,17 @@
+# Pipeline run outputs
+out/
+*.pyc
+__pycache__/
+.venv/
+
+# Media working cache — Drive and the render provider are the sources of truth.
+# Plates and character art live in the Thistlewood's Drive (see the v5 asset
+# register); takes live with the render job. These directories are a local
+# scratch copy pulled down to fire with, never the authority — committing
+# multi-megabyte duplicates would bloat the repo without adding a record.
+projects/*/assets/
+projects/*/production/takes/
+projects/*/production/voice/**/*.mp3
+projects/*/production/assembled/**/*.mp4
+projects/*/production/SEQUENCE_*.mp4
+projects/*/assets/characters/

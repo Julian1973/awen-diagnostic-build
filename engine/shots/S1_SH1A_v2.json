@@ -1,0 +1,127 @@
+{
+  "_doc": "S1.SH1A encoded from the Director's beat record (locked script: bizzy chant + 'Nailed it.'). Every beat-record commitment carried: two readable near-misses, squashy flower contact, elastic leaf recoil, landing breath, witness two-shot. Reference files are the production assets (signed keyframe as first frame).",
+  "shot": "S1.SH1A",
+  "lane": "SEC",
+  "duration_s": 9.0,
+  "aspect": "16:9",
+  "resolution": "480p",
+  "route": "fal-seedance-2.5",
+  "will_edit": false,
+  "purpose": "Fuzzby's overconfident chase slams him through flower and leaf into a proud wobbling hover he sells as victory — the first false triumph.",
+  "audio": {
+    "track": "@Audio1",
+    "owners": [
+      {
+        "character": "Fuzzby",
+        "regions": "the bizzy chant 0.8-4.2s; the line 7.2-8.0s"
+      }
+    ],
+    "silent": [
+      "Zenny"
+    ],
+    "foley": [
+      "squashy petal impact and elastic leaf twang",
+      "near-silence under the line"
+    ]
+  },
+  "references": [
+    {
+      "tag": "@Image1",
+      "role": "first_frame",
+      "file": "refs/S1_SH1A_signed_keyframe.png",
+      "defines": "the opening composition, both bees' positions and the camera axis",
+      "ignore": "identity, materials and any action after 0.0s"
+    },
+    {
+      "tag": "@Image2",
+      "role": "reference_image",
+      "file": "refs/fuzzby_multiview.png",
+      "defines": "Fuzzby's identity, proportions and scale; refer to it strictly",
+      "ignore": "background and poses"
+    },
+    {
+      "tag": "@Image3",
+      "role": "reference_image",
+      "file": "refs/zenny_multiview.png",
+      "defines": "Zenny's identity, proportions and scale; refer to it strictly",
+      "ignore": "background and poses"
+    },
+    {
+      "tag": "@Image4",
+      "role": "reference_image",
+      "file": "refs/scene_look_meadow.png",
+      "defines": "the corridor look: palette, plants, mountains, sun direction, atmosphere",
+      "ignore": "any characters or foreground action in it"
+    },
+    {
+      "tag": "@Audio1",
+      "role": "reference_audio",
+      "file": "audio/S1_SH1A_fuzzby_track.mp3",
+      "defines": "Fuzzby's performed chant and line with exact timing and silences",
+      "ignore": "everything beyond it except authorised foley"
+    }
+  ],
+  "geography": [
+    "The corridor runs frame-left (west) to frame-right (east); Fuzzby travels west to east on a jagged centre-right route, never reversing.",
+    "Zenny holds a clean parallel line centre-left, outside his route, close enough to witness.",
+    "The open flower, then the springy leaf, wait ahead on his route."
+  ],
+  "light": "Warm sun from upper frame-right catches wings, fur edges and drifting pollen.",
+  "conduct": [
+    "Fuzzby plays proud authority, never distress — the crash is performed as if he meant it.",
+    "Emphasize the contrast of his big chaotic energy against her small precise stillness; increasingly intense, never random."
+  ],
+  "stages": [
+    {
+      "t": "0.0-2.8",
+      "action": "Fuzzby barrels down the corridor chanting from @Audio1, threading two readable near-misses — clipping past a flower head on his left, ducking a swaying stem on his right — each dodge bigger than it needs to be",
+      "cause": "overconfidence running faster than his own corrections",
+      "camera": "follows Fuzzby slightly late at bee height; stems whip past without hiding him",
+      "sound": "rising wing-buzz under the chant",
+      "end_state": "the open flower dead ahead, his line too steep to change"
+    },
+    {
+      "t": "2.8-4.6",
+      "action": "he dives too hard into the open flower, scoops a faceful of pollen, and smears sideways off the petals into the springy leaf",
+      "cause": "too much speed into too soft a target",
+      "camera": "keeps the flower-to-leaf path readable",
+      "sound": "squashy petal impact, one pollen puff",
+      "end_state": "his weight lands sideways on the leaf, visibly depressing it"
+    },
+    {
+      "t": "4.6-6.2",
+      "action": "the leaf bends deep, stores his momentum, then snaps back and FWIPs him through one tucked rotation into an upright hover",
+      "cause": "the stored force returning",
+      "camera": "the camera settles as the recoil launches him",
+      "sound": "elastic leaf twang",
+      "end_state": "upright chest-forward hover, wobbling, pollen drifting off him"
+    },
+    {
+      "t": "6.2-9.0",
+      "action": "he snaps the wobble into a chest-forward gymnastic finish and delivers his line from @Audio1 to Zenny before his body has settled",
+      "cause": "chaos must read as expert competence in front of Zenny",
+      "camera": "locked two-shot: his pose and Zenny's level attention in frame together",
+      "sound": "near-silence under the line",
+      "button": true,
+      "hold_s": 2.1,
+      "hold_what": "the proud pose held while wobble and pollen contradict it; Zenny watches calmly",
+      "end_state": "Fuzzby chest-forward, pollen-dusted, unsettled; Zenny close and calm; the leaf recovering"
+    }
+  ],
+  "camera_policy": {
+    "policy": "one bee-height travelling view follows Fuzzby slightly late, then settles into a locked two-shot for the recoil and the held button",
+    "exclusions": [
+      "No cuts",
+      "no handheld shake",
+      "no orbit",
+      "never overhead"
+    ]
+  },
+  "end_state": "Fuzzby hovers chest-forward, pollen drifting, still unsettled; the leaf recovers; Zenny witnesses, close and calm. Harvest this frame as S1.SH1B's opening reference.",
+  "constraints": [
+    "Exactly one Fuzzby and one Zenny; no duplicates of either",
+    "Maintain canonical relative scale",
+    "Nothing damaged: petals and leaf recover, no debris",
+    "No gag after the button — once the pose lands, nothing else happens"
+  ]
+}

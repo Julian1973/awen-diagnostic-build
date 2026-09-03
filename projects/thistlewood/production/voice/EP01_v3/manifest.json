@@ -1,0 +1,124 @@
+{
+  "model": "eleven_v3",
+  "scene": "FR \u2014 Front Room",
+  "_why": "The first pass sent plain text and let the model choose the acting. v3 takes inline direction, so the performance is now written from the script's parentheticals and each character's cadence card. Stability is lowered where the line needs expression.",
+  "takes": [
+    {
+      "shot": "FR01",
+      "character": "Tom",
+      "directed_text": "[hesitant] Are you Mr Thistlewood? [pause] A lady at the market said \u2014 if it's broken, it belongs here.",
+      "stability": 0.45,
+      "style": 0.35,
+      "file": "FR01_Tom.mp3",
+      "bytes": 122506
+    },
+    {
+      "shot": "FR02",
+      "character": "Richard",
+      "directed_text": "[warm, dry amusement] Somebody's been reading my sign.",
+      "stability": 0.55,
+      "style": 0.3,
+      "file": "FR02_Richard.mp3",
+      "bytes": 43511
+    },
+    {
+      "shot": "FR04",
+      "character": "Tom",
+      "directed_text": "[quietly] It was my gran's. Hers before that, right back. [pause] She left it to me with one instruction.",
+      "stability": 0.45,
+      "style": 0.4,
+      "file": "FR04_Tom.mp3",
+      "bytes": 123759
+    },
+    {
+      "shot": "FR05",
+      "character": "Tom",
+      "directed_text": "[quietly] Have it mended. I want it to play again.",
+      "stability": 0.45,
+      "style": 0.4,
+      "file": "FR05_Tom.mp3",
+      "bytes": 48527
+    },
+    {
+      "shot": "FR06",
+      "character": "Tom",
+      "directed_text": "[hesitates] Only \u2014 [swallows] it's never played right. [pause] Listen.",
+      "stability": 0.4,
+      "style": 0.45,
+      "file": "FR06_Tom.mp3",
+      "bytes": 89487
+    },
+    {
+      "shot": "FR08",
+      "character": "Peggi",
+      "directed_text": "[delighted] Ooh, that's terrible!",
+      "stability": 0.3,
+      "style": 0.55,
+      "file": "FR08_Peggi.mp3",
+      "bytes": 31808
+    },
+    {
+      "shot": "FR09",
+      "character": "Albert",
+      "directed_text": "[quickly, excited] It's not terrible, it's \u2014 specific. The same notes are wrong every single time.",
+      "stability": 0.4,
+      "style": 0.4,
+      "file": "FR09_Albert.mp3",
+      "bytes": 111221
+    },
+    {
+      "shot": "FR10",
+      "character": "Rose",
+      "directed_text": "[softly, almost to herself] Somebody loved this. [pause] Loved it loads.",
+      "stability": 0.5,
+      "style": 0.35,
+      "file": "FR10_Rose.mp3",
+      "bytes": 70261
+    },
+    {
+      "shot": "FR11",
+      "character": "Tom",
+      "directed_text": "[flat, reciting] Three menders looked at it. Two said scrap it. One said the mechanism's fighting itself \u2014 built wrong on purpose.",
+      "stability": 0.5,
+      "style": 0.3,
+      "file": "FR11_Tom.mp3",
+      "bytes": 150927
+    },
+    {
+      "shot": "FR13",
+      "character": "Tom",
+      "directed_text": "[quiet, defeated, getting smaller] I just want to do what she asked. [pause] And I can't even get it to play a proper song.",
+      "stability": 0.4,
+      "style": 0.45,
+      "file": "FR13_Tom.mp3",
+      "bytes": 126685
+    },
+    {
+      "shot": "FR15",
+      "character": "Richard",
+      "directed_text": "[warm, unhurried, kind] Nothing is truly broken. It just needs some TLC. [pause] Come back at collecting time.",
+      "stability": 0.55,
+      "style": 0.3,
+      "file": "FR15_Richard.mp3",
+      "bytes": 106205
+    },
+    {
+      "shot": "FR16",
+      "character": "Tom",
+      "directed_text": "[uncertain] Don't you need to know anything about it?",
+      "stability": 0.45,
+      "style": 0.35,
+      "file": "FR16_Tom.mp3",
+      "bytes": 29301
+    },
+    {
+      "shot": "FR17",
+      "character": "Richard",
+      "directed_text": "[easily, already turning away] I expect I'll find out.",
+      "stability": 0.55,
+      "style": 0.3,
+      "file": "FR17_Richard.mp3",
+      "bytes": 30555
+    }
+  ]
+}

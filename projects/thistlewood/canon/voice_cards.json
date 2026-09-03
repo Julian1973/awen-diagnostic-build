@@ -1,0 +1,149 @@
+{
+  "_authority": "Drafted from Ultimate Bible v5 engines + Drive voice samples (2026-07-17). ALL CANDIDATE until Julian signs each card. ElevenLabs IDs empty until voices are created/cast in his account; the Drive mp3s are the reference targets.",
+  "_rights_flag": "Asset register lists voice rights as 'to confirm'. Before any sample is cloned or any voice ships externally: confirm each mp3's origin (AI-designed vs recorded performer) and its usage rights. Cloning a recorded performer requires their written consent.",
+  "cards": {
+    "Narrator": {
+      "sample": "drive:1IMrFnvlYI_FhqSmiIZgDGjawwkezX0x9",
+      "cadence": "storybook-warm, unhurried, a reader by lamplight; carries the ache gently and never announces the lesson",
+      "register": "opens and closes episodes; never intrudes on scenes",
+      "elevenLabsId": "H0txqtxwDSOyKftbMvCs",
+      "settings": null,
+      "design_prompt": "A warm, mature Welsh storyteller voice — rich, gentle and lamplight-quiet, like someone reading aloud to a room of children just before bed. Soft Cardiff accent. Unhurried, with natural pauses that let a sentence settle. Carries wonder and a faint ache underneath the warmth. Intimate rather than theatrical; never announces, always confides.",
+      "audition_line": "Every broken thing has a story. Some of them, mind, lead somewhere. And this one begins with a music box that played the wrong tune."
+    },
+    "Richard": {
+      "sample": "drive:1VdO6tfXHtGMIEOgYyAk8dgzNkGHYuRHw",
+      "cadence": "warm Cardiff rhythm, low and unhurried; thinks with his hands while he talks; goes QUIETER when something matters, never louder; wisdom arrives as questions",
+      "welsh_texture": "hiraeth and cariad, naturally placed, never translated on screen",
+      "delivery_laws": [
+        "never condescends to a child",
+        "never explains the moral",
+        "the pauses carry as much as the words"
+      ],
+      "elevenLabsId": "kg0h9OdkQiGxVLjqbA9B",
+      "settings_hint": {
+        "stability": 0.6,
+        "similarity": 0.85,
+        "style": 0.15,
+        "_note": "steady, low-drama read — tune on first audition"
+      }
+    },
+    "Lily": {
+      "sample": "drive:1DV2zR9mEpIGk3QEabL1BwgUYJiGbGGQb",
+      "cadence": "quick, certain, front-footed; decisions sound like they were made three seconds ago; softens only when someone is genuinely hurt",
+      "welsh_texture": "iawn as punctuation — 'Iawn. This way.'",
+      "delivery_laws": [
+        "commands are short",
+        "doubt shows in tempo, not in words"
+      ],
+      "elevenLabsId": "T5yFNwZamO7NrEhI9ZV6",
+      "settings_hint": {
+        "stability": 0.45,
+        "similarity": 0.85,
+        "style": 0.3
+      }
+    },
+    "Albert": {
+      "sample": "drive:1jskI_Hunizr9uDyit03gtob-zmGjHfIn",
+      "cadence": "precise, slightly formal for a twelve-year-old; quotes his own notebook; speeds up when he's connecting evidence, stalls completely when feelings are required",
+      "welsh_texture": "diolch, correctly and a little carefully",
+      "delivery_laws": [
+        "numbers and dates land exactly",
+        "his wonder escapes despite him — one breath late"
+      ],
+      "elevenLabsId": "jP4TWWVCbVbecdvdfPcS",
+      "settings_hint": {
+        "stability": 0.55,
+        "similarity": 0.85,
+        "style": 0.2
+      },
+      "design_prompt": "A bright young adult male voice that naturally reads as an earnest, bookish boy. Light, thin, clear timbre with no depth or rasp — an unbroken, youthful quality. Slightly formal, precise diction, like someone who reads a lot and quotes his own notebook. Soft Cardiff Welsh accent. Measured, careful pacing by default that speeds up noticeably when excited by evidence. Sincere, curious, never sarcastic.",
+      "audition_line": "Half past four exactly. The gold paint on the sign — it's from the same tin, I've checked it three times. Diolch. That's… that's not actually possible."
+    },
+    "Rose": {
+      "sample": "drive:17FZhVSXvf4bydsCfDZR0yLCMAdkkuKnF",
+      "cadence": "soft attack, listening even while speaking; asks the question underneath the question; when she names a feeling the room goes still",
+      "welsh_texture": "cariad, quietly, to people who are hurting — including people from 1780",
+      "delivery_laws": [
+        "never raises her voice",
+        "her certainty is gentle but absolute"
+      ],
+      "elevenLabsId": "k4rMELAzgoR41hWfYvy0",
+      "settings_hint": {
+        "stability": 0.6,
+        "similarity": 0.9,
+        "style": 0.15
+      },
+      "design_prompt": "A soft, gentle young adult female voice that reads as a quiet, thoughtful young girl. Light and warm with a slight breathiness, low in volume but perfectly clear. Unhurried, listening quality — she sounds like she's paying complete attention to you. Soft Cardiff Welsh lilt. Kind, calm, quietly certain; never sharp, never loud, never performative.",
+      "audition_line": "It's all right, cariad. You can tell me. The spoon — it's humming. Can't you feel it? Somebody loved this very, very much."
+    },
+    "Peggi": {
+      "sample": "drive:14p3QnA1QkL5IG3hqcYAb-WQQKXV9xziS",
+      "cadence": "blurts at full speed, zero filter, delight and outrage both arrive at maximum; the youngest voice in the room and the first to say the true thing",
+      "welsh_texture": "bendigedig! as her superlative for everything good",
+      "delivery_laws": [
+        "the forbidden question is asked plainly",
+        "comedy from sincerity, never from mugging"
+      ],
+      "elevenLabsId": "M7xNL3CETIeGmVHN5e8u",
+      "settings_hint": {
+        "stability": 0.35,
+        "similarity": 0.85,
+        "style": 0.45
+      },
+      "design_prompt": "A very bright, high, sparky young adult female voice that reads as the youngest and smallest member of a big family. Quick, piping, full of energy — delight and outrage both arrive at maximum volume. Light Cardiff Welsh accent. Speaks in fast sincere bursts with zero cynicism and zero self-consciousness; the comedy comes from total honesty, never from performing. Small voice, huge presence.",
+      "audition_line": "BENDIGEDIG! Did you SEE that?! …I did not pocket anything. It's a very small clog and it followed me home."
+    }
+  },
+  "supporting_ep1": {
+    "_note": "Roles confirmed by Julian 2026-08-13. Tom Chen's cadence card drafted from the manuscript once it was found; Pascal's is next, and he carries Chapters 4-6 including the whole soldier-and-the-singing-girl story.",
+    "Pascal": {
+      "elevenLabsId": "tL3wd6RtAgoIn5jyuk8F",
+      "cadence": null,
+      "settings_hint": null,
+      "role": "the historical child of Ep1 — apprentice boy in the Burgundy atelier that makes the music box, 1867"
+    },
+    "Tom Chen": {
+      "elevenLabsId": "tUUG2iKsKAbeZBRPSVdO",
+      "role": "present-day owner of the music box. Carries Act 1 beats B3-B6 and the episode's final image (owner-ending lock).",
+      "cadence": "ordinary, unperformed, a man doing an errand that matters more than he can say. Cardiff, unremarkable. He is not sad in the scene — he is EMBARRASSED to be moved by a music box, which is funnier and sadder than sad.",
+      "delivery_laws": [
+        "he holds the box like a sleeping hedgehog — careful, respectful, slightly at arm's length; the voice does the same with the feeling",
+        "the swallow before 'Have it mended' is the performance, not the line",
+        "'I just want to do what she asked' drops in volume, never in pitch — no wobble, no crack",
+        "he never explains the emotion; he reports facts about menders and instructions",
+        "Ch.8 is the payoff: 'his face did something complicated'. He does not cry and does not understand why his chest is tight. Play the not-understanding."
+      ],
+      "key_lines": [
+        "Are you Mr Thistlewood? A lady at the market said that if it's broken, it belongs here.",
+        "It was my gran's. And her gran's before that. It goes right back. She left it to me with one instruction.",
+        "Three menders have looked at it. Two told me to scrap it.",
+        "I just want to do what she asked. And I can't even get it to play a proper song.",
+        "My gran's family were French, you know. Way back. Somewhere near Burgundy, she used to say.",
+        "I just wish I knew why she loved it so much."
+      ],
+      "settings_hint": {
+        "stability": 0.65,
+        "similarity": 0.85,
+        "style": 0.1,
+        "_note": "low style on purpose — this voice must not act"
+      },
+      "status": "CANDIDATE — drafted from the Book 1 manuscript 2026-08-13, awaiting Julian's sign-off"
+    }
+  },
+  "casting_status": {
+    "cast": [
+      "Narrator",
+      "Richard",
+      "Lily",
+      "Albert",
+      "Rose",
+      "Peggi",
+      "Pascal",
+      "Tom Chen"
+    ],
+    "awaiting_ids": []
+  },
+  "workflow": "Per character: audition the Drive sample against the card → create/cast the ElevenLabs voice (design-from-spec, or clone ONLY with confirmed rights) → paste voice ID + tuned settings here → card locks on Julian's sign-off. Same lifecycle as Crystal Bears voice_cards.json.",
+  "_design_note": "Policy-safe casting: design young-ADULT performers whose voices READ young (pitch, lightness, diction) — never request a minor's voice. Standard animation practice; keeps every voice inside ElevenLabs policy."
+}

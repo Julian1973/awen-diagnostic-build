@@ -1,0 +1,39 @@
+[Characters]
+<Tom> corresponds to Image 2. Use only his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it. Only Tom's hands, wrists and jacket cuffs appear in this frame. His face is never in shot at any point and no other person appears.
+Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
+
+[Props]
+<Music Box> corresponds to Image 2: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time. Image 2 also defines <Tom>; in this shot it contributes the music box only and never a second person.
+
+[Scenes]
+<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
+
+[Camera and Blocking]
+The camera is locked off in a close insert looking down onto the counter top and does not move for the whole take.
+Image 3 defines the camera position and the staging only — a close insert looking down onto the counter top with the cloth and the open box filling the middle of frame and two hands entering from the bottom of frame. The surface is the shop counter itself, seen from the customer side; there is no table and no second counter in this shot.. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
+
+[Style]
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
+
+[Audio]
+<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
+(a small worn music box plays a sweet French waltz on a brass cylinder — thin, bright and unmistakably mechanical, and the same three notes in the phrase bend flat every time the phrase comes round, identically wrong on every repeat)
+<a small brass key being turned in a clockwork barrel, five slow ratcheting clicks, and then the soft whirr of a cylinder beginning to revolve under a steel comb>
+There is no musical score of any kind in this shot. The only music is the music box in frame, and it is coming out of that box.
+No one speaks in this shot. There is no dialogue, no muttering and no off-screen voice.
+No face appears in this frame at any point.
+
+[Secondary Life]
+Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
+— Tom: his hands are alive throughout — the fingers turn the key in small deliberate stages, pause, and then withdraw and settle on the counter either side of the box, one thumb moving once
+— the box: the brass cylinder turns steadily and the comb teeth flicker as they are plucked, so the sound is visibly coming from the mechanism
+— the room: the lamplight moves across the turning brass
+These movements are small and continuous. They never stop, and they never compete with the main action.
+
+[Event Script]
+Stage 1: Opening state: the open Music Box stands in the middle of the folded cream checked cloth on the counter, its brass cylinder still. Tom's two hands rest on the counter either side of it, navy jacket cuffs and rust-red knitted sleeves showing at the bottom of frame, the small brass key between his fingers.
+Stage 2: Primary event: Tom's fingers turn the brass key in five slow deliberate stages, winding the barrel, and then let go. The cylinder begins to revolve, the comb teeth are plucked one after another, and the tune starts. His hands withdraw to rest on the cloth either side of the box and go still. End state: the Music Box playing alone in the middle of the frame with the cylinder turning, Tom's two hands resting either side of it, one thumb moving once against the cloth.
+
+[Maintain Consistency]
+Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Music Box>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.

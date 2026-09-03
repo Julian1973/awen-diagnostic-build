@@ -1,0 +1,25 @@
+Image 1 is the final frame of the preceding shot, FR03. It defines what is TRUE in the room at the moment this shot begins — the state and position of every prop, the lighting, the colour and the time of day. It does NOT define this shot's framing: the camera has cut to a new angle, described below. Carry its continuity, not its composition.
+Image 2 is the empty room plate. It defines the shop's architecture and layout — where the counter, the arch and the door are in relation to each other. Take no people from it, and show only the part of the room this shot's framing calls for.
+Image 3 defines Tom's appearance only — his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not use its background or layout.
+Image 4 defines Tom's facial expressions and range only. Do not use its background or layout, and do not add a second copy of Tom.
+Image 1 also defines the props already in the opening frame — the music box, a small worn walnut music box, about the size of two fists, with a hinged lid standing open, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one pale worn place on the lid where a thumb has rested for a hundred years. Take those from Image 1 and from nowhere else.
+Every image above shows the SAME people as Image 1. The output contains exactly one of each character and no one else.
+
+Frame this shot as a chest-up single on Tom framed slightly left of centre, the near edge of the counter and the open box across the bottom corner of frame, the shop falling away warm and out of focus behind him. The surface directly in front of him at the bottom of frame IS the shop counter itself, seen from the customer side. There is no table, no second counter and no other display surface anywhere in this shot.
+
+In the front room of Thistlewood's, an old antique restorer's shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Tom speaks, still looking down at the box rather than up at anyone. Partway through he swallows once, and his eyes come up for a moment to the person off screen-right, then go back down to the box. By the end: Tom is looking down at the box again, his mouth closing on the last word, his jaw tight.
+
+Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Tom, his breathing is shallow and visible at the collar, one hand rests on the counter edge at the bottom of frame and the thumb moves once across the wood, and he swallows once partway through what he is saying. In the room itself, warm shop light shifts very slightly behind him as if a lamp somewhere is swinging a fraction.
+
+The performances read as follows: Tom is quiet and inward, jaw a little tight, absolutely no smile.
+
+Tom is the only person who speaks, and the delivery is quietly, reporting a fact rather than performing a feeling, looking down at the box rather than at anyone. Animate the mouth as natural conversational speech, the jaw and cheeks and head carrying a talking rhythm, but do not attempt specific words or specific lip shapes — the articulation is replaced from a separate recording afterwards and guessing at words here only fights that pass.
+
+The visuals feature hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork. Weight is real throughout: a shift of balance travels through the whole body, clothing gathers and falls with the movement instead of sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays where it is unless a hand moves it.
+
+Use a camera that is locked off in a chest-up single and does not move for the whole take, in one continuous take with no cuts, no transitions and no change of angle at any point.
+
+Audio includes <the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>. There is no music of any kind in this shot and nobody moves to a beat.
+
+[Maintain Consistency]
+Keep every character's identity, face, hair and clothing, the number of characters, the room layout, the counter position, the lighting and the screen direction consistent from the first frame to the last. The prop count never changes: there is exactly one music box. Every character and animal in frame stays alive and breathing for the whole take.

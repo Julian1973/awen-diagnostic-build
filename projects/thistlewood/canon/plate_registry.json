@@ -1,0 +1,297 @@
+{
+ "_status": "LOCKED 2026-08-13 by Julian. This is the single registry every surface reads. A plate not listed here is not an anchor. A shot may only be anchored to the plate named against it.",
+ "_drive": "00 PRODUCTION MASTER \u2014 Thistlewood's / 02 ENVIRONMENT PLATES \u2014 approved (folder 1IXaxOI5vZETcs2ZdNFXmJPyoW2A47318)",
+ "_match_chain": "Julian's Locked Match Chain, adopted verbatim as studio law: 1 derives only from 2. 2, 3 and 4 are the approved masters. 5 is the clean active-door state from 4. No architectural substitutions.",
+ "LOCKED_GEOMETRY": {
+  "WORKSHOP": {
+   "left_wall": "shelves, old radio, jars; stove and kettle left of centre",
+   "right_wall": "the heavy workbench AND the brick window \u2014 CONFIRMED BY JULIAN 2026-08-13 against the images",
+   "rear_wall": "old oak door CENTRED in stone, capital-T iron strap plus a separate lower strap",
+   "the_good_chair": "by the window \u2014 therefore on the RIGHT, beyond the workbench. Rose's chair.",
+   "counter": "NONE. The counter belongs to the Front Room only.",
+   "_why_locked": "Two prompts in the first keyframe pack stated 'brick window right' in their reference line and then staged against a window on the left, inventing a second window on the shelf wall. There is ONE window and it is RIGHT."
+  },
+  "FRONT_ROOM": {
+   "counter": "rear right, facing the entrance, with a clear route around it to the workshop arch",
+   "arch": "through to the workshop, warm lamplight beyond",
+   "front_door": "narrow glazed door with the small bell above it",
+   "window": "curved bow window, packed with objects"
+  },
+  "CASTLE_ARCADE": {
+   "side": "LEFT from the Castle Street entrance \u2014 locked 2026-08-13",
+   "order": "bookshop FIRST, music shop SECOND, Thistlewood's THIRD",
+   "level": "ground floor throughout, no staircase anywhere",
+   "opposite_side": "tea room with striped awning (Copper Kettle), locksmith (Keys & Sons)",
+   "bookshop_ledge": "broad, sun-warmed, deliberately left EMPTY so Macsen can be placed only in the shots he belongs in"
+  },
+  "SIGN_STRINGS": {
+   "fascia_board": "A. THISTLEWOOD \u2014 RESTORATIONS & CURIOSITIES \u00b7 EST. 1922",
+   "window_glass_and_title_card": "Thistlewood's"
+  }
+ },
+ "plates": [
+  {
+   "id": "PL-01",
+   "name": "Castle Street \u2014 exterior, wet, with the arch",
+   "driveId": "1LBNGD6FpZmEPlAZh856_vuspnYgsHxeU",
+   "status": "APPROVED",
+   "serves": [
+    "CO.1a"
+   ],
+   "note": "The grey half of the cold open. The arch is the only warm thing in frame and the gold spills onto the wet pavement \u2014 the transition made physical, so the push-in has somewhere to travel FROM."
+  },
+  {
+   "id": "PL-02",
+   "name": "Castle Arcade \u2014 interior wide",
+   "driveId": "1KxdhofkgMTRbakgnPlgfWJkWrx9GmMIt",
+   "status": "APPROVED WITH NOTE",
+   "serves": [
+    "CO.1b"
+   ],
+   "outstanding": "The fascia lettering renders as 'Thistlewad's'. Repaint the lettering only \u2014 never re-roll, because the shop order is the expensive part of this image and a re-roll risks losing it."
+  },
+  {
+   "id": "PL-03",
+   "name": "Shopfront \u2014 exterior master",
+   "driveId": "14rEWUIJuZ6ky2ESUWOG3lJVJEaOjK_fn",
+   "status": "ACCEPTED BY JULIAN",
+   "serves": [
+    "CO.1b context",
+    "Act Three exit"
+   ],
+   "provenance": "This is the 17 July original, byte-identical to the old 'Front Of The Shop'. Julian reviewed and accepted it as-is 2026-08-13 rather than regenerating."
+  },
+  {
+   "id": "PL-04",
+   "name": "Front Room (public shop) \u2014 interior master",
+   "driveId": "1UkMrNOfFhMRK21oBBUwlET5TFLMBM-_G",
+   "status": "SUPERSEDED 2026-08-14",
+   "serves": [
+    "A1.1",
+    "A1.2",
+    "A1.3",
+    "A3.5",
+    "A3.6"
+   ],
+   "provenance": "17 July original, byte-identical to the old 'Inside Shop'. Accepted as-is 2026-08-13.",
+   "note": "The most-used interior in the episode \u2014 four of Act One's five shots plus the closing image.",
+   "superseded_by": "PL-04b",
+   "why": "The 17 July original. Accepted as-is at the time, and it held until the cast were bound to their 2026 turnarounds \u2014 at which point the room was the only thing in frame still running on old art and it showed. Julian: 'the issue now is the shop is wrong.'"
+  },
+  {
+   "id": "PL-05",
+   "name": "Workshop \u2014 occupied",
+   "driveId": "1bQdOc4utfRwcDtKl6XEIT9_WlG1q_XFV",
+   "status": "REFERENCE ONLY",
+   "serves": [
+    "lighting and blocking reference"
+   ],
+   "NEVER": "Never an anchor for a scripted shot. It depicts Richard carrying the box into the workshop past four children \u2014 a moment that occurs nowhere in script or manuscript."
+  },
+  {
+   "id": "PL-06",
+   "name": "Workshop \u2014 clean, door DORMANT",
+   "driveId": "1Nbl_qMlk92PVKuUIjmT7ZIRARXQYLzFq",
+   "status": "APPROVED",
+   "serves": [
+    "CO.2",
+    "CO.3"
+   ],
+   "note": "The door is dark and inert, and the workbench is EMPTY. Both matter: the empty bench is the cold open's punchline ('There's nothing on the bench') and the dark door protects the reveal."
+  },
+  {
+   "id": "PL-07",
+   "name": "Workshop \u2014 clean, door BACKLIT",
+   "driveId": "1qt5oeov9iAGPRs_GX5ZCAbIK4X1L9csK",
+   "status": "APPROVED",
+   "serves": [
+    "A1.4",
+    "A1.5"
+   ],
+   "note": "A thin seam of other-coloured light around a CLOSED door. Matches the script as written rather than approximating it."
+  },
+  {
+   "id": "PL-SHEET",
+   "name": "Shop Continuity \u2014 locked match chain",
+   "driveId": "13IjpgckbZh2X5RX-wBfGswEJf7Zbbdtr",
+   "status": "REFERENCE",
+   "serves": [
+    "continuity discipline"
+   ]
+  },
+  {
+   "id": "PL-04b",
+   "name": "Front Room (public shop) \u2014 interior master, current generation",
+   "local": "projects/thistlewood/assets/keyframes/PL-04b_front_room_master.png",
+   "status": "APPROVED 2026-08-14",
+   "serves": [
+    "FR01-FR17",
+    "Act Three ending"
+   ],
+   "built_from": "Shop Continuity sheet panel 3, rebuilt standalone at full resolution",
+   "verified": [
+    "counter rear right with a BARE top \u2014 the bundle and the box must arrive, not be set dressing",
+    "clear route around the counter to the workshop arch, bench and tools glowing through",
+    "narrow glazed front door with the small bell above it",
+    "curved bow window packed with brass and glass",
+    "no people, no cat, no music box, no text \u2014 Macsen is placed only in the shots he is in"
+   ],
+   "note": "Brighter than the workshop plates, correctly \u2014 it is the public room and the arcade light comes through the glass."
+  }
+ ],
+ "DOOR_STATE_LAW": {
+  "rule": "The back door has exactly two states and the wrong one spoils the episode.",
+  "dormant": "PL-06. Everything before Tom Chen leaves. The door is furniture.",
+  "backlit": "PL-07. Only from the moment the shop door clicks shut behind Tom.",
+  "why": "The door's glow is the cold open's payoff and Act One's turn. If it is already lit in the opening minute, the episode spends its biggest moment before the title card."
+ },
+ "COVERAGE": {
+  "cold_open_and_act_one": "COMPLETE \u2014 every set exists.",
+  "act_two": "NONE \u2014 Burgundy village, atelier, market and bridge are all unbuilt. Costumes approved.",
+  "act_three_and_tag": "Covered by PL-04, PL-06 and PL-07. Mrs Patel has no design."
+ },
+ "keyframes": {
+  "_note": "Anchors. One per shot, because both working routes accept a single reference image.",
+  "KF-CO.2": {
+   "status": "LOCKED WITH ONE PAINT FIX OUTSTANDING",
+   "built_from": "PL-06",
+   "serves": "CO.2 \u2014 Attempt Forty-Seven",
+   "verified": [
+    "door dark and inert",
+    "workbench bare \u2014 the punchline survives",
+    "Richard on the ladder hard against the arch, hand on the brass panel IN the doorframe",
+    "Richard in shirtsleeves and waistcoat, NO APRON \u2014 the ritual is unspent",
+    "shelves/radio/stove left, workbench and window right, door centred",
+    "Albert stopwatch up, notebook open, back three-quarters to camera",
+    "Lily folded against the shelves, scuffed knee",
+    "Peggi cross-legged on the bench with the apple"
+   ],
+   "conceded": [
+    "Rose's chair sits between the tool cabinet and the window wall rather than hard under the window \u2014 canon amended to match what generates reliably"
+   ],
+   "unverifiable_here": "The height ladder. Every child is seated, leaning or elevated, so no two stand together. The first standing two-shot is a scale gate.",
+   "outstanding": "Albert is wearing glasses and should not be. Three full regenerations failed to remove them, so fix by INPAINT on his face only \u2014 do not re-roll the frame, because everything else in it is correct and hard-won."
+  },
+  "KF-CO.3": {
+   "status": "ACCEPTED \u2014 same paint fix outstanding as KF-CO.2",
+   "built_from": "KF-CO.2",
+   "serves": "CO.3 \u2014 'The door doesn't open for cleverness. Never has.' + the clothes runner + the bell",
+   "verified": [
+    "Richard down the ladder, turned back into the room, screwdriver still in hand, pleased with himself",
+    "Albert deflated \u2014 stopwatch lowered to his side, notebook down, shoulders dropped",
+    "door still dark and inert",
+    "workbench still bare",
+    "Richard still NO APRON",
+    "room, camera and lighting identical to KF-CO.2 \u2014 it cuts"
+   ],
+   "note": "Reference-anchoring worked FOR us here. The same tendency that made the CO.2 edits fail \u2014 the tool reproducing its reference \u2014 is exactly what holds a matched pair together when you want everything but one beat unchanged. Use a plate to move a character; use the previous keyframe to change a pose."
+  },
+  "_OPEN_ISSUE_albert_glasses": {
+   "symptom": "Albert renders with glasses in every frame. Three regenerations and two independent keyframes.",
+   "canon": "Richard wears round glasses. Albert wears none.",
+   "suspected_root_cause": "Albert's July character sheets in 03 CHARACTER PACKS almost certainly show him in glasses, so every generation is faithfully reproducing his own reference.",
+   "why_it_matters": "If the pack is the source, painting two keyframes fixes nothing \u2014 every Albert shot in the series repeats it.",
+   "next_action": "Julian to open Albert's sheets. If glasses are present: either repaint the sheet, or accept them as his design and amend the lock. Fix the source, not the symptom.",
+   "update_2026_08_13": "KF-A1.2 rendered Albert correctly with no glasses, from the same pack. So they are stochastic rather than baked into the character sheet. CO.2 and CO.3 still get inpainted rather than re-rolled: those frames took three attempts to land Richard on the doorframe, and re-rolling to fix two small shapes risks losing the expensive part."
+  },
+  "KF-A1.1": {
+   "status": "LOCKED 2026-08-13",
+   "built_from": [
+    "PL-04",
+    "Tom Chen model sheet"
+   ],
+   "serves": "A1.1 \u2014 'Are you Mr Thistlewood? A lady at the market said, if it's broken, it belongs here.'",
+   "verified": [
+    "Tom exactly on model \u2014 navy hooded parka open over rust crewneck over grey checked collar, charcoal trousers, brown brogues",
+    "the cream checked bundle knotted and held in both hands at chest height, slightly away from the body",
+    "Tom looking at Richard, not at the bundle; hopeful and faintly embarrassed",
+    "Richard behind the counter, both hands flat, leaning in to listen",
+    "Richard in shirtsleeves and waistcoat, NO APRON \u2014 the ritual is still unspent two shots out",
+    "Macsen upright on the counter, facing Tom",
+    "the bundle is still tied and no music box is visible anywhere \u2014 the A1.2 reveal is intact",
+    "no children in frame",
+    "the workshop arch glows behind Richard, planting the room already shot"
+   ],
+   "watch_items": [
+    "PALETTE: lighter and smoother than the workshop keyframes \u2014 PL-04's July origin showing. Defensible as a lighting difference (glass-fronted shop versus back workshop) rather than a style break. Judge it on the CO.3 to A1.1 cut; grade in post before considering a regenerate.",
+    "STAGING: Tom and Richard are widely separated with empty counter between them. Correct for an establishing shot and it plays Tom's tentativeness \u2014 but A1.2 MUST push in, or the wrong tune happens at a distance and the children have nowhere to arrive."
+   ]
+  },
+  "KF-A1.2": {
+   "status": "ACCEPTED \u2014 two paint fixes",
+   "built_from": "KF-A1.1",
+   "serves": "A1.2 \u2014 the wrong tune; the four children arrive at the counter",
+   "verified": [
+    "push-in worked \u2014 Tom and Richard now close enough to speak quietly",
+    "the walnut box open on the checked tea towel, brass cylinder and steel comb reading, brass key beside it",
+    "ALBERT HAS NO GLASSES \u2014 first clean frame in four",
+    "Tom and Richard on model; Richard still NO APRON one shot out from the ritual",
+    "Macsen still on the counter",
+    "all four children present, nobody in a row"
+   ],
+   "paint_fixes": [
+    "ROSE'S EYELINE \u2014 she is looking where everyone else looks. She must be the ONLY one looking at the LID, not the mechanism. It is her character and the setup for her line.",
+    "THE WORN PLACE \u2014 the lid's outer face is plain. Add the small smooth worn patch where a thumb has rested for a hundred years."
+   ],
+   "why_paint_not_reroll": "Albert's glasses are stochastic, not baked into his sheet \u2014 this is the first frame they came out right. A re-roll gambles that away to fix two small local marks."
+  },
+  "_SETUPS_FRONT_ROOM": {
+   "_note": "Act One Front Room is covered by SIX camera setups, all now generated. Eleven shots draw on them. A shot may only use the setup named against it in the direction package.",
+   "A_master_two_shot": {
+    "status": "\u2705",
+    "shots": [
+     "FR-1",
+     "FR-11"
+    ],
+    "note": "establishes geography; Tom camera-left, Richard camera-right"
+   },
+   "B_insert_hands_and_box": {
+    "status": "\u2705",
+    "shots": [
+     "FR-2",
+     "FR-5"
+    ],
+    "note": "NO FACES \u2014 the safest generation in the unit and the one carrying the episode's rhyme",
+    "fix_in_emission": "The worn place does not read because the lid is already open and the worn place is on the OUTSIDE. FR-2 opens with the lid CLOSED and opens it during the shot, which is what the script says: he unwraps, then it opens."
+   },
+   "C_single_tom": {
+    "status": "\u2705",
+    "shots": [
+     "FR-3",
+     "FR-8",
+     "FR-9"
+    ],
+    "note": "on model; looking down at the box, not at Richard"
+   },
+   "D_reverse_richard": {
+    "status": "\u2705",
+    "shots": [
+     "FR-4"
+    ],
+    "note": "hands flat, NO apron, looking screen-left to Tom. Screen direction holds against the master."
+   },
+   "E_children_at_counter": {
+    "status": "\u2705",
+    "shots": [
+     "FR-6",
+     "FR-7"
+    ],
+    "note": "NO-APRON version only"
+   },
+   "F_richard_apron": {
+    "status": "\u2705",
+    "shots": [
+     "FR-10"
+    ],
+    "note": "APRON version"
+   }
+  }
+ },
+ "APRON_STATE_LAW": {
+  "rule": "Richard's leather apron has exactly two states, and the wrong one spends the series' defining gesture early.",
+  "without": "Everything before Tom's menders speech ends \u2014 the cold open, and FR-1 to FR-9. Shirtsleeves and waistcoat.",
+  "with": "FR-10 onward, from the moment he ties it. He then lifts the box and goes still.",
+  "why": "Every reference the studio owns shows Richard wearing the apron, including his character sheet and PL-05, so it must be excluded explicitly in every prompt before FR-10 or it appears by default. It has had to be stated three separate times today.",
+  "sibling": "Same discipline as DOOR_STATE_LAW. Two states, one costume, and a matched pair of keyframes so no shot ever has to fight its own reference."
+ }
+}

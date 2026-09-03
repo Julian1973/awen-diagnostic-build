@@ -1,0 +1,59 @@
+[Characters]
+<Albert> corresponds to Image 2. Use only his face, his neat mid-brown hair, his brown knitted jumper over a collared shirt. He wears no glasses of any kind. Do not give him glasses — in this room only Richard wears glasses.
+<Peggi> corresponds to Image 3. Use only her face, her two dark braids, her blue dungarees over a striped long-sleeved shirt.
+<Rose> corresponds to Image 4. Use only her face, her strawberry-blonde hair, her green cardigan worn over a small floral-print dress.
+<Lily> corresponds to Image 5. Use only her face, her long red hair worn in one braid over the shoulder, her green field jacket over a plain shirt and jeans.
+<Richard> corresponds to Image 6. Use only his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame.
+Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
+Do not interchange these characters' appearances, clothing, positions, actions or dialogue. Each one is only ever himself or herself, and no additional people appear in the room.
+Relative size, read off the body and never off a measurement: Albert — a boy of twelve; his head reaches Richard's chest; Peggi — much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it; Rose — a girl of nine; half a head shorter than Albert; Lily — the eldest and tallest of the four children; her head reaches Richard's shoulder; Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip.
+
+[Props]
+<Music Box> corresponds to Image 7: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time.
+
+[Scenes]
+<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
+
+[Camera and Blocking]
+The camera is locked off in a group view and does not move for the whole take.
+Image 8 defines the camera position and the staging only — a group view across the counter, Albert at the counter with his notebook, Peggi in the foreground at the counter edge, Rose and Lily behind at different depths, Richard behind the counter at the right. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
+
+[Style]
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
+
+[Audio]
+<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
+(a small worn music box plays a sweet French waltz on a brass cylinder — thin, bright and unmistakably mechanical, and the same three notes in the phrase bend flat every time the phrase comes round, identically wrong on every repeat)
+There is no musical score of any kind in this shot. The only music is the music box in frame, and it is coming out of that box.
+Audio 1 defines <Albert>'s voice characteristics only — timbre, age and accent. Take no words, no timing and no sentence from Audio 1.
+Dialogue language: English, in a soft Cardiff Welsh accent. <Albert> speaks precisely and a little fast, the way a boy speaks when the evidence is more exciting than the feeling, and says exactly this and nothing else: {It's not terrible, it's — specific. The same notes are wrong every single time.}
+<Peggi> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Peggi> is NOT frozen — the body keeps living, breathing and reacting.
+<Rose> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Rose> is NOT frozen — the body keeps living, breathing and reacting.
+<Lily> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Lily> is NOT frozen — the body keeps living, breathing and reacting.
+<Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
+
+[Expression]
+<Peggi>: attention caught, mouth closed
+<Rose>: unmoved by the argument, eyes on the lid
+<Lily>: considering
+<Richard>: sharpening with interest, no smile
+
+[Secondary Life]
+Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
+— Albert: his pencil keeps moving on the open page while he talks and twice he points its tip briefly at the box without looking up
+— Peggi: she drops off her toes onto flat feet and looks up at Albert, then back at the box
+— Rose: she is not listening to the argument — her eyes stay on the lid of the box
+— Lily: she tips her head very slightly, considering it, arms still folded
+— Richard: he looks at Albert for the first time, and something in his face sharpens a little
+These movements are small and continuous. They never stop, and they never compete with the main action.
+
+[Group Staging]
+The people in this frame stand at clearly different distances from camera — someone in the foreground at the counter edge, someone in the midground, someone further back — and each one is doing a different physical thing with a different object. They are NOT standing in a row, NOT evenly spaced, and NOT all facing the same way.
+
+[Event Script]
+Stage 1: Opening state: Albert stands at the counter with his notebook open and his pencil already touching the page, his eyes on the Music Box. Peggi is in the foreground at the counter edge, Rose in the midground, Lily furthest back, Richard behind the counter.
+Stage 2: Primary event: Albert speaks quickly and precisely while his pencil keeps moving on the page, and twice he points the pencil tip briefly at the box without looking up. The other three react without speaking — Peggi drops onto flat feet and looks up at him, Rose keeps her eyes on the lid, Lily tips her head. End state: Albert's pencil stopped mid-page, his eyes still on the box, his mouth closing.
+
+[Maintain Consistency]
+Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Music Box>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.

@@ -1,0 +1,455 @@
+#!/usr/bin/env python3
+"""fire.py — fire a beat from this studio: Seedance 2.5 via fal, voice via ElevenLabs.
+
+Endpoint and payload shape taken from the proven studioai transport
+(engine/cb_gen.py + engine/provider_capabilities.json), not guessed.
+
+    FAL_KEY=...            required for render
+    ELEVENLABS_API_KEY=... required for voice
+
+Usage:
+    python3 engine/fire.py render --prompt FILE --image IMG [--image IMG] \
+        [--resolution 480p] [--duration 12] [--out clip.mp4]
+    python3 engine/fire.py voice  --text "line" --voice-id ID \
+        [--stability 0.6] [--similarity 0.85] [--style 0.15] [--out take.mp3]
+
+Nothing here invents a model id, a resolution or a duration: resolution and
+duration are generation parameters passed explicitly (sd25-pe principle 7 —
+they never belong in the prompt text).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import mimetypes
+import os
+import pathlib
+import sys
+import time
+import urllib.error
+import urllib.request
+
+FAL_QUEUE = "https://queue.fal.run"
+FAL_UPLOAD = "https://rest.alpha.fal.ai/storage/upload/initiate"
+SEEDANCE_REF2VID = "bytedance/seedance-2.5/reference-to-video"
+ELEVEN = "https://api.elevenlabs.io/v1"
+
+# Provider registry. Each entry knows its route and how to shape a payload,
+# because the shapes genuinely differ — Seedance takes an ordered reference
+# LIST and honours @Image N roles; minimax takes ONE image and no role syntax.
+# Anything not listed here has not been checked against its schema, and a
+# guessed payload is a paid failure.
+MODELS = {
+    "seedance": {
+        "route": SEEDANCE_REF2VID,
+        "refs": "many",
+        "resolutions": ["480p", "720p", "1080p"],
+        "durations": None,          # free integer
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "image_urls": urls,
+            "resolution": a.resolution,
+            "duration": str(a.duration),
+            "generate_audio": not a.no_audio,
+        },
+    },
+    # Seedance 2.5 single-image route. Kept because the multi-reference route
+    # above returns 422 on image_urls for this account even with fal's OWN
+    # documented example image — proven by isolation test 2026-08-13, so it is
+    # an account/route fault, not our payload. This route works, does 480p,
+    # and still generates audio; the cost is that a two-reference beat cannot
+    # be expressed, exactly like minimax.
+    "seedance-i2v": {
+        "route": "bytedance/seedance-2.5/image-to-video",
+        "refs": "one",
+        "resolutions": ["480p", "720p"],
+        "durations": ["auto"] + [str(n) for n in range(4, 31)],
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "image_url": urls[0],
+            "resolution": a.resolution,
+            "duration": str(a.duration),
+            "generate_audio": not a.no_audio,
+        },
+    },
+    # minimax H3. Route id is "minimax/h3/..." with NO fal-ai/ prefix — the
+    # prefixed form 404s, and "fal-ai/minimax/hailuo-03/..." is a DIFFERENT,
+    # 2K-only endpoint. Schema-checked 2026-08-13.
+    #
+    # enable_prompt_expansion defaults to TRUE: a vision model silently
+    # rewrites the prompt before generation. We force it off — our text is
+    # already through the official optimizer, and an invisible rewrite makes
+    # every verdict unattributable. Same reasoning as the safety of never
+    # letting a provider edit an approved emission.
+    #
+    # Takes ONE image and no @Image N role syntax, so a two-reference beat
+    # cannot be expressed here at all; the second reference's information has
+    # to survive in prose or be lost.
+    # THE RIGHT ROUTE. minimax/h3/reference-to-video takes an ARRAY of reference
+    # images, an ARRAY of reference AUDIO clips, and generates native sound.
+    # Everything the studio assumed on 2026-08-13 — one image only, no audio,
+    # no lipsync, a bespoke keyframe per shot — came from reading the
+    # image-to-video wrapper instead of this one. Julian: "surely minimax if you
+    # deliver all the references should put it all together." He was right.
+    "h3": {
+        "route": "minimax/h3/reference-to-video",
+        "refs": "many",
+        "resolutions": ["480P", "768P", "2K", "4K"],
+        "durations": [str(n) for n in range(5, 16)],
+        "prompt_ceiling": 50000,
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "reference_image_urls": urls,
+            **({"reference_audio_urls": a.audio} if getattr(a, "audio", None) else {}),
+            "resolution": a.resolution,
+            "duration": int(a.duration),
+            "aspect_ratio": "16:9",
+            "enable_prompt_expansion": False,
+        },
+    },
+    "minimax": {
+        "route": "minimax/h3/image-to-video",
+        "refs": "one",
+        "resolutions": ["768P", "2K", "4K"],
+        "durations": [str(n) for n in range(5, 16)],
+        "prompt_ceiling": 50000,
+        "build": lambda p, urls, a: {
+            "prompt": p,
+            "image_url": urls[0],
+            "resolution": a.resolution,
+            "duration": int(a.duration),
+            "enable_prompt_expansion": False,
+        },
+    },
+}
+
+
+def _need(value: str, name: str) -> str:
+    if not value:
+        sys.exit(f"REFUSED — {name} is not set in this environment. "
+                 f"Set it as an environment secret; never paste a key into chat.")
+    return value
+
+
+def _req(url, *, method="GET", headers=None, data=None, timeout=120):
+    req = urllib.request.Request(url, method=method, data=data, headers=headers or {})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.status, resp.read()
+    except urllib.error.HTTPError as e:
+        return e.code, e.read()
+
+
+def fal_headers():
+    return {"Authorization": f"Key {_need(os.environ.get('FAL_KEY', ''), 'FAL_KEY')}"}
+
+
+def upload_image(path: pathlib.Path) -> str:
+    """Upload a local image to fal storage; returns its URL."""
+    ctype = mimetypes.guess_type(path.name)[0] or "image/png"
+    status, body = _req(
+        FAL_UPLOAD, method="POST",
+        headers={**fal_headers(), "Content-Type": "application/json"},
+        data=json.dumps({"file_name": path.name, "content_type": ctype}).encode(),
+    )
+    if status >= 400:
+        sys.exit(f"fal upload-init failed {status}: {body[:400].decode(errors='replace')}")
+    info = json.loads(body)
+    put_url, file_url = info["upload_url"], info["file_url"]
+    status, body = _req(put_url, method="PUT", headers={"Content-Type": ctype},
+                        data=path.read_bytes(), timeout=300)
+    if status >= 400:
+        sys.exit(f"fal upload-put failed {status}: {body[:400].decode(errors='replace')}")
+    print(f"  uploaded {path.name} -> {file_url}")
+    return file_url
+
+
+def render(args) -> None:
+    prompt = pathlib.Path(args.prompt).read_text(encoding="utf-8").strip()
+    spec = MODELS.get(args.model)
+    if spec is None:
+        sys.exit(f"REFUSED — unknown model '{args.model}'. Known: {', '.join(MODELS)}. "
+                 f"Add it to MODELS with its checked schema; never guess a payload.")
+    route = spec["route"]
+    ceiling = spec.get("prompt_ceiling", 5000)
+    if len(prompt) > ceiling:
+        sys.exit(f"REFUSED — prompt is {len(prompt)} chars; {args.model}'s ceiling is {ceiling}.")
+    if args.resolution not in spec["resolutions"]:
+        sys.exit(f"REFUSED — {args.model} takes {spec['resolutions']}, not '{args.resolution}'.")
+    if spec["durations"] and str(args.duration) not in spec["durations"]:
+        sys.exit(f"REFUSED — {args.model} takes durations {spec['durations']}, not '{args.duration}'.")
+
+    image_urls = [u if str(u).startswith("http") else upload_image(pathlib.Path(u))
+                  for u in args.image]
+    if spec["refs"] == "one" and len(image_urls) > 1:
+        sys.exit(f"REFUSED — {args.model} accepts one image; {len(image_urls)} were given. "
+                 f"Choose deliberately rather than letting the extras be dropped silently.")
+    if getattr(args, "audio", None):
+        args.audio = [u if str(u).startswith("http") else upload_image(pathlib.Path(u))
+                      for u in args.audio]
+    payload = spec["build"](prompt, image_urls, args)
+    print(f"  submitting {route} · {args.resolution} · {args.duration}s "
+          f"· {len(image_urls)} refs · {len(prompt)} chars")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    status_url = job.get("status_url") or f"{FAL_QUEUE}/{route}/requests/{job['request_id']}/status"
+    response_url = job.get("response_url") or f"{FAL_QUEUE}/{route}/requests/{job['request_id']}"
+    print(f"  queued: {job.get('request_id')}")
+
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(5)
+        st, sb = _req(status_url, headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        print(f"    …{state}")
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"render failed: {sb[:600].decode(errors='replace')}")
+    else:
+        sys.exit(f"timed out after {args.timeout}s — job {job.get('request_id')} may still finish.")
+
+    st, sb = _req(response_url, headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    result = json.loads(sb)
+    video_url = (result.get("video") or {}).get("url") if isinstance(result.get("video"), dict) else result.get("video")
+    if not video_url:
+        sys.exit(f"no video url in result: {json.dumps(result)[:600]}")
+    out = pathlib.Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    st, data = _req(video_url, timeout=600)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)  source: {video_url}")
+
+
+def still(args) -> None:
+    """Generate a shot's KEYFRAME — the first frame the animation runs from.
+
+    This is the stage the pipeline was missing. Without a keyframe, a video
+    route composes the shot itself from loose references and re-invents the
+    room's dressing on every single shot, which is exactly what continuity
+    drift looks like. With one, the dressing is decided ONCE in a still that
+    can be looked at, corrected and re-run for pennies, and the video route's
+    only job is to move it.
+
+    Reference images go in as a set — room plate first, then the character
+    sheets — and the prompt says who stands where at the top of the shot.
+    """
+    route = "fal-ai/nano-banana/edit"
+    prompt = pathlib.Path(args.prompt).read_text(encoding="utf-8").strip()
+    urls = [u if str(u).startswith("http") else upload_image(pathlib.Path(u))
+            for u in args.image]
+    payload = {"prompt": prompt, "image_urls": urls,
+               "num_images": 1, "output_format": "png",
+               "aspect_ratio": args.aspect}
+    print(f"  keyframe {route} · {len(urls)} refs · {len(prompt)} chars")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(4)
+        st, sb = _req(job["status_url"], headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"keyframe failed: {sb[:400].decode(errors='replace')}")
+    else:
+        sys.exit(f"timed out after {args.timeout}s")
+    st, sb = _req(job["response_url"], headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    res = json.loads(sb)
+    imgs = res.get("images") or []
+    if not imgs:
+        sys.exit(f"no image in result: {json.dumps(res)[:400]}")
+    url = imgs[0]["url"] if isinstance(imgs[0], dict) else imgs[0]
+    out = pathlib.Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    st, data = _req(url, timeout=300)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1000:.0f} KB)  source: {url}")
+
+
+def talk(args) -> None:
+    """An on-screen speaker, driven by our own recorded line.
+
+    minimax H3 has no audio input at all, so any mouth it draws is invented —
+    which reads as amateur the moment a scene is dialogue-heavy. infinitalk
+    takes the keyframe, OUR ElevenLabs line and the emission together, and the
+    mouth is driven by the audio rather than guessed from the prompt.
+
+    House split: H3 for shots with no on-screen speaker; this for every shot
+    where somebody talks.
+    """
+    route = "fal-ai/infinitalk"
+    prompt = pathlib.Path(args.prompt).read_text(encoding="utf-8").strip()
+    img = args.image if str(args.image).startswith("http") else upload_image(pathlib.Path(args.image))
+    aud = args.audio if str(args.audio).startswith("http") else upload_image(pathlib.Path(args.audio))
+    payload = {"image_url": img, "audio_url": aud, "prompt": prompt,
+               "resolution": args.resolution, "num_frames": args.frames,
+               "acceleration": "regular"}
+    print(f"  talking {route} · {args.resolution} · {args.frames} frames")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(5)
+        st, sb = _req(job["status_url"], headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"talk failed: {sb[:400].decode(errors='replace')}")
+    st, sb = _req(job["response_url"], headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    res = json.loads(sb)
+    url = (res.get("video") or {}).get("url") if isinstance(res.get("video"), dict) else res.get("video")
+    if not url:
+        sys.exit(f"no video in result: {json.dumps(res)[:400]}")
+    out = pathlib.Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
+    _, data = _req(url, timeout=600)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)")
+
+
+def lipsync(args) -> None:
+    """Drive a rendered take's mouth from our own recorded dialogue.
+
+    The render route generates mouth movement with no knowledge of the words,
+    which reads as amateur the moment a scene is dialogue-heavy. This is the
+    stage that fixes it: picture in, our ElevenLabs line in, synced picture out.
+    """
+    route = "fal-ai/sync-lipsync/v2"
+    vid = args.video if str(args.video).startswith("http") else upload_image(pathlib.Path(args.video))
+    aud = args.audio if str(args.audio).startswith("http") else upload_image(pathlib.Path(args.audio))
+    payload = {"video_url": vid, "audio_url": aud, "model": args.quality, "sync_mode": "cut_off"}
+    print(f"  lipsync {route} · {args.quality}")
+    status, body = _req(f"{FAL_QUEUE}/{route}", method="POST",
+                        headers={**fal_headers(), "Content-Type": "application/json"},
+                        data=json.dumps(payload).encode())
+    if status >= 400:
+        sys.exit(f"submit failed {status}: {body[:600].decode(errors='replace')}")
+    job = json.loads(body)
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        time.sleep(5)
+        st, sb = _req(job["status_url"], headers=fal_headers())
+        state = json.loads(sb).get("status") if st < 400 else f"HTTP {st}"
+        if state == "COMPLETED":
+            break
+        if state in ("FAILED", "ERROR"):
+            sys.exit(f"lipsync failed: {sb[:400].decode(errors='replace')}")
+    st, sb = _req(job["response_url"], headers=fal_headers())
+    if st >= 400:
+        sys.exit(f"result fetch failed {st}: {sb[:400].decode(errors='replace')}")
+    res = json.loads(sb)
+    url = (res.get("video") or {}).get("url") if isinstance(res.get("video"), dict) else res.get("video")
+    if not url:
+        sys.exit(f"no video in result: {json.dumps(res)[:400]}")
+    out = pathlib.Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
+    _, data = _req(url, timeout=600)
+    out.write_bytes(data)
+    print(f"  ✓ {out} ({len(data)/1_000_000:.1f} MB)")
+
+
+def voice(args) -> None:
+    key = _need(os.environ.get("ELEVENLABS_API_KEY", ""), "ELEVENLABS_API_KEY")
+    payload = {
+        "text": args.text,
+        "model_id": args.model,
+        "voice_settings": {
+            "stability": args.stability,
+            "similarity_boost": args.similarity,
+            "style": args.style,
+        },
+    }
+    status, body = _req(f"{ELEVEN}/text-to-speech/{args.voice_id}", method="POST",
+                        headers={"xi-api-key": key, "Content-Type": "application/json",
+                                 "Accept": "audio/mpeg"},
+                        data=json.dumps(payload).encode(), timeout=180)
+    if status >= 400:
+        sys.exit(f"tts failed {status}: {body[:400].decode(errors='replace')}")
+    out = pathlib.Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(body)
+    print(f"  ✓ {out} ({len(body)/1000:.0f} KB)")
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    sub = ap.add_subparsers(dest="cmd", required=True)
+
+    r = sub.add_parser("render", help="fire a Seedance 2.5 reference-to-video render via fal")
+    r.add_argument("--prompt", required=True, help="file containing the emission")
+    r.add_argument("--image", action="append", required=True, help="local path or URL; repeatable, in reference order")
+    # House route from 2026-08-13: minimax H3 at 768P. Julian judged it better
+    # than Seedance and cheaper. Seedance stays registered for A/B and for the
+    # day its multi-reference route is repaired.
+    r.add_argument("--model", default="minimax", choices=sorted(MODELS),
+                   help="provider arm; each has its own checked payload shape")
+    r.add_argument("--resolution", default="768P")
+    r.add_argument("--duration", default=12)
+    r.add_argument("--no-audio", action="store_true")
+    r.add_argument("--audio", action="append",
+                   help="reference audio (repeatable) — h3 route only; the model speaks to it")
+    r.add_argument("--out", default="clip.mp4")
+    r.add_argument("--timeout", type=int, default=900)
+    r.set_defaults(func=render)
+
+    t = sub.add_parser("talk", help="on-screen speaker driven by our recorded line")
+    t.add_argument("--prompt", required=True)
+    t.add_argument("--image", required=True)
+    t.add_argument("--audio", required=True)
+    t.add_argument("--resolution", default="720p", choices=["480p", "720p"])
+    t.add_argument("--frames", type=int, default=200)
+    t.add_argument("--out", required=True)
+    t.add_argument("--timeout", type=int, default=900)
+    t.set_defaults(func=talk)
+
+    k = sub.add_parser("still", help="generate a shot's keyframe from its references")
+    k.add_argument("--prompt", required=True)
+    k.add_argument("--image", action="append", required=True)
+    k.add_argument("--aspect", default="16:9")
+    k.add_argument("--out", required=True)
+    k.add_argument("--timeout", type=int, default=600)
+    k.set_defaults(func=still)
+
+    l = sub.add_parser("lipsync", help="drive a take's mouth from our recorded dialogue")
+    l.add_argument("--video", required=True)
+    l.add_argument("--audio", required=True)
+    l.add_argument("--quality", default="lipsync-2-pro", choices=["lipsync-2", "lipsync-2-pro"])
+    l.add_argument("--out", required=True)
+    l.add_argument("--timeout", type=int, default=900)
+    l.set_defaults(func=lipsync)
+
+    v = sub.add_parser("voice", help="render an approved line through ElevenLabs")
+    v.add_argument("--text", required=True)
+    v.add_argument("--voice-id", required=True)
+    v.add_argument("--model", default="eleven_v3")
+    v.add_argument("--stability", type=float, default=0.6)
+    v.add_argument("--similarity", type=float, default=0.85)
+    v.add_argument("--style", type=float, default=0.15)
+    v.add_argument("--out", default="take.mp3")
+    v.set_defaults(func=voice)
+
+    args = ap.parse_args()
+    args.func(args)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,69 @@
+{
+  "_authority": "Ultimate Series & Brand Bible v5 + Master Map Continuity Locks tab (2026-07-20). Overrides the thistlewood-writer skill bible (stale: names Ruth, Castle Arcade, upper gallery — all superseded).",
+  "_law": "Heights and present-day appearance are LOCKED (Book 2 appearance/continuity locks). Conduct verbs are CANDIDATES derived from the bible's character engines — they lock only after Julian signs them, and after that they are injected into every emission (R19: conduct is invariant).",
+  "cast": {
+    "Richard": {
+      "role": "grandfather, third-generation restorer",
+      "heightCm": 175,
+      "heightLock": "LOCKED",
+      "engine": "the apron — when he handles an object he feels what matters, never the full story, never the easy answer",
+      "secret": "travelled at twelve; returned with a lens that was not his (boxed, seeded ep1, confessed ep13, returned ep25)",
+      "voice": "warm Cardiff rhythm, unhurried, never condescending; wisdom in questions, not answers",
+      "conduct_candidate": {
+        "belongs": ["tends", "considers", "settles", "weighs", "murmurs", "pauses"],
+        "banned": ["rushes", "lectures", "panics", "explains the moral"]
+      }
+    },
+    "Lily": {
+      "role": "eldest child, action leader",
+      "heightCm": 140,
+      "heightLock": "LOCKED",
+      "appearance": "long red braid; green field jacket",
+      "appearanceLock": "LOCKED",
+      "engine": "leadership + courage — moves first, decides under pressure",
+      "conduct_candidate": {
+        "belongs": ["leads", "vaults", "decides", "shields", "commits", "acts"],
+        "banned": ["dithers", "defers", "hangs back", "waits to be told"]
+      }
+    },
+    "Albert": {
+      "role": "tallest child, the record",
+      "heightCm": 145,
+      "heightLock": "LOCKED",
+      "appearance": "brown hair; brown jumper; notebook and pencil",
+      "appearanceLock": "LOCKED",
+      "engine": "evidence + record — notices, notes, connects; keeps the ledger of anomalies (gold paint, the 1962 photograph, eleven notches)",
+      "conduct_candidate": {
+        "belongs": ["notes", "measures", "catalogues", "cross-checks", "cites", "hesitates before leaping"],
+        "banned": ["barrels", "guesses wildly", "abandons the notebook"]
+      }
+    },
+    "Rose": {
+      "role": "the sensitive one",
+      "heightCm": 132,
+      "heightLock": "LOCKED — visibly smaller than Lily and Albert",
+      "appearance": "strawberry-blonde hair; green cardigan; floral dress",
+      "appearanceLock": "LOCKED",
+      "engine": "empathy — feels what objects and people carry; the repaired spoon hums at her; the door recognises her before anyone understands why",
+      "conduct_candidate": {
+        "belongs": ["senses", "approaches gently", "listens", "stills", "reaches out", "understands first"],
+        "banned": ["mocks", "dismisses", "charges in", "talks over"]
+      }
+    },
+    "Peggi": {
+      "role": "the smallest",
+      "heightCm": 118,
+      "heightLock": "LOCKED — always the smallest",
+      "appearance": "two dark braids; striped shirt; blue overalls",
+      "appearanceLock": "LOCKED",
+      "engine": "truth + comedy — says the thing everyone is avoiding; her returned clog is the first proof the door can carry more than a fragment",
+      "conduct_candidate": {
+        "belongs": ["blurts", "clambers", "pockets", "asks the forbidden question", "grins", "keeps up"],
+        "banned": ["stays quiet politely", "waits for permission", "pretends not to notice"]
+      }
+    }
+  },
+  "supporting_ep1": ["Tom", "Pascal", "Macsen", "Burgundy cast — model sheets in Drive"],
+  "scale_law": "Richard 175 > Albert 145 > Lily 140 > Rose 132 > Peggi 118. Relative scale is a continuity lock in every frame containing two or more of them.",
+  "pairing_law": "Usually two children travel; all-four travel is reserved for ep1, the season-one confession (ep13) and the season-two finale (ep26). The remaining family carries the present-day A-story."
+}

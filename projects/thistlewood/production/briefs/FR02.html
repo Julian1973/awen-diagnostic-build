@@ -1,0 +1,99 @@
+<title>Thistlewood Firing Brief</title>
+<style>
+:root{
+  --paper:#F7F3EC; --ink:#241C14; --ink-soft:#5C4E3F; --rule:#DED4C4;
+  --panel:#FFFDF8; --brass:#A67B2C; --green:#4A5D3A; --rust:#9C4A2F;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#17130F; --ink:#EDE4D6; --ink-soft:#A2937F; --rule:#3A3027;
+    --panel:#1F1A15; --brass:#D2A253; --green:#8FA877; --rust:#D6805F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17130F; --ink:#EDE4D6; --ink-soft:#A2937F; --rule:#3A3027;
+  --panel:#1F1A15; --brass:#D2A253; --green:#8FA877; --rust:#D6805F;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;
+  font:16px/1.6 Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif;
+  padding:2.5rem 1.25rem 5rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem}
+header{display:flex;flex-direction:column;gap:.5rem;
+  border-bottom:2px solid var(--brass);padding-bottom:1rem}
+.eyebrow{font:600 .72rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+h1{margin:0;font-size:2.1rem;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--ink-soft);font-size:.95rem}
+.status{display:inline-flex;align-items:center;gap:.5rem;align-self:flex-start;
+  font:600 .78rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;
+  text-transform:uppercase;padding:.4rem .7rem;border-radius:2px;
+  border:1px solid currentColor}
+.ok{color:var(--green)} .no{color:var(--rust)}
+h2{margin:0 0 .75rem;font:600 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+section{display:flex;flex-direction:column}
+dl{margin:0;display:grid;grid-template-columns:11rem 1fr;gap:.55rem 1.5rem}
+dt{color:var(--ink-soft);font-size:.9rem}
+dd{margin:0;font-variant-numeric:tabular-nums}
+dd code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em}
+.note{color:var(--ink-soft);font-size:.9rem;margin:.75rem 0 0;max-width:62ch}
+pre{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--brass);
+  margin:0;padding:1.25rem 1.4rem;overflow-x:auto;
+  font:13.5px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;
+  white-space:pre-wrap;word-break:break-word;max-width:78ch}
+ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem}
+li::marker{color:var(--brass)}
+footer{color:var(--ink-soft);font-size:.85rem;border-top:1px solid var(--rule);
+  padding-top:1rem}
+</style>
+<div class="wrap">
+<header>
+  <span class="eyebrow">Thistlewood's · Episode 1 · The Wrong Tune</span>
+  <h1>FR02 — firing brief</h1>
+  <p class="sub">FR — INT</p>
+  <span class="status ok">Ready to fire</span>
+</header>
+
+<section><h2>Specification</h2><dl>
+<dt>Route</dt><dd>minimax/h3/reference-to-video · 768P</dd><dt>Duration</dt><dd>5s, trimmed to 4s at assembly</dd><dt>Keyframe</dt><dd>FR02.png — present</dd><dt>Gate</dt><dd>10.00</dd><dt>Seedance audit</dt><dd>cleared at 9.6 on round 2 of 2</dd><dt>Continuity</dt><dd>chained cut from FR01</dd>
+</dl></section>
+
+<section><h2>Images sent to the video route, in this order</h2>
+<ul><li><strong>Image 1</strong> · <code>FR02.png</code> — the first frame, defining the whole opening composition</li><li><strong>Image 2</strong> · <code>Richard_sheet.jpg</code> — Richard, appearance</li><li><strong>Image 3</strong> · <code>Macsen_sheet.jpg</code> — Macsen, appearance</li><li><strong>Image 4</strong> · <code>Richard_expressions.jpg</code> — Richard, expression</li><li><strong>Image 5</strong> · <code>Macsen_expressions.jpg</code> — Macsen, expression</li></ul>
+<p class="note">Order is the contract: the prompt calls these Image 1 to Image 5 by
+position, so the compiler and the firing command walk the same list. The keyframe leads and
+carries the composition; the sheets that follow anchor identity only and are told not to
+recompose it.</p></section>
+
+<section><h2>Audio</h2><ul><li><strong>FR02_Richard.mp3</strong> — 2.69s, lead-in 0.5s. Goes to the sync stage, never to the video route.</li><li>No speaker box — the whole frame goes to sync, which is safe because only one face is in it.</li></ul></section>
+
+<section><h2>Laid under at assembly</h2><ul><li>room_bed_120s.mp3 at 0.16</li></ul></section>
+
+<section><h2>The animation prompt, in full, exactly as sent</h2>
+<pre>Image 1 is the first frame. It defines the complete opening composition: every subject&#x27;s position and pose, the prop state, the room, the lighting and the camera direction. Reproduce it exactly as the shot&#x27;s opening frame and animate forward from there; do not restage it and do not recompose it.
+Image 2 defines Richard&#x27;s appearance only — his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. Do not use its background or layout, and do not let it change the composition defined by Image 1.
+Image 3 defines Macsen&#x27;s appearance only — his ginger tabby markings, his white chest and paws, his build and his face. Do not use its background or layout, and do not let it change the composition defined by Image 1.
+Image 4 defines Richard&#x27;s facial expressions and range only. Do not use its background or layout, and do not let it change the composition defined by Image 1 or add a second copy of Richard.
+Image 5 defines Macsen&#x27;s facial expressions and range only. Do not use its background or layout, and do not let it change the composition defined by Image 1 or add a second copy of Macsen.
+Every image above shows the SAME people as Image 1. The output contains exactly one of each character and no one else.
+
+In the front room of Thistlewood&#x27;s, an old antique restorer&#x27;s shop, with its long wooden counter, its cabinets of brass and glass, and the lit workshop showing through the arch behind, Richard speaks, his eyes never leaving the person off screen-left, and at the end of it the corner of his mouth lifts a fraction into the faintest dry amusement. By the end: Richard is still, hands flat on the counter, the small lift at the corner of his mouth settling, still looking off screen-left.
+
+Nobody in the frame is a still image, and these small movements run continuously underneath the main action without ever competing with it: for Richard, both palms rest flat on the counter and one thumb moves once across the grain of the wood, and his shoulders rise and fall with an easy breath; for Macsen, sitting beside him at the frame edge, he yawns once and resettles his front paws. In the room itself, the light from the workshop archway behind him is warm and alive.
+
+The performances read as follows: Richard is dry and amused, the humour sitting almost entirely in the eyes rather than the mouth.
+
+Richard is the only person who speaks, and the delivery is dryly, warmly, with the faintest amusement, in an unhurried Cardiff rhythm. Animate the mouth as natural conversational speech, the jaw and cheeks and head carrying a talking rhythm, but do not attempt specific words or specific lip shapes — the articulation is replaced from a separate recording afterwards and guessing at words here only fights that pass.
+
+The visuals feature hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork. Weight is real throughout: a shift of balance travels through the whole body, clothing gathers and falls with the movement instead of sliding over a rigid shape, hair and loose fabric settle a beat after the body stops, and anything resting on a surface stays where it is unless a hand moves it.
+
+Use a camera that is locked off in a chest-up reverse and does not move for the whole take, in one continuous take with no cuts, no transitions and no change of angle at any point.
+
+Audio includes &lt;the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door&gt;. There is no music of any kind in this shot and nobody moves to a beat.
+
+[Maintain Consistency]
+Keep every character&#x27;s identity, face, hair and clothing, the number of characters, the room layout, the counter position, the lighting and the screen direction consistent from the first frame to the last. Every character and animal in frame stays alive and breathing for the whole take.</pre></section>
+
+<footer>Compiled fresh at brief time — never read off disk. Nothing outside this page is sent.</footer>
+</div>

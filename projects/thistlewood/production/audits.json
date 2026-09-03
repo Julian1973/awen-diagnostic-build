@@ -1,0 +1,66 @@
+{
+ "FR01": {
+  "rounds": [
+   {
+    "hash": "681611e19e2398ef",
+    "notes": "first recorded round; the 8.7 that preceded it scored the pre-binding prompt and was never stamped",
+    "round": 1,
+    "score": 9.7
+   },
+   {
+    "hash": "411e0dd4b104bcb5",
+    "notes": "reference order regrouped: all appearance sheets before expressions, expressions capped at the 8-image stable range. Same checklist result as round 1; grouping reads cleaner. Same two deductions: style paragraph restates what Image 1 carries, camera sentence mildly redundant.",
+    "round": 2,
+    "score": 9.7
+   }
+  ]
+ },
+ "FR02": {
+  "rounds": [
+   {
+    "hash": "d14d4d406687e48e",
+    "notes": "dangling 'his one short line' referring to absent dialogue; 'Richard is dry amusement...' ungrammatical noun-phrase after 'is'; the mouth-corner lift stated three separate times across action, secondary life and performance",
+    "round": 1,
+    "score": 8.9
+   },
+   {
+    "hash": "bcf12cae9d7fe9f6",
+    "notes": "round 1 faults all corrected: dangling line reference removed and now refused by the gate, performance line made adjectival, mouth-corner lift reduced from three statements to action plus end state. Residual: style paragraph restates what Image 1 carries; camera sentence mildly redundant; 'the delivery is dryly' construction slightly awkward.",
+    "round": 2,
+    "score": 9.6
+   }
+  ]
+ },
+ "FR03": {
+  "rounds": [
+   {
+    "hash": "6e0d879abf8de10e",
+    "notes": "props block binds the music box to Image 1, which does not contain it \u2014 the box is revealed during the shot; expression sheet sent to a shot with no face; 'the SAME people as Image 1' where Image 1 has no people; broken prop-count grammar across two props; 'every character and animal stays alive and breathing' in a hands-only insert; screen-direction lock stated with no eyelines in frame",
+    "round": 1,
+    "score": 8.4
+   },
+   {
+    "hash": "9f1ed59ae44f4aa7",
+    "notes": "all six round-1 faults corrected: music box now declared NOT in Image 1 and revealed during the shot; expression sheet suppressed on a faceless shot; appearance binding narrowed to hands and cuffs so it no longer contradicts the no-face rule; 'the SAME people as Image 1' replaced with a no-face declaration; prop-count grammar fixed; physics rewritten for cloth, heft and cuffs instead of balance and hair. Residual: style paragraph restates what Image 1 carries; camera sentence mildly redundant.",
+    "round": 2,
+    "score": 9.6
+   },
+   {
+    "hash": "7885ca5a4af23381",
+    "notes": "round 2 shipped a take that invented a bright kitchen with a window behind the counter, because the scene clause recited the whole room to a frame that shows only a counter top. The room description is now scoped to what the insert actually shows, and a framing lock states the frame never widens and nothing outside Image 1 is revealed. Gated so an insert cannot be handed a room it does not show.",
+    "round": 3,
+    "score": 9.7
+   }
+  ]
+ },
+ "FR04": {
+  "rounds": [
+   {
+    "hash": "0a7f371d7d6fb8dd",
+    "notes": "chained mode, first use: Image 1 roled as the previous take's last frame carrying continuity not composition, Image 2 as the room plate for architecture, then Tom's sheets. Framing stated as an instruction since no keyframe supplies it. Fixed in this round: the plate was being bound as a character with facial expressions; 'partway through the line' pointed at absent dialogue. Residual: 'the SAME people as Image 1' is loose when Image 1 is an insert of hands; style paragraph restates; camera sentence mildly redundant.",
+    "round": 1,
+    "score": 9.6
+   }
+  ]
+ }
+}

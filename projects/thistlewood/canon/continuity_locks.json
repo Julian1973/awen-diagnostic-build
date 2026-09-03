@@ -1,0 +1,189 @@
+{
+  "_authority": "Master Series Map & Schedule v5 · Continuity Locks tab. 'The contradiction-free production canon that overrides outdated wording in legacy documents.' Reopen a lock only with a named approver, a documented reason and a sweep of every downstream asset.",
+  "locks": [
+    {
+      "lock": "Consumer title",
+      "rule": "Always 'Thistlewood's' with the apostrophe. 'Thistlewoods' is internal shorthand only.",
+      "authority": "Brand master",
+      "appliesTo": "all consumer outputs"
+    },
+    {
+      "lock": "Format",
+      "rule": "26 × 11-minute episodes; two 13-episode seasons.",
+      "authority": "Ultimate bible",
+      "appliesTo": "pitch / production"
+    },
+    {
+      "lock": "Core audience",
+      "rule": "7–11 with family co-viewing; books positioned for 8–12.",
+      "authority": "Ultimate bible",
+      "appliesTo": "editorial / marketing"
+    },
+    {
+      "lock": "Shop position",
+      "rule": "Third ground-floor unit on the left from the Castle Street entrance; no staircase.",
+      "authority": "Book 2 continuity audit",
+      "appliesTo": "all backgrounds"
+    },
+    {
+      "lock": "Shopfront",
+      "rule": "Curved bow window left; narrow glazed door; dark green panel and brass maker's mark.",
+      "authority": "Book 2 continuity audit",
+      "appliesTo": "all backgrounds"
+    },
+    {
+      "lock": "Counter",
+      "rule": "Rear right, facing the entrance; clear route around it to the workshop arch.",
+      "authority": "Book 2 continuity audit",
+      "appliesTo": "blocking"
+    },
+    {
+      "lock": "Workshop left",
+      "rule": "Shelves, radio, stove and kettle.",
+      "authority": "Book 2 continuity audit",
+      "appliesTo": "all backgrounds"
+    },
+    {
+      "lock": "Workshop right",
+      "rule": "Workbench and brick window. The good chair sits on the RIGHT side of the room, between the tool cabinet and the window wall — Rose's place.",
+      "authority": "Book 2 continuity audit",
+      "appliesTo": "all backgrounds",
+      "_earned": "The manuscript says 'the good chair by the window' and the chair was specced hard against the window. Three generations placed it consistently between the tool cabinet and the window wall instead, reading correctly every time. Canon amended to what is reproducible rather than fighting it in every workshop shot for twenty-six episodes."
+    },
+    {
+      "lock": "Secret door",
+      "rule": "Oak door centred in stone; capital-T iron strap plus a separate lower strap.",
+      "authority": "Book 2 continuity audit",
+      "appliesTo": "all portal shots"
+    },
+    {
+      "lock": "Richard height",
+      "rule": "175 cm.",
+      "authority": "Character continuity",
+      "appliesTo": "scale charts"
+    },
+    {
+      "lock": "Albert height",
+      "rule": "145 cm; tallest child.",
+      "authority": "Character continuity",
+      "appliesTo": "scale charts"
+    },
+    {
+      "lock": "Lily height",
+      "rule": "140 cm; eldest and action leader.",
+      "authority": "Character continuity",
+      "appliesTo": "scale charts"
+    },
+    {
+      "lock": "Rose height",
+      "rule": "132 cm; visibly smaller than Lily and Albert.",
+      "authority": "Character continuity",
+      "appliesTo": "scale charts"
+    },
+    {
+      "lock": "Peggi height",
+      "rule": "118 cm; always the smallest.",
+      "authority": "Character continuity",
+      "appliesTo": "scale charts"
+    },
+    {
+      "lock": "Albert present day",
+      "rule": "Brown hair; brown jumper; notebook and pencil; tallest of the four children. NO GLASSES.",
+      "authority": "Book 2 appearance lock + Julian, confirmed 2026-08-13",
+      "appliesTo": "model / costume",
+      "_earned": "Settled after it moved twice. RICHARD wears round glasses; ALBERT wears none. Both are stated together in this lock precisely because they were confused, and a rule that names only one of a contrasting pair invites the same mistake again."
+    },
+    {
+      "lock": "Lily present day",
+      "rule": "Long red braid; green field jacket.",
+      "authority": "Book 2 appearance lock",
+      "appliesTo": "model / costume"
+    },
+    {
+      "lock": "Rose present day",
+      "rule": "Strawberry-blonde hair; green cardigan; floral dress.",
+      "authority": "Book 2 appearance lock",
+      "appliesTo": "model / costume"
+    },
+    {
+      "lock": "Peggi present day",
+      "rule": "Two dark braids; striped shirt; blue overalls.",
+      "authority": "Book 2 appearance lock",
+      "appliesTo": "model / costume"
+    },
+    {
+      "lock": "Travel party",
+      "rule": "Usually two children; all-four travel reserved for ritual, arc turns and finales.",
+      "authority": "Ultimate bible",
+      "appliesTo": "episode outlines"
+    },
+    {
+      "lock": "Crossing rule",
+      "rule": "Only the missing repair fragment may ordinarily cross. Other returns are anomalies and clues.",
+      "authority": "Book continuity",
+      "appliesTo": "story logic"
+    },
+    {
+      "lock": "History rule",
+      "rule": "Children do not change history; they recover meaning and the fragment that belongs to the object.",
+      "authority": "Ultimate bible",
+      "appliesTo": "all scripts"
+    },
+    {
+      "lock": "Owner ending",
+      "rule": "End emotionally on the owner and object, not on the travellers explaining the lesson.",
+      "authority": "Writing canon",
+      "appliesTo": "all scripts"
+    },
+    {
+      "lock": "Historical integrity",
+      "rule": "Research creates the obstacle. Final scripts receive historical, cultural and pronunciation review as required.",
+      "authority": "Ultimate bible",
+      "appliesTo": "research / scripts"
+    },
+    {
+      "lock": "Workshop window side",
+      "rule": "ONE brick window, on the RIGHT, with the workbench. The LEFT wall is shelves, radio, stove and kettle. The good chair sits by the window and is therefore on the right, beyond the workbench.",
+      "authority": "Julian, confirmed against the plates 2026-08-13",
+      "appliesTo": "all workshop backgrounds, keyframes and emissions",
+      "_earned": "Two prompts stated the geometry correctly in their reference line and then staged against a window on the left, which invents a second window on the shelf wall."
+    },
+    {
+      "lock": "Back door state",
+      "rule": "Dormant (dark, inert, furniture) until the shop door clicks shut behind Tom Chen. Backlit (a thin seam of other-coloured light around a closed door) only from that moment. PL-06 and PL-07 respectively.",
+      "authority": "Director, locked 2026-08-13",
+      "appliesTo": "every workshop shot",
+      "_why": "The glow is the cold open's payoff and Act One's turn. Lit early, the episode spends its biggest moment before the title card."
+    },
+    {
+      "lock": "Glasses — who wears them",
+      "rule": "RICHARD wears round glasses. ALBERT wears none. No other character wears glasses.",
+      "authority": "Julian, 2026-08-13",
+      "appliesTo": "every character frame",
+      "_why_its_own_lock": "Ownership of a feature is a stronger instruction to an image model than a prohibition, and stating the whole set in one place stops the feature migrating between the two characters it has already moved between."
+    },
+    {
+      "lock": "Tom Chen appearance",
+      "rule": "East Asian man, short dark hair greying at the temples, tired hopeful face with a faint worried smile. NAVY HOODED PARKA with patch pockets, worn open over a RUST-RED crewneck jumper over a grey checked collared shirt. Charcoal trousers. Brown leather brogues. Carries the music box wrapped in a CREAM CHECKED TEA TOWEL knotted at the top, held in both hands at chest height.",
+      "authority": "Tom Chen model sheet, 4 views (front / three-quarter / profile / back), confirmed by Julian 2026-08-13",
+      "appliesTo": "A1.1-A1.3, A3.5, A3.6 — every appearance",
+      "_note": "The tea-towel bundle is drawn into the model sheet, so the prop and the way he holds it are part of his design, not staging. The script says 30s; the sheet reads older. The sheet wins on appearance.",
+      "_why_it_matters": "He has four sheets already, so there is a canonical Tom. Writing him blind would have produced a second Tom that looked fine in isolation and failed to cut against Act Three."
+    }
+  ],
+  "door_canon": [
+    "It opens only for an object with an unfinished truth.",
+    "One present-world hour. No one is left behind.",
+    "The compass sleeps until understanding is earned.",
+    "Only the missing repair fragment may ordinarily cross back.",
+    "History cannot be rewritten; the children witness, reveal and recover.",
+    "The wrong clothes are deliberate — and eventually meaningful.",
+    "Any exception is a serial clue, never a convenient escape hatch."
+  ],
+  "inherited_machinery": {
+    "apron": "understanding — Richard feels what matters, never the full story, never the easy answer",
+    "compass": "direction — points only after the children understand enough to deserve the next step; effort first, magic second",
+    "paint": "permanence — the sign's gold never fades and the tin never empties; Albert records the anomaly long before anyone explains it",
+    "origin": "all three arrived at the shop in 1922; the traveller, the price and the choice of Septimus remain the mystery beneath the mysteries"
+  }
+}

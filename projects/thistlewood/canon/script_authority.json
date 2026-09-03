@@ -1,0 +1,127 @@
+{
+  "_authority_order": [
+    "1. SHOOTING SCRIPT — canon/scripts/EP01_TheWrongTune_v3.1.md. 'Pilot script v3.1 — THE FAMILY CUT, target runtime 11:00, SUPERSEDES v1, v2 & v3.' Wins on scene order, room names, dialogue, timing and structure.",
+    "2. BOOK 1 MANUSCRIPT — drive:1n5LmfoqkVPgH3GSalcgPqgVAbfMzUjMo. Same story, prose form. Use for interior detail, texture and lines the script compresses. Loses to the script wherever they differ.",
+    "3. v5 CONTINUITY LOCKS — canon/continuity_locks.json. Wins on geometry, scale and appearance.",
+    "4. v5 BIBLE — world, characters, series architecture."
+  ],
+  "_why_this_file_exists": "MP.B1 was directed on 2026-08-13 with none of these open, from series structure alone. It invented its opening, moved the scene to the wrong room, described the hero prop's defining sound backwards and put invented words in Richard's mouth. Julian caught it in one question: 'surely we need the beginning of this story for Tom Chen to come into the shop with it and tell the story — have you followed the script exactly.' No beat is directed again before the script for it is open.",
+  "structure_v3_1": {
+    "total_runtime": "11:00",
+    "COLD OPEN": "0:00-1:20 — EXT Castle Street rain, through the iron arch, INT Castle Arcade, INT workshop: Richard on the stepladder at the back door; Albert's Attempt Forty-Seven; 'There's nothing on the bench'; the clothes B-runner; the shop bell. TITLE at 1:20.",
+    "ACT ONE": "1:20-4:00 — INT FRONT ROOM: Tom Chen, the box, the wrong tune, Rose's line, the apron, 'Come back at collecting time.' Then the back door exhales, the compass is handed over, all four go through. 'Don't be long.' at 4:00.",
+    "ACT TWO": "4:00-9:00 — 1867 Burgundy market, four wrong outfits, Pascal, the story of the soldier, the compass wakes, the chase, the crooked cam.",
+    "ACT THREE": "9:00-10:45 — return, the mend, Tom returns, five secret smiles, Mrs Patel at three.",
+    "TAG": "10:45-11:00 — Albert's notebook, three anomalies, Macsen crash, Richard's clock line."
+  },
+  "corrections_to_my_own_earlier_claims": [
+    {
+      "i_said": "The arcade is Llenast Passage, NOT Castle Arcade; the legacy skill is wrong about this.",
+      "actually": "v3.1's subtitle is explicit — 'Castle Arcade address — the in-world arcade name is now Castle Arcade, aligned to Story Bible v4.' The manuscript's Llenast Passage is the earlier name. CASTLE ARCADE is current.",
+      "note": "The legacy thistlewood-writer skill is still wrong on the things that matter — two grandchildren called Albert and Ruth, upper gallery, spiral staircase, brand names in a style lock — but it was RIGHT about the arcade name, and I was wrong to include that in the charge sheet."
+    }
+  ],
+  "unresolved_conflicts_for_julian": [
+    {
+      "conflict": "Which side of the arcade",
+      "RESOLVED": "LEFT — Julian approved 2026-08-13.",
+      "action_taken": "Script v3.1's 'three shops up on the right' and 'the first shop on the right' are superseded. The run is LEFT: bookshop first, music shop second, Thistlewood's third. The plates are correct and stand."
+    },
+    {
+      "conflict": "Counter room name",
+      "RESOLVED": "FRONT ROOM in slates and beat records; PUBLIC SHOP acceptable on art."
+    },
+    {
+      "conflict": "Shopfront sign wording",
+      "RESOLVED": "Julian approved 2026-08-13. Split by surface, as real shopfronts do:",
+      "FASCIA_BOARD": "A. THISTLEWOOD — RESTORATIONS & CURIOSITIES · EST. 1922",
+      "WINDOW_GLASS_AND_TITLE_CARD": "Thistlewood's",
+      "why": "Satisfies the script (fascia), the manuscript's 'gold letters that have refused to fade', and the v5 consumer-title lock ('always Thistlewood's with the apostrophe') simultaneously. No source loses."
+    }
+  ],
+  "hero_prop_law": {
+    "the_sound": "A French tune, sweet and WRONG. 'The same notes bent the same way, every time.' The manuscript is emphatic: 'Not broken wrong. Not clunk and jangle wrong.'",
+    "why_it_is_law": "A box that sounds broken can simply be fixed, and the episode has no mystery. A box that is crooked ON PURPOSE is the entire plot, the reveal, and the ending. MP.B1 described it as 'three halting notes, the third one sour' — backwards.",
+    "the_worn_place": "A small worn place on the lid where a thumb has rested for a hundred years. It is the episode's rhyme: Rose sees it in Act One, Pascal's thumb rests on the same spot in 1867, Richard polishes it in Act Three, Tom touches it at the end. Every plate of the box must carry it.",
+    "NO_CRACK": "The box is NOT damaged and must not read as damaged. The script: a piece is MISSING, and the mechanism was BUILT WRONG ON PURPOSE. TP-01's visible crack in the comb was interpreted before the script was found, and 'the crack is the wound' is retired. An EMPTY SOCKET where the crooked cam belongs is canon; a crack is not. A cracked box is a box someone broke, which makes it a repair job. This box was made this way by a master with steady hands and a full heart, which is the entire story."
+  },
+  "the_apron_ritual": "Over the head, tied at the back, both hands smoothing the front — then, and only then, he lifts the box. Then he goes very still. Manuscript: 'like a knight settling his armour.' Its first appearance sets it for the series.",
+  "arc_seeds_in_the_tag": [
+    "The gold paint tin never gets emptier. Albert checked twice and drew lines.",
+    "Everything the door gives them is wrong — except their shoes. Script broadens the manuscript's 'Peggi's clogs' to 'why do OUR shoes fit?'",
+    "A small wooden box on Richard's high shelf, behind the solvent jars. He looked at it for half a second before turning out the light.",
+    "Richard's closing line about his wife's clock — 'Your grandmother's clock says quarter past. It's half three. I'll have a look at THAT next.'"
+  ],
+  "legacy_conflict_flagged": {
+    "artifact": "/root/.claude/skills/synced/thistlewood-writer/SKILL.md",
+    "problem": "v3-era bible. TWO grandchildren, Albert and RUTH — the show is a four-hander and 'nobody is the star, the family is'. Shop on the upper gallery up a spiral staircase, against the v5 lock of ground floor and no staircase. Brand names (Hilda, Gravity Falls, Over the Garden Wall) written into a style lock intended for production prompts, which breaks the brand_block rule paid for by Crystal Bears renders.",
+    "action": "Retire or rewrite against v5 + v3.1 before it is loaded for any Thistlewood's work."
+  },
+  "approved_plates_2026_08_13": {
+    "_source": "Julian's Shop Continuity sheet + the clean backlit-door plate, delivered 2026-08-13.",
+    "_match_chain": "Adopted verbatim from Julian's sheet: 1 derives only from 2. 2, 3 and 4 are the approved masters. 5 is the clean active-door state from 4. No architectural substitutions. Bow window plus narrow glazed door; rear door centred in stone wall; light escapes from behind the closed door.",
+    "plates": [
+      {
+        "id": "1",
+        "name": "Castle Street Arcade — matched approach",
+        "serves": "CO.1",
+        "derives_from": "2"
+      },
+      {
+        "id": "2",
+        "name": "Shopfront — exterior master",
+        "serves": "CO.1, Act Three exit",
+        "role": "master"
+      },
+      {
+        "id": "3",
+        "name": "Public Shop (FRONT ROOM) — interior master",
+        "serves": "A1.1-A1.3, Act Three ending",
+        "role": "master",
+        "closes": "TP-08. This was the missing plate that caused MP.B1 to be staged in the wrong room."
+      },
+      {
+        "id": "4",
+        "name": "Rear Workshop — occupied master",
+        "serves": "lighting and blocking reference only",
+        "caution": "Depicts Richard carrying the box past four children — a moment not in the script. Never an anchor for a scripted shot."
+      },
+      {
+        "id": "5",
+        "name": "Clean workshop — door backlit",
+        "serves": "CO.2, CO.3, A1.4, A1.5",
+        "role": "character-free master + active-door state",
+        "note": "Matches A1.4 as written: a thin seam of other light around the edge of a closed door."
+      },
+      {
+        "id": "6",
+        "name": "Castle Arcade — interior wide, matched approach (v2)",
+        "serves": "CO.1 destination state",
+        "status": "HOLD — geometry approved, two fixes outstanding",
+        "approved": [
+          "Left run in canon order: bookshop first, music shop second, Thistlewood's third. Ground floor throughout, no staircase.",
+          "Bookshop window carries a broad sun-warmed ledge, left EMPTY — built to receive Macsen without placing him in shots he does not belong in.",
+          "Right run: tea room with striped awning and cafe table (Copper Kettle), locksmith beside it (Keys & Sons).",
+          "Neighbour signage left as blank gold-on-dark shapes, as directed, so no canon shop name is baked in misspelled.",
+          "Wet darker tiles across the foreground give the threshold line.",
+          "Thistlewood's reads as one modest unit of three rather than dominating — which is the premise: most people walk straight past it."
+        ],
+        "holds": [
+          "THE SIGN IS MISSPELLED — reads 'Thistlewad's'. The one string that had to be legible, on the hero shop. Fix by repainting the lettering only; do not re-roll the image, because the shop order is the expensive part and a re-roll risks it.",
+          "FRONTAGE DRIFT SUSPECTED — Thistlewood's reads narrower here (single curved bow) than in the approved Shopfront Exterior Master (wide green frontage, several display bays). If it has drifted the master wins. Julian to eye-match at full size. This is exactly what the Locked Match Chain exists to catch."
+        ]
+      }
+    ],
+    "gaps_found_on_review": [
+      "MACSEN still has no model pack, though he performs in three shots plus Rose's drawing. The ledge now exists for him.",
+      "No scale figure in the Public Shop plate. Peggi 'appears at the counter as if by magic' — the gag depends on counter height against 118cm and cannot be verified from an empty plate.",
+      "CASTLE STREET EXTERIOR is now the only missing set in the first four minutes. CO.1 is 'the camera drifts through the arch and grey rain turns to gold' — the arcade plate is the GOLD; the grey is behind camera and does not exist yet. Needs the narrow iron arch, wet and grey, with arch geometry matched to plate 6."
+    ]
+  },
+  "single_reference_law": {
+    "law": "Both working render routes accept exactly ONE reference image. A character model pack cannot travel into a shot alongside an environment plate.",
+    "consequence": "Identity must already be present in the frame handed to the model. Every shot therefore needs its own KEYFRAME — the approved plate with the characters staged in their OPENING pose — not a plate plus sheets.",
+    "keyframe_is_the_first_frame": "A keyframe shows where the shot BEGINS, never where it ends. Specifying the end state makes the video play backwards. This was caught once already on TP-03 and is now law.",
+    "escape_hatch": "If fal repairs bytedance/seedance-2.5/reference-to-video (currently billing a full inference then returning 422 on image_urls), multi-reference returns and the per-shot keyframe burden drops to plate + sheets."
+  }
+}

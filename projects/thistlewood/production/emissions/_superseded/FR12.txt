@@ -1,0 +1,43 @@
+[Characters]
+<Richard> corresponds to Image 2. Use only his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He wears a dark green waistcoat over rolled white shirtsleeves and NO apron of any kind — no apron is worn, tied, carried or visible anywhere in the frame.
+<Macsen> corresponds to Image 3. Use only his ginger tabby markings, his white chest and paws, his build and his face. He is a cat and never behaves like a person.
+Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
+Do not interchange these characters' appearances, clothing, positions, actions or dialogue. Each one is only ever himself or herself, and no additional people appear in the room.
+Relative size, read off the body and never off a measurement: Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip; Macsen — a large domestic cat; sitting upright on the counter his head reaches Richard's elbow.
+
+[Props]
+<Music Box> corresponds to Image 4: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time.
+
+[Scenes]
+<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
+
+[Camera and Blocking]
+The camera is locked off in a chest-up reverse and does not move for the whole take.
+Image 5 defines the camera position and the staging only — a chest-up reverse on Richard behind the counter looking off screen-left, the near counter edge across the bottom of frame with the open box at the frame edge. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
+
+[Style]
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
+
+[Audio]
+<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
+There is no musical score of any kind in this shot — no strings, no piano, no underscore. The only sound is the room itself.
+No one speaks in this shot. There is no dialogue, no muttering and no off-screen voice.
+<Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
+
+[Expression]
+<Richard>: grave; recognition arriving behind the eyes with nothing on the mouth
+
+[Secondary Life]
+Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
+— Richard: his hands stay flat on the counter, his breathing slows, and his jaw sets very slightly as he listens
+— Macsen: he stops washing a paw and looks where Richard is looking
+— the room: the workshop archway glows behind him
+These movements are small and continuous. They never stop, and they never compete with the main action.
+
+[Event Script]
+Stage 1: Opening state: Richard stands behind the counter looking off screen-left, hands flat on the counter top.
+Stage 2: Primary event: Richard listens without speaking. His eyes travel down and to the side and come to rest on the open Music Box at the edge of frame, and his jaw sets very slightly — a man who has just recognised something and has decided not to say so. End state: Richard looking down at the box, hands still flat, breathing, entirely quiet.
+
+[Maintain Consistency]
+Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Music Box>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.

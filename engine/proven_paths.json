@@ -1,0 +1,98 @@
+{
+  "_doc": "Proven paths are LAW for their archetype until a render dethrones them. Reused verbatim — no freelancing, no improvements.",
+  "paths": {
+    "false-triumph-chase": {
+      "proven_on": "2026-08-10 · S1.SH1A · Flova/Seedance · 9.06s @480p",
+      "verdict": "Julian: 'a country mile better than anything we have ever done'",
+      "recipe": {
+        "structure": "4 shots in one generation, cuts allowed; the cut sits on the loaded spring at maximum bend",
+        "shot_1_chase": "handheld pursuit from behind and slightly beside, always a beat late; THREE parallax speeds (foreground rips, midground slides, background drifts); subject passes NAMED landmarks that vanish behind the camera; subject pulls ahead and shrinks then camera surges and he swells; subject drifts off-centre and camera recovers him; foreground stems wipe fully across the lens; body-mechanics language (tilts hard left, careens hard right, altitude bobbing, chest leading)",
+        "shot_2_escalation": "three separate readable contacts, each spin visibly larger than the last, never blurred together; ends held on the spring at maximum load",
+        "shot_3_aerial": "the stored force becomes a compound gymnastic move; body tucked compact, camera tracks the full arc so every rotation reads",
+        "shot_4_button": "landing → beat of stillness → SELF-CHECK (head up, eyes dart, pats chest, finds he is fine) → only then the pride inflates → line delivered flat and certain → pose holds a full beat after the line → cut to the witness, held long",
+        "staging": "canon law: Fuzzby frame-LEFT, Zenny frame-RIGHT; the payoff is the held cut to her unmoved face",
+        "references": "one line per character with defines + explicit exclusions; instance counts stated; environment plate carries the world so the prompt describes no world of its own",
+        "audio": "dialogue inside the beat where it is spoken, in braces, with delivery direction and 'holds a full beat after the line ends'; language declared; music killed; subtitles banned"
+      },
+      "beat_costs_used": {
+        "travel": 1.8,
+        "dodge_x3": 3.0,
+        "load_release": 2.3,
+        "aerial": 1.8,
+        "settle": 1.0,
+        "self_check": 1.2,
+        "hold": 2.0,
+        "floor_s": 13.1
+      },
+      "lessons_embodied": [
+        "camera behind, never in front of a chased subject",
+        "a perfectly tracked subject reads as motionless — write the traversal",
+        "put the cut between the load and the release",
+        "the check-before-pride beat is where retroactive-intention comedy lives",
+        "the punchline lands on the witness, not the poser"
+      ],
+      "renders_won": 1,
+      "dethroned_by": null
+    },
+    "reveal-and-deadpan-verdict": {
+      "proven_on": "2026-08-10 · S1.SH1B · Flova/Seedance · 8.06s @480p",
+      "verdict": "Julian: 'another great shot'",
+      "recipe": {
+        "structure": "3 shots. Shot 1 the transfer, CUT BEFORE THE RESULT IS VISIBLE. Shot 2 the reveal in close-up. Shot 3 the verdict, over-the-shoulder onto the reactor.",
+        "withhold": "the new feature is never seen in the shot that creates it — the cut is the reveal's setup",
+        "arrival": "the chaotic character stays chaotic even in a dialogue beat: launches too hard, overshoots, has to swing back, arrives faster than he can stop. Confidence never makes him competent",
+        "attribute_exclusivity": "state the feature's owner AND an explicit exclusion for every other character in frame; repeat the exclusion in the reaction shot ('her face is entirely clean')",
+        "reaction_shot": "over-the-shoulder with the new feature as out-of-focus foreground framing, the reactor in sharp focus — the feature and the reaction in one frame",
+        "eye_line": "the reactor's eyes track down to the feature, examine it, then travel back up to meet the eyes before the line",
+        "micro_tell": "one corner of the mouth tightens almost imperceptibly before the deadpan line — fighting it and nearly losing",
+        "hold": "hold on the reactor's face a full beat AFTER the line ends; the length of the stillness is the punchline",
+        "continuity": "open from the previous shot's harvested final frame; carry state forward (pollen dusting) and state explicitly what is NOT yet present"
+      },
+      "beat_costs_used": {
+        "settle": 1.0,
+        "business": 1.5,
+        "transfer": 0.8,
+        "reveal": 1.5,
+        "present": 1.0,
+        "reaction": 1.2,
+        "turn": 2.0,
+        "hold": 2.0,
+        "floor_s": 11.0
+      },
+      "lessons_embodied": [
+        "withhold the reveal across a cut",
+        "attribute exclusivity prevents feature bleed between characters",
+        "a chaotic character is chaotic in every beat, not only action beats",
+        "frame the feature and the reaction together via over-the-shoulder"
+      ],
+      "renders_won": 1,
+      "dethroned_by": null
+    },
+    "escalation-into-verdict": {
+      "proven_on": "2026-08-10 · S1.SH1C · Flova/Seedance",
+      "verdict": "Julian: 'beat 3 worked'",
+      "finding": "★ THE ARCHETYPES COMPOSE. This beat is false-triumph-chase (escalating contacts, pop-out showman pose, held line) followed by reveal-and-deadpan-verdict (cut to the reactor, eyes travel, micro-turn, held smile). Two banked recipes joined at a cut produced a working beat first time. We have a grammar, not a list of recipes.",
+      "recipe": {
+        "structure": "4 shots: failed correction that makes it worse → escalating contacts into a trap → explosive pop-out into the showman pose and line → cut to the reactor for the emotional turn",
+        "composition_rule": "an action archetype may be joined to a reaction archetype at the button; the cut goes after the line has completely finished",
+        "emotional_turn": "the reactor's beat is not a single expression but a MOVEMENT between two — an eye-roll that softens into a loving smile. Name both states and the transition between them",
+        "failed_correction": "a character's attempt to fix a problem must visibly worsen it, and the character must SEE the evidence on themselves before panicking"
+      },
+      "renders_won": 1,
+      "dethroned_by": null
+    },
+    "environment-turn": {
+      "proven_on": "2026-08-10 · S1 storm turn · Flova/Seedance",
+      "verdict": "Julian: 'the fourth one is great as well'",
+      "recipe": {
+        "structure": "3 shots: the world turns and the denier covers → the reader stills and names it → the overcorrection that ends the unit, held, fade",
+        "ordering_law": "the world changes BEFORE any character reacts — light, sky, colour and vegetation first, then the physical betrayal, then the cover line",
+        "progression_plate": "one environment reference defining two states with identical geometry; only light, sky, colour and vegetation posture change",
+        "tonal_shift": "comedy gives way to concern by degrees — the reader's smile leaves her face gradually, not all at once",
+        "closing": "the comic overcorrection lands inside the new serious tone; long hold with no movement, then fade"
+      },
+      "renders_won": 1,
+      "dethroned_by": null
+    }
+  }
+}

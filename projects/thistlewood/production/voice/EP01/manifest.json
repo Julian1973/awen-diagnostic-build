@@ -1,0 +1,250 @@
+{
+  "episode": "EP01 The Wrong Tune",
+  "source": "canon/scripts/EP01_TheWrongTune_v3.1.md",
+  "sections": "COLD OPEN + ACT ONE",
+  "rendered": "2026-08-13",
+  "chars_spent": 1305,
+  "status": "CANDIDATE \u2014 Julian's ear gate",
+  "takes": [
+    {
+      "slate": "CO_01",
+      "character": "Albert",
+      "voiceId": "jP4TWWVCbVbecdvdfPcS",
+      "model": "eleven_v3",
+      "chars": 62,
+      "file": "CO_01_Albert.mp3",
+      "bytes": 98264,
+      "line": "Attempt forty-seven. Conditions: normal. Barometric pressure \u2014"
+    },
+    {
+      "slate": "CO_02",
+      "character": "Peggi",
+      "voiceId": "M7xNL3CETIeGmVHN5e8u",
+      "model": "eleven_v3",
+      "chars": 14,
+      "file": "CO_02_Peggi.mp3",
+      "bytes": 25539,
+      "line": "Probably fine."
+    },
+    {
+      "slate": "CO_03",
+      "character": "Albert",
+      "voiceId": "jP4TWWVCbVbecdvdfPcS",
+      "model": "eleven_v3",
+      "chars": 23,
+      "file": "CO_03_Albert.mp3",
+      "bytes": 28047,
+      "line": "The System is delicate."
+    },
+    {
+      "slate": "CO_04",
+      "character": "Peggi",
+      "voiceId": "M7xNL3CETIeGmVHN5e8u",
+      "model": "eleven_v3",
+      "chars": 29,
+      "file": "CO_04_Peggi.mp3",
+      "bytes": 23031,
+      "line": "There's nothing on the bench."
+    },
+    {
+      "slate": "CO_05",
+      "character": "Albert",
+      "voiceId": "jP4TWWVCbVbecdvdfPcS",
+      "model": "eleven_v3",
+      "chars": 27,
+      "file": "CO_05_Albert.mp3",
+      "bytes": 30555,
+      "line": "\u2026The System also knew that."
+    },
+    {
+      "slate": "CO_06",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 138,
+      "file": "CO_06_Richard.mp3",
+      "bytes": 154688,
+      "line": "The door doesn't open for cleverness. Never has. And I've very nearly got the clothes sorted. One more tweak and it'll dress you properly."
+    },
+    {
+      "slate": "CO_07",
+      "character": "Lily",
+      "voiceId": "T5yFNwZamO7NrEhI9ZV6",
+      "model": "eleven_v3",
+      "chars": 33,
+      "file": "CO_07_Lily.mp3",
+      "bytes": 33062,
+      "line": "You said that last week, Grandad."
+    },
+    {
+      "slate": "CO_08",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 36,
+      "file": "CO_08_Richard.mp3",
+      "bytes": 40586,
+      "line": "And I'm closer than I was last week."
+    },
+    {
+      "slate": "A1_01",
+      "character": "Tom",
+      "voiceId": "tUUG2iKsKAbeZBRPSVdO",
+      "model": "eleven_v3",
+      "chars": 84,
+      "file": "A1_01_Tom.mp3",
+      "bytes": 95756,
+      "line": "Are you Mr Thistlewood? A lady at the market said \u2014 if it's broken, it belongs here."
+    },
+    {
+      "slate": "A1_02",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 32,
+      "file": "A1_02_Richard.mp3",
+      "bytes": 33062,
+      "line": "Somebody's been reading my sign."
+    },
+    {
+      "slate": "A1_03",
+      "character": "Tom",
+      "voiceId": "tUUG2iKsKAbeZBRPSVdO",
+      "model": "eleven_v3",
+      "chars": 168,
+      "file": "A1_03_Tom.mp3",
+      "bytes": 223652,
+      "line": "It was my gran's. Hers before that, right back. She left it to me with one instruction. Have it mended. I want it to play again. Only \u2014 it's never played right. Listen."
+    },
+    {
+      "slate": "A1_04",
+      "character": "Peggi",
+      "voiceId": "M7xNL3CETIeGmVHN5e8u",
+      "model": "eleven_v3",
+      "chars": 21,
+      "file": "A1_04_Peggi.mp3",
+      "bytes": 26793,
+      "line": "Ooh, that's terrible."
+    },
+    {
+      "slate": "A1_05",
+      "character": "Albert",
+      "voiceId": "jP4TWWVCbVbecdvdfPcS",
+      "model": "eleven_v3",
+      "chars": 79,
+      "file": "A1_05_Albert.mp3",
+      "bytes": 109967,
+      "line": "It's not terrible, it's \u2014 specific. The same notes are wrong every single time."
+    },
+    {
+      "slate": "A1_06",
+      "character": "Rose",
+      "voiceId": "k4rMELAzgoR41hWfYvy0",
+      "model": "eleven_v3",
+      "chars": 36,
+      "file": "A1_06_Rose.mp3",
+      "bytes": 56050,
+      "line": "Somebody loved this. Loved it loads."
+    },
+    {
+      "slate": "A1_07",
+      "character": "Tom",
+      "voiceId": "tUUG2iKsKAbeZBRPSVdO",
+      "model": "eleven_v3",
+      "chars": 194,
+      "file": "A1_07_Tom.mp3",
+      "bytes": 240370,
+      "line": "Three menders looked at it. Two said scrap it. One said the mechanism's fighting itself \u2014 built wrong on purpose. I just want to do what she asked. And I can't even get it to play a proper song."
+    },
+    {
+      "slate": "A1_08",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 78,
+      "file": "A1_08_Richard.mp3",
+      "bytes": 91995,
+      "line": "Nothing is truly broken. It just needs some TLC. Come back at collecting time."
+    },
+    {
+      "slate": "A1_09",
+      "character": "Tom",
+      "voiceId": "tUUG2iKsKAbeZBRPSVdO",
+      "model": "eleven_v3",
+      "chars": 41,
+      "file": "A1_09_Tom.mp3",
+      "bytes": 30555,
+      "line": "Don't you need to know anything about it?"
+    },
+    {
+      "slate": "A1_10",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 23,
+      "file": "A1_10_Richard.mp3",
+      "bytes": 28047,
+      "line": "I expect I'll find out."
+    },
+    {
+      "slate": "A1_11",
+      "character": "Albert",
+      "voiceId": "jP4TWWVCbVbecdvdfPcS",
+      "model": "eleven_v3",
+      "chars": 10,
+      "file": "A1_11_Albert.mp3",
+      "bytes": 18852,
+      "line": "It's open."
+    },
+    {
+      "slate": "A1_12",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 57,
+      "file": "A1_12_Richard.mp3",
+      "bytes": 65245,
+      "line": "This time the clothes will be spot on. I've recalibrated."
+    },
+    {
+      "slate": "A1_13",
+      "character": "Lily",
+      "voiceId": "T5yFNwZamO7NrEhI9ZV6",
+      "model": "eleven_v3",
+      "chars": 34,
+      "file": "A1_13_Lily.mp3",
+      "bytes": 29301,
+      "line": "What's missing this time, Grandad?"
+    },
+    {
+      "slate": "A1_14",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 63,
+      "file": "A1_14_Richard.mp3",
+      "bytes": 75276,
+      "line": "A small thing. You'll know it when you understand it. One hour."
+    },
+    {
+      "slate": "A1_15",
+      "character": "Rose",
+      "voiceId": "k4rMELAzgoR41hWfYvy0",
+      "model": "eleven_v3",
+      "chars": 9,
+      "file": "A1_15_Rose.mp3",
+      "bytes": 20106,
+      "line": "Together?"
+    },
+    {
+      "slate": "A1_16",
+      "character": "Richard",
+      "voiceId": "kg0h9OdkQiGxVLjqbA9B",
+      "model": "eleven_v3",
+      "chars": 14,
+      "file": "A1_16_Richard.mp3",
+      "bytes": 23031,
+      "line": "Don't be long."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+[Characters]
+<Richard> corresponds to Image 2. Use only his face, his white hair and full white beard, his round gold-rimmed glasses, and his broad unhurried build. He begins this shot in a dark green waistcoat over rolled white shirtsleeves with a brown leather work apron held in his hands, and he puts that apron on during the shot. He wears no other apron and there is only ever one apron in the room.
+<Peggi> corresponds to Image 3. Use only her face, her two dark braids, her blue dungarees over a striped long-sleeved shirt.
+<Albert> corresponds to Image 4. Use only his face, his neat mid-brown hair, his brown knitted jumper over a collared shirt. He wears no glasses of any kind. Do not give him glasses — in this room only Richard wears glasses.
+<Rose> corresponds to Image 5. Use only her face, her strawberry-blonde hair, her green cardigan worn over a small floral-print dress.
+<Lily> corresponds to Image 6. Use only her face, her long red hair worn in one braid over the shoulder, her green field jacket over a plain shirt and jeans.
+<Tom> corresponds to Image 7. Use only his face, his short dark hair, his navy hooded parka worn open over a rust-red crewneck jumper with a grey checked shirt collar beneath it, his charcoal trousers and brown leather shoes. Do not take the small inset panel as a scene — only the box inside it is ever used, and only when this shot names it.
+Every character image above is a plain reference sheet. Do not use any of their backgrounds, their lettering or their layout — take the person out of the sheet and put them in the room described below.
+Do not interchange these characters' appearances, clothing, positions, actions or dialogue. Each one is only ever himself or herself, and no additional people appear in the room.
+Relative size, read off the body and never off a measurement: Richard — a tall broad older man; standing behind the counter the counter top meets him at the hip; Peggi — much the smallest person in the room — standing flat on her feet the counter top is above her chin, and she has to go up on her toes to see over it; Albert — a boy of twelve; his head reaches Richard's chest; Rose — a girl of nine; half a head shorter than Albert; Lily — the eldest and tallest of the four children; her head reaches Richard's shoulder; Tom — a man in his thirties, ordinary build, a head taller than the counter top.
+
+[Props]
+<Music Box> corresponds to Image 7: the small worn walnut music box shown open in the inset panel of that sheet — a hinged lid, a horizontal brass cylinder and a steel comb inside, a small brass winding key, and one worn pale place on the lid where a thumb has rested for a hundred years. There is exactly one music box and it is never cracked, split or broken open. Take only the box from that inset panel — do not take the kitchen behind it, and do not take Tom's face from it a second time. Image 7 also defines <Tom>; in this shot it contributes the music box only and never a second person.
+
+[Scenes]
+<Front Room> references Image 1. Use only the long wooden counter running down the right of the room, the curved glass cabinet of brass lamps and clocks on the left, the round display table of china and brassware in the middle, the curtained archway through to the lit workshop behind the counter, the glazed front door with its brass bell at the right, the hanging green enamel lamps, the plank floor and the warm honeyed interior light. Do not take any people from this image — it is an empty room and the room is all it contributes. There is one counter, one archway through to the workshop and one glazed front door — never a second of any of them.
+
+[Camera and Blocking]
+The camera is locked off at chest height favouring Richard and does not move for the whole take.
+Image 8 defines the camera position and the staging only — Richard behind the counter in the right half of frame with the open box on the counter in front of him, the four children beyond the counter in the left of frame and Tom among them. Take nothing else from it: not the room, not the furniture, not the lighting, and not any character's face or clothing. Those come from the images named above.
+Screen direction, held for the whole scene: the customer side of the counter is camera-left and the shopkeeper's side is camera-right. Tom and the children always look screen-right; Richard always looks screen-left.
+
+[Style]
+Hand-drawn 2D animation. Warm coloured-ink linework in browns, ambers and muted greens, never black outlines. Flat colour fills over a subtle paper texture. A soft amber palette lit by honeyed lamplight, cosy and storybook, with a quiet melancholy running underneath it. No 3D rendering, no photorealism, no painterly brushwork.
+
+[Audio]
+<the quiet room tone of an old antique shop: a slow scatter of clock ticks at different tempos, the faint creak of floorboards, muffled arcade footsteps far beyond the glazed door>
+There is no musical score of any kind in this shot — no strings, no piano, no underscore. The only sound is the room itself.
+No one speaks in this shot. There is no dialogue, no muttering and no off-screen voice.
+<Richard> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Richard> is NOT frozen — the body keeps living, breathing and reacting.
+<Peggi> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Peggi> is NOT frozen — the body keeps living, breathing and reacting.
+<Albert> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Albert> is NOT frozen — the body keeps living, breathing and reacting.
+<Rose> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Rose> is NOT frozen — the body keeps living, breathing and reacting.
+<Lily> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Lily> is NOT frozen — the body keeps living, breathing and reacting.
+<Tom> does not speak at any point in this shot: the mouth stays closed, with no lip movement and no jaw movement. <Tom> is NOT frozen — the body keeps living, breathing and reacting.
+
+[Expression]
+<Tom>: tired and embarrassed, watching without understanding why it matters, absolutely not smiling
+<Richard>: solemn and certain, entirely unhurried, no smile
+<Peggi>: uncharacteristically still and serious
+<Albert>: rapt
+<Rose>: tender
+<Lily>: quietly impressed
+
+[Secondary Life]
+Nobody in this frame is a still image. Throughout the whole shot, continuously and independently of the main action:
+— Richard: he is unhurried in everything; his breathing is deep and slow and his hands are certain
+— Peggi: she goes completely quiet for once, watching him, both hands still on the counter edge
+— Albert: his pencil hovers over the page without writing
+— Rose: she watches <Richard>'s face rather than his hands, and her chin lifts a little
+— Lily: she stops leaning, straightens up and lets her folded arms drop to her sides
+— Tom: his eyes follow <Richard>'s hands rather than his face, and his own hands go still on the counter edge
+These movements are small and continuous. They never stop, and they never compete with the main action.
+
+[Group Staging]
+The people in this frame stand at clearly different distances from camera — someone in the foreground at the counter edge, someone in the midground, someone further back — and each one is doing a different physical thing with a different object. They are NOT standing in a row, NOT evenly spaced, and NOT all facing the same way.
+
+[Ritual]
+The apron gesture is canon and is played in full, in this order and never paraphrased: over the head, tied at the back, then both hands smoothing the front from chest to waist — and then, and only then, does he lift the box. He does not tuck it, belt it, or hold it against himself; the order and the smoothing are the whole point of the gesture.
+
+[Event Script]
+Stage 1: Opening state: <Richard> stands behind the counter in his green waistcoat and rolled shirtsleeves, holding a folded brown leather work apron in both hands and looking down at it. The open <Music Box> sits on a folded cream checked cloth on the counter in front of him. The four children stand beyond the counter at four different depths with <Tom> among them, and every one of them is watching him.
+Stage 2: Primary event: <Richard> lifts the apron over his head, settles the neck strap, reaches behind his back and ties it, and then draws both flat palms down the front of the apron from chest to waist in one slow settled motion, the way a knight settles armour. Only then does he lift the <Music Box> in his broad careful hands and go completely still with it. His eyebrows lift a fraction and settle, his jaw loosens, and he does not speak. End state: <Richard> motionless in his tied apron holding the box in both hands and looking down at it, the four children still watching him from their four different depths, and every person in the room still breathing.
+
+[Maintain Consistency]
+Keep every character exactly as their own reference image defines them and never interchange them. Keep the prop count and its ownership unchanged for the whole shot: exactly one <Music Box>. Keep the room layout, the counter position and the warm interior lighting unchanged from first frame to last. Keep the speaker relationship consistent: only the character named as speaking ever opens their mouth. Everyone in frame stays alive and breathing for the entire shot. No character and no animal is ever a frozen image.

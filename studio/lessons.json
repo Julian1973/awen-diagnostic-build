@@ -1,0 +1,135 @@
+{
+  "_": "The bank. Every rule in this studio started as a row here, and each row names the check that now enforces it. Seed these into the lessons table on project creation — a rule with a scar attached gets followed; an invented best-practice does not.",
+  "lessons": [
+    {
+      "code": "NEG-001",
+      "kind": "negative",
+      "title": "Identity drift from unbound characters",
+      "what_came_back": "The same man rendered as different people across neighbouring shots — different face, different age, different jacket.",
+      "why": "One shot named <Tom> and bound him to a reference sheet; the next said 'the man in the navy parka' and bound him to nothing. The route did exactly as told.",
+      "fix": "Every character is defined ONCE in a cast/passport record and every shot resolves against it. A shot cannot describe a character in its own words.",
+      "general_rule": "The model has no memory, so the pipeline is the memory. One asset, one passport, copied verbatim, never shortened.",
+      "enforced_by": "asset passports + compile_prompt snapshot binding"
+    },
+    {
+      "code": "NEG-002",
+      "kind": "negative",
+      "title": "The undirected face",
+      "what_came_back": "A man smiling warmly through three consecutive shots about his grandmother's broken heirloom; scripted 'faintest dry amusement' rendered as a broad grin.",
+      "why": "Body was directed, voice was directed, the mouth was directed — and the expression was left unstated, so the model filled the silence with the average of every warm scene it has seen, which is 'pleasant'.",
+      "fix": "assets.default_expression plus a per-shot override, and where the beat needs it, the words 'not smiling'.",
+      "general_rule": "Direct every channel the audience can read — body, voice, mouth AND face — or the model directs it toward the middle.",
+      "enforced_by": "compile_prompt performance block"
+    },
+    {
+      "code": "NEG-003",
+      "kind": "negative",
+      "title": "Approval outlived the set",
+      "what_came_back": "The one approved take in a scene was shot in a room that no longer existed — and survived a full day as 'done' precisely because it was the one shot everybody trusted.",
+      "why": "A skip flag was doing two jobs and only one honestly: exempt from re-firing is not exempt from canon. Sixteen individual reviews missed it; one contact sheet caught it in four seconds.",
+      "fix": "The downstream invalidation graph: a plate, lock, sheet or script change marks every downstream approval provisional. Nothing is deleted; approved becomes provisional. And scenes are reviewed on ONE contact sheet, never shot by shot.",
+      "general_rule": "An approval is stamped against a state of the world, not against a file.",
+      "enforced_by": "impact() + scene contact-sheet review gate"
+    },
+    {
+      "code": "NEG-004",
+      "kind": "negative",
+      "title": "Describing what the frame does not show is an instruction to build it",
+      "what_came_back": "A tight insert of a counter top pulled back and invented a bright kitchen with a window in it, two stops cooler than the shots either side.",
+      "why": "Every prompt opened by reciting the whole room. On a frame showing only a counter top that is a list of things NOT in the picture, and a model that must render something behind the counter had just been told what. The keyframe was not ignored — it was completed.",
+      "fix": "shots.room_scope (full/partial/none) scopes the scene clause to what the frame shows, and an insert carries a framing lock: never widens, never pulls back, nothing beyond Image 1 becomes visible.",
+      "general_rule": "A prompt is a list of things the model may draw. The test before any scene clause: is this visible in the frame? On a tight frame, say so explicitly — silence is a gap too.",
+      "enforced_by": "compile_prompt room_scope branch"
+    },
+    {
+      "code": "NEG-005",
+      "kind": "negative",
+      "title": "The wrong mouth",
+      "what_came_back": "One man's recorded line animated onto the other man's face — twice, at two different pipeline stages.",
+      "why": "First: an unassigned mouth in the prompt moves. Second: the lipsync service never sees the prompt, and no route measured accepts a face selector — on a two-shot it finds a face and drives it.",
+      "fix": "In the prompt: every mouth in frame assigned, speaker open, all others closed-but-never-frozen. At sync: a speaker_box crops to the speaker alone; crop, upscale, sync, composite back at the same coordinates.",
+      "general_rule": "The speaker law must reach every stage that can move a mouth, including the ones that cannot read the prompt.",
+      "enforced_by": "Gate D + lipsync_worker crop-sync-composite"
+    },
+    {
+      "code": "NEG-006",
+      "kind": "negative",
+      "title": "The audit that belonged to a different text",
+      "what_came_back": "A prompt materially rewritten — seven new reference bindings and a different route — fired against the audit of the version before the change. Later, a passing score was recorded on identical words that had just failed.",
+      "why": "A stamp records that an audit happened; it does not force the loop when one fails. A correction produces a NEW text that has never been scored.",
+      "fix": "Audit rounds stamped against a sha256 of the exact text. Only a round matching the current hash counts. A pass on text whose latest round failed requires an explicit override.",
+      "general_rule": "The audit is a loop, not a stamp, and it runs until the floor is cleared on the CURRENT words.",
+      "enforced_by": "Gate C + audit_rounds hash matching"
+    },
+    {
+      "code": "NEG-007",
+      "kind": "negative",
+      "title": "Dialogue in the prompt of a speech-generating route",
+      "what_came_back": "The voice deteriorated mid-take, then a passage arrived completely different — 'a mish-mash mess'. Lip movement could never agree with the recorded line laid over it.",
+      "why": "The route generates speech FROM the prompt and animates the mouth to what it invented. Our recording then plays on top; the two can never align.",
+      "fix": "No dialogue words in any visual prompt when speech is 'generated'. The mouth is directed as a talking rhythm, the prompt states WHY, and the recording drives articulation in a separate sync pass.",
+      "general_rule": "Where the provider invents speech, the words are an audio file, never prompt text.",
+      "enforced_by": "derive().prompt_carries_dialogue + compile_prompt"
+    },
+    {
+      "code": "NEG-008",
+      "kind": "negative",
+      "title": "Numbers for bodies",
+      "what_came_back": "Character heights given in centimetres rendered with the ladder inverted — the largest gap drawn as no gap at all.",
+      "why": "Models cannot see 118cm. They can see a shoulder.",
+      "fix": "assets.scale_landmark holds relationships ('her head reaches his shoulder'). Metres remain fine for location geometry; the ban is on bodies.",
+      "general_rule": "Scale by body landmark, never by number.",
+      "enforced_by": "validate_asset scale check"
+    },
+    {
+      "code": "NEG-009",
+      "kind": "negative",
+      "title": "The sound bed decided the picture length",
+      "what_came_back": "A 9-second take assembled at 8 seconds, silently losing the end of its line, because an 8-second room tone ran out and -shortest cut the PICTURE to fit the sound.",
+      "why": "Length was inferred from whichever input ran out first instead of stated.",
+      "fix": "Beds loop; output length is stated from the shot record. Also: trim the drift at generation edges (the tail especially) and cut harder than feels natural.",
+      "general_rule": "State the length; never infer it from an input.",
+      "enforced_by": "assembly stage length parameter + tail_trim"
+    },
+    {
+      "code": "NEG-010",
+      "kind": "negative",
+      "title": "The stale artefact fired as current",
+      "what_came_back": "A brief displayed — and fire nearly sent — a prompt file from a superseded grammar that scored -9.5 against the current gate. Separately, 'already shot' skipped a take made from a completely different prompt.",
+      "why": "Reading artefacts off disk trusts that the world has not moved since they were written.",
+      "fix": "Brief and fire compile FRESH at the moment of use. Takes carry the hash of the prompt that made them; a skip requires a hash match.",
+      "general_rule": "Never trust a stored artefact to represent the current state — recompute or hash-check at the point of use.",
+      "enforced_by": "fresh compile + take prompt-hash stamp / idempotency key"
+    },
+    {
+      "code": "POS-001",
+      "kind": "positive",
+      "title": "The keyframe pipeline",
+      "what_came_back": "The first shot in the production where the voice on the track and the mouth on the screen were the same performance — approved on sight.",
+      "why": "A human-generated keyframe as Image 1 (roled as the complete opening composition), appearance sheets behind it, an audited prose prompt with no dialogue, sync from the recording inside a speaker box, sound laid under at assembly.",
+      "fix": "—",
+      "general_rule": "Human keyframe → audited prose prompt ≥ floor → reference-to-video with the frame as Image 1 → sync inside a speaker box → bed. Generate keyframes per SETUP and chain the end frame for everything else.",
+      "enforced_by": "the pipeline itself"
+    },
+    {
+      "code": "POS-002",
+      "kind": "positive",
+      "title": "The stress test pays for itself on cell one",
+      "what_came_back": "The very first live stress still surfaced the character's default faint smile — the exact NEG-002 fault — in a cheap still instead of three video renders.",
+      "why": "Sheets travel as references on EVERY shot, so an untested sheet is a fault multiplied by every shot the character appears in.",
+      "fix": "—",
+      "general_rule": "Prove every passport under combat conditions — angles, sizes, the scene's own light, a two-shot beside every co-star — before a frame of video is paid for.",
+      "enforced_by": "stress gate: no pass, no lock"
+    },
+    {
+      "code": "POS-003",
+      "kind": "positive",
+      "title": "Deterministic hero sound",
+      "what_came_back": "A plot-critical sound ('the same notes are wrong every single time') built note-by-note in code, so the wrongness is a table and is identical on every repeat — where a generative model returned a different wrongness every run.",
+      "why": "When the script asserts a repeatable property of a sound or prop, generation cannot promise it.",
+      "fix": "—",
+      "general_rule": "If the plot depends on a property being exact and repeatable, synthesise it deterministically; do not generate it.",
+      "enforced_by": "craft rule (lessons only)"
+    }
+  ]
+}
