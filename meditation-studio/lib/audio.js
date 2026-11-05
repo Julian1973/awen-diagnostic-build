@@ -18,10 +18,10 @@ export async function ffmpegPath() {
   return (resolvedFfmpeg = 'ffmpeg');
 }
 
-export async function run(args) {
+export async function run(args, { cwd } = {}) {
   const bin = await ffmpegPath();
   return new Promise((resolve, reject) => {
-    const p = spawn(bin, ['-hide_banner', '-nostdin', '-y', ...args]);
+    const p = spawn(bin, ['-hide_banner', '-nostdin', '-y', ...args], { cwd });
     let stderr = '';
     p.stderr.on('data', (d) => {
       stderr += d.toString();
@@ -126,11 +126,29 @@ function parseLoudnorm(stderr) {
   return m ? JSON.parse(m[0]) : null;
 }
 
-// Mixes the voice over an optional looping bed, normalises loudness in two passes and writes the MP3.
+// Makes a bed at least `seconds` long by joining it to itself with long, soft crossfades,
+// so a three minute bed can sit under an hour of sleep track without an audible seam.
+export async function loopBed(bedPath, seconds, workDir, crossfade = 8) {
+  const first = path.join(workDir, 'bed-0.wav');
+  await run(['-i', bedPath, '-ac', '2', '-ar', String(RATE), '-c:a', 'pcm_s16le', first]);
+  let current = first;
+  let length = wavSeconds(first);
+  if (length < crossfade * 2 + 1) return { file: current, seconds: length, simpleLoop: true };
+  for (let i = 1; length < seconds + 1 && i < 12; i += 1) {
+    const next = path.join(workDir, `bed-${i}.wav`);
+    await run(['-i', current, '-i', current, '-filter_complex', `acrossfade=d=${crossfade}:c1=qsin:c2=qsin`, '-c:a', 'pcm_s16le', next]);
+    current = next;
+    length = wavSeconds(next);
+  }
+  return { file: current, seconds: length, simpleLoop: length < seconds };
+}
+
+// Mixes the voice over an optional bed, normalises loudness in two passes and writes the MP3.
 export async function master({ voiceWav, bedPath, bedVolumeDb = -22, loudness = -16, truePeak = -1.5, bitrate = '192k', meta = {}, outMp3, workDir }) {
   const seconds = wavSeconds(voiceWav);
   let source = voiceWav;
   if (bedPath) {
+    const bed = await loopBed(bedPath, seconds, workDir);
     const mix = path.join(workDir, 'mix.wav');
     const fadeOut = Math.max(0, seconds - 12);
     const graph = [
@@ -138,7 +156,8 @@ export async function master({ voiceWav, bedPath, bedVolumeDb = -22, loudness = 
       `[0:a]aformat=sample_rates=${RATE}:channel_layouts=stereo[voice]`,
       '[voice][bed]amix=inputs=2:duration=first:normalize=0[out]',
     ].join(';');
-    await run(['-i', voiceWav, '-stream_loop', '-1', '-i', bedPath, '-filter_complex', graph, '-map', '[out]', '-t', seconds.toFixed(3), '-c:a', 'pcm_s16le', mix]);
+    const bedInput = bed.simpleLoop ? ['-stream_loop', '-1', '-i', bed.file] : ['-i', bed.file];
+    await run(['-i', voiceWav, ...bedInput, '-filter_complex', graph, '-map', '[out]', '-t', seconds.toFixed(3), '-c:a', 'pcm_s16le', mix]);
     source = mix;
   }
   const target = `I=${loudness}:TP=${truePeak}:LRA=11`;

@@ -291,12 +291,43 @@ async function pageFormats() {
 
   $app.replaceChildren(
     h('h1', {}, 'Formats that ', h('em', {}, 'win')),
-    h('p', { class: 'lede' }, `Fifteen shapes modelled on the most listened to meditations, researched ${FORMATS.researchedOn}. Every line you publish stays your own.`),
+    h('p', { class: 'lede' }, `${FORMATS.formats.length} shapes modelled on the most listened to meditations, researched ${FORMATS.researchedOn}. Every line you publish stays your own.`),
+    FORMATS.playData ? playDataCard(FORMATS.playData) : '',
     h('div', { class: 'card', style: 'margin-bottom:20px' }, h('h3', {}, 'House rules from the research'), h('ul', { class: 'small', style: 'margin:0;padding-left:18px;color:var(--cream-2)' }, FORMATS.notes.map((n) => h('li', {}, n)))),
     trendCard,
     h('div', { class: 'grid g3 section' }, cards),
     h('div', { class: 'card section' }, h('h3', {}, 'Sources'), h('ul', { class: 'small', style: 'margin:0;padding-left:18px' }, FORMATS.sources.map((s) => h('li', {}, h('a', { href: s.url, target: '_blank', rel: 'noopener' }, s.label))))),
   );
+}
+
+// What gets played on Insight Timer: by topic, by length, and the verified high play tracks.
+function playDataCard(d) {
+  const num = (n) => n.toLocaleString('en-GB');
+  const lengthTable = (rows, label) => h('div', {}, h('h3', {}, label),
+    h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Length'), h('th', { class: 'num' }, 'Tracks'), h('th', { class: 'num' }, 'Plays'))),
+      h('tbody', {}, rows.map((r) => h('tr', {}, h('td', {}, r.band), h('td', { class: 'num' }, r.tracks), h('td', { class: 'num' }, r.plays ? compact(r.plays) : '·'))))));
+  const tracks = h('table', { style: 'display:none;margin-top:12px' },
+    h('thead', {}, h('tr', {}, h('th', {}, 'Track'), h('th', {}, 'Teacher'), h('th', {}, 'Topic'), h('th', { class: 'num' }, 'Length'), h('th', { class: 'num' }, 'Plays'))),
+    h('tbody', {}, d.topTracks.map((t) => h('tr', {}, h('td', {}, t.title), h('td', { class: 'muted' }, t.teacher), h('td', { class: 'muted' }, `${t.topic}${t.ending === 'sleep' ? ' (sleep)' : ''}`), h('td', { class: 'num' }, t.length), h('td', { class: 'num' }, num(t.plays))))));
+  const toggle = h('button', { class: 'ghost small', onclick: () => {
+    const show = tracks.style.display === 'none';
+    tracks.style.display = show ? '' : 'none';
+    toggle.textContent = show ? 'Hide the tracks' : `Show the ${d.topTracks.length} tracks behind this`;
+  } }, `Show the ${d.topTracks.length} tracks behind this`);
+  return h('div', { class: 'card', style: 'margin-bottom:20px' },
+    h('h2', {}, 'What gets ', h('em', {}, 'played'), ' on Insight Timer'),
+    h('p', {}, d.summary),
+    h('div', { class: 'grid g3' },
+      h('div', {}, h('h3', {}, 'By topic (share of plays)'),
+        h('table', {}, h('tbody', {}, d.byTopic.map((r) => h('tr', {}, h('td', {}, r.topic), h('td', { class: 'num' }, `${r.share}%`)))))),
+      lengthTable(d.byLength.sleep, 'Sleep tracks by length'),
+      lengthTable(d.byLength.day, 'Daytime tracks by length')),
+    h('p', { class: 'small muted', style: 'margin-top:14px' }, d.lengthTest),
+    h('h3', { style: 'margin-top:16px' }, 'What to make first'),
+    h('ol', { class: 'small', style: 'color:var(--cream-2);padding-left:20px;margin:0' }, d.makeFirst.map((x) => h('li', {}, x))),
+    h('div', { class: 'row', style: 'margin-top:14px' }, toggle, h('span', { class: 'muted small' }, d.caveat)),
+    tracks,
+    h('div', { class: 'small', style: 'margin-top:12px' }, d.sources.map((s2, i) => [i ? ' · ' : '', h('a', { href: s2.url, target: '_blank', rel: 'noopener' }, s2.label)])));
 }
 
 function researchView(r) {
@@ -513,12 +544,16 @@ async function tabScript(m, body) {
       h('div', {},
         h('div', { class: 'card' }, h('div', { class: 'row' }, h('h2', { style: 'margin:0' }, 'Script'), h('span', { class: 'spacer' }), savedNote,
           h('a', { class: 'btn ghost small', href: `/api/meditations/${m.id}/script.txt` }, 'Download')), h('div', { style: 'margin-top:12px' }, script)),
-        h('div', { class: 'card section' }, h('h2', {}, 'Titles and descriptions'),
+        h('div', { class: 'card section' }, h('h2', {}, 'Titles, descriptions and cover'),
           h('div', { class: 'grid g2' }, field('title', 'Insight Timer title'), field('spotifyTitle', 'Spotify title')),
           field('subtitle', 'Subtitle'),
           field('insightTimerDescription', 'Insight Timer description', 7),
           field('spotifyDescription', 'Spotify description', 5),
-          field('tags', 'Tags (comma separated)'))),
+          field('tags', 'Tags (comma separated)'),
+          h('h3', { style: 'margin-top:22px' }, 'Cover and trailer'),
+          field('coverImagePrompt', 'Cover image description (for the image generator)', 5),
+          field('coverAltText', 'Cover alt text'),
+          h('div', { class: 'grid g2' }, field('trailerLine', 'Trailer line (under 70 characters)'), field('snippetStart', 'Snippet starts at the paragraph beginning')))),
       side),
   );
 }
@@ -559,7 +594,7 @@ async function tabVoice(m, body) {
   showPreview();
   const modelSel = h('select', {}, [['eleven_v4', 'eleven_v4 (newest, audio tags)'], ['eleven_v3', 'eleven_v3 (audio tags)']].map(([v, l]) => h('option', { value: v, selected: v === (m.ttsModel || SETTINGS.ttsModel) }, l)));
   const prefix = h('input', { type: 'text', value: m.deliveryPrefix ?? SETTINGS.deliveryPrefix });
-  const bedSel = h('select', {}, h('option', { value: '' }, 'No music bed'), beds.map((b) => h('option', { value: b.name, selected: b.name === m.bedFile }, b.name)));
+  const bedSel = h('select', {}, h('option', { value: '' }, 'No music bed'), beds.map((b) => h('option', { value: b.name, selected: b.name === m.bedFile }, b.title || b.name)));
   const bedVol = h('input', { type: 'range', min: '-40', max: '-8', step: '1', value: String(m.bedVolumeDb ?? SETTINGS.bedVolumeDb) });
   const bedVolOut = h('span', { class: 'chip' }, `${bedVol.value} dB`);
   const saveVoice = async () => {
@@ -626,7 +661,7 @@ async function tabVoice(m, body) {
         h('div', { class: 'card' }, h('h3', {}, 'Voice'), voiceSel, preview, offline ? h('div', { class: 'hint' }, 'Add your ElevenLabs key in Settings to see every voice.') : '',
           h('label', {}, 'Model'), modelSel,
           h('label', {}, 'Delivery tags before each paragraph'), prefix, h('div', { class: 'hint' }, 'Used when a paragraph does not start with its own tag. eleven_v4 has no speed slider; pace comes from [slowly] and [pause].')),
-        h('div', { class: 'card' }, h('h3', {}, 'Music bed'), bedSel, h('label', {}, 'Bed level ', bedVolOut), bedVol, h('div', { class: 'hint' }, 'Upload beds in Settings. AI music is fine under your voice on Insight Timer.')),
+        h('div', { class: 'card' }, h('h3', {}, 'Music bed'), bedSel, h('label', {}, 'Bed level ', bedVolOut), bedVol, h('div', { class: 'hint' }, 'Make or upload beds in Settings. Short beds loop with long, soft crossfades. AI music is fine under your voice on Insight Timer; its credit goes in the description.')),
         h('div', { class: 'card' }, h('h3', {}, 'Full mix'),
           h('div', { class: 'small muted' }, m.clone.charsToSpend ? `About ${m.clone.charsToSpend.toLocaleString('en-GB')} ElevenLabs characters to voice ${m.clone.requestsToMake} paragraph${m.clone.requestsToMake === 1 ? '' : 's'}.` : 'Every paragraph is voiced. Mixing costs nothing.'),
           h('div', { class: 'row', style: 'margin-top:10px' }, renderBtn), box, renderPlayer(m, 'clone')))),
@@ -813,11 +848,173 @@ async function tabPublish(m, body) {
   } }, 'Save links and mark published');
   body.replaceChildren(
     m.brandSummary.blocks ? h('div', { class: 'banner bad' }, `The brand check has ${m.brandSummary.blocks} thing${m.brandSummary.blocks > 1 ? 's' : ''} to fix before this goes out. See the Script tab.`) : '',
-    h('div', { class: 'grid g2' }, await packCard('insight-timer', 'Insight Timer'), await packCard('spotify', 'Spotify')),
+    previewCards(m),
+    h('div', { class: 'grid g2 section' }, await packCard('insight-timer', 'Insight Timer'), await packCard('spotify', 'Spotify')),
     h('div', { class: 'card section' }, h('h2', {}, 'Where it lives'),
       h('div', { class: 'grid g3' }, h('div', {}, h('label', {}, 'Insight Timer link'), itUrl), h('div', {}, h('label', {}, 'Spotify link'), spUrl), h('div', {}, h('label', {}, 'YouTube link'), ytUrl)),
       h('div', { class: 'row', style: 'margin-top:14px' }, markBtn)),
   );
+}
+
+// ---------- 30 second snippet, trailer video and cover ----------
+const WORDMARK = { 'living-awake': 'L I V I N G   A W A K E', 'living-connection': 'T H E   L I V I N G   C O N N E C T I O N' };
+
+function wrapToWidth(ctx, text, maxWidth) {
+  const words = String(text || '').split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    const test = line ? `${line} ${w}` : w;
+    if (line && ctx.measureText(test).width > maxWidth) { lines.push(line); line = w; } else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+async function loadLogo() {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = `/api/brand/logo?t=${Date.now()}`;
+  });
+}
+
+// The Living Awake card, 1080 x 1920: locked gradient (mid glow at the top, navy body, deep foot),
+// a faint aged gold glow, still film grain, Cormorant title in cream, italic line in gold light,
+// the logo if one is uploaded, and the wordmark.
+async function drawCard(canvas, m) {
+  const W = 1080;
+  const H = 1920;
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  await Promise.all([document.fonts.load('500 96px "Studio Cormorant"'), document.fonts.load('italic 300 58px "Studio Cormorant"')]);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#182f48'); g.addColorStop(0.15, '#14283f'); g.addColorStop(0.8, '#0c192b'); g.addColorStop(1, '#040a14');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  const glow = ctx.createRadialGradient(W / 2, H * 0.32, 0, W / 2, H * 0.32, W * 0.75);
+  glow.addColorStop(0, 'rgba(212,165,116,0.10)');
+  glow.addColorStop(1, 'rgba(212,165,116,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+  const grain = ctx.getImageData(0, 0, W, H);
+  for (let i = 0; i < grain.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 10;
+    grain.data[i] += n; grain.data[i + 1] += n; grain.data[i + 2] += n;
+  }
+  ctx.putImageData(grain, 0, 0);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.font = '500 96px "Studio Cormorant"';
+  // The card does not need the length the Insight Timer title carries.
+  const cardTitle = String(m.title || 'Untitled').replace(/:\s*\d+\s*Minutes?\s*$/i, '').trim();
+  const titleLines = wrapToWidth(ctx, cardTitle, 860).slice(0, 4);
+  ctx.font = 'italic 300 58px "Studio Cormorant"';
+  const lineLines = wrapToWidth(ctx, m.trailerLine || m.subtitle || '', 820).slice(0, 3);
+  const block = titleLines.length * 118 + (lineLines.length ? 60 + lineLines.length * 76 : 0);
+  let y = H * 0.45 - block / 2 + 90;
+  ctx.fillStyle = '#fdf6e8';
+  ctx.font = '500 96px "Studio Cormorant"';
+  for (const t of titleLines) { ctx.fillText(t, W / 2, y); y += 118; }
+  y += 40;
+  ctx.fillStyle = '#f4d590';
+  ctx.font = 'italic 300 58px "Studio Cormorant"';
+  for (const t of lineLines) { ctx.fillText(t, W / 2, y); y += 76; }
+  const logo = await loadLogo();
+  if (logo) {
+    const w = 170;
+    const h2 = (logo.height / logo.width) * w;
+    ctx.drawImage(logo, (W - w) / 2, H - 470, w, h2);
+  }
+  ctx.fillStyle = '#d4a574';
+  ctx.font = '500 36px "Studio Cormorant"';
+  ctx.fillText(WORDMARK[m.brand] || WORDMARK['living-awake'], W / 2, H - 230);
+  return canvas;
+}
+
+function previewCards(m) {
+  const sources = ['recorded', 'clone'].filter((s) => m.renders?.[s]);
+  const wrapAll = h('div', { class: 'grid g2' });
+  if (!sources.length) {
+    wrapAll.append(h('div', { class: 'card' }, h('h2', {}, '30 second snippet and trailer'), h('div', { class: 'empty' }, 'Mix the meditation first (Voice or Record tab). The snippet and trailer are cut from the finished mix.')));
+  } else {
+    let source = sources[0];
+    const srcSel = h('select', { onchange: () => { source = srcSel.value; draw(); } }, sources.map((s) => h('option', { value: s }, s === 'recorded' ? 'Your recorded mix (for Insight Timer)' : 'Voice clone mix (Spotify, YouTube, social)')));
+    const snipBox = h('div');
+    const trailerBox = h('div');
+    const preview = h('canvas', { class: 'card-preview' });
+    drawCard(preview, m).catch(() => {});
+    const draw = () => {
+      const r = m.renders[source];
+      const paraSel = h('select', {}, h('option', { value: '' }, 'Let the studio choose'),
+        (r.timeline || []).map((p) => h('option', { value: p.textKey, selected: r.snippet?.textKey === p.textKey }, `${mmss(p.start)}  ${p.words}...`)));
+      const makeBtn = h('button', { onclick: async () => {
+        makeBtn.disabled = true;
+        try {
+          const out = await api(`/api/meditations/${m.id}/snippet`, { method: 'POST', body: { source, textKey: paraSel.value || null } });
+          r.snippet = out.snippet;
+          toast('Snippet ready');
+          draw();
+        } catch (err) { toast(err.message, true); } finally { makeBtn.disabled = false; }
+      } }, r.snippet ? 'Make it again' : 'Make the snippet');
+      const snipSrc = `/api/renders/${m.id}/snippet-${source}?v=${r.snippet ? Date.parse(r.snippet.madeAt) : 0}`;
+      snipBox.replaceChildren(
+        h('label', {}, 'Start at'), paraSel,
+        h('div', { class: 'row', style: 'margin-top:10px' }, makeBtn),
+        r.snippet ? h('div', { class: 'player' },
+          source === 'recorded'
+            ? h('div', { class: 'banner', style: 'margin:0 0 8px' }, h('b', {}, `Set the snippet slider to ${mmss(r.snippet.start)}. `), 'In the Insight Timer Teacher Dashboard: Edit, then Pick a Snippet, drag the slider to this time, then resubmit.')
+            : h('div', { class: 'banner', style: 'margin:0 0 8px' }, h('b', {}, `Preview from ${mmss(r.snippet.start)}. `), 'This clone snippet is for Spotify, YouTube and social. For Insight Timer, mix your recorded version and make its snippet; the slider time comes from that.'),
+          h('div', { class: 'muted small' }, `${r.snippet.reason}: "${r.snippet.words}..."`),
+          h('audio', { controls: true, preload: 'none', src: snipSrc }),
+          h('div', { class: 'row', style: 'margin-top:8px' }, h('a', { class: 'btn ghost small', href: `${snipSrc}&download=1` }, 'Download snippet MP3'))) : '');
+
+      const trailerSrc = `/api/renders/${m.id}/trailer-${source}?v=${r.trailer ? Date.parse(r.trailer.madeAt) : 0}`;
+      const jb = h('div');
+      const trailerBtn = h('button', { onclick: async () => {
+        trailerBtn.disabled = true;
+        const box = jobBox();
+        jb.replaceChildren(box);
+        try {
+          const canvas = await drawCard(document.createElement('canvas'), m);
+          const blob = await new Promise((res) => canvas.toBlob(res, 'image/png'));
+          const fd = new FormData();
+          fd.append('source', source);
+          fd.append('card', blob, 'card.png');
+          const { job } = await api(`/api/meditations/${m.id}/trailer`, { method: 'POST', body: fd });
+          const end = await watchJob(job.id, box.update);
+          if (end.status === 'done') { r.trailer = end.result; toast('Trailer ready'); draw(); } else toast(end.error, true);
+        } catch (err) { toast(err.message, true); } finally { trailerBtn.disabled = false; }
+      } }, r.trailer ? 'Make it again' : 'Make the trailer video');
+      trailerBox.replaceChildren(
+        h('div', { class: 'two' },
+          h('div', {}, r.trailer ? h('video', { class: 'trailer', controls: true, preload: 'metadata', src: trailerSrc }) : preview),
+          h('div', {},
+            h('p', { class: 'small muted', style: 'margin-top:0' }, 'A 30 second portrait video, 1080 x 1920: the snippet audio over your Living Awake card. Insight Timer course trailers are MP4, portrait, ideally 20 to 30 seconds. It also works for Instagram reels and YouTube Shorts.'),
+            h('div', { class: 'small muted' }, 'The card uses the title and the trailer line from the Script tab. Upload your Celtic cross logo in Settings to put it on the card.'),
+            h('div', { class: 'row', style: 'margin-top:12px' }, trailerBtn, r.trailer ? h('a', { class: 'btn ghost small', href: `${trailerSrc}&download=1` }, 'Download MP4') : ''),
+            jb)));
+    };
+    draw();
+    wrapAll.append(
+      h('div', { class: 'card' }, h('h2', {}, '30 second snippet'), h('p', { class: 'small muted', style: 'margin-top:0' }, 'Insight Timer plays 30 seconds of your track as its preview. You choose them in the Teacher Dashboard with a slider; the studio picks the best 30 seconds and tells you where to set it.'),
+        h('label', {}, 'From'), srcSel, snipBox),
+      h('div', { class: 'card' }, h('h2', {}, 'Trailer video'), trailerBox));
+  }
+  const copy = (text) => navigator.clipboard.writeText(text || '').then(() => toast('Copied'));
+  const cover = h('div', { class: 'card section' }, h('h2', {}, 'Cover image'),
+    h('div', { class: 'grid g2' },
+      h('div', {}, h('div', { class: 'row' }, h('h3', { style: 'margin:0;flex:1' }, 'Description for the image generator'), h('button', { class: 'ghost small', onclick: () => copy(m.coverImagePrompt) }, 'Copy')),
+        h('p', { class: 'small', style: 'white-space:pre-wrap;color:var(--cream-2)' }, m.coverImagePrompt || 'None yet. On the Script tab, ask Claude to revise: "add the cover image description, alt text, trailer line and snippet start".')),
+      h('div', {}, h('div', { class: 'row' }, h('h3', { style: 'margin:0;flex:1' }, 'Alt text'), h('button', { class: 'ghost small', onclick: () => copy(m.coverAltText) }, 'Copy')),
+        h('p', { class: 'small', style: 'color:var(--cream-2)' }, m.coverAltText || 'None yet.'),
+        h('ul', { class: 'small muted', style: 'padding-left:18px' },
+          h('li', {}, 'Insight Timer: square, at least 1600 x 1600 px, under 20 MB. Leave text off the image; the app shows the title.'),
+          h('li', {}, 'Spotify: square, 1400 x 1400 px or more for podcasts, 3000 x 3000 px for music releases.'),
+          h('li', {}, 'Only use images you have the rights to.')))));
+  return h('div', {}, wrapAll, cover);
 }
 
 // ---------- Performance (per meditation) ----------
@@ -894,22 +1091,39 @@ async function pagePerformance() {
       tile('Best format so far', best[0] ? best[0].format : '·', best[0] ? `${compact(best[0].avg)} plays per track` : 'log some plays first')),
     h('div', { class: 'split section' },
       h('div', { class: 'card' }, h('h2', {}, 'By meditation'),
-        tracked.length ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', { class: 'num' }, 'Insight Timer plays'), h('th', { class: 'num' }, 'Return rate'), h('th', { class: 'num' }, 'Spotify plays'))),
+        tracked.length ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', { class: 'num' }, 'Insight Timer plays'), h('th', { class: 'num' }, 'Payable'), h('th', { class: 'num' }, 'Return rate'), h('th', { class: 'num' }, 'Spotify plays'))),
           h('tbody', {}, tracked.map((m) => {
             const it = latest(m, 'Insight Timer');
             const sp = latest(m, 'Spotify');
             return h('tr', { class: 'click', onclick: () => (location.hash = `#/m/${m.id}/performance`) }, h('td', {}, m.title || 'Untitled'), h('td', { class: 'muted' }, m.formatName),
-              h('td', { class: 'num' }, it?.plays != null ? it.plays.toLocaleString('en-GB') : '·'), h('td', { class: 'num' }, it?.returnRate != null ? `${it.returnRate}%` : '·'),
+              h('td', { class: 'num' }, it?.plays != null ? it.plays.toLocaleString('en-GB') : '·'),
+              h('td', { class: 'num', title: 'Share of plays that passed 2 minutes. A big gap means people leave early.' }, it?.plays && it?.payablePlays != null ? `${Math.round((it.payablePlays / it.plays) * 100)}%` : '·'),
+              h('td', { class: 'num' }, it?.returnRate != null ? `${it.returnRate}%` : '·'),
               h('td', { class: 'num' }, sp?.plays != null ? sp.plays.toLocaleString('en-GB') : '·'));
           }))) : h('div', { class: 'empty' }, 'Open a published meditation and log its figures on the Performance tab.')),
       h('div', { class: 'card' }, h('h2', {}, 'Plays by format'), playsChart(ov.playsByFormat),
         best.length ? h('p', { class: 'small muted', style: 'margin-top:14px' }, `Make more ${best[0].format}${best[1] ? ` and ${best[1].format}` : ''}. Their tracks average the most plays.`) : '')),
+    lengthBandsCard(list),
   );
+}
+
+// Insight Timer's length filter has six bands; listeners browse by them, so a full range helps.
+function lengthBandsCard(list) {
+  const bands = [['0 to 5 min', 0, 5.5], ['6 to 10 min', 5.5, 10.5], ['11 to 15 min', 10.5, 15.5], ['16 to 20 min', 15.5, 20.5], ['21 to 30 min', 20.5, 30.5], ['30 min plus', 30.5, 1e9]];
+  const minutesOf = (m) => (m.renders?.recorded?.seconds || m.renders?.clone?.seconds || (m.script ? m.stats.estimatedSeconds : 0)) / 60;
+  const made = list.filter((m) => m.script);
+  return h('div', { class: 'card section' }, h('h2', {}, 'Your range across the length filter'),
+    h('p', { class: 'small muted', style: 'margin-top:0' }, 'Insight Timer listeners filter by these six lengths. Covering every band, with sleep long and daytime around 10 minutes, gives more people a way in.'),
+    h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Band'), h('th', { class: 'num' }, 'Your meditations'), h('th', {}, 'Titles'))),
+      h('tbody', {}, bands.map(([label, lo, hi]) => {
+        const inBand = made.filter((m) => minutesOf(m) >= lo && minutesOf(m) < hi);
+        return h('tr', {}, h('td', {}, label), h('td', { class: 'num' }, inBand.length || h('span', { style: 'color:var(--warn)' }, '0')), h('td', { class: 'small muted' }, inBand.map((m) => m.title || 'Untitled').join(', ')));
+      }))));
 }
 
 // ---------- Settings ----------
 async function pageSettings() {
-  const [status, { voices, offline }, { beds }] = await Promise.all([api('/api/status'), voicesList(), api('/api/beds')]);
+  const [status, { voices, offline }, { beds, presets }] = await Promise.all([api('/api/status'), voicesList(), api('/api/beds')]);
   const s = SETTINGS = await api('/api/settings');
   const anthropic = h('input', { type: 'password', placeholder: status.claude ? `Saved (${status.claude})` : 'sk-ant-…', autocomplete: 'off' });
   const elevenlabs = h('input', { type: 'password', placeholder: status.elevenlabs ? `Saved (${status.elevenlabs})` : 'ElevenLabs API key', autocomplete: 'off' });
@@ -945,9 +1159,17 @@ async function pageSettings() {
   }
 
   const bedFile = h('input', { type: 'file', accept: 'audio/*' });
-  const bedList = h('div', { class: 'grid' }, beds.length ? beds.map((b) => h('div', { class: 'para' },
-    h('div', {}, h('div', {}, b.name, h('span', { class: 'muted small' }, b.bytes == null ? ' · in iCloud' : ` · ${(b.bytes / 1e6).toFixed(1)} MB`), s.defaultBed === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Default') : '', s.bellFile === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Bell') : ''),
-      h('audio', { controls: true, preload: 'none', src: `/api/beds/${encodeURIComponent(b.name)}` })),
+  const bedMetaRow = (b) => {
+    const title = h('input', { type: 'text', value: b.title });
+    const credit = h('input', { type: 'text', value: b.credit });
+    const saveMeta = () => api(`/api/beds/${encodeURIComponent(b.name)}`, { method: 'PUT', body: { title: title.value, credit: credit.value } }).then(() => toast('Saved')).catch((err) => toast(err.message, true));
+    title.addEventListener('change', saveMeta);
+    credit.addEventListener('change', saveMeta);
+    return h('div', { class: 'grid g2', style: 'margin-top:8px' }, h('div', {}, h('label', { style: 'margin-top:0' }, 'Title'), title), h('div', {}, h('label', { style: 'margin-top:0' }, 'Credit in descriptions'), credit));
+  };
+  const bedList = h('div', { class: 'grid' }, beds.length ? beds.map((b) => h('div', { class: 'para bed' },
+    h('div', {}, h('div', {}, b.title || b.name, h('span', { class: 'muted small' }, `${b.source === 'elevenlabs-music' ? ' · made with ElevenLabs Music' : ''}${b.bytes == null ? ' · in iCloud' : ` · ${(b.bytes / 1e6).toFixed(1)} MB`}`), s.defaultBed === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Default') : '', s.bellFile === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Bell') : ''),
+      h('audio', { controls: true, preload: 'none', src: `/api/beds/${encodeURIComponent(b.name)}` }), bedMetaRow(b)),
     h('div', { class: 'actions' },
       h('button', { class: 'ghost small', onclick: () => save({ defaultBed: s.defaultBed === b.name ? null : b.name }).then(route) }, s.defaultBed === b.name ? 'Clear default' : 'Make default'),
       h('button', { class: 'ghost small', onclick: () => save({ bellFile: s.bellFile === b.name ? null : b.name }).then(route) }, s.bellFile === b.name ? 'Use built in bell' : 'Use as bell'),
@@ -959,6 +1181,39 @@ async function pageSettings() {
     upload.disabled = true;
     try { await api('/api/beds', { method: 'POST', body: fd }); toast('Uploaded'); route(); } catch (err) { toast(err.message, true); } finally { upload.disabled = false; }
   } }, 'Upload');
+
+  const presetSel = h('select', {}, presets.map((p) => h('option', { value: p.id }, `${p.title} · ${p.use}`)));
+  const bedMinutes = h('select', {}, [[120, '2 minutes'], [180, '3 minutes'], [240, '4 minutes'], [300, '5 minutes']].map(([v, l]) => h('option', { value: String(v), selected: v === 180 }, l)));
+  const presetText = h('p', { class: 'small muted' });
+  const showPreset = () => (presetText.textContent = presets.find((p) => p.id === presetSel.value)?.prompt || '');
+  presetSel.addEventListener('change', showPreset);
+  showPreset();
+  const genBox = h('div');
+  const genBtn = h('button', { onclick: async () => {
+    genBtn.disabled = true;
+    const box = jobBox();
+    genBox.replaceChildren(box);
+    try {
+      const { job } = await api('/api/beds/generate', { method: 'POST', body: { preset: presetSel.value, seconds: Number(bedMinutes.value) } });
+      const end = await watchJob(job.id, box.update);
+      if (end.status === 'done') { toast('New bed added'); route(); } else toast(end.error, true);
+    } catch (err) { toast(err.message, true); } finally { genBtn.disabled = false; }
+  } }, 'Make this bed');
+  const makeBedCard = h('div', { style: 'margin-bottom:16px' }, h('h3', {}, 'Make a calm bed with ElevenLabs Music'),
+    h('div', { class: 'grid g2' }, h('div', {}, presetSel), h('div', {}, bedMinutes)), presetText,
+    h('div', { class: 'row' }, genBtn, h('span', { class: 'muted small' }, 'Uses ElevenLabs credits (about 2,700 for a 3 minute bed). Instrumental only.')), genBox);
+
+  const logoFile = h('input', { type: 'file', accept: 'image/png' });
+  const logoImg = h('img', { src: `/api/brand/logo?t=${Date.now()}`, style: 'max-width:90px;max-height:90px;display:block;margin-bottom:8px', onerror: (e) => (e.target.style.display = 'none') });
+  const logoBtn = h('button', { class: 'ghost', onclick: async () => {
+    if (!logoFile.files[0]) return toast('Choose a PNG first', true);
+    const fd = new FormData();
+    fd.append('logo', logoFile.files[0]);
+    try { await api('/api/brand/logo', { method: 'POST', body: fd }); toast('Logo saved'); route(); } catch (err) { toast(err.message, true); }
+  } }, 'Upload logo');
+  const logoCard = h('div', { class: 'card' }, h('h2', {}, 'Logo for trailer cards'), logoImg,
+    h('div', { class: 'row' }, logoFile, logoBtn),
+    h('div', { class: 'hint' }, 'The Living Awake Celtic cross, as a PNG with a transparent background (instagram/brand/logo.png in your project folder). It sits above the wordmark on every trailer card.'));
 
   const discOn = h('input', { type: 'checkbox', checked: !!s.disclosure?.spotify });
   const discText = h('input', { type: 'text', value: s.disclosure?.text || '' });
@@ -1002,7 +1257,7 @@ async function pageSettings() {
           num('bedVolumeDb', 'Default bed level (dB)', '1'), num('loudnessTarget', 'Loudness target (LUFS)', '0.5', '-16 suits Insight Timer and Spotify.'),
           num('truePeak', 'True peak ceiling (dBTP)', '0.1'), sel('mp3Bitrate', 'MP3 bitrate', [['192k', '192 kbps'], ['256k', '256 kbps'], ['320k', '320 kbps']], '192 kbps or more for Insight Timer courses.')),
         sel('bell', 'Ending bell on non sleep tracks', [['true', 'On'], ['false', 'Off']], 'Insight Timer does not add a bell, so it recommends teachers include their own. Never on sleep tracks.')),
-      h('div', { class: 'card' }, h('h2', {}, 'Music beds and bell'), h('div', { class: 'row' }, bedFile, upload), h('div', { style: 'margin-top:12px' }, bedList)),
+      h('div', { class: 'card' }, h('h2', {}, 'Music beds and bell'), makeBedCard, h('h3', {}, 'Or upload your own'), h('div', { class: 'row' }, bedFile, upload), h('div', { style: 'margin-top:12px' }, bedList)),
       h('div', { class: 'card' }, h('h2', {}, 'Claude'),
         sel('claudeModel', 'Model', [['claude-opus-5-5', 'Claude Opus 5.5'], ['claude-fable-5-1', 'Claude Fable 5.1 (most capable, costs more)']]),
         sel('claudeEffort', 'Effort', [['medium', 'Medium'], ['high', 'High'], ['xhigh', 'Extra high']], 'High suits creative one shots.'),
@@ -1011,7 +1266,8 @@ async function pageSettings() {
       h('div', { class: 'card' }, h('h2', {}, 'Voice clone disclosure'),
         h('label', { style: 'display:flex;gap:10px;align-items:center' }, discOn, 'Add this line to Spotify descriptions when the clone voices the track'), discText,
         h('div', { class: 'hint' }, 'Your call: the brand wall keeps AI out of Side A copy, while Spotify labels AI content and asks music releases to declare it in AI credits. Insight Timer does not accept clones at all.')),
-      libraryCard),
+      libraryCard,
+      logoCard),
   );
 }
 

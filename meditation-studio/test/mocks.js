@@ -12,6 +12,11 @@ export function toneMp3(seconds, freq = 220) {
 }
 
 export function toneFile(seconds, format, freq = 330) {
+  if (format === 'png') {
+    const r = spawnSync(FFMPEG, ['-hide_banner', '-f', 'lavfi', '-i', 'color=c=0x14283f:s=1080x1920', '-frames:v', '1', '-f', 'image2', '-c:v', 'png', 'pipe:1'], { maxBuffer: 50e6 });
+    if (r.status !== 0) throw new Error(r.stderr.toString());
+    return r.stdout;
+  }
   const args = format === 'webm' ? ['-c:a', 'libopus', '-f', 'webm'] : ['-f', 'wav'];
   const r = spawnSync(FFMPEG, ['-hide_banner', '-f', 'lavfi', '-i', `sine=frequency=${freq}:duration=${seconds}`, '-ac', '1', '-ar', '48000', ...args, 'pipe:1'], { maxBuffer: 50e6 });
   if (r.status !== 0) throw new Error(r.stderr.toString());
@@ -49,6 +54,12 @@ export async function mockElevenLabs() {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ tier: 'creator', character_count: 1000, character_limit: 100000, next_character_count_reset_unix: 1796000000 }));
     }
+    if (req.method === 'POST' && req.url.startsWith('/v1/music')) {
+      const json = JSON.parse(body);
+      calls.push({ music: true, query: req.url.split('?')[1], ...json });
+      res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
+      return res.end(toneMp3(Math.min(20, json.music_length_ms / 1000), 196));
+    }
     const m = req.url.match(/^\/v1\/text-to-speech\/([^?]+)\?(.*)$/);
     if (req.method === 'POST' && m) {
       const json = JSON.parse(body);
@@ -68,10 +79,14 @@ export const SAMPLE_DRAFT = {
   title: 'Back to Solid Ground',
   spotifyTitle: 'Meditation for Anxiety: Back to Solid Ground',
   subtitle: 'Ten minutes to find your feet again',
-  insightTimerDescription: 'For the moments when worry will not stop.\n\nUse it whenever you need it.\n\nTake a breath with me and then be love and give love. Have a wonderful day, one breath at a time.',
+  insightTimerDescription: 'For the moments when worry will not stop and your thoughts run ahead of you. Ten minutes to feel your feet again.\n\nUse it whenever you need it, sitting or standing, and come back to it tomorrow.\n\nTake a breath with me and then be love and give love. Have a wonderful day, one breath at a time.',
   spotifyDescription: 'Ten minutes to find your feet.\n\nTake a breath with me and then be love and give love. Have a wonderful day, one breath at a time.',
   tags: ['anxiety', 'calm'],
   script: '## Opening\n[softly] Let yourself arrive, just as you are.\n\n[[silence 5s]]\n\nNotice your feet on the floor.\n\n## Closing\nCome back to this tomorrow.\n\nTake a breath with me and then be love and give love. Have a wonderful day, one breath at a time.',
+  coverImagePrompt: 'Mist over a dark Welsh hill at dusk, deep navy sky, aged gold light low on the horizon, film grain, no text.',
+  coverAltText: 'A misty hill at dusk under a deep navy sky.',
+  trailerLine: 'When worry will not stop, come back to solid ground.',
+  snippetStart: 'Notice your feet on the floor.',
   notesForJulian: 'Check the opening by ear.',
 };
 

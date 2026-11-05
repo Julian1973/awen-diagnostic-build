@@ -96,7 +96,12 @@ function normaliseSpace(s) {
 
 // Returns a list of { rule, severity: 'block'|'flag'|'pass', message } for one meditation.
 // severity block = must fix before it goes out; flag = Julian's eyes; pass = checked and fine.
-export function brandCheck(m, format) {
+export function insightTimerDescription(m, musicCredit) {
+  const base = String(m.insightTimerDescription || '').trim();
+  return musicCredit ? `${base}\n\n${musicCredit}` : base;
+}
+
+export function brandCheck(m, format, { musicCredit = '' } = {}) {
   const brand = BRANDS[m.brand] || BRANDS['living-awake'];
   const results = [];
   const script = m.script || '';
@@ -153,6 +158,18 @@ export function brandCheck(m, format) {
     if (/tomorrow|come back|again tomorrow|return to this|each morning|each evening|next time/.test(closing)) add('Return invitation', 'pass', 'Gentle invitation to come back is in the close.');
     else add('Return invitation', 'flag', 'No gentle invitation to return tomorrow in the close. Return rate drives Insight Timer income.');
   }
+
+  // Insight Timer description rules: 200 to 1000 characters, no links, contact details or emojis.
+  const itDesc = insightTimerDescription(m, musicCredit);
+  if (m.insightTimerDescription) {
+    const n = itDesc.length;
+    if (n < 200) add('Insight Timer description', 'block', `${n} characters. Insight Timer needs at least 200.`);
+    else if (n > 1000) add('Insight Timer description', 'block', `${n} characters${musicCredit ? ' with the music credit' : ''}. Insight Timer allows 1000 at most.`);
+    else add('Insight Timer description', 'pass', `${n} characters${musicCredit ? ' with the music credit' : ''} (200 to 1000 allowed).`);
+    if (/(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|co\.uk|uk|me|org|net|io)\b|[\w.]+@[\w.]+|(^|\s)@\w)/i.test(itDesc)) add('No links', 'block', 'Insight Timer rejects links, website names, email addresses and social handles in descriptions.');
+    if (/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/u.test(`${m.title}\n${itDesc}`)) add('No emojis', 'block', 'Insight Timer rejects emojis and special symbols in titles and descriptions.');
+  }
+  if (m.script && !m.coverImagePrompt) add('Cover image', 'flag', 'No cover image description yet. Ask Claude to revise and add one.');
 
   // Insight Timer title guidance: no category words and no teacher name in the title.
   const itTitleWords = findWords(m.title || '', ['meditation', 'guided', 'music', 'julian', 'jenkins']);

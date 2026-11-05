@@ -70,6 +70,51 @@ Keys are saved to `.env` in the app folder. Git ignores that file, and the dashb
 6. **Publish.** Upload packs for Insight Timer and Spotify: title, description, tags, length, audio spec, a checklist and a transcript. Download the MP3 and save the live links.
 7. **Performance.** Log the running totals from your Insight Timer teacher dashboard and Spotify for Creators: plays, payable plays, return rate and donations. The overview and Performance pages show which formats bring people in.
 
+## What gets played on Insight Timer
+
+The **Formats & trends** page shows the research behind every format. It was gathered on 5 Nov 2026 from 26 high-play tracks with verified play counts, 77.65M plays in total.
+
+- **By content:** sleep has 75% of the plays. Yoga nidra for sleep alone has 43%, from three tracks by one teacher at 19:45, 22:21 and 30:16. After sleep come mornings, letting go and self love. Anxiety is searched a lot, but single anxiety tracks stay under 0.5M plays.
+- **By length:**
+  - **Sleep:** 20 minutes or longer, 93% of sleep plays (median about 26 minutes). A 61-minute deep sleep track has 14.9M plays.
+  - **Daytime:** 10 to 15 minutes, 84% of daytime plays (median about 10 minutes). One teacher's 10-minute anxiety practice beat both their 5-minute and 20-minute versions.
+- **What to make first:**
+  - a 20 to 30 minute yoga nidra for sleep
+  - a 45 to 60 minute sleep track with a continuous music bed
+  - 10 to 12 minute daytime tracks, led by a morning practice
+  - letting go, and a 5-minute kindness practice
+  - one 10-minute anxiety track
+- **Titles:** put the minutes and the benefit in every title, for example "Set Down What You Carry: 10 Minutes".
+- **Range:** over time, cover all six bands of the app's length filter. The Performance page shows which bands you've filled.
+
+The default lengths of the formats follow these findings. Play counts come from search-engine snapshots of Insight Timer track pages, so read them as "at least".
+
+## Insight Timer upload: snippet, trailer, cover, tags and music
+
+The **Publish** tab has everything the upload asks for:
+
+- **30-second snippet.** Insight Timer plays 30 seconds of a track as its preview. You choose them in the Teacher Dashboard (Edit, then Pick a Snippet, then drag the slider). The studio picks the best 30 seconds from your recorded mix and tells you exactly where to set the slider, for example **2:00**. It also gives you the snippet MP3 to check by ear. It uses, in order of preference:
+  1. a paragraph you choose
+  2. the moment suggested when the script was written
+  3. the 30 seconds with the most of your voice
+- **Trailer video.** A 30-second portrait MP4 (1080 x 1920) of the snippet over your Living Awake card: the brand gradient, title, trailer line, Celtic cross logo and wordmark. Insight Timer course trailers are portrait MP4s, ideally 20 to 30 seconds. The same video works for Instagram reels and YouTube Shorts. Upload the logo once in **Settings**.
+- **Cover image.** Each script comes with a description for the image generator and alt text. The description follows the Living Awake look: navy and aged gold, film grain, Welsh ground, no text. Covers need to be square, at least 1600 x 1600 px and under 20 MB.
+- **Tags and description.** Claude writes 6 to 10 tags. The brand check holds the Insight Timer description to 200 to 1,000 characters (counting the music credit), with no links, website names, emails, handles or emojis, all of which Insight Timer rejects. It also flags a title whose minutes don't match the finished track.
+- **Music credit.** Insight Timer asks for music to be credited in the description. Each bed has a credit line, which you can edit in Settings, and the pack adds it automatically.
+
+## Music beds
+
+In **Settings → Music beds**, choose **Make this bed** to have ElevenLabs Music compose a calm, instrumental bed straight into your library. It costs about 2,700 credits for 3 minutes. There are four presets, all with no drums, beat or vocals and an even, soft volume that sits under your voice:
+
+| Bed | For |
+|---|---|
+| Still Water | Everyday guided meditations: warm pads, sparse felt piano |
+| Harp at Dusk | Welsh ground journeys and loving kindness: a few slow harp notes over strings |
+| Night Tide | Sleep and yoga nidra: deep, slow drones like a calm tide |
+| Morning Light | Morning practices: warm pads, soft chimes |
+
+Short beds loop under long tracks with 8-second crossfades, so a 3-minute bed can carry an hour-long sleep track without an audible join. Insight Timer allows AI music when it supports a human voice. It doesn't allow tracks made only of AI music.
+
 ## The script format
 
 ```
@@ -129,7 +174,7 @@ These are the voices found in your ElevenLabs workspace on 5 Nov 2026. The defau
 ## For developers
 
 ```bash
-npm test        # 30 tests: parser, brand checker, two Macs, and the whole flow end to end
+npm test        # 34 tests: parser, brand checker, snippet and trailer, beds, two Macs, and the whole flow end to end
 npm run dev     # restarts the server when files change
 ```
 
@@ -145,6 +190,9 @@ The tests run Claude and ElevenLabs against stand-in servers (`test/mocks.js`), 
 | `lib/render.js` | Voicing (clone or recordings) and assembly |
 | `lib/audio.js` | ffmpeg: silence, bell, join, bed mix, two-pass loudness and the MP3 |
 | `lib/icloud.js` | Brings back files iCloud Drive has offloaded before they are read |
+| `lib/trailer.js` | Picks the 30 second snippet and makes the trailer MP4 |
+| `lib/beds.js` | The calm music bed presets for ElevenLabs Music |
+| `assets/fonts/` | Cormorant Garamond for the trailer card (SIL Open Font License, `OFL.txt`) |
 | `install-mac.sh` | The Mac installer: Node.js, the app, the iCloud library and the Dock app |
 | `data/formats.json` | The format catalogue and its sources |
 | `public/` | The dashboard (plain JavaScript, no build step) |

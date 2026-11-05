@@ -60,7 +60,8 @@ test('status, formats and voices', async () => {
   assert.equal(s.data.ffmpeg.ok, true);
   assert.match(s.data.elevenlabs, /ending even/);
   const f = await api('/api/formats');
-  assert.equal(f.data.formats.length, 15);
+  assert.equal(f.data.formats.length, 16);
+  assert.ok(f.data.playData.byLength.sleep.length === 6);
   const v = await api('/api/voices');
   assert.equal(v.data.voices[0].voice_id, '3crtmEFfp6bvumTLLI8m', 'Julian voices first');
   const sub = await api('/api/subscription');
@@ -167,12 +168,75 @@ test('Insight Timer pack stays locked until Julian records every paragraph', asy
   assert.match(it.data, /Transcript:/);
 });
 
+test('30 second snippet and trailer video', async () => {
+  const { data: list } = await api('/api/meditations');
+  const m = list.find((x) => x.formatId === 'morning-five-breaths');
+  const full = (await api(`/api/meditations/${m.id}`)).data;
+  const timeline = full.renders.recorded.timeline;
+  assert.ok(timeline.length > 10 && timeline[0].start >= 4, 'timeline starts after the lead in');
+  assert.ok(timeline.every((p, i) => i === 0 || p.start >= timeline[i - 1].end), 'paragraphs in order');
+
+  const auto = await api(`/api/meditations/${m.id}/snippet`, { method: 'POST', body: { source: 'recorded' } });
+  assert.equal(auto.status, 200, JSON.stringify(auto.data));
+  assert.ok(auto.data.snippet.start >= 0);
+  const chosen = await api(`/api/meditations/${m.id}/snippet`, { method: 'POST', body: { source: 'recorded', textKey: timeline[5].textKey } });
+  assert.equal(chosen.data.snippet.textKey, timeline[5].textKey);
+  assert.ok(Math.abs(chosen.data.snippet.start - (timeline[5].start - 0.4)) < 0.11);
+  const snip = await fetch(`${base}${chosen.data.url}`);
+  assert.equal(snip.status, 200);
+
+  const card = toneFile(0, 'png');
+  const fd = new FormData();
+  fd.append('source', 'recorded');
+  fd.append('card', new Blob([card], { type: 'image/png' }), 'card.png');
+  const t = await api(`/api/meditations/${m.id}/trailer`, { method: 'POST', form: fd });
+  assert.equal(t.status, 200, JSON.stringify(t.data));
+  const job = await waitJob(t.data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  assert.equal(job.result.seconds, 30);
+  assert.equal(job.result.width, 1080);
+  const mp4 = await fetch(`${base}/api/renders/${m.id}/trailer-recorded`);
+  assert.equal(mp4.headers.get('content-type'), 'video/mp4');
+
+  const pack = await api(`/api/meditations/${m.id}/pack/insight-timer`);
+  assert.match(pack.data, /drag the slider to start at \d+:\d\d/);
+  assert.match(pack.data, /Course trailer video: MP4, portrait 1080 x 1920, 30 seconds/);
+  assert.match(pack.data, /Cover image description/);
+});
+
+test('ElevenLabs Music makes a calm bed with a credit line', async () => {
+  const { data: bedsRes } = await api('/api/beds');
+  assert.ok(bedsRes.presets.find((p) => p.id === 'still-water'));
+  const { data } = await api('/api/beds/generate', { method: 'POST', body: { preset: 'night-tide', seconds: 180 } });
+  const job = await waitJob(data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  const call = eleven.calls.filter((c) => c.music).at(-1);
+  assert.equal(call.music_length_ms, 180000);
+  assert.equal(call.force_instrumental, true);
+  assert.match(call.prompt, /No drums/);
+  const { data: after } = await api('/api/beds');
+  const bed = after.beds.find((b) => b.name === 'Night Tide.mp3');
+  assert.equal(bed.source, 'elevenlabs-music');
+  assert.equal(bed.credit, 'Music: Night Tide');
+  await api(`/api/beds/${encodeURIComponent('Night Tide.mp3')}`, { method: 'PUT', body: { credit: 'Music: Night Tide, made for Living Awake' } });
+  const { data: list } = await api('/api/meditations');
+  const m = list.find((x) => x.formatId === 'morning-five-breaths');
+  await api(`/api/meditations/${m.id}`, { method: 'PUT', body: { bedFile: 'Night Tide.mp3' } });
+  const r = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'recorded' } });
+  const done = await waitJob(r.data.job.id);
+  assert.equal(done.status, 'done', done.error);
+  assert.equal(done.result.bed, 'Night Tide.mp3');
+  const pack = await api(`/api/meditations/${m.id}/pack/insight-timer`);
+  assert.match(pack.data, /Music: Night Tide, made for Living Awake/);
+  assert.match(pack.data, /\(\d+ of 1000 characters\)/);
+});
+
 test('music bed upload and mix', async () => {
   const fd = new FormData();
   fd.append('file', new Blob([toneMp3(4, 110)], { type: 'audio/mpeg' }), 'Wyth tone one.mp3');
   assert.equal((await api('/api/beds', { method: 'POST', form: fd })).status, 200);
   const { data: beds } = await api('/api/beds');
-  assert.equal(beds.beds[0].name, 'Wyth tone one.mp3');
+  assert.ok(beds.beds.find((b) => b.name === 'Wyth tone one.mp3'));
   const { data: list } = await api('/api/meditations');
   const m = list.find((x) => x.formatId === 'morning-five-breaths');
   await api(`/api/meditations/${m.id}`, { method: 'PUT', body: { bedFile: 'Wyth tone one.mp3', bedVolumeDb: -24 } });

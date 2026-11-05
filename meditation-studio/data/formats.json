@@ -2,32 +2,69 @@
   "researchedOn": "2026-11-05",
   "notes": [
     "Patterns are modelled on what gets the most plays. Every word Julian publishes is his own: never copy another teacher's title, script or signature lines.",
-    "Insight Timer titles: no category words (Guided Meditation, Meditation, Music) and no teacher name. Spotify titles: lead with the format keyword, then the benefit.",
-    "Insight Timer pays a play after 120 seconds and pays a return rate bonus (25 to 30% of teacher income). Hook early, invite a return tomorrow, offer a range of lengths, upload regularly.",
+    "Insight Timer titles: no category words (Guided Meditation, Meditation, Music) and no teacher name, but do give the minutes and the benefit (top teachers have retitled their tracks this way). Spotify titles: lead with the format keyword, then the benefit.",
+    "Insight Timer pays a play after 2 minutes or half the track, whichever comes first, and pays a return rate bonus (25 to 30% of teacher income). Hook early, put tips on how to use the track in the description, invite a return tomorrow, upload regularly.",
+    "Cover all six bands of the app's length filter over time: 0 to 5, 6 to 10, 11 to 15, 16 to 20, 21 to 30 and 30 plus minutes.",
     "Insight Timer requires a real human voice for narration. Voice clones and text to speech are not permitted. Use Record mode for anything going to Insight Timer."
   ],
   "sources": [
-    { "label": "Insight Timer best practices for content", "url": "https://help.insighttimer.com/support/solutions/articles/67000664986-best-practices-for-content" },
-    { "label": "Insight Timer AI policy for teachers", "url": "https://insight-timer.freshdesk.com/support/solutions/articles/67000723124-can-teachers-use-artificial-intelligence-ai-on-their-insight-timer-offerings-" },
-    { "label": "Insight Timer teacher income FAQ (return rate)", "url": "https://help.insighttimer.com/support/solutions/articles/67000737721-teacher-income-faq-august-2024" },
-    { "label": "Insight Timer content depth", "url": "https://help.insighttimer.com/support/solutions/articles/67000722678-content-depth-how-to-grow-your-audience" },
-    { "label": "Insight Timer image requirements", "url": "https://insight-timer.freshdesk.com/support/solutions/articles/67000664885-image-requirements-technical-specifications" },
-    { "label": "Jennifer Piercy, Yoga Nidra For Sleep (about 23.5M plays, 22:21)", "url": "https://insighttimer.com/jenniferpiercy/video-guided-meditations/yoga-nidra-for-sleep" },
-    { "label": "Spotify loudness normalisation (-14 LUFS)", "url": "https://support.spotify.com/artists/article/loudness-normalization/" },
-    { "label": "Spotify AI protections (Sep 2025)", "url": "https://newsroom.spotify.com/2025-09-25/spotify-strengthens-ai-protections/" },
-    { "label": "Spotify podcast impersonation rules (May 2026)", "url": "https://newsroom.spotify.com/2026-05-19/podcast-verification-trust-creators-listeners/" },
-    { "label": "Spotify for Creators audio specs", "url": "https://support.spotify.com/us/creators/article/publishing-audio-episodes/" }
+    {
+      "label": "Insight Timer best practices for content",
+      "url": "https://help.insighttimer.com/support/solutions/articles/67000664986-best-practices-for-content"
+    },
+    {
+      "label": "Insight Timer AI policy for teachers",
+      "url": "https://insight-timer.freshdesk.com/support/solutions/articles/67000723124-can-teachers-use-artificial-intelligence-ai-on-their-insight-timer-offerings-"
+    },
+    {
+      "label": "Insight Timer teacher income FAQ (return rate)",
+      "url": "https://help.insighttimer.com/support/solutions/articles/67000737721-teacher-income-faq-august-2024"
+    },
+    {
+      "label": "Insight Timer content depth",
+      "url": "https://help.insighttimer.com/support/solutions/articles/67000722678-content-depth-how-to-grow-your-audience"
+    },
+    {
+      "label": "Insight Timer image requirements",
+      "url": "https://insight-timer.freshdesk.com/support/solutions/articles/67000664885-image-requirements-technical-specifications"
+    },
+    {
+      "label": "Jennifer Piercy, Yoga Nidra For Sleep (about 23.5M plays, 22:21)",
+      "url": "https://insighttimer.com/jenniferpiercy/video-guided-meditations/yoga-nidra-for-sleep"
+    },
+    {
+      "label": "Spotify loudness normalisation (-14 LUFS)",
+      "url": "https://support.spotify.com/artists/article/loudness-normalization/"
+    },
+    {
+      "label": "Spotify AI protections (Sep 2025)",
+      "url": "https://newsroom.spotify.com/2025-09-25/spotify-strengthens-ai-protections/"
+    },
+    {
+      "label": "Spotify podcast impersonation rules (May 2026)",
+      "url": "https://newsroom.spotify.com/2026-05-19/podcast-verification-trust-creators-listeners/"
+    },
+    {
+      "label": "Spotify for Creators audio specs",
+      "url": "https://support.spotify.com/us/creators/article/publishing-audio-episodes/"
+    }
   ],
   "formats": [
     {
       "id": "yoga-nidra-sleep",
       "name": "Yoga Nidra for Sleep",
-      "platforms": ["Insight Timer", "Spotify"],
-      "minutes": [20, 30],
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        20,
+        30
+      ],
       "defaultMinutes": 22,
       "ending": "sleep",
       "speechRatio": 0.5,
-      "evidence": "Strong. The single most played track on Insight Timer is a 22 minute yoga nidra for sleep (about 23.5M plays). Yoga nidra has its own Sleep category.",
+      "evidence": "Strongest pattern on Insight Timer: three yoga nidra for sleep tracks by one teacher hold 33.1M plays (43% of the verified high play set), at 19:45, 22:21 and 30:16. The single most played track is 22:21 with about 23.5M plays.",
       "beats": [
         "Settle into stillness and set a simple heartfelt resolve",
         "Rotate awareness through the body, point by point, unhurried",
@@ -37,21 +74,38 @@
         "Let go into sleep. No bell, no waking up, long silences to the end"
       ],
       "titlePatterns": {
-        "insightTimer": ["Yoga Nidra to Rest Deeply Tonight", "Resting in the Quiet Valley", "Yoga Nidra for a Busy Mind at Night"],
-        "spotify": ["Yoga Nidra for Sleep: {benefit}", "{minutes} Minute Yoga Nidra for Deep Sleep", "Sleep Yoga Nidra: {benefit}"]
+        "insightTimer": [
+          "Yoga Nidra to Rest Deeply Tonight",
+          "Resting in the Quiet Valley",
+          "Yoga Nidra for a Busy Mind at Night"
+        ],
+        "spotify": [
+          "Yoga Nidra for Sleep: {benefit}",
+          "{minutes} Minute Yoga Nidra for Deep Sleep",
+          "Sleep Yoga Nidra: {benefit}"
+        ]
       },
-      "pillars": [3, 4],
+      "pillars": [
+        3,
+        4
+      ],
       "brand": "living-awake"
     },
     {
       "id": "sleep-body-scan",
       "name": "Deep Sleep Body Scan",
-      "platforms": ["Insight Timer", "Spotify"],
-      "minutes": [17, 30],
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        20,
+        30
+      ],
       "defaultMinutes": 25,
       "ending": "sleep",
       "speechRatio": 0.5,
-      "evidence": "Moderate to strong. Highly rated deep sleep tracks run 17 to 30 minutes. Sleep is the biggest listening category on both platforms.",
+      "evidence": "Sleep is 75% of verified high play listening, and 93% of those sleep plays are on tracks of 20 minutes or longer (median about 26 minutes).",
       "beats": [
         "Permission to put the day down",
         "Lengthen the out breath",
@@ -61,21 +115,38 @@
         "The voice fades and leaves the listener resting"
       ],
       "titlePatterns": {
-        "insightTimer": ["Let Your Body Fall Asleep", "Body Scan for Deep, Unbroken Sleep", "Putting the Day Down"],
-        "spotify": ["Sleep Meditation: {benefit}", "Body Scan for Sleep: {benefit}", "Guided Sleep Meditation for {problem}"]
+        "insightTimer": [
+          "Let Your Body Fall Asleep",
+          "Body Scan for Deep, Unbroken Sleep",
+          "Putting the Day Down"
+        ],
+        "spotify": [
+          "Sleep Meditation: {benefit}",
+          "Body Scan for Sleep: {benefit}",
+          "Guided Sleep Meditation for {problem}"
+        ]
       },
-      "pillars": [1, 3],
+      "pillars": [
+        1,
+        3
+      ],
       "brand": "living-awake"
     },
     {
       "id": "long-sleep-journey",
-      "name": "Long Sleep Journey (Spotify long form)",
-      "platforms": ["Spotify"],
-      "minutes": [40, 60],
-      "defaultMinutes": 45,
+      "name": "Long Sleep Journey (45 to 60 minutes)",
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        45,
+        60
+      ],
+      "defaultMinutes": 60,
       "ending": "sleep",
-      "speechRatio": 0.4,
-      "evidence": "Moderate. Leading sleep hypnosis and talk down releases on Spotify run 40 to 60 minutes and ship as long singles or podcast episodes. One long track, never split into short ones (Spotify treats that as spam).",
+      "speechRatio": 0.35,
+      "evidence": "The second most played verified track is a 61 minute guided deep sleep relaxation (14.9M plays), and a 1:43 sleep affirmations track has about 3M. Keep it one long track: on Spotify, splitting is treated as spam. The music bed carries on under the quiet passages, so it never drops to bare silence (Insight Timer links long silences to early exits).",
       "beats": [
         "Welcome and slow breathing",
         "A gentle count down, each number softer",
@@ -85,21 +156,36 @@
         "Extended quiet with the music bed"
       ],
       "titlePatterns": {
-        "insightTimer": ["A Long Way Down Into Rest", "The Night Path Home"],
-        "spotify": ["Sleep Meditation for {problem}: Fall Asleep and Stay Asleep", "Deep Sleep Talk Down: {benefit}", "{minutes} Minute Sleep Meditation: {benefit}"]
+        "insightTimer": [
+          "A Long Way Down Into Rest",
+          "The Night Path Home"
+        ],
+        "spotify": [
+          "Sleep Meditation for {problem}: Fall Asleep and Stay Asleep",
+          "Deep Sleep Talk Down: {benefit}",
+          "{minutes} Minute Sleep Meditation: {benefit}"
+        ]
       },
-      "pillars": [3],
+      "pillars": [
+        3
+      ],
       "brand": "living-awake"
     },
     {
       "id": "sleep-affirmations",
       "name": "Night Affirmations",
-      "platforms": ["Insight Timer", "Spotify"],
-      "minutes": [20, 30],
-      "defaultMinutes": 20,
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        20,
+        60
+      ],
+      "defaultMinutes": 30,
       "ending": "sleep",
       "speechRatio": 0.45,
-      "evidence": "Moderate. Thirty minute affirmation tracks for sleep and self worth rate 4.8 to 4.9 on Insight Timer.",
+      "evidence": "A 1:43:45 deep sleep affirmations track has about 3M plays; 30 minute affirmation tracks rate 4.8 to 4.9.",
       "beats": [
         "Breath and softening",
         "Body release",
@@ -108,17 +194,33 @@
         "Music only to the end"
       ],
       "titlePatterns": {
-        "insightTimer": ["Fall Asleep Knowing You Are Enough", "Night Words for a Tired Heart", "Nothing to Fix Tonight"],
-        "spotify": ["Sleep Affirmations for {benefit}", "Night Affirmations: {benefit}", "{minutes} Minutes of Calm Affirmations for Sleep"]
+        "insightTimer": [
+          "Fall Asleep Knowing You Are Enough",
+          "Night Words for a Tired Heart",
+          "Nothing to Fix Tonight"
+        ],
+        "spotify": [
+          "Sleep Affirmations for {benefit}",
+          "Night Affirmations: {benefit}",
+          "{minutes} Minutes of Calm Affirmations for Sleep"
+        ]
       },
-      "pillars": [4, 1],
+      "pillars": [
+        4,
+        1
+      ],
       "brand": "living-awake"
     },
     {
       "id": "welsh-bedtime-story",
       "name": "Bedtime Story for Grown Ups (Welsh)",
-      "platforms": ["Spotify"],
-      "minutes": [25, 45],
+      "platforms": [
+        "Spotify"
+      ],
+      "minutes": [
+        25,
+        45
+      ],
       "defaultMinutes": 30,
       "ending": "sleep",
       "speechRatio": 0.75,
@@ -130,21 +232,36 @@
         "Fade out into quiet"
       ],
       "titlePatterns": {
-        "insightTimer": ["A Quiet Evening by the Harbour Wall", "The Lamp in the Chapel Window"],
-        "spotify": ["Sleep Story: {story}", "Bedtime Story for Grown Ups: {story}", "Sleepy Story: {story}"]
+        "insightTimer": [
+          "A Quiet Evening by the Harbour Wall",
+          "The Lamp in the Chapel Window"
+        ],
+        "spotify": [
+          "Sleep Story: {story}",
+          "Bedtime Story for Grown Ups: {story}",
+          "Sleepy Story: {story}"
+        ]
       },
-      "pillars": [2],
+      "pillars": [
+        2
+      ],
       "brand": "living-awake"
     },
     {
       "id": "calm-in-the-moment",
       "name": "Calm in the Moment (anxiety)",
-      "platforms": ["Insight Timer", "Spotify"],
-      "minutes": [8, 15],
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        8,
+        12
+      ],
       "defaultMinutes": 10,
       "ending": "bell",
       "speechRatio": 0.65,
-      "evidence": "Moderate. Anxiety and stress is a featured topic. Insight Timer recommends 10 to 20 minutes for guided meditations. Hook the listener well inside 120 seconds.",
+      "evidence": "Anxiety was one of Insight Timer's three most searched terms, but single anxiety tracks stay under 0.5M plays, so make one strong 10 minute track rather than many. One teacher's anxiety practice did best at 10 minutes: 2.2 times the 5 minute version and 1.6 times the 20 minute.",
       "beats": [
         "Name what is happening without making it wrong",
         "Ground: feet, the weight of the body, what can be heard",
@@ -154,21 +271,36 @@
         "One small next step, then the bell"
       ],
       "titlePatterns": {
-        "insightTimer": ["When Worry Won't Stop", "Back to Solid Ground", "Settle an Anxious Mind in Ten Minutes"],
-        "spotify": ["Meditation for Anxiety: {benefit}", "{minutes} Minute Meditation for Anxiety", "Calm Anxiety Now: {benefit}"]
+        "insightTimer": [
+          "When Worry Won't Stop",
+          "Back to Solid Ground",
+          "Settle an Anxious Mind in Ten Minutes"
+        ],
+        "spotify": [
+          "Meditation for Anxiety: {benefit}",
+          "{minutes} Minute Meditation for Anxiety",
+          "Calm Anxiety Now: {benefit}"
+        ]
       },
-      "pillars": [3],
+      "pillars": [
+        3
+      ],
       "brand": "living-awake"
     },
     {
       "id": "letting-go",
       "name": "Letting Go",
-      "platforms": ["Insight Timer"],
-      "minutes": [15, 20],
-      "defaultMinutes": 15,
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        10,
+        15
+      ],
+      "defaultMinutes": 10,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Weak to moderate. Strong search demand, no ranked data. Fits Pillar 1 exactly.",
+      "evidence": "Letting go and surrender is the strongest daytime theme after mornings: 10 and 12 minute tracks by one teacher have 4.0M and 2.5M plays. Fits Pillar 1 exactly.",
       "beats": [
         "Arrive and breathe",
         "Find where it is being held in the body",
@@ -178,21 +310,36 @@
         "A small intention for the day, then the bell"
       ],
       "titlePatterns": {
-        "insightTimer": ["Set Down What You've Been Carrying", "Let the River Take It", "Grieving Who You Used to Be"],
-        "spotify": ["Letting Go Meditation: {benefit}", "Meditation to Let Go of {problem}", "Release and Let Go: {benefit}"]
+        "insightTimer": [
+          "Set Down What You've Been Carrying",
+          "Let the River Take It",
+          "Grieving Who You Used to Be"
+        ],
+        "spotify": [
+          "Letting Go Meditation: {benefit}",
+          "Meditation to Let Go of {problem}",
+          "Release and Let Go: {benefit}"
+        ]
       },
-      "pillars": [1],
+      "pillars": [
+        1
+      ],
       "brand": "living-awake"
     },
     {
       "id": "inner-child",
       "name": "Coming Home to Yourself (self worth)",
-      "platforms": ["Insight Timer"],
-      "minutes": [15, 30],
-      "defaultMinutes": 20,
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        10,
+        15
+      ],
+      "defaultMinutes": 12,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Moderate. A 30 minute inner child and self love track rates 4.9 on Insight Timer. Self love and compassion is a featured topic.",
+      "evidence": "Self love and self compassion tracks gather steady plays; the best daytime lengths are 10 to 15 minutes (84% of verified daytime plays).",
       "beats": [
         "Safety and breath",
         "Meet your younger self in a remembered place",
@@ -202,21 +349,37 @@
         "Return, with a gentle invitation to come back tomorrow"
       ],
       "titlePatterns": {
-        "insightTimer": ["Meeting Your Younger Self with Kindness", "Come Home to Your Own Heart", "You Were Never the Problem"],
-        "spotify": ["Inner Child Meditation: {benefit}", "Self Love Meditation: {benefit}", "Healing Meditation for {problem}"]
+        "insightTimer": [
+          "Meeting Your Younger Self with Kindness",
+          "Come Home to Your Own Heart",
+          "You Were Never the Problem"
+        ],
+        "spotify": [
+          "Inner Child Meditation: {benefit}",
+          "Self Love Meditation: {benefit}",
+          "Healing Meditation for {problem}"
+        ]
       },
-      "pillars": [1, 4],
+      "pillars": [
+        1,
+        4
+      ],
       "brand": "living-awake"
     },
     {
       "id": "morning-five-breaths",
       "name": "Morning Five Breaths (daily ritual)",
-      "platforms": ["Insight Timer"],
-      "minutes": [5, 12],
-      "defaultMinutes": 8,
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        8,
+        12
+      ],
+      "defaultMinutes": 10,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Moderate. Return rate counts listeners who come back the next day, so a daily morning ritual feeds it directly. Popular daily tracks run about 12 minutes. Built on the Living Awake Daily Practice.",
+      "evidence": "Mornings were one of Insight Timer's three most searched terms, and the top daytime track found is a 10:26 morning meditation with 7.2M plays. A daily morning ritual also feeds return rate. Built on the Living Awake Daily Practice.",
       "beats": [
         "Wake the body gently",
         "Five conscious breaths, counted on the breath. Losing count is not failure, noticing is the return",
@@ -225,17 +388,33 @@
         "The bell, and an invitation to meet again tomorrow morning"
       ],
       "titlePatterns": {
-        "insightTimer": ["Five Breaths Before the Day Begins", "Begin the Day Awake", "A Clear Morning"],
-        "spotify": ["Morning Meditation: {benefit}", "{minutes} Minute Morning Meditation", "Morning Breathing: {benefit}"]
+        "insightTimer": [
+          "Five Breaths Before the Day Begins",
+          "Begin the Day Awake",
+          "A Clear Morning"
+        ],
+        "spotify": [
+          "Morning Meditation: {benefit}",
+          "{minutes} Minute Morning Meditation",
+          "Morning Breathing: {benefit}"
+        ]
       },
-      "pillars": [3, 4],
+      "pillars": [
+        3,
+        4
+      ],
       "brand": "living-awake"
     },
     {
       "id": "evening-wind-down",
       "name": "Evening Wind Down (daily ritual)",
-      "platforms": ["Insight Timer"],
-      "minutes": [8, 12],
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        8,
+        12
+      ],
       "defaultMinutes": 10,
       "ending": "sleep",
       "speechRatio": 0.55,
@@ -248,21 +427,37 @@
         "Drift on into the night"
       ],
       "titlePatterns": {
-        "insightTimer": ["One Quiet Minute Before Sleep", "Closing the Day Kindly", "Putting the Wheel Down"],
-        "spotify": ["Evening Meditation: {benefit}", "Bedtime Meditation: {benefit}", "{minutes} Minute Wind Down for Sleep"]
+        "insightTimer": [
+          "One Quiet Minute Before Sleep",
+          "Closing the Day Kindly",
+          "Putting the Wheel Down"
+        ],
+        "spotify": [
+          "Evening Meditation: {benefit}",
+          "Bedtime Meditation: {benefit}",
+          "{minutes} Minute Wind Down for Sleep"
+        ]
       },
-      "pillars": [3, 1],
+      "pillars": [
+        3,
+        1
+      ],
       "brand": "living-awake"
     },
     {
       "id": "thread-loving-kindness",
       "name": "The Thread (loving kindness)",
-      "platforms": ["Insight Timer"],
-      "minutes": [10, 20],
-      "defaultMinutes": 15,
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        10,
+        15
+      ],
+      "defaultMinutes": 12,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Weak to moderate. Love and compassion topic pages exist and the form is a classic. Carries Pillar 2: the thread was never cut.",
+      "evidence": "No verified high play loving kindness track turned up, so keep it to the proven daytime band of 10 to 15 minutes. Carries Pillar 2: the thread was never cut.",
       "beats": [
         "Settle",
         "Kindness to yourself",
@@ -272,17 +467,33 @@
         "Everyone, then rest in it, then the bell"
       ],
       "titlePatterns": {
-        "insightTimer": ["The Thread Was Never Cut", "Widening the Circle of Kindness", "Kindness for a Hard Day"],
-        "spotify": ["Loving Kindness Meditation: {benefit}", "Compassion Meditation: {benefit}", "{minutes} Minute Loving Kindness"]
+        "insightTimer": [
+          "The Thread Was Never Cut",
+          "Widening the Circle of Kindness",
+          "Kindness for a Hard Day"
+        ],
+        "spotify": [
+          "Loving Kindness Meditation: {benefit}",
+          "Compassion Meditation: {benefit}",
+          "{minutes} Minute Loving Kindness"
+        ]
       },
-      "pillars": [2],
+      "pillars": [
+        2
+      ],
       "brand": "living-awake"
     },
     {
       "id": "breath-reset",
       "name": "Breath Reset",
-      "platforms": ["Insight Timer", "Spotify"],
-      "minutes": [5, 10],
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        5,
+        10
+      ],
       "defaultMinutes": 6,
       "ending": "bell",
       "speechRatio": 0.6,
@@ -295,21 +506,75 @@
         "Back to the day, then the bell"
       ],
       "titlePatterns": {
-        "insightTimer": ["The Breath Is the Truce", "A Steady Breath Before You Walk In", "Breathe Back Into Balance"],
-        "spotify": ["Breathing Exercise for {benefit}", "{minutes} Minute Breathwork: {benefit}", "Calm Breathing: {benefit}"]
+        "insightTimer": [
+          "The Breath Is the Truce",
+          "A Steady Breath Before You Walk In",
+          "Breathe Back Into Balance"
+        ],
+        "spotify": [
+          "Breathing Exercise for {benefit}",
+          "{minutes} Minute Breathwork: {benefit}",
+          "Calm Breathing: {benefit}"
+        ]
       },
-      "pillars": [3],
+      "pillars": [
+        3
+      ],
+      "brand": "living-awake"
+    },
+    {
+      "id": "five-minute-kindness",
+      "name": "Five Minute Kindness (self compassion)",
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        5,
+        6
+      ],
+      "defaultMinutes": 5,
+      "ending": "bell",
+      "speechRatio": 0.65,
+      "evidence": "A five minute self compassion track has 1.2M plays. Short practices fill the 0 to 5 minute length filter band. A play counts after 2 minutes or half the track, so a 5 minute track pays from 2:30.",
+      "beats": [
+        "Arrive and soften",
+        "A hand on the heart",
+        "Name what is hard, plainly",
+        "Offer yourself the words a friend would",
+        "One breath of rest, then the bell"
+      ],
+      "titlePatterns": {
+        "insightTimer": [
+          "Five Minutes of Kindness for Yourself",
+          "A Hand on Your Own Heart: 5 Minutes",
+          "When You Are Hard on Yourself: 5 Minutes"
+        ],
+        "spotify": [
+          "Self Compassion Meditation: 5 Minutes",
+          "5 Minute Meditation for Self Kindness"
+        ]
+      },
+      "pillars": [
+        4,
+        1
+      ],
       "brand": "living-awake"
     },
     {
       "id": "welsh-imagery-journey",
       "name": "Welsh Ground Journey (guided imagery)",
-      "platforms": ["Insight Timer", "Spotify"],
-      "minutes": [15, 25],
-      "defaultMinutes": 18,
+      "platforms": [
+        "Insight Timer",
+        "Spotify"
+      ],
+      "minutes": [
+        10,
+        20
+      ],
+      "defaultMinutes": 12,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Weak to moderate as a proven format, strong as a signature. Guided imagery is its own topic and a 4.9 rated imagery track sits in it. The Welsh ground is Julian's difference.",
+      "evidence": "Julian's signature rather than a proven top format. Daytime plays sit at 10 to 15 minutes (84% of verified daytime plays), so start there.",
       "beats": [
         "Arrive at a real kind of Welsh place: the coast path, the hill, the old well",
         "A walk through the senses",
@@ -319,22 +584,37 @@
         "Ground, then the bell"
       ],
       "titlePatterns": {
-        "insightTimer": ["Where the Hills Meet the Sea", "Journey to the Quiet Well", "The Old Stone on the Hill"],
-        "spotify": ["Guided Imagery Meditation: {place}", "Visualisation Meditation: {benefit}", "Nature Meditation: {place}"]
+        "insightTimer": [
+          "Where the Hills Meet the Sea",
+          "Journey to the Quiet Well",
+          "The Old Stone on the Hill"
+        ],
+        "spotify": [
+          "Guided Imagery Meditation: {place}",
+          "Visualisation Meditation: {benefit}",
+          "Nature Meditation: {place}"
+        ]
       },
-      "pillars": [2],
+      "pillars": [
+        2
+      ],
       "brand": "living-awake"
     },
     {
       "id": "seven-day-journey",
       "name": "Seven Day Journey (series or course)",
-      "platforms": ["Insight Timer"],
-      "minutes": [8, 15],
-      "defaultMinutes": 12,
+      "platforms": [
+        "Insight Timer"
+      ],
+      "minutes": [
+        7,
+        15
+      ],
+      "defaultMinutes": 10,
       "ending": "bell",
       "speechRatio": 0.6,
       "series": true,
-      "evidence": "Moderate. Numbered daily series perform on Insight Timer and build return rate. Courses need MP3 at 192 kbps or more, 44.1 kHz or more.",
+      "evidence": "Insight Timer says course lessons work best at 7 to 15 minutes, kept consistent across lessons. Numbered daily series build return rate. Course audio: MP3, 192 kbps or more, 44.1 kHz or more.",
       "beats": [
         "Recap of yesterday in one or two lines",
         "A short teaching, two or three minutes, one idea",
@@ -343,17 +623,35 @@
         "A gentle pointer to tomorrow's session"
       ],
       "titlePatterns": {
-        "insightTimer": ["Day {day}: {theme}", "Seven Days of Coming Home, Day {day}", "Waking Up, Not Breaking Down: Day {day}"],
-        "spotify": ["Day {day}: {theme} Meditation", "{theme}: Day {day} of 7"]
+        "insightTimer": [
+          "Day {day}: {theme}",
+          "Seven Days of Coming Home, Day {day}",
+          "Waking Up, Not Breaking Down: Day {day}"
+        ],
+        "spotify": [
+          "Day {day}: {theme} Meditation",
+          "{theme}: Day {day} of 7"
+        ]
       },
-      "pillars": [1, 2, 3, 4],
+      "pillars": [
+        1,
+        2,
+        3,
+        4
+      ],
       "brand": "living-awake"
     },
     {
       "id": "sitting-in-connection",
       "name": "Sitting in Connection (mediumship development)",
-      "platforms": ["Insight Timer", "YouTube (The Mindful Medium)"],
-      "minutes": [15, 25],
+      "platforms": [
+        "Insight Timer",
+        "YouTube (The Mindful Medium)"
+      ],
+      "minutes": [
+        15,
+        25
+      ],
       "defaultMinutes": 20,
       "ending": "bell",
       "speechRatio": 0.5,
@@ -367,11 +665,346 @@
         "Return to the room, then the bell"
       ],
       "titlePatterns": {
-        "insightTimer": ["Sitting in the Power", "Connection Before Communication", "Opening With Love, Closing With Care"],
-        "spotify": ["Mediumship Meditation: {benefit}", "Spirit Connection Meditation: {benefit}", "Sitting in the Power: {benefit}"]
+        "insightTimer": [
+          "Sitting in the Power",
+          "Connection Before Communication",
+          "Opening With Love, Closing With Care"
+        ],
+        "spotify": [
+          "Mediumship Meditation: {benefit}",
+          "Spirit Connection Meditation: {benefit}",
+          "Sitting in the Power: {benefit}"
+        ]
       },
       "pillars": [],
       "brand": "living-connection"
     }
-  ]
+  ],
+  "playData": {
+    "summary": "Of 77.65M verified plays across 26 high play Insight Timer tracks, 75% are sleep. Three yoga nidra for sleep tracks by one teacher hold 43%. Sleep plays sit at 20 minutes or longer (93% of sleep plays with a known length, median about 26 minutes). Daytime plays sit at 10 to 15 minutes (84% of daytime plays, median about 10 minutes). Anxiety, sleep and mornings were Insight Timer's three most searched terms in 2020.",
+    "caveat": "Play counts come from search engine snapshots of insighttimer.com track pages (undated, so read them as at least this many). There is no official all time chart, so this is the verified high play set, not the true top 40.",
+    "researchedOn": "2026-11-05",
+    "topTracks": [
+      {
+        "title": "Yoga Nidra For Sleep",
+        "teacher": "Jennifer Piercy",
+        "plays": 23500000,
+        "length": "22:21",
+        "topic": "Yoga nidra",
+        "ending": "sleep"
+      },
+      {
+        "title": "Deep Sleep Guided Meditation",
+        "teacher": "Kenneth Soares",
+        "plays": 14900000,
+        "length": "61:05",
+        "topic": "Sleep body relaxation",
+        "ending": "sleep"
+      },
+      {
+        "title": "Morning Meditation With Music",
+        "teacher": "Jonathan Lehmann",
+        "plays": 7200000,
+        "length": "10:26",
+        "topic": "Morning",
+        "ending": "day"
+      },
+      {
+        "title": "Healing Darkness For Sleep",
+        "teacher": "Jennifer Piercy",
+        "plays": 6500000,
+        "length": "30:16",
+        "topic": "Yoga nidra",
+        "ending": "sleep"
+      },
+      {
+        "title": "Drift Into Stillness: 30-Minute Sleep Surrender",
+        "teacher": "Sarah Blondin",
+        "plays": 4500000,
+        "length": "about 30",
+        "topic": "Sleep surrender",
+        "ending": "sleep"
+      },
+      {
+        "title": "Unwind Into Surrender: 10-Minute Release & Relinquish",
+        "teacher": "Sarah Blondin",
+        "plays": 4000000,
+        "length": "about 10",
+        "topic": "Letting go",
+        "ending": "day"
+      },
+      {
+        "title": "Yoga Nidra: Melatonin Magic",
+        "teacher": "Jennifer Piercy",
+        "plays": 3100000,
+        "length": "19:45",
+        "topic": "Yoga nidra",
+        "ending": "sleep"
+      },
+      {
+        "title": "Deep Sleep Meditation With Affirmations",
+        "teacher": "Kenneth Soares",
+        "plays": 3000000,
+        "length": "1:43:45",
+        "topic": "Sleep affirmations",
+        "ending": "sleep"
+      },
+      {
+        "title": "Release & Renew: 12-Minute Healing Journey",
+        "teacher": "Sarah Blondin",
+        "plays": 2500000,
+        "length": "about 12",
+        "topic": "Letting go",
+        "ending": "day"
+      },
+      {
+        "title": "Life As Sacred Art: 10-Minute Devotional Practice",
+        "teacher": "Sarah Blondin",
+        "plays": 1500000,
+        "length": "about 10",
+        "topic": "Devotional",
+        "ending": "day"
+      },
+      {
+        "title": "Five Minutes Of Self Compassion",
+        "teacher": "Lisa Abramson",
+        "plays": 1200000,
+        "length": "about 5",
+        "topic": "Self compassion",
+        "ending": "day"
+      },
+      {
+        "title": "Body Scan Meditation",
+        "teacher": "Kate James",
+        "plays": 845100,
+        "length": "about 9",
+        "topic": "Body scan",
+        "ending": "day"
+      },
+      {
+        "title": "Relaxing into Sleep Meditation",
+        "teacher": "Tara Brach",
+        "plays": 725400,
+        "length": "14:24",
+        "topic": "Sleep relaxation",
+        "ending": "sleep"
+      },
+      {
+        "title": "Stillness Gateway: 10-Minutes Of Calm",
+        "teacher": "Sarah Blondin",
+        "plays": 634000,
+        "length": "about 10",
+        "topic": "Calm",
+        "ending": "day"
+      },
+      {
+        "title": "Melting Stress And Anxiety Away",
+        "teacher": "Lisa Abramson",
+        "plays": 493500,
+        "length": "under 12",
+        "topic": "Anxiety",
+        "ending": "day"
+      },
+      {
+        "title": "Self-Love Dialog: 15 Minutes To Inner Peace",
+        "teacher": "Sarah Blondin",
+        "plays": 331900,
+        "length": "about 15",
+        "topic": "Self love",
+        "ending": "day"
+      },
+      {
+        "title": "Letting Go Of Stress & Anxiety, 10 Min",
+        "teacher": "Tara Brach",
+        "plays": 204200,
+        "length": "about 10",
+        "topic": "Anxiety",
+        "ending": "day"
+      },
+      {
+        "title": "Letting Go Of Stress & Anxiety, 20 Min",
+        "teacher": "Tara Brach",
+        "plays": 127700,
+        "length": "about 20",
+        "topic": "Anxiety",
+        "ending": "day"
+      },
+      {
+        "title": "Letting Go Of Stress & Anxiety, 5 Min",
+        "teacher": "Tara Brach",
+        "plays": 94700,
+        "length": "about 5",
+        "topic": "Anxiety",
+        "ending": "day"
+      }
+    ],
+    "byTopic": [
+      {
+        "topic": "Yoga nidra for sleep",
+        "tracks": 3,
+        "plays": 33100000,
+        "share": 42.6
+      },
+      {
+        "topic": "Other guided sleep",
+        "tracks": 8,
+        "plays": 21950000,
+        "share": 28.3
+      },
+      {
+        "topic": "Morning",
+        "tracks": 1,
+        "plays": 7200000,
+        "share": 9.3
+      },
+      {
+        "topic": "Letting go and surrender",
+        "tracks": 2,
+        "plays": 6500000,
+        "share": 8.4
+      },
+      {
+        "topic": "Sleep affirmations",
+        "tracks": 1,
+        "plays": 3000000,
+        "share": 3.9
+      },
+      {
+        "topic": "Self love and self compassion",
+        "tracks": 4,
+        "plays": 2000000,
+        "share": 2.6
+      },
+      {
+        "topic": "Devotional",
+        "tracks": 1,
+        "plays": 1500000,
+        "share": 1.9
+      },
+      {
+        "topic": "Anxiety",
+        "tracks": 4,
+        "plays": 920000,
+        "share": 1.2
+      },
+      {
+        "topic": "Body scan (daytime)",
+        "tracks": 1,
+        "plays": 850000,
+        "share": 1.1
+      },
+      {
+        "topic": "Calm and stillness",
+        "tracks": 1,
+        "plays": 630000,
+        "share": 0.8
+      }
+    ],
+    "byLength": {
+      "sleep": [
+        {
+          "band": "Under 10 min",
+          "tracks": 0,
+          "plays": 0
+        },
+        {
+          "band": "10 to 15 min",
+          "tracks": 1,
+          "plays": 730000
+        },
+        {
+          "band": "15 to 20 min",
+          "tracks": 1,
+          "plays": 3100000
+        },
+        {
+          "band": "20 to 30 min",
+          "tracks": 2,
+          "plays": 23630000
+        },
+        {
+          "band": "30 to 45 min",
+          "tracks": 2,
+          "plays": 11000000
+        },
+        {
+          "band": "45 min plus",
+          "tracks": 2,
+          "plays": 17900000
+        }
+      ],
+      "day": [
+        {
+          "band": "Under 10 min",
+          "tracks": 3,
+          "plays": 2140000
+        },
+        {
+          "band": "10 to 15 min",
+          "tracks": 7,
+          "plays": 16530000
+        },
+        {
+          "band": "15 to 20 min",
+          "tracks": 1,
+          "plays": 330000
+        },
+        {
+          "band": "20 to 30 min",
+          "tracks": 2,
+          "plays": 390000
+        },
+        {
+          "band": "30 to 45 min",
+          "tracks": 1,
+          "plays": 200000
+        },
+        {
+          "band": "45 min plus",
+          "tracks": 0,
+          "plays": 0
+        }
+      ]
+    },
+    "lengthTest": "One teacher's same anxiety practice in three lengths: the 10 minute version has 2.2 times the plays of the 5 minute and 1.6 times the 20 minute.",
+    "makeFirst": [
+      "A 20 to 30 minute yoga nidra for sleep. The strongest pattern in the data.",
+      "A long sleep track of 45 to 60 minutes: guided body relaxation that fades into a continuous music bed, not silence.",
+      "Daytime tracks at 10 to 12 minutes, led by a morning practice (mornings were a top search; the top daytime track is a 10:26 morning meditation).",
+      "Letting go and coming home to yourself at 10 to 12 minutes, plus a 5 minute kindness practice.",
+      "One 10 minute anxiety track. Heavily searched but crowded: single anxiety tracks stay under 0.5M plays.",
+      "Put the minutes and the benefit in every title, and cover all six length bands over time.",
+      "For a daytime flagship, consider 5, 10 and 20 minute versions and let your own figures choose."
+    ],
+    "sources": [
+      {
+        "label": "Insight Timer 2020 review: anxiety, sleep and mornings most searched",
+        "url": "https://www.businesswire.com/news/home/20201222005383/en/Meditators-Spent-Over-10000-Years-on-Insight-Timer-in-2020-5x-More-Than-Calm"
+      },
+      {
+        "label": "Insight Timer: making the most of the lengths filter",
+        "url": "https://help.insighttimer.com/support/solutions/articles/67000722612-content-creation-making-the-most-of-the-lengths-filter-on-insight-timer"
+      },
+      {
+        "label": "Insight Timer teacher income FAQ (payable plays, return rate)",
+        "url": "https://help.insighttimer.com/support/solutions/articles/67000737721-teacher-income-faq-august-2024"
+      },
+      {
+        "label": "Kenneth Soares, Deep Sleep Guided Meditation",
+        "url": "https://insighttimer.com/kennethsoares/guided-meditations/deep-sleep-guided-meditation"
+      },
+      {
+        "label": "Jonathan Lehmann, Morning Meditation With Music",
+        "url": "https://insighttimer.com/jonathanlehmann/guided-meditations/morning-meditation-with-music"
+      },
+      {
+        "label": "Insight Timer snippet help (30 second preview)",
+        "url": "https://help.insighttimer.com/support/solutions/articles/67000717086-why-do-i-have-to-add-a-snippet-for-a-premium-track-on-insight-timer-"
+      },
+      {
+        "label": "Insight Timer trailer videos (MP4, portrait, 20 to 30 s)",
+        "url": "https://help-app.insighttimer.com/support/solutions/articles/67000755590-trailer-videos-for-live-events-courses"
+      }
+    ]
+  }
 }

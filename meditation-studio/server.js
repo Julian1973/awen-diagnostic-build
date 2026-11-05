@@ -15,6 +15,9 @@ import * as eleven from './lib/elevenlabs.js';
 import { renderMeditation, planFor, cacheFile, recordingFile, recordingStatus, cloneStatus, voiceParagraph } from './lib/render.js';
 import { startJob, getJob, listJobs, activeJobFor } from './lib/jobs.js';
 import { checkFfmpeg } from './lib/audio.js';
+import { pickSnippet, makeSnippet, makeTrailer, SNIPPET_SECONDS } from './lib/trailer.js';
+import { BED_PRESETS } from './lib/beds.js';
+import { insightTimerDescription } from './lib/brand.js';
 
 ensureDirs();
 // A write that was running when the server stopped will never finish; put it back to where it was.
@@ -38,6 +41,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static(PUBLIC_DIR));
+app.use('/fonts', express.static(path.join(path.dirname(DATA_DIR), 'assets', 'fonts')));
 
 // Which Macs have the studio open. Each writes a heartbeat into the shared library folder.
 function macName() {
@@ -91,10 +95,19 @@ function ensureMeditation(id) {
   return m;
 }
 
+// The line Insight Timer asks for when a track has music: title and artist of the bed.
+function musicCreditFor(m, bedName) {
+  const name = bedName ?? m.bedFile;
+  if (!name) return '';
+  const meta = store.getBedMeta(name);
+  if (meta?.credit === '') return '';
+  return meta?.credit || `Music: ${meta?.title || name.replace(/\.[a-z0-9]+$/i, '')}`;
+}
+
 function withDerived(m, { full = false } = {}) {
   const settings = store.getSettings();
   const format = formatById(m.formatId);
-  const checks = brandCheck(m, format);
+  const checks = brandCheck(m, format, { musicCredit: musicCreditFor(m) });
   const stats = scriptStats(m.script || '', {
     ...settings,
     voiceId: m.voiceId || settings.voiceId,
@@ -153,7 +166,7 @@ app.get('/api/brands', (req, res) => res.json({ brands: BRANDS, pillars: PILLARS
 
 app.get('/api/settings', (req, res) => res.json(store.getSettings()));
 app.put('/api/settings', wrap(async (req, res) => {
-  const allowed = ['voiceId', 'ttsModel', 'outputFormat', 'deliveryPrefix', 'paragraphGapSeconds', 'preRollSeconds', 'tailSeconds', 'sleepTailSeconds', 'bedVolumeDb', 'loudnessTarget', 'truePeak', 'mp3Bitrate', 'bell', 'bellFile', 'wordsPerMinute', 'claudeModel', 'claudeEffort', 'useFallbacks', 'weeklyTarget', 'disclosure', 'defaultBed'];
+  const allowed = ['voiceId', 'ttsModel', 'outputFormat', 'deliveryPrefix', 'paragraphGapSeconds', 'preRollSeconds', 'tailSeconds', 'sleepTailSeconds', 'bedVolumeDb', 'loudnessTarget', 'truePeak', 'mp3Bitrate', 'bell', 'bellFile', 'wordsPerMinute', 'claudeModel', 'claudeEffort', 'useFallbacks', 'weeklyTarget', 'disclosure', 'defaultBed', 'musicModel'];
   const patch = Object.fromEntries(Object.entries(req.body || {}).filter(([k]) => allowed.includes(k)));
   res.json(store.updateSettings(patch));
 }));
@@ -235,7 +248,7 @@ app.post('/api/meditations', wrap(async (req, res) => {
 
 app.put('/api/meditations/:id', wrap(async (req, res) => {
   ensureMeditation(req.params.id);
-  const allowed = ['title', 'spotifyTitle', 'subtitle', 'insightTimerDescription', 'spotifyDescription', 'tags', 'script', 'notesForJulian', 'brand', 'pillar', 'minutes', 'theme', 'audience', 'notes', 'voiceId', 'voiceName', 'ttsModel', 'deliveryPrefix', 'bedFile', 'bedVolumeDb', 'status', 'published', 'formatId'];
+  const allowed = ['title', 'spotifyTitle', 'subtitle', 'insightTimerDescription', 'spotifyDescription', 'tags', 'script', 'notesForJulian', 'coverImagePrompt', 'coverAltText', 'trailerLine', 'snippetStart', 'brand', 'pillar', 'minutes', 'theme', 'audience', 'notes', 'voiceId', 'voiceName', 'ttsModel', 'deliveryPrefix', 'bedFile', 'bedVolumeDb', 'status', 'published', 'formatId'];
   const patch = Object.fromEntries(Object.entries(req.body || {}).filter(([k]) => allowed.includes(k)));
   if (typeof patch.tags === 'string') patch.tags = patch.tags.split(',').map((t) => t.trim()).filter(Boolean);
   if (patch.script !== undefined && ensureMeditation(req.params.id).status === 'idea' && patch.script.trim()) patch.status = 'draft';
@@ -363,16 +376,80 @@ app.delete('/api/meditations/:id/recordings/:textKey', wrap(async (req, res) => 
 
 // ---------- finished audio and publishing packs ----------
 
+// Finished files: the full mix, the 30 second snippet and the trailer video, for each voice route.
+const RENDER_FILES = {
+  clone: { file: 'clone.mp3', type: 'audio/mpeg', suffix: ' (voice clone).mp3' },
+  recorded: { file: 'recorded.mp3', type: 'audio/mpeg', suffix: '.mp3' },
+  'snippet-clone': { file: 'snippet-clone.mp3', type: 'audio/mpeg', suffix: ' snippet (voice clone).mp3' },
+  'snippet-recorded': { file: 'snippet-recorded.mp3', type: 'audio/mpeg', suffix: ' snippet.mp3' },
+  'trailer-clone': { file: 'trailer-clone.mp4', type: 'video/mp4', suffix: ' trailer (voice clone).mp4' },
+  'trailer-recorded': { file: 'trailer-recorded.mp4', type: 'video/mp4', suffix: ' trailer.mp4' },
+};
+
 app.get('/api/renders/:id/:source', wrap(async (req, res) => {
   const m = ensureMeditation(req.params.id);
-  const source = req.params.source === 'recorded' ? 'recorded' : 'clone';
-  const file = path.join(paths.renders, m.id, `${source}.mp3`);
-  if (!(await ensureLocal(file))) throw fail(404, 'Not rendered yet');
+  const kind = RENDER_FILES[req.params.source] || RENDER_FILES.clone;
+  const file = path.join(paths.renders, m.id, kind.file);
+  if (!(await ensureLocal(file))) throw fail(404, 'Not made yet');
   if (req.query.download) {
     const base = (m.title || 'meditation').replace(/[^A-Za-z0-9 ]/g, '').trim().replace(/\s+/g, ' ') || 'meditation';
-    return res.download(file, `${base}${source === 'clone' ? ' (voice clone)' : ''}.mp3`);
+    return res.download(file, `${base}${kind.suffix}`);
   }
-  res.type('audio/mpeg').sendFile(file);
+  res.type(kind.type).sendFile(file);
+}));
+
+const sourceOf = (v) => (v === 'recorded' ? 'recorded' : 'clone');
+
+async function buildSnippet(m, source, textKey) {
+  const render = m.renders?.[source];
+  if (!render) throw fail(409, source === 'recorded' ? 'Mix your recorded version first.' : 'Voice and mix the meditation first.');
+  if (!render.timeline?.length) throw fail(409, 'Mix the meditation again so the studio knows where each paragraph falls, then make the snippet.');
+  const pick = pickSnippet(render, { textKey, snippetStart: m.snippetStart });
+  const full = path.join(paths.renders, m.id, `${source}.mp3`);
+  await ensureLocal(full);
+  const out = path.join(paths.renders, m.id, `snippet-${source}.mp3`);
+  await makeSnippet(full, pick.start, out);
+  const snippet = { ...pick, seconds: SNIPPET_SECONDS, madeAt: new Date().toISOString() };
+  const current = store.getMeditation(m.id);
+  store.updateMeditation(m.id, { renders: { ...current.renders, [source]: { ...current.renders[source], snippet } } });
+  return snippet;
+}
+
+app.post('/api/meditations/:id/snippet', wrap(async (req, res) => {
+  const m = ensureMeditation(req.params.id);
+  const snippet = await buildSnippet(m, sourceOf(req.body?.source), req.body?.textKey || null);
+  res.json({ snippet, url: `/api/renders/${m.id}/snippet-${sourceOf(req.body?.source)}?v=${Date.parse(snippet.madeAt)}` });
+}));
+
+const cardUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25 * 1024 * 1024 } });
+app.post('/api/meditations/:id/trailer', cardUpload.single('card'), wrap(async (req, res) => {
+  const m = ensureMeditation(req.params.id);
+  const source = sourceOf(req.body?.source);
+  if (!req.file) throw fail(400, 'No card image received');
+  if (activeJobFor(m.id, 'trailer')) throw fail(409, 'Already making the trailer');
+  const workDir = path.join(paths.work, `trailer-${m.id}-${Date.now()}`);
+  fs.mkdirSync(workDir, { recursive: true });
+  const cardFile = path.join(workDir, 'card-upload.png');
+  fs.writeFileSync(cardFile, req.file.buffer);
+  const job = startJob('trailer', { meditationId: m.id, source }, async (update) => {
+    try {
+      let snippet = store.getMeditation(m.id).renders?.[source]?.snippet;
+      if (!snippet) {
+        update({ message: 'Choosing the best 30 seconds' });
+        snippet = await buildSnippet(store.getMeditation(m.id), source, null);
+      }
+      update({ message: 'Making the 30 second trailer video' });
+      const out = path.join(paths.renders, m.id, `trailer-${source}.mp4`);
+      const result = await makeTrailer({ cardFile, audioFile: path.join(paths.renders, m.id, `snippet-${source}.mp3`), outMp4: out, workDir });
+      const current = store.getMeditation(m.id);
+      const trailer = { seconds: Math.round(result.seconds), width: result.width, height: result.height, snippetStart: snippet.start, madeAt: new Date().toISOString() };
+      store.updateMeditation(m.id, { renders: { ...current.renders, [source]: { ...current.renders[source], trailer } } });
+      return trailer;
+    } finally {
+      fs.rmSync(workDir, { recursive: true, force: true });
+    }
+  });
+  res.json({ job });
 }));
 
 function mmss(s) {
@@ -383,18 +460,24 @@ function mmss(s) {
 function pack(m, platform) {
   const settings = store.getSettings();
   const format = formatById(m.formatId);
-  const checks = brandCheck(m, format);
-  const blocks = checks.filter((c) => c.severity === 'block');
-  const flags = checks.filter((c) => c.severity === 'flag');
   const isIT = platform === 'insight-timer';
   const render = isIT ? m.renders?.recorded : (m.renders?.recorded || m.renders?.clone);
+  const credit = render?.bed ? musicCreditFor(m, render.bed) : '';
+  const checks = brandCheck(m, format, { musicCredit: credit });
+  // A title that promises a length should match the finished track.
+  const promised = String(isIT ? m.title : m.spotifyTitle || '').match(/(\d+)\s*Minutes?\b/i);
+  if (promised && render && Math.abs(Number(promised[1]) * 60 - render.seconds) > 90) {
+    checks.push({ rule: 'Length in title', severity: 'flag', message: `The title says ${promised[1]} minutes but the track runs ${mmss(render.seconds)}. Change the title or the script.` });
+  }
+  const blocks = checks.filter((c) => c.severity === 'block');
+  const flags = checks.filter((c) => c.severity === 'flag');
   if (isIT && !m.renders?.recorded) {
     throw fail(409, 'Insight Timer requires narration performed by a real human voice; voice clones and text to speech are not permitted. Record this meditation in Record mode first, then the Insight Timer pack unlocks.');
   }
   if (!render) throw fail(409, 'Render the audio first.');
   const lines = [];
   const title = isIT ? m.title : (m.spotifyTitle || m.title);
-  let description = isIT ? m.insightTimerDescription : m.spotifyDescription;
+  let description = isIT ? insightTimerDescription(m, credit) : `${m.spotifyDescription || ''}${credit ? `\n\n${credit}` : ''}`;
   if (!isIT && settings.disclosure?.spotify && render.source === 'clone' && settings.disclosure.text) description = `${description}\n\n${settings.disclosure.text}`;
   lines.push(isIT ? 'INSIGHT TIMER UPLOAD PACK' : 'SPOTIFY UPLOAD PACK', '');
   lines.push(`Title: ${title || ''}`);
@@ -403,11 +486,21 @@ function pack(m, platform) {
   lines.push(`Format: ${format?.name || m.formatId}${format?.ending === 'sleep' ? ' (sleep track, no ending bell)' : ' (ending bell included)'}`);
   lines.push(`Voice: ${render.source === 'recorded' ? "Julian's own recorded voice" : "Julian's ElevenLabs voice clone (eleven_v4)"}`);
   lines.push(`Audio: MP3, ${settings.mp3Bitrate.replace('k', ' kbps')} CBR, 44.1 kHz stereo, ${render.integratedLufs ?? settings.loudnessTarget} LUFS, true peak ${render.truePeak ?? settings.truePeak} dBTP`);
-  lines.push('', 'Description:', description || '', '');
+  lines.push('', `Description${isIT ? ` (${description.length} of 1000 characters)` : ''}:`, description || '', '');
   lines.push(`Tags: ${(m.tags || []).join(', ')}`, '');
+  const snip = render.snippet;
+  if (isIT) {
+    lines.push(snip
+      ? `30 second snippet: in the Teacher Dashboard choose Edit, then Pick a Snippet, and drag the slider to start at ${mmss(snip.start)} ("${snip.words}..."). Preview file: snippet MP3 in the Publish tab.`
+      : '30 second snippet: make it in the Publish tab first, then set the slider to the start time it gives you.');
+    if (render.trailer) lines.push(`Course trailer video: MP4, portrait 1080 x 1920, ${render.trailer.seconds} seconds (Insight Timer asks for 20 to 30, 10 to 45 allowed).`);
+    lines.push('');
+  }
+  lines.push('Cover image description (for the image generator):', m.coverImagePrompt || '(none yet: ask Claude to revise and add one)', '');
+  if (m.coverAltText) lines.push(`Cover alt text: ${m.coverAltText}`, '');
   lines.push('Before you upload:');
   if (isIT) {
-    lines.push('[ ] Cover image at least 1600 x 1600 px, under 20 MB');
+    lines.push('[ ] Cover image square, at least 1600 x 1600 px, under 20 MB, made from the description above, ideally with no text on it');
     lines.push('[ ] Mark the track as a guided meditation and pick the category that matches the format');
     lines.push('[ ] Listen through once. Check the first two minutes closely (a play counts after 120 seconds)');
     lines.push('[ ] Add it to a playlist or series so listeners have somewhere to go next (helps return rate)');
@@ -515,13 +608,71 @@ const bedUpload = multer({
 });
 
 app.get('/api/beds', (req, res) => {
+  const meta = store.allBedMeta();
   const beds = listNames(paths.beds).filter((f) => !f.endsWith('.tmp')).map((f) => {
     const real = path.join(paths.beds, f);
-    return { name: f, bytes: fs.existsSync(real) ? fs.statSync(real).size : null, inCloud: !fs.existsSync(real) };
+    const m = meta[f] || {};
+    return {
+      name: f,
+      title: m.title || f.replace(/\.[a-z0-9]+$/i, ''),
+      credit: m.credit ?? `Music: ${m.title || f.replace(/\.[a-z0-9]+$/i, '')}`,
+      source: m.source || 'upload',
+      prompt: m.prompt || '',
+      bytes: fs.existsSync(real) ? fs.statSync(real).size : null,
+      inCloud: !fs.existsSync(real),
+    };
   });
-  res.json({ beds });
+  res.json({ beds, presets: BED_PRESETS });
 });
-app.post('/api/beds', bedUpload.single('file'), (req, res) => res.json({ ok: true, name: req.file?.filename }));
+app.post('/api/beds', bedUpload.single('file'), (req, res) => {
+  if (req.file) store.setBedMeta(req.file.filename, { source: 'upload', addedAt: new Date().toISOString() });
+  res.json({ ok: true, name: req.file?.filename });
+});
+app.put('/api/beds/:name', wrap(async (req, res) => {
+  const name = safeName(req.params.name);
+  const patch = {};
+  if (typeof req.body?.title === 'string') patch.title = req.body.title.slice(0, 80);
+  if (typeof req.body?.credit === 'string') patch.credit = req.body.credit.slice(0, 160);
+  res.json(store.setBedMeta(name, patch));
+}));
+
+// Makes a new calm bed with ElevenLabs Music and adds it to the library.
+app.post('/api/beds/generate', wrap(async (req, res) => {
+  const preset = BED_PRESETS.find((p) => p.id === req.body?.preset);
+  const prompt = String(req.body?.prompt || preset?.prompt || '').trim();
+  if (!prompt) throw fail(400, 'Choose a bed or describe the sound');
+  const title = String(req.body?.title || preset?.title || 'Meditation bed').replace(/[^A-Za-z0-9 ]/g, '').trim().slice(0, 60) || 'Meditation bed';
+  const seconds = Math.min(300, Math.max(30, Number(req.body?.seconds) || 180));
+  const job = startJob('bed', {}, async (update) => {
+    update({ message: `ElevenLabs Music is composing "${title}" (${Math.round(seconds / 60)} min). This takes a minute or two.` });
+    const audio = await eleven.composeMusic({ prompt, seconds, modelId: store.getSettings().musicModel || undefined });
+    let name = `${title}.mp3`;
+    for (let i = 2; fs.existsSync(path.join(paths.beds, name)); i += 1) name = `${title} ${i}.mp3`;
+    fs.writeFileSync(path.join(paths.beds, name), audio);
+    store.setBedMeta(name, { title: name.replace(/\.mp3$/, ''), credit: `Music: ${name.replace(/\.mp3$/, '')}`, source: 'elevenlabs-music', prompt, seconds, addedAt: new Date().toISOString() });
+    return { name };
+  });
+  res.json({ job });
+}));
+
+// The Living Awake logo (Celtic cross PNG) for trailer cards.
+const BRAND_DIR = path.join(STORAGE_DIR, 'brand');
+const logoUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+app.post('/api/brand/logo', logoUpload.single('logo'), wrap(async (req, res) => {
+  if (!req.file || !/^image\/(png|webp)$/.test(req.file.mimetype)) throw fail(400, 'Upload a PNG (a transparent background works best)');
+  fs.mkdirSync(BRAND_DIR, { recursive: true });
+  fs.writeFileSync(path.join(BRAND_DIR, 'logo.png'), req.file.buffer);
+  res.json({ ok: true });
+}));
+app.get('/api/brand/logo', wrap(async (req, res) => {
+  const file = path.join(BRAND_DIR, 'logo.png');
+  if (!(await ensureLocal(file))) throw fail(404, 'No logo yet');
+  res.type('image/png').sendFile(file);
+}));
+app.delete('/api/brand/logo', wrap(async (req, res) => {
+  fs.rmSync(path.join(BRAND_DIR, 'logo.png'), { force: true });
+  res.json({ ok: true });
+}));
 app.get('/api/beds/:name', wrap(async (req, res) => {
   const file = path.join(paths.beds, safeName(req.params.name));
   if (!(await ensureLocal(file))) throw fail(404, 'Not found');
@@ -531,6 +682,7 @@ app.delete('/api/beds/:name', wrap(async (req, res) => {
   const file = path.join(paths.beds, safeName(req.params.name));
   fs.rmSync(file, { force: true });
   fs.rmSync(placeholderFor(file), { force: true });
+  store.deleteBedMeta(safeName(req.params.name));
   res.json({ ok: true });
 }));
 

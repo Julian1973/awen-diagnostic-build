@@ -61,7 +61,7 @@ Most meditations follow Julian's five movements, shaped by the format's beats:
 3. Practice: a guided experience that embodies the teaching. Allow silence. Do not fill every second.
 4. Integration: bring it into ordinary life ("how does this show up on Monday morning?").
 5. Closing: a gentle return, gratitude without gushing, and an invitation to come back tomorrow.
-The first two minutes decide whether a listener stays: an Insight Timer play only counts after 120 seconds. Open with presence and a reason to stay, keep early silences short, and save the long silences for later.
+The first two minutes decide whether a listener stays: an Insight Timer play only counts after 2 minutes (or half the track, if that comes first). Open with presence and a reason to stay, keep early silences short, and save the long silences for later.
 Return rate (listeners coming back the next day) is the biggest bonus on Insight Timer, so daytime tracks end with a warm, unforced invitation to return.
 Sleep tracks are different: the voice slows and softens, paragraphs get shorter, silences get longer, and the listener is never brought back to waking. No bell, no "open your eyes", no spoken sign-off; the sign-off goes at the foot of the written description instead.
 </shape>
@@ -77,19 +77,23 @@ The script is plain text in this exact format, because software turns it into au
 </script_format>
 
 <metadata>
-Insight Timer title: evocative and specific, with no category words (no "Meditation", "Guided", "Music") and no teacher name. Under 60 characters.
+Insight Timer title: evocative and specific, naming the benefit and ending with the length in minutes after a colon, for example "Set Down What You Carry: 10 Minutes" (the top teachers on Insight Timer title their tracks this way). Use the target length given. No category words (no "Meditation", "Guided", "Music") and no teacher name. Under 60 characters.
 Spotify title: lead with the format keyword a listener would search for, then the benefit, written naturally, never keyword stuffed. Under 70 characters.
 Subtitle: one quiet line.
-Insight Timer description: three short paragraphs. What this is and who it is for; how to use it (when, where, posture, how often), which also helps listeners return; then the sign-off for the brand on its own line.
+Insight Timer description: between 450 and 850 characters in total, including the sign-off (Insight Timer requires 200 to 1000, and room is left for a music credit). Three short paragraphs: what this is and who it is for; how to use it (when, where, posture, how often), which also helps listeners return; then the sign-off for the brand on its own line. No links, website names, email addresses, social handles, emojis or special symbols.
 Spotify description: two short paragraphs ending with the brand's written sign-off.
 Tags: 6 to 10 plain search words or phrases, lower case.
+coverImagePrompt: a prompt for an image generator, for a square cover at least 1600 by 1600 pixels. Living Awake look: deep midnight navy with aged gold light, quiet and atmospheric, fine film grain, the colour coming from navy (#0a1525 to #14283f) and aged gold (#d4a574), never bright colours, purple or pink. Either an abstract atmosphere or a real kind of Welsh place (coast path at dusk, mist over a hill, still water, an old stone) that fits this meditation. No text, letters, logos, people's faces, hands or symbols of any religion. Say the composition (what sits where, with calm space in the centre) in two to four sentences.
+coverAltText: one plain sentence describing the cover for someone who cannot see it.
+trailerLine: one line under 70 characters that would make someone press play, in Julian's voice, for the trailer card. No dashes.
+snippetStart: the first eight words, exactly as written in the script, of the paragraph where the best 30 second preview begins: a passage with real words and no long silence that shows what the meditation feels like. Never the very first paragraph unless the meditation is under ten minutes.
 notesForJulian: two or three lines on choices worth his attention, such as anything to check by ear.
 </metadata>`;
 
 const SCRIPT_SCHEMA = {
   type: 'object',
   additionalProperties: false,
-  required: ['title', 'spotifyTitle', 'subtitle', 'insightTimerDescription', 'spotifyDescription', 'tags', 'script', 'notesForJulian'],
+  required: ['title', 'spotifyTitle', 'subtitle', 'insightTimerDescription', 'spotifyDescription', 'tags', 'script', 'coverImagePrompt', 'coverAltText', 'trailerLine', 'snippetStart', 'notesForJulian'],
   properties: {
     title: { type: 'string', description: 'Insight Timer title' },
     spotifyTitle: { type: 'string' },
@@ -98,6 +102,10 @@ const SCRIPT_SCHEMA = {
     spotifyDescription: { type: 'string' },
     tags: { type: 'array', items: { type: 'string' } },
     script: { type: 'string' },
+    coverImagePrompt: { type: 'string' },
+    coverAltText: { type: 'string' },
+    trailerLine: { type: 'string' },
+    snippetStart: { type: 'string' },
     notesForJulian: { type: 'string' },
   },
 };
@@ -204,7 +212,10 @@ export async function reviseScript(m, instruction, format, settings) {
   const draft = JSON.stringify({
     title: m.title, spotifyTitle: m.spotifyTitle, subtitle: m.subtitle,
     insightTimerDescription: m.insightTimerDescription, spotifyDescription: m.spotifyDescription,
-    tags: m.tags || [], script: m.script, notesForJulian: m.notesForJulian || '',
+    tags: m.tags || [], script: m.script,
+    coverImagePrompt: m.coverImagePrompt || '', coverAltText: m.coverAltText || '',
+    trailerLine: m.trailerLine || '', snippetStart: m.snippetStart || '',
+    notesForJulian: m.notesForJulian || '',
   });
   const original = buildRequest({ ...m, minutes: m.minutes }, format, settings);
   const content = `${original}\n\n<current_draft>\n${draft}\n</current_draft>\n\nRevise the current draft. Julian asks: ${instruction}\nKeep everything he did not ask to change. Return the full revised draft.`;

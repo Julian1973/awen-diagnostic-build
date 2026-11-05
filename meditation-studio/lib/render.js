@@ -111,10 +111,13 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
     update({ message: 'Laying out silences and paragraphs' });
     const isSleep = format?.ending === 'sleep';
     const parts = [];
+    const timeline = []; // where each paragraph lands in the finished track, for the 30 second snippet
     let n = 0;
+    let clock = 0;
     const silence = async (s) => {
       const f = path.join(workDir, `p${String(n++).padStart(4, '0')}-sil.wav`);
       parts.push(await audio.silenceWav(s, f));
+      clock += audio.wavSeconds(f);
     };
     await silence(settings.preRollSeconds);
     let speechSeconds = 0;
@@ -124,7 +127,10 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
       } else {
         const f = path.join(workDir, `p${String(n++).padStart(4, '0')}-say.wav`);
         await audio.toWav(sourceFiles.get(p.hash), f, { cleanRecording: source === 'recorded' });
-        speechSeconds += audio.wavSeconds(f);
+        const len = audio.wavSeconds(f);
+        timeline.push({ textKey: p.textKey, start: Number(clock.toFixed(2)), end: Number((clock + len).toFixed(2)), words: p.spoken.replace(/\[[^\]]*\]/g, '').trim().split(/\s+/).slice(0, 10).join(' ') });
+        clock += len;
+        speechSeconds += len;
         parts.push(f);
       }
     }
@@ -174,6 +180,7 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
       paragraphs: speech.length,
       measuredWpm,
       bed: bedPath ? m.bedFile : null,
+      timeline,
       renderedAt: new Date().toISOString(),
     };
   } finally {

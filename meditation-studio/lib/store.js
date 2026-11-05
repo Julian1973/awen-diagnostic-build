@@ -4,7 +4,7 @@ import crypto from 'node:crypto';
 import { paths, DEFAULT_SETTINGS, ensureDirs } from './config.js';
 import { ensureLocalSync } from './icloud.js';
 
-const EMPTY = { meditations: [], research: [], settings: {} };
+const EMPTY = { meditations: [], research: [], settings: {}, beds: {} };
 let state = null;
 let loadedMtime = 0;
 
@@ -113,6 +113,31 @@ export function addResearch(entry) {
   db.research = db.research.slice(0, 20);
   save();
   return r;
+}
+
+// Music beds: title and the credit line Insight Timer asks for in the description.
+export function getBedMeta(name) {
+  return (load().beds || {})[name] || null;
+}
+
+export function allBedMeta() {
+  return { ...(load().beds || {}) };
+}
+
+export function setBedMeta(name, patch) {
+  const db = load();
+  db.beds = db.beds || {};
+  db.beds[name] = { ...(db.beds[name] || {}), ...patch };
+  save();
+  return db.beds[name];
+}
+
+export function deleteBedMeta(name) {
+  const db = load();
+  if (db.beds && db.beds[name]) {
+    delete db.beds[name];
+    save();
+  }
 }
 
 export function listResearch() {

@@ -7,7 +7,7 @@ const base = {
   brand: 'living-awake',
   pillar: 3,
   title: 'Back to Solid Ground',
-  insightTimerDescription: `For a hard day.\n\n${LA.signOff}`,
+  insightTimerDescription: `For a hard day, when the mind runs ahead and the body forgets the ground under it. Ten quiet minutes to come back.\n\nUse it whenever you need it, and come back tomorrow.\n\n${LA.signOff}`,
   script: `[softly] Notice your feet.\n\nCome back to this tomorrow.\n\n${LA.spokenSignOff}`,
 };
 const bellFormat = { ending: 'bell' };
@@ -56,4 +56,16 @@ test('American spellings and Insight Timer title words are flagged', () => {
   const r = brandCheck({ ...base, title: 'Morning Guided Meditation', script: `${base.script} Find your center.` }, bellFormat);
   assert.equal(rule(r, 'British English').severity, 'flag');
   assert.equal(rule(r, 'Insight Timer title').severity, 'flag');
+});
+
+test('Insight Timer descriptions: 200 to 1000 characters, no links, no emojis, music credit counted', () => {
+  assert.equal(rule(brandCheck({ ...base, insightTimerDescription: `Short.\n\n${LA.signOff}` }, bellFormat), 'Insight Timer description').severity, 'block');
+  assert.equal(rule(brandCheck(base, bellFormat), 'Insight Timer description').severity, 'pass');
+  const long = `${'Breathe and rest. '.repeat(52)}\n\n${LA.signOff}`;
+  assert.equal(rule(brandCheck({ ...base, insightTimerDescription: long }, bellFormat), 'Insight Timer description').severity, 'block');
+  const nearly = `${'Breathe and rest. '.repeat(48)}${LA.signOff}`;
+  assert.equal(rule(brandCheck({ ...base, insightTimerDescription: nearly }, bellFormat), 'Insight Timer description').severity, 'pass');
+  assert.equal(rule(brandCheck({ ...base, insightTimerDescription: nearly }, bellFormat, { musicCredit: 'Music: Still Water, a long credit line for this bed' }), 'Insight Timer description').severity, 'block');
+  assert.equal(rule(brandCheck({ ...base, insightTimerDescription: `${base.insightTimerDescription} Lesson One at julianjenkins.me` }, bellFormat), 'No links').severity, 'block');
+  assert.equal(rule(brandCheck({ ...base, title: 'Back to Solid Ground 🌙' }, bellFormat), 'No emojis').severity, 'block');
 });

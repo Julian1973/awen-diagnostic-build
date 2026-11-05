@@ -95,3 +95,33 @@ export async function textToSpeech({ text, voiceId, model, outputFormat, voiceSe
     }
   }
 }
+
+// Composes an instrumental music bed with ElevenLabs Music. Returns the MP3 bytes.
+// modelId is optional: without it ElevenLabs uses its current default music model.
+export async function composeMusic({ prompt, seconds, modelId, outputFormat = 'mp3_44100_128' }) {
+  const body = {
+    prompt,
+    music_length_ms: Math.round(Math.min(300, Math.max(10, seconds)) * 1000),
+    force_instrumental: true,
+  };
+  if (modelId) body.model_id = modelId;
+  const qs = new URLSearchParams({ output_format: outputFormat });
+  let attempt = 0;
+  for (;;) {
+    try {
+      const res = await call(`/v1/music?${qs}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
+        body: JSON.stringify(body),
+      });
+      const buf = Buffer.from(await res.arrayBuffer());
+      if (!buf.length) throw new ElevenLabsError('ElevenLabs returned no music.', 502, true);
+      return buf;
+    } catch (err) {
+      attempt += 1;
+      const retryable = err instanceof ElevenLabsError ? err.retryable : err.name === 'TypeError';
+      if (!retryable || attempt > 2) throw err;
+      await sleep(4000 * attempt);
+    }
+  }
+}

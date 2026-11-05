@@ -83,3 +83,21 @@ test('stats count words, characters and early silence', () => {
   assert.equal(s.requests, 3);
   assert.ok(s.earlySilenceSeconds >= 20);
 });
+
+import { pickSnippet } from '../lib/trailer.js';
+
+test('snippet picks the chosen paragraph, then the suggested one, then the most voice', () => {
+  const timeline = [
+    { textKey: 'a', start: 4, end: 12, words: 'Good morning before the day' },
+    { textKey: 'b', start: 13, end: 20, words: 'You do not need to sit' },
+    { textKey: 'c', start: 70, end: 98, words: 'Breathe in through your nose and let' },
+    { textKey: 'd', start: 99, end: 125, words: 'Breathe in again and this time feel' },
+    { textKey: 'e', start: 440, end: 450, words: 'Thank you' },
+  ];
+  const render = { seconds: 460, timeline };
+  assert.equal(pickSnippet(render).textKey, 'c');
+  assert.equal(pickSnippet(render, { snippetStart: 'Breathe in again, and this time feel where' }).textKey, 'd');
+  const chosen = pickSnippet(render, { textKey: 'e' });
+  assert.equal(chosen.textKey, 'e');
+  assert.equal(chosen.start, 430, 'never runs past the end of the track');
+});
