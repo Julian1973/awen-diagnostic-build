@@ -186,8 +186,9 @@ app.post('/api/keys', wrap(async (req, res) => {
 app.get('/api/voices', wrap(async (req, res) => {
   if (!readEnvKeys().elevenlabs) return res.json({ voices: JULIAN_VOICES, offline: true });
   const voices = await eleven.listVoices();
-  const julianIds = new Set(JULIAN_VOICES.map((v) => v.voice_id));
-  voices.sort((a, b) => Number(julianIds.has(b.voice_id)) - Number(julianIds.has(a.voice_id)) || a.name.localeCompare(b.name));
+  // Julian's own voices first, in the order of JULIAN_VOICES (the default first), then the rest by name.
+  const rank = (v) => { const i = JULIAN_VOICES.findIndex((j) => j.voice_id === v.voice_id); return i < 0 ? JULIAN_VOICES.length : i; };
+  voices.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
   res.json({ voices, offline: false });
 }));
 

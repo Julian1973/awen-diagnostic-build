@@ -75,6 +75,7 @@ export async function mockElevenLabs({ takes = {} } = {}) {
       return res.end(JSON.stringify({ voices: [
         { voice_id: 'zzOther', name: 'Another Voice', category: 'premade' },
         { voice_id: '3crtmEFfp6bvumTLLI8m', name: 'Julian - Meditation Voice', category: 'cloned' },
+        { voice_id: 'KYXOMmyAOr8VFco83i7K', name: 'Julian ', category: 'professional' },
       ] }));
     }
     if (req.method === 'GET' && req.url === '/v1/user/subscription') {

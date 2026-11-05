@@ -32,9 +32,14 @@ export function ensureDirs() {
   }
 }
 
-// Julian's voices in ElevenLabs, as found in his workspace on 5 Nov 2026.
+// Julian's voices in ElevenLabs, as found in his workspace on 5 Nov 2026. The first is the default.
 // The dashboard also lists every voice his key can see, so these are defaults, not a limit.
 export const JULIAN_VOICES = [
+  {
+    voice_id: 'KYXOMmyAOr8VFco83i7K',
+    name: 'Julian',
+    note: 'Professional clone. British (Welsh accent), over 50, narration and meditation. The voice the six library meditations were made in.',
+  },
   {
     voice_id: '3crtmEFfp6bvumTLLI8m',
     name: 'Julian - Meditation Voice',
@@ -45,12 +50,9 @@ export const JULIAN_VOICES = [
     name: 'Julian - Meditation Voice A',
     note: 'Guiding register only. Soft, melodic, unhurried.',
   },
-  {
-    voice_id: 'KYXOMmyAOr8VFco83i7K',
-    name: 'Julian',
-    note: 'Professional clone. British (Welsh accent), over 50, narration and meditation.',
-  },
 ];
+// The default before 5 Nov 2026; libraries still on it move to the new default once (see store.js).
+export const PREVIOUS_DEFAULT_VOICE = '3crtmEFfp6bvumTLLI8m';
 
 export const DEFAULT_SETTINGS = {
   voiceId: JULIAN_VOICES[0].voice_id,

@@ -194,18 +194,18 @@ Insight Timer covers must be at least 1600 x 1600 px. The packs remind you of th
 
 ## Your voices
 
-These are the voices found in your ElevenLabs workspace on 5 Nov 2026. The default is **Julian - Meditation Voice**.
+These are the voices found in your ElevenLabs workspace on 5 Nov 2026. The default is **Julian**, the voice the six library meditations were made in. A library set up before this moves to Julian once, unless you had picked another voice; you can still choose any voice in Settings or per meditation.
 
 | Voice | ID | Note |
 |---|---|---|
+| Julian (default) | `KYXOMmyAOr8VFco83i7K` | Professional clone, narration and meditation |
 | Julian - Meditation Voice | `3crtmEFfp6bvumTLLI8m` | Your own clone for guided meditations |
 | Julian - Meditation Voice A | `gLJTspXK9wkK9QS9NW8H` | Guiding register only |
-| Julian | `KYXOMmyAOr8VFco83i7K` | Professional clone, narration and meditation |
 
 ## For developers
 
 ```bash
-npm test        # 42 tests: parser, quality check, library and its ElevenLabs takes, snippet and trailer, beds, two Macs, and the whole flow end to end
+npm test        # 43 tests: parser, quality check, library and its ElevenLabs takes, snippet and trailer, beds, two Macs, and the whole flow end to end
 npm run dev     # restarts the server when files change
 ```
 

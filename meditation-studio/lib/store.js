@@ -1,7 +1,7 @@
 // A small JSON file store. One file, written atomically, fine for hundreds of meditations.
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { paths, DEFAULT_SETTINGS, ensureDirs } from './config.js';
+import { paths, DEFAULT_SETTINGS, ensureDirs, JULIAN_VOICES, PREVIOUS_DEFAULT_VOICE } from './config.js';
 import { ensureLocalSync } from './icloud.js';
 
 const EMPTY = { meditations: [], research: [], settings: {}, beds: {} };
@@ -13,6 +13,27 @@ const mtime = () => (fs.existsSync(paths.db) ? fs.statSync(paths.db).mtimeMs : 0
 // The library can be shared through iCloud Drive with another Mac, so the file is read again
 // whenever it has changed on disk. Every change is read, applied, written: the latest copy wins
 // per change, not per session.
+// One off changes to an existing library, each run once and remembered in the file.
+const MIGRATIONS = {
+  // Julian made "Julian" his default voice on 5 Nov 2026. Settings and meditations still on the
+  // old default move to it; any other voice he picked is left alone.
+  'julian-default-voice': (db) => {
+    const julian = JULIAN_VOICES[0];
+    if (db.settings?.voiceId === PREVIOUS_DEFAULT_VOICE) db.settings.voiceId = julian.voice_id;
+    for (const m of db.meditations || []) {
+      if (m.voiceId === PREVIOUS_DEFAULT_VOICE) Object.assign(m, { voiceId: julian.voice_id, voiceName: julian.name });
+    }
+  },
+};
+
+function migrate(db) {
+  const done = new Set(db.migrations || []);
+  const todo = Object.keys(MIGRATIONS).filter((k) => !done.has(k));
+  for (const k of todo) MIGRATIONS[k](db);
+  db.migrations = [...done, ...todo];
+  return todo.length > 0;
+}
+
 function load() {
   if (state && mtime() === loadedMtime) return state;
   ensureDirs();
@@ -21,12 +42,14 @@ function load() {
     try {
       state = { ...EMPTY, ...JSON.parse(fs.readFileSync(paths.db, 'utf8')) };
       loadedMtime = mtime();
+      if (migrate(state)) save();
     } catch (err) {
       // A half synced file: keep what is in memory rather than lose it.
       if (!state) throw new Error(`The library file could not be read (${err.message}).`);
     }
   } else {
     state = structuredClone(EMPTY);
+    state.migrations = Object.keys(MIGRATIONS); // a new library starts on today's defaults
     loadedMtime = 0;
   }
   return state;

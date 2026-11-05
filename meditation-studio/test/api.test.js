@@ -66,7 +66,8 @@ test('status, formats and voices', async () => {
   assert.equal(f.data.formats.length, 15);
   assert.ok(f.data.playData.byLength.sleep.length === 6);
   const v = await api('/api/voices');
-  assert.equal(v.data.voices[0].voice_id, '3crtmEFfp6bvumTLLI8m', 'Julian voices first');
+  assert.equal(v.data.voices[0].voice_id, 'KYXOMmyAOr8VFco83i7K', 'the Julian voice first, as the default');
+  assert.equal(v.data.voices[1].voice_id, '3crtmEFfp6bvumTLLI8m');
   const sub = await api('/api/subscription');
   assert.equal(sub.data.remaining, 99000);
 });
@@ -132,7 +133,7 @@ test('voice clone render: every paragraph voiced once, nothing unspoken sent, th
   assert.equal(sent.length, speech.length);
   for (const c of sent) {
     assert.equal(c.model_id, 'eleven_v4');
-    assert.equal(c.voiceId, '3crtmEFfp6bvumTLLI8m');
+    assert.equal(c.voiceId, 'KYXOMmyAOr8VFco83i7K');
     assert.ok(!/\[\[|##/.test(c.text), c.text);
     assert.ok(c.text.startsWith('['), 'each paragraph opens with a tag');
     assert.equal(c.voice_settings, undefined);
@@ -418,6 +419,28 @@ test('the takes made in ElevenLabs mix with exact silences and spend nothing', a
   assert.deepEqual(changed.changed, ['Arriving']);
   const refused = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'clone', from: 'takes' } });
   assert.equal(refused.status, 409);
+});
+
+test('a library made before Julian became the default voice moves to it once', async () => {
+  const dbFile = path.join(storage, 'db.json');
+  const db = JSON.parse(fs.readFileSync(dbFile, 'utf8'));
+  assert.ok(db.migrations.includes('julian-default-voice'));
+  db.migrations = db.migrations.filter((k) => k !== 'julian-default-voice');
+  db.settings.voiceId = '3crtmEFfp6bvumTLLI8m';
+  const [old, picked] = db.meditations;
+  old.voiceId = '3crtmEFfp6bvumTLLI8m';
+  picked.voiceId = 'gLJTspXK9wkK9QS9NW8H';
+  fs.writeFileSync(dbFile, JSON.stringify(db));
+  const later = Date.now() / 1000 + 5;
+  fs.utimesSync(dbFile, later, later);
+  assert.equal((await api('/api/settings')).data.voiceId, 'KYXOMmyAOr8VFco83i7K');
+  assert.equal((await api(`/api/meditations/${old.id}`)).data.voiceId, 'KYXOMmyAOr8VFco83i7K');
+  assert.equal((await api(`/api/meditations/${old.id}`)).data.voiceName, 'Julian');
+  assert.equal((await api(`/api/meditations/${picked.id}`)).data.voiceId, 'gLJTspXK9wkK9QS9NW8H', 'a voice Julian chose is kept');
+  // Choosing the old voice again afterwards sticks.
+  await api('/api/settings', { method: 'PUT', body: { voiceId: '3crtmEFfp6bvumTLLI8m' } });
+  assert.equal((await api('/api/settings')).data.voiceId, '3crtmEFfp6bvumTLLI8m');
+  await api('/api/settings', { method: 'PUT', body: { voiceId: 'KYXOMmyAOr8VFco83i7K' } });
 });
 
 test('keys are saved but never echoed back', async () => {
