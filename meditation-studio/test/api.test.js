@@ -1,0 +1,225 @@
+// End to end: write with Claude, voice with ElevenLabs, record, mix, pack, log plays. All against stand-ins.
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { mockElevenLabs, mockClaude, toneFile, toneMp3 } from './mocks.js';
+
+let base, server, eleven, claude, storage;
+const EXAMPLE = fs.readFileSync(new URL('../scripts/example-five-breaths.txt', import.meta.url), 'utf8');
+
+before(async () => {
+  storage = fs.mkdtempSync(path.join(os.tmpdir(), 'studio-test-'));
+  eleven = await mockElevenLabs();
+  claude = await mockClaude();
+  Object.assign(process.env, {
+    NODE_ENV: 'test',
+    STUDIO_STORAGE_DIR: storage,
+    STUDIO_ENV_FILE: path.join(storage, '.env'),
+    ELEVENLABS_BASE_URL: eleven.url,
+    ELEVENLABS_API_KEY: 'test-eleven',
+    ANTHROPIC_BASE_URL: claude.url,
+    ANTHROPIC_API_KEY: 'test-claude',
+  });
+  const { default: app } = await import('../server.js');
+  server = app.listen(0, '127.0.0.1');
+  await new Promise((r) => server.once('listening', r));
+  base = `http://127.0.0.1:${server.address().port}`;
+});
+
+after(() => {
+  server?.close();
+  eleven?.close();
+  claude?.close();
+  fs.rmSync(storage, { recursive: true, force: true });
+});
+
+async function api(p, opts = {}) {
+  const init = { method: opts.method || 'GET', headers: {} };
+  if (opts.form) init.body = opts.form;
+  else if (opts.body) { init.headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(opts.body); }
+  const res = await fetch(base + p, init);
+  const type = res.headers.get('content-type') || '';
+  const data = type.includes('json') ? await res.json() : await res.text();
+  return { status: res.status, data };
+}
+
+async function waitJob(id) {
+  for (let i = 0; i < 240; i += 1) {
+    const { data } = await api(`/api/jobs/${id}`);
+    if (data.status !== 'running') return data;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  throw new Error('job timed out');
+}
+
+test('status, formats and voices', async () => {
+  const s = await api('/api/status');
+  assert.equal(s.data.ffmpeg.ok, true);
+  assert.match(s.data.elevenlabs, /ending even/);
+  const f = await api('/api/formats');
+  assert.equal(f.data.formats.length, 15);
+  const v = await api('/api/voices');
+  assert.equal(v.data.voices[0].voice_id, '3crtmEFfp6bvumTLLI8m', 'Julian voices first');
+  const sub = await api('/api/subscription');
+  assert.equal(sub.data.remaining, 99000);
+});
+
+test('Claude writes a script with the right request shape', async () => {
+  const { data } = await api('/api/meditations', { method: 'POST', body: { formatId: 'calm-in-the-moment', pillar: 3, minutes: 10, theme: 'when worry will not stop', write: true } });
+  const job = await waitJob(data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  const m = (await api(`/api/meditations/${data.meditation.id}`)).data;
+  assert.equal(m.status, 'draft');
+  assert.equal(m.title, 'Back to Solid Ground');
+  assert.equal(m.brandSummary.blocks, 0, JSON.stringify(m.checks.filter((c) => c.severity === 'block')));
+
+  const call = claude.calls.at(-1);
+  assert.equal(call.body.model, 'claude-opus-5-5');
+  assert.equal(call.body.stream, true);
+  assert.equal(call.body.thinking.type, 'adaptive');
+  assert.equal(call.body.output_config.effort, 'high');
+  assert.equal(call.body.output_config.format.type, 'json_schema');
+  assert.equal(call.body.fallbacks, 'default');
+  assert.match(call.headers['anthropic-beta'], /server-side-fallback-2026-07-01/);
+  assert.equal(call.body.temperature, undefined);
+  assert.equal(call.body.cache_control.type, 'ephemeral');
+  assert.match(call.body.messages[0].content, /Calm in the Moment/);
+  assert.match(call.body.messages[0].content, /Control is the cage, not the cure/);
+});
+
+test('revise sends the current draft back', async () => {
+  const { data: list } = await api('/api/meditations');
+  const id = list[0].id;
+  const { data } = await api(`/api/meditations/${id}/revise`, { method: 'POST', body: { instruction: 'shorter opening' } });
+  assert.equal((await waitJob(data.job.id)).status, 'done');
+  assert.match(claude.calls.at(-1).body.messages[0].content, /<current_draft>[\s\S]*shorter opening/);
+});
+
+test('voice clone render: every paragraph voiced once, nothing unspoken sent, then cached', async () => {
+  const { data } = await api('/api/meditations', { method: 'POST', body: { formatId: 'morning-five-breaths', pillar: 3, minutes: 8, script: EXAMPLE } });
+  const id = data.meditation.id;
+  const { data: planRes } = await api(`/api/meditations/${id}/plan`);
+  const speech = planRes.plan.filter((p) => p.type === 'speech');
+  const before = eleven.calls.length;
+  const r = await api(`/api/meditations/${id}/render`, { method: 'POST', body: { source: 'clone' } });
+  const job = await waitJob(r.data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  const sent = eleven.calls.slice(before);
+  assert.equal(sent.length, speech.length);
+  for (const c of sent) {
+    assert.equal(c.model_id, 'eleven_v4');
+    assert.equal(c.voiceId, '3crtmEFfp6bvumTLLI8m');
+    assert.ok(!/\[\[|##/.test(c.text), c.text);
+    assert.ok(c.text.startsWith('['), 'each paragraph opens with a tag');
+    assert.equal(c.voice_settings, undefined);
+  }
+  const silences = planRes.plan.filter((p) => p.type === 'silence').reduce((n, p) => n + p.seconds, 0);
+  assert.ok(job.result.seconds > silences + 4 + 20 + 11, `length ${job.result.seconds}`);
+  assert.ok(Math.abs(job.result.integratedLufs - -16) < 1.5, `loudness ${job.result.integratedLufs}`);
+  const mp3 = await fetch(`${base}/api/renders/${id}/clone`);
+  assert.equal(mp3.status, 200);
+  assert.ok((await mp3.arrayBuffer()).byteLength > 100000);
+
+  const again = await api(`/api/meditations/${id}/render`, { method: 'POST', body: { source: 'clone' } });
+  assert.equal((await waitJob(again.data.job.id)).status, 'done');
+  assert.equal(eleven.calls.length, before + speech.length, 'second render uses the cache');
+
+  const take = await api(`/api/meditations/${id}/paragraphs/${speech[2].key}/voice`, { method: 'POST', body: { newTake: true } });
+  assert.equal(take.data.take, 2);
+  assert.equal(eleven.calls.length, before + speech.length + 1);
+});
+
+test('Insight Timer pack stays locked until Julian records every paragraph', async () => {
+  const { data: list } = await api('/api/meditations');
+  const m = list.find((x) => x.formatId === 'morning-five-breaths');
+  const locked = await api(`/api/meditations/${m.id}/pack/insight-timer`);
+  assert.equal(locked.status, 409);
+  assert.match(locked.data.error, /real human voice/);
+  const spotify = await api(`/api/meditations/${m.id}/pack/spotify`);
+  assert.equal(spotify.status, 200);
+  assert.match(spotify.data, /SPOTIFY UPLOAD PACK/);
+  assert.match(spotify.data, /AI credits/);
+
+  const early = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'recorded' } });
+  const failed = await waitJob(early.data.job.id);
+  assert.equal(failed.status, 'failed');
+  assert.match(failed.error, /still to record/);
+
+  const { data: planRes } = await api(`/api/meditations/${m.id}/plan`);
+  const speech = planRes.plan.filter((p) => p.type === 'speech');
+  for (const [i, p] of speech.entries()) {
+    const fd = new FormData();
+    const webm = i % 2 === 0;
+    fd.append('audio', new Blob([toneFile(1.5, webm ? 'webm' : 'wav')], { type: webm ? 'audio/webm' : 'audio/wav' }), webm ? 'take.webm' : 'take.wav');
+    const up = await api(`/api/meditations/${m.id}/recordings/${p.textKey}`, { method: 'POST', form: fd });
+    assert.equal(up.status, 200, JSON.stringify(up.data));
+  }
+  const rec = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'recorded' } });
+  const done = await waitJob(rec.data.job.id);
+  assert.equal(done.status, 'done', done.error);
+  const it = await api(`/api/meditations/${m.id}/pack/insight-timer`);
+  assert.equal(it.status, 200);
+  assert.match(it.data, /Julian's own recorded voice/);
+  assert.match(it.data, /1600 x 1600/);
+  assert.match(it.data, /Transcript:/);
+});
+
+test('music bed upload and mix', async () => {
+  const fd = new FormData();
+  fd.append('file', new Blob([toneMp3(4, 110)], { type: 'audio/mpeg' }), 'Wyth tone one.mp3');
+  assert.equal((await api('/api/beds', { method: 'POST', form: fd })).status, 200);
+  const { data: beds } = await api('/api/beds');
+  assert.equal(beds.beds[0].name, 'Wyth tone one.mp3');
+  const { data: list } = await api('/api/meditations');
+  const m = list.find((x) => x.formatId === 'morning-five-breaths');
+  await api(`/api/meditations/${m.id}`, { method: 'PUT', body: { bedFile: 'Wyth tone one.mp3', bedVolumeDb: -24 } });
+  const r = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'clone' } });
+  const job = await waitJob(r.data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  assert.equal(job.result.bed, 'Wyth tone one.mp3');
+});
+
+test('performance logging feeds the overview', async () => {
+  const { data: list } = await api('/api/meditations');
+  const m = list.find((x) => x.formatId === 'morning-five-breaths');
+  await api(`/api/meditations/${m.id}/performance`, { method: 'POST', body: { date: '2026-11-01', platform: 'Insight Timer', plays: 100 } });
+  await api(`/api/meditations/${m.id}/performance`, { method: 'POST', body: { date: '2026-11-04', platform: 'Insight Timer', plays: 250, returnRate: 31 } });
+  await api(`/api/meditations/${m.id}/performance`, { method: 'POST', body: { date: '2026-11-04', platform: 'Spotify', plays: 40 } });
+  const { data: ov } = await api('/api/overview');
+  assert.equal(ov.playsLogged, 290, 'latest per platform, not the sum of every entry');
+  assert.equal(ov.playsByFormat[0].format, 'Morning Five Breaths (daily ritual)');
+});
+
+test('trend scan uses web search and stores ideas', async () => {
+  const { data } = await api('/api/research', { method: 'POST', body: { focus: 'sleep' } });
+  const job = await waitJob(data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  const tools = claude.calls.at(-1).body.tools;
+  assert.equal(tools[0].type, 'web_search_20260209');
+  const { data: research } = await api('/api/research');
+  assert.equal(research[0].ideas[0].formatId, 'yoga-nidra-sleep');
+});
+
+test('an account without the fallback beta still gets its script', async () => {
+  const strict = await mockClaude({ rejectFallbacks: true });
+  process.env.ANTHROPIC_BASE_URL = strict.url;
+  try {
+    const { data } = await api('/api/meditations', { method: 'POST', body: { formatId: 'letting-go', pillar: 1, write: true } });
+    const job = await waitJob(data.job.id);
+    assert.equal(job.status, 'done', job.error);
+    assert.equal(strict.calls.length, 2);
+    assert.equal(strict.calls[0].body.fallbacks, 'default');
+    assert.equal(strict.calls[1].body.fallbacks, undefined);
+  } finally {
+    process.env.ANTHROPIC_BASE_URL = claude.url;
+    strict.close();
+  }
+});
+
+test('keys are saved but never echoed back', async () => {
+  const r = await api('/api/keys', { method: 'POST', body: { elevenlabs: 'test-eleven' } });
+  assert.equal(r.data.elevenlabs, 'set, ending even');
+  assert.ok(!JSON.stringify(r.data).includes('test-eleven'));
+});
