@@ -19,7 +19,29 @@ The Insight Timer upload pack stays locked until every paragraph has been record
 
 On Spotify, the impersonation rules target the *unauthorised* use of someone else's voice. Spotify labels AI personas and asks music releases to declare AI in the credits. A clone of your own voice is self-authorised, but Spotify has no explicit rule on own-voice clones. The Spotify pack reminds you to declare the clone in the distributor's AI credits field if you release as music. Settings has an optional disclosure line for Spotify descriptions. It is off by default because the brand wall keeps AI out of Side A copy. That decision is yours.
 
-## Start it
+## Put it on your MacBook and iMac
+
+Each Mac runs its own copy of the studio, and both share one library through **iCloud Drive**. So a script written on the iMac, a paragraph recorded on the MacBook, and every mix show up on both. Each Mac needs its own copy because the browser only allows microphone recording when the studio runs on that same Mac.
+
+Do this once on each Mac. It takes about five minutes.
+
+1. **Download the studio.** Open [the ZIP of this branch](https://github.com/Julian1973/awen-diagnostic-build/archive/refs/heads/claude/ai-meditation-elevenlab-voice-pcduop.zip) while signed in to GitHub (or on the repository page: Code, then Download ZIP). Double click the ZIP in Downloads to unzip it.
+2. **Open Terminal.** Press Cmd and Space, type `Terminal`, press Return.
+3. **Run the installer.** Type `bash` and a space. Open the unzipped folder, then `meditation-studio`, and drag the file **install-mac.sh** into the Terminal window. Press Return.
+   - If this Mac has no Node.js, the installer downloads it from nodejs.org, checks the download, and asks for your Mac password.
+   - It copies the studio into place, keeps the library in **iCloud Drive → Meditation Studio**, and makes **Meditation Studio** in your Applications folder.
+4. **Meditation Studio opens in your browser.** Go to **Settings** and paste your two keys. Keys stay on each Mac, so you enter them once on the MacBook and once on the iMac.
+   - **Claude API key**: from [platform.claude.com](https://platform.claude.com). It writes the scripts and runs the trend scan.
+   - **ElevenLabs API key**: from [elevenlabs.io → Settings → API keys](https://elevenlabs.io/app/settings/api-keys). It needs Text to Speech, Voices (read) and User (read).
+5. **Keep it handy.** Drag **Meditation Studio** from Applications to your Dock. In Finder, go to iCloud Drive, right click the **Meditation Studio** folder and choose **Keep Downloaded**, so your audio is always on both Macs.
+
+After that, click Meditation Studio in the Dock whenever you want it. It starts in the background and opens in your browser. To stop it, use **Settings → Stop the studio on this Mac** (or just leave it running; it uses next to nothing).
+
+**Using both Macs.** Make changes on one Mac at a time and give iCloud a moment to catch up when you switch. If the other Mac has the studio open, a notice says so on the Overview. Each change is read fresh from the shared library before it is saved, so switching Macs never throws away the other Mac's work. Audio that iCloud has offloaded is downloaded again, never voiced again, so switching Macs costs no ElevenLabs credits.
+
+**Updating.** When there is a new version, download the new ZIP and run the same `bash install-mac.sh` step. Your library and keys are kept.
+
+### Running it by hand (for developers)
 
 You need [Node.js 20 or newer](https://nodejs.org). The audio engine (ffmpeg) installs with the app.
 
@@ -27,15 +49,10 @@ You need [Node.js 20 or newer](https://nodejs.org). The audio engine (ffmpeg) in
 cd meditation-studio
 npm install
 npm run seed     # optional: adds the example "Five Breaths Before the Day Begins"
-npm start
+npm start        # http://localhost:4100, library in meditation-studio/storage
 ```
 
-Open **http://localhost:4100**. Go to **Settings** and paste your two keys:
-
-- **Claude API key**: from [platform.claude.com](https://platform.claude.com). It writes the scripts and runs the trend scan.
-- **ElevenLabs API key**: from [elevenlabs.io → Settings → API keys](https://elevenlabs.io/app/settings/api-keys). It needs Text to Speech, Voices (read) and User (read).
-
-The keys are saved to `meditation-studio/.env`. Git ignores that file, and the dashboard never shows the keys again.
+Keys are saved to `.env` in the app folder. Git ignores that file, and the dashboard never shows the keys again. Set `STUDIO_STORAGE_DIR` in `.env` to keep the library somewhere else.
 
 ## How a meditation gets made
 
@@ -112,11 +129,11 @@ These are the voices found in your ElevenLabs workspace on 5 Nov 2026. The defau
 ## For developers
 
 ```bash
-npm test        # 26 tests: parser, brand checker, and the whole flow end to end
+npm test        # 30 tests: parser, brand checker, two Macs, and the whole flow end to end
 npm run dev     # restarts the server when files change
 ```
 
-The tests run Claude and ElevenLabs against stand-in servers (`test/mocks.js`), so they need no keys and spend no credits. Data lives in `storage/` (git ignored): `db.json`, the paragraph cache, recordings, beds and renders.
+The tests run Claude and ElevenLabs against stand-in servers (`test/mocks.js`), so they need no keys and spend no credits. The library (`db.json`, the paragraph cache, recordings, beds, renders and which Macs are open) lives in `STUDIO_STORAGE_DIR`: `storage/` by default (git ignored), or iCloud Drive after the Mac installer. While the studio runs, changes to its data must carry an `X-Studio: 1` header and come from a localhost host name, so other websites cannot drive it.
 
 | File | What it does |
 |---|---|
@@ -127,5 +144,7 @@ The tests run Claude and ElevenLabs against stand-in servers (`test/mocks.js`), 
 | `lib/elevenlabs.js` | ElevenLabs REST calls |
 | `lib/render.js` | Voicing (clone or recordings) and assembly |
 | `lib/audio.js` | ffmpeg: silence, bell, join, bed mix, two-pass loudness and the MP3 |
+| `lib/icloud.js` | Brings back files iCloud Drive has offloaded before they are read |
+| `install-mac.sh` | The Mac installer: Node.js, the app, the iCloud library and the Dock app |
 | `data/formats.json` | The format catalogue and its sources |
 | `public/` | The dashboard (plain JavaScript, no build step) |

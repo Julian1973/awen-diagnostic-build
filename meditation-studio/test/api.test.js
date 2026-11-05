@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import http from 'node:http';
 import { mockElevenLabs, mockClaude, toneFile, toneMp3 } from './mocks.js';
 
 let base, server, eleven, claude, storage;
@@ -36,7 +37,7 @@ after(() => {
 });
 
 async function api(p, opts = {}) {
-  const init = { method: opts.method || 'GET', headers: {} };
+  const init = { method: opts.method || 'GET', headers: opts.bare ? {} : { 'X-Studio': '1' } };
   if (opts.form) init.body = opts.form;
   else if (opts.body) { init.headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(opts.body); }
   const res = await fetch(base + p, init);
@@ -216,6 +217,60 @@ test('an account without the fallback beta still gets its script', async () => {
     process.env.ANTHROPIC_BASE_URL = claude.url;
     strict.close();
   }
+});
+
+test('other websites cannot drive the studio', async () => {
+  const noHeader = await api('/api/research', { method: 'POST', body: { focus: 'x' }, bare: true });
+  assert.equal(noHeader.status, 403);
+  const status = await new Promise((resolve, reject) => {
+    const u = new URL(base);
+    http.get({ host: u.hostname, port: u.port, path: '/api/status', headers: { Host: 'evil.example' } }, (res) => { res.resume(); resolve(res.statusCode); }).on('error', reject);
+  });
+  assert.equal(status, 403, 'DNS rebinding host refused');
+  assert.equal((await api('/api/ping')).status, 200);
+});
+
+test('a second Mac shows up while it has the studio open', async () => {
+  const dir = path.join(storage, 'presence');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'Julian-s-iMac.json'), JSON.stringify({ name: "Julian's iMac", lastSeen: new Date().toISOString() }));
+  fs.writeFileSync(path.join(dir, 'Old-Mac.json'), JSON.stringify({ name: 'Old Mac', lastSeen: '2026-01-01T00:00:00Z' }));
+  const { data } = await api('/api/status');
+  assert.deepEqual(data.otherMacs, ["Julian's iMac"]);
+});
+
+test('changes made on the other Mac are picked up', async () => {
+  const dbFile = path.join(storage, 'db.json');
+  const db = JSON.parse(fs.readFileSync(dbFile, 'utf8'));
+  const target = db.meditations.find((x) => x.formatId === 'letting-go');
+  target.title = 'Edited on the iMac';
+  await new Promise((r) => setTimeout(r, 20));
+  fs.writeFileSync(dbFile, JSON.stringify(db));
+  const { data } = await api(`/api/meditations/${target.id}`);
+  assert.equal(data.title, 'Edited on the iMac');
+  // and a change here keeps the other Mac's edit
+  await api(`/api/meditations/${target.id}`, { method: 'PUT', body: { theme: 'from the MacBook' } });
+  const saved = JSON.parse(fs.readFileSync(dbFile, 'utf8')).meditations.find((x) => x.id === target.id);
+  assert.equal(saved.title, 'Edited on the iMac');
+  assert.equal(saved.theme, 'from the MacBook');
+});
+
+test('audio iCloud has offloaded is fetched back, never voiced again', async () => {
+  const { data: list } = await api('/api/meditations');
+  const m = list.find((x) => x.formatId === 'morning-five-breaths');
+  const cacheDir = path.join(storage, 'cache');
+  const name = fs.readdirSync(cacheDir).find((n) => n.endsWith('.mp3'));
+  const real = path.join(cacheDir, name);
+  const placeholder = path.join(cacheDir, `.${name}.icloud`);
+  fs.renameSync(real, placeholder);
+  const { data: before } = await api(`/api/meditations/${m.id}`);
+  assert.equal(before.clone.charsToSpend, 0, 'offloaded audio still counts as voiced');
+  const calls = eleven.calls.length;
+  const r = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'clone' } });
+  setTimeout(() => fs.renameSync(placeholder, real), 800); // macOS finishing the download
+  const job = await waitJob(r.data.job.id);
+  assert.equal(job.status, 'done', job.error);
+  assert.equal(eleven.calls.length, calls, 'no credits spent');
 });
 
 test('keys are saved but never echoed back', async () => {

@@ -22,7 +22,8 @@ function h(tag, attrs = {}, ...kids) {
 }
 
 async function api(path, opts = {}) {
-  const init = { method: opts.method || 'GET', headers: {} };
+  // The server refuses changes without this header, so other websites cannot drive the studio.
+  const init = { method: opts.method || 'GET', headers: { 'X-Studio': '1' } };
   if (opts.body instanceof FormData) init.body = opts.body;
   else if (opts.body !== undefined) {
     init.headers['Content-Type'] = 'application/json';
@@ -135,6 +136,8 @@ async function refreshSideStatus() {
       h('div', {}, dot(!!s.claude), 'Claude ', s.claude ? 'connected' : 'key needed'),
       h('div', {}, dot(!!s.elevenlabs), 'ElevenLabs ', s.elevenlabs ? 'connected' : 'key needed'),
       h('div', {}, dot(s.ffmpeg.ok), 'Audio engine ', s.ffmpeg.ok ? 'ready' : 'missing'),
+      h('div', { style: 'margin-top:6px' }, s.thisMac, s.sharedLibrary ? ' · iCloud library' : ''),
+      s.otherMacs?.length ? h('div', { style: 'color:var(--warn)' }, `Also open on ${s.otherMacs.join(', ')}`) : '',
     );
     return s;
   } catch {
@@ -203,6 +206,7 @@ async function pageOverview() {
     h('h1', {}, 'Your ', h('em', {}, 'studio')),
     h('p', { class: 'lede' }, 'Write original meditations in the shapes that get the most listening on Insight Timer and Spotify, voice them, mix them, and see what lands.'),
     keysMissing ? h('div', { class: 'banner' }, 'Add your Claude and ElevenLabs keys in ', h('a', { href: '#/settings' }, 'Settings'), ' to start writing and voicing.') : '',
+    status?.otherMacs?.length ? h('div', { class: 'banner' }, h('b', {}, `Also open on ${status.otherMacs.join(', ')}. `), 'Your library syncs between your Macs through iCloud Drive. Make changes on one Mac at a time, and give iCloud a moment to catch up when you switch.') : '',
     insightTimerNotice(),
     tiles,
     h('div', { class: 'split section' },
@@ -942,7 +946,7 @@ async function pageSettings() {
 
   const bedFile = h('input', { type: 'file', accept: 'audio/*' });
   const bedList = h('div', { class: 'grid' }, beds.length ? beds.map((b) => h('div', { class: 'para' },
-    h('div', {}, h('div', {}, b.name, h('span', { class: 'muted small' }, ` · ${(b.bytes / 1e6).toFixed(1)} MB`), s.defaultBed === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Default') : '', s.bellFile === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Bell') : ''),
+    h('div', {}, h('div', {}, b.name, h('span', { class: 'muted small' }, b.bytes == null ? ' · in iCloud' : ` · ${(b.bytes / 1e6).toFixed(1)} MB`), s.defaultBed === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Default') : '', s.bellFile === b.name ? h('span', { class: 'chip gold', style: 'margin-left:8px' }, 'Bell') : ''),
       h('audio', { controls: true, preload: 'none', src: `/api/beds/${encodeURIComponent(b.name)}` })),
     h('div', { class: 'actions' },
       h('button', { class: 'ghost small', onclick: () => save({ defaultBed: s.defaultBed === b.name ? null : b.name }).then(route) }, s.defaultBed === b.name ? 'Clear default' : 'Make default'),
@@ -961,6 +965,20 @@ async function pageSettings() {
   const saveDisc = () => save({ disclosure: { spotify: discOn.checked, text: discText.value } });
   discOn.addEventListener('change', saveDisc);
   discText.addEventListener('change', saveDisc);
+
+  const stopBtn = h('button', { class: 'ghost', onclick: async () => {
+    if (!confirm('Stop Meditation Studio on this Mac? Open it again from Applications or the Dock.')) return;
+    await api('/api/shutdown', { method: 'POST' }).catch(() => {});
+    document.body.replaceChildren(h('main', {}, h('h1', {}, 'Studio stopped'), h('p', { class: 'lede' }, 'Open Meditation Studio from Applications or the Dock to start it again.')));
+  } }, 'Stop the studio on this Mac');
+  const libraryCard = h('div', { class: 'card' }, h('h2', {}, 'This Mac and the library'),
+    h('div', { class: 'kv' },
+      h('div', {}, 'This Mac'), h('div', {}, status.thisMac),
+      h('div', {}, 'Library'), h('div', { style: 'word-break:break-word' }, String(status.library).replace(/^.*\/Mobile Documents\/com~apple~CloudDocs\//, 'iCloud Drive › ').replace(/^\/Users\/[^/]+\//, 'Home › ')),
+      h('div', {}, 'Shared'), h('div', {}, status.sharedLibrary ? 'Yes, through iCloud Drive. Your other Mac sees the same meditations, recordings and mixes.' : 'No. Run the Mac installer to keep the library in iCloud Drive.'),
+      h('div', {}, 'Also open on'), h('div', {}, status.otherMacs?.length ? status.otherMacs.join(', ') : 'No other Mac right now')),
+    h('div', { class: 'hint', style: 'margin-top:10px' }, 'Keys are kept on each Mac separately. In Finder, right click the Meditation Studio folder in iCloud Drive and choose Keep Downloaded, so audio is always to hand.'),
+    h('div', { class: 'row', style: 'margin-top:14px' }, stopBtn));
 
   $app.replaceChildren(
     h('h1', {}, 'Settings'),
@@ -992,7 +1010,8 @@ async function pageSettings() {
         num('weeklyTarget', 'Meditations a week', '1')),
       h('div', { class: 'card' }, h('h2', {}, 'Voice clone disclosure'),
         h('label', { style: 'display:flex;gap:10px;align-items:center' }, discOn, 'Add this line to Spotify descriptions when the clone voices the track'), discText,
-        h('div', { class: 'hint' }, 'Your call: the brand wall keeps AI out of Side A copy, while Spotify labels AI content and asks music releases to declare it in AI credits. Insight Timer does not accept clones at all.'))),
+        h('div', { class: 'hint' }, 'Your call: the brand wall keeps AI out of Side A copy, while Spotify labels AI content and asks music releases to declare it in AI credits. Insight Timer does not accept clones at all.')),
+      libraryCard),
   );
 }
 

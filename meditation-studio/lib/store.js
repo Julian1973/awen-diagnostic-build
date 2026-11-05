@@ -2,25 +2,41 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { paths, DEFAULT_SETTINGS, ensureDirs } from './config.js';
+import { ensureLocalSync } from './icloud.js';
 
 const EMPTY = { meditations: [], research: [], settings: {} };
 let state = null;
+let loadedMtime = 0;
 
+const mtime = () => (fs.existsSync(paths.db) ? fs.statSync(paths.db).mtimeMs : 0);
+
+// The library can be shared through iCloud Drive with another Mac, so the file is read again
+// whenever it has changed on disk. Every change is read, applied, written: the latest copy wins
+// per change, not per session.
 function load() {
-  if (state) return state;
+  if (state && mtime() === loadedMtime) return state;
   ensureDirs();
+  ensureLocalSync(paths.db);
   if (fs.existsSync(paths.db)) {
-    state = { ...EMPTY, ...JSON.parse(fs.readFileSync(paths.db, 'utf8')) };
+    try {
+      state = { ...EMPTY, ...JSON.parse(fs.readFileSync(paths.db, 'utf8')) };
+      loadedMtime = mtime();
+    } catch (err) {
+      // A half synced file: keep what is in memory rather than lose it.
+      if (!state) throw new Error(`The library file could not be read (${err.message}).`);
+    }
   } else {
     state = structuredClone(EMPTY);
+    loadedMtime = 0;
   }
   return state;
 }
 
 function save() {
-  const tmp = `${paths.db}.tmp`;
+  const tmp = `${paths.db}.${process.pid}.tmp`;
   fs.writeFileSync(tmp, JSON.stringify(state, null, 2));
   fs.renameSync(tmp, paths.db);
+  loadedMtime = mtime();
 }
 
 export function newId() {
@@ -106,4 +122,5 @@ export function listResearch() {
 // For tests.
 export function _reset() {
   state = null;
+  loadedMtime = 0;
 }

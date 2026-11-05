@@ -1,9 +1,12 @@
 // Meditation Studio: local server for the dashboard.
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import express from 'express';
 import multer from 'multer';
-import { PUBLIC_DIR, DATA_DIR, paths, ensureDirs, readEnvKeys, maskKey, saveEnvKey, JULIAN_VOICES } from './lib/config.js';
+import { PUBLIC_DIR, DATA_DIR, STORAGE_DIR, paths, ensureDirs, readEnvKeys, maskKey, saveEnvKey, JULIAN_VOICES } from './lib/config.js';
+import { existsAnywhere, ensureLocal, listNames, placeholderFor } from './lib/icloud.js';
 import * as store from './lib/store.js';
 import { BRANDS, PILLARS, brandCheck, brandSummary } from './lib/brand.js';
 import { scriptStats, pasteTest, transcript } from './lib/script-parser.js';
@@ -18,9 +21,52 @@ ensureDirs();
 for (const m of store.listMeditations()) {
   if (m.status === 'writing') store.updateMeditation(m.id, { status: m.script ? 'draft' : 'idea' });
 }
+const PORT = Number(process.env.PORT) || 4100;
 const app = express();
+
+// The studio runs in the background on Julian's Macs, so other websites open in the same browser
+// must not be able to reach it: only localhost names are served (stops DNS rebinding), and every
+// change needs a header that a cross site form or image cannot send.
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
+app.use((req, res, next) => {
+  const host = String(req.headers.host || '').replace(/:\d+$/, '');
+  if (!LOCAL_HOSTS.has(host)) return res.status(403).send('Meditation Studio only answers on localhost.');
+  if (req.path.startsWith('/api/') && !['GET', 'HEAD'].includes(req.method) && req.get('x-studio') !== '1') {
+    return res.status(403).json({ error: 'Blocked: requests must come from the studio dashboard.' });
+  }
+  next();
+});
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static(PUBLIC_DIR));
+
+// Which Macs have the studio open. Each writes a heartbeat into the shared library folder.
+function macName() {
+  if (process.platform === 'darwin') {
+    const r = spawnSync('scutil', ['--get', 'ComputerName'], { encoding: 'utf8' });
+    if (r.status === 0 && r.stdout.trim()) return r.stdout.trim();
+  }
+  return os.hostname().replace(/\.local$/, '');
+}
+const THIS_MAC = process.env.STUDIO_MAC_NAME || macName();
+const presenceDir = path.join(STORAGE_DIR, 'presence');
+const presenceFile = path.join(presenceDir, `${THIS_MAC.replace(/[^A-Za-z0-9]+/g, '-')}.json`);
+function heartbeat() {
+  try {
+    fs.mkdirSync(presenceDir, { recursive: true });
+    fs.writeFileSync(presenceFile, JSON.stringify({ name: THIS_MAC, lastSeen: new Date().toISOString(), pid: process.pid }));
+  } catch {
+    // the shared folder may be offline for a moment
+  }
+}
+function otherMacs() {
+  const now = Date.now();
+  return listNames(presenceDir)
+    .map((n) => path.join(presenceDir, n))
+    .filter((f) => f !== presenceFile && fs.existsSync(f))
+    .map((f) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch { return null; } })
+    .filter((p) => p && now - Date.parse(p.lastSeen) < 3 * 60 * 1000)
+    .map((p) => p.name);
+}
 
 const catalogue = () => JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'formats.json'), 'utf8'));
 const formatById = (id) => catalogue().formats.find((f) => f.id === id) || null;
@@ -78,14 +124,29 @@ function withDerived(m, { full = false } = {}) {
 
 // ---------- status, catalogue, settings ----------
 
+app.get('/api/ping', (req, res) => res.json({ ok: true, mac: THIS_MAC }));
+
 app.get('/api/status', wrap(async (req, res) => {
   const keys = readEnvKeys();
   res.json({
     claude: maskKey(keys.anthropic),
     elevenlabs: maskKey(keys.elevenlabs),
     ffmpeg: await checkFfmpeg(),
+    thisMac: THIS_MAC,
+    otherMacs: otherMacs(),
+    library: STORAGE_DIR,
+    sharedLibrary: STORAGE_DIR.includes('Mobile Documents/com~apple~CloudDocs'),
   });
 }));
+
+// Used by the Mac installer before an update, and by the Stop button in Settings.
+app.post('/api/shutdown', (req, res) => {
+  res.json({ ok: true });
+  setTimeout(() => {
+    try { fs.rmSync(presenceFile, { force: true }); } catch { /* ignore */ }
+    process.exit(0);
+  }, 200);
+});
 
 app.get('/api/formats', (req, res) => res.json(catalogue()));
 app.get('/api/brands', (req, res) => res.json({ brands: BRANDS, pillars: PILLARS }));
@@ -225,6 +286,13 @@ app.post('/api/meditations/:id/render', wrap(async (req, res) => {
   res.json({ job });
 }));
 
+function recordingVersionUrl(id, textKey) {
+  const file = recordingFile(id, textKey);
+  if (!file) return null;
+  const stamp = fs.existsSync(file) ? fs.statSync(file).mtimeMs : fs.statSync(placeholderFor(file)).mtimeMs;
+  return `/api/meditations/${id}/recordings/${textKey}?t=${Math.round(stamp)}`;
+}
+
 // The paragraph list for Voice Studio and Record mode.
 app.get('/api/meditations/:id/plan', wrap(async (req, res) => {
   const m = ensureMeditation(req.params.id);
@@ -232,8 +300,8 @@ app.get('/api/meditations/:id/plan', wrap(async (req, res) => {
   const plan = planFor(m, settings).map((p, i) => (p.type === 'speech'
     ? {
       i, type: p.type, text: p.text, spoken: p.spoken, key: p.key, take: p.take, textKey: p.textKey, chars: p.chars, line: p.line,
-      cloneUrl: fs.existsSync(cacheFile(p.hash)) ? `/api/cache/${p.hash}.mp3` : null,
-      recordingUrl: recordingFile(m.id, p.textKey) ? `/api/meditations/${m.id}/recordings/${p.textKey}?t=${fs.statSync(recordingFile(m.id, p.textKey)).mtimeMs}` : null,
+      cloneUrl: existsAnywhere(cacheFile(p.hash)) ? `/api/cache/${p.hash}.mp3` : null,
+      recordingUrl: recordingVersionUrl(m.id, p.textKey),
     }
     : { i, type: p.type, seconds: p.seconds, explicit: p.explicit }));
   res.json({ plan });
@@ -257,7 +325,7 @@ app.post('/api/meditations/:id/paragraphs/:key/voice', wrap(async (req, res) => 
 app.get('/api/cache/:file', wrap(async (req, res) => {
   const name = safeName(req.params.file);
   const file = path.join(paths.cache, name);
-  if (!/^[a-f0-9]+\.mp3$/.test(name) || !fs.existsSync(file)) throw fail(404, 'Not found');
+  if (!/^[a-f0-9]+\.mp3$/.test(name) || !(await ensureLocal(file))) throw fail(404, 'Not found');
   res.type('audio/mpeg').sendFile(file);
 }));
 
@@ -273,20 +341,23 @@ app.post('/api/meditations/:id/recordings/:textKey', memoryUpload.single('audio'
   const ext = EXT[(req.file.mimetype || '').split(';')[0]] || path.extname(req.file.originalname || '').slice(1) || 'webm';
   const dir = path.join(paths.recordings, m.id);
   fs.mkdirSync(dir, { recursive: true });
-  for (const f of fs.readdirSync(dir)) if (f.startsWith(`${req.params.textKey}.`)) fs.rmSync(path.join(dir, f));
+  for (const f of fs.readdirSync(dir)) if (f.startsWith(`${req.params.textKey}.`) || f.startsWith(`.${req.params.textKey}.`)) fs.rmSync(path.join(dir, f));
   fs.writeFileSync(path.join(dir, `${req.params.textKey}.${ext}`), req.file.buffer);
   res.json({ ok: true, recording: recordingStatus(m, store.getSettings()) });
 }));
 
 app.get('/api/meditations/:id/recordings/:textKey', wrap(async (req, res) => {
   const file = recordingFile(ensureMeditation(req.params.id).id, safeName(req.params.textKey));
-  if (!file) throw fail(404, 'Not recorded yet');
+  if (!file || !(await ensureLocal(file))) throw fail(404, 'Not recorded yet');
   res.sendFile(file);
 }));
 
 app.delete('/api/meditations/:id/recordings/:textKey', wrap(async (req, res) => {
   const file = recordingFile(ensureMeditation(req.params.id).id, safeName(req.params.textKey));
-  if (file) fs.rmSync(file);
+  if (file) {
+    fs.rmSync(file, { force: true });
+    fs.rmSync(placeholderFor(file), { force: true });
+  }
   res.json({ ok: true });
 }));
 
@@ -296,7 +367,7 @@ app.get('/api/renders/:id/:source', wrap(async (req, res) => {
   const m = ensureMeditation(req.params.id);
   const source = req.params.source === 'recorded' ? 'recorded' : 'clone';
   const file = path.join(paths.renders, m.id, `${source}.mp3`);
-  if (!fs.existsSync(file)) throw fail(404, 'Not rendered yet');
+  if (!(await ensureLocal(file))) throw fail(404, 'Not rendered yet');
   if (req.query.download) {
     const base = (m.title || 'meditation').replace(/[^A-Za-z0-9 ]/g, '').trim().replace(/\s+/g, ' ') || 'meditation';
     return res.download(file, `${base}${source === 'clone' ? ' (voice clone)' : ''}.mp3`);
@@ -444,18 +515,22 @@ const bedUpload = multer({
 });
 
 app.get('/api/beds', (req, res) => {
-  const beds = fs.readdirSync(paths.beds).filter((f) => !f.startsWith('.')).map((f) => ({ name: f, bytes: fs.statSync(path.join(paths.beds, f)).size }));
+  const beds = listNames(paths.beds).filter((f) => !f.endsWith('.tmp')).map((f) => {
+    const real = path.join(paths.beds, f);
+    return { name: f, bytes: fs.existsSync(real) ? fs.statSync(real).size : null, inCloud: !fs.existsSync(real) };
+  });
   res.json({ beds });
 });
 app.post('/api/beds', bedUpload.single('file'), (req, res) => res.json({ ok: true, name: req.file?.filename }));
 app.get('/api/beds/:name', wrap(async (req, res) => {
   const file = path.join(paths.beds, safeName(req.params.name));
-  if (!fs.existsSync(file)) throw fail(404, 'Not found');
+  if (!(await ensureLocal(file))) throw fail(404, 'Not found');
   res.sendFile(file);
 }));
 app.delete('/api/beds/:name', wrap(async (req, res) => {
   const file = path.join(paths.beds, safeName(req.params.name));
-  if (fs.existsSync(file)) fs.rmSync(file);
+  fs.rmSync(file, { force: true });
+  fs.rmSync(placeholderFor(file), { force: true });
   res.json({ ok: true });
 }));
 
@@ -482,11 +557,16 @@ app.get('/api/jobs/:id', wrap(async (req, res) => {
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 
-const PORT = Number(process.env.PORT) || 4100;
 const HOST = process.env.HOST || '127.0.0.1';
+export function startHeartbeat() {
+  heartbeat();
+  setInterval(heartbeat, 60 * 1000).unref();
+}
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, HOST, () => {
-    console.log(`Meditation Studio is running: http://localhost:${PORT}`);
+    startHeartbeat();
+    console.log(`Meditation Studio is running on ${THIS_MAC}: http://localhost:${PORT}`);
+    console.log(`Library: ${STORAGE_DIR}`);
   });
 }
 

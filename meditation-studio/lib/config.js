@@ -1,5 +1,6 @@
 // Paths, environment and the settings Julian can change from the dashboard.
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
@@ -21,7 +22,7 @@ export const paths = {
   cache: path.join(STORAGE_DIR, 'cache'),       // one MP3 per voiced paragraph, keyed by content hash
   renders: path.join(STORAGE_DIR, 'renders'),   // finished meditations
   beds: path.join(STORAGE_DIR, 'beds'),         // music and ambience beds Julian uploads
-  work: path.join(STORAGE_DIR, 'work'),         // scratch space for ffmpeg
+  work: path.join(os.tmpdir(), 'meditation-studio-work'), // ffmpeg scratch space, kept on this Mac so iCloud does not sync it
   recordings: path.join(STORAGE_DIR, 'recordings'), // Julian's own read of each paragraph (Record mode)
 };
 

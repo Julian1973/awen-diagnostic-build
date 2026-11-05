@@ -6,6 +6,7 @@ import { buildPlan, pasteTest, spokenWords } from './script-parser.js';
 import { textToSpeech } from './elevenlabs.js';
 import * as audio from './audio.js';
 import { pool } from './jobs.js';
+import { existsAnywhere, ensureLocal, listNames } from './icloud.js';
 
 export function planFor(m, settings) {
   return buildPlan(m.script || '', {
@@ -23,8 +24,7 @@ export const cacheFile = (hash) => path.join(paths.cache, `${hash}.mp3`);
 
 export function recordingFile(meditationId, textKey) {
   const dir = path.join(paths.recordings, meditationId);
-  if (!fs.existsSync(dir)) return null;
-  const f = fs.readdirSync(dir).find((n) => n.startsWith(`${textKey}.`));
+  const f = listNames(dir).find((n) => n.startsWith(`${textKey}.`));
   return f ? path.join(dir, f) : null;
 }
 
@@ -36,8 +36,8 @@ export function recordingStatus(m, settings) {
 
 export function cloneStatus(m, settings) {
   const plan = planFor(m, settings).filter((p) => p.type === 'speech');
-  const cached = plan.filter((p) => fs.existsSync(cacheFile(p.hash)));
-  const toVoice = plan.filter((p) => !fs.existsSync(cacheFile(p.hash)));
+  const cached = plan.filter((p) => existsAnywhere(cacheFile(p.hash)));
+  const toVoice = plan.filter((p) => !existsAnywhere(cacheFile(p.hash)));
   return {
     voiced: cached.length,
     total: plan.length,
@@ -49,7 +49,7 @@ export function cloneStatus(m, settings) {
 // Voices one paragraph through ElevenLabs, using the cache unless `fresh` asks for it again.
 export async function voiceParagraph(item, { fresh = false } = {}) {
   const file = cacheFile(item.hash);
-  if (!fresh && fs.existsSync(file)) return { file, spent: 0 };
+  if (!fresh && (await ensureLocal(file))) return { file, spent: 0 };
   const { audio: bytes } = await textToSpeech({
     text: item.text,
     voiceId: item.voiceId,
@@ -90,7 +90,11 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
       if (missing.length) {
         throw new Error(`Record mode needs every paragraph in your own voice. ${missing.length} of ${speech.length} still to record (first one starts "${missing[0].spoken.slice(0, 60)}").`);
       }
-      speech.forEach((p) => sourceFiles.set(p.hash, recordingFile(m.id, p.textKey)));
+      for (const p of speech) {
+        const f = recordingFile(m.id, p.textKey);
+        await ensureLocal(f);
+        sourceFiles.set(p.hash, f);
+      }
     } else {
       let done = 0;
       update({ total: speech.length, done: 0, message: `Voicing ${speech.length} paragraphs in ${m.voiceName || 'Julian'}'s voice` });
@@ -127,7 +131,7 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
     if (!isSleep && settings.bell) {
       await silence(2.5);
       const bell = path.join(workDir, `p${String(n++).padStart(4, '0')}-bell.wav`);
-      const customBell = settings.bellFile && fs.existsSync(path.join(paths.beds, settings.bellFile)) ? path.join(paths.beds, settings.bellFile) : null;
+      const customBell = settings.bellFile && (await ensureLocal(path.join(paths.beds, settings.bellFile))) ? path.join(paths.beds, settings.bellFile) : null;
       parts.push(customBell ? await audio.toWav(customBell, bell) : await audio.bellWav(bell));
     }
     await silence(isSleep ? settings.sleepTailSeconds : settings.tailSeconds);
@@ -137,7 +141,7 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
 
     // 3. Music bed, loudness and the MP3.
     update({ message: 'Mixing the music bed and setting loudness' });
-    const bedPath = m.bedFile && fs.existsSync(path.join(paths.beds, m.bedFile)) ? path.join(paths.beds, m.bedFile) : null;
+    const bedPath = m.bedFile && (await ensureLocal(path.join(paths.beds, m.bedFile))) ? path.join(paths.beds, m.bedFile) : null;
     const outName = `${source}.mp3`;
     const outMp3 = path.join(outDir, outName);
     const result = await audio.master({
