@@ -7,6 +7,7 @@ import { textToSpeech } from './elevenlabs.js';
 import * as audio from './audio.js';
 import { pool } from './jobs.js';
 import { existsAnywhere, ensureLocal, listNames } from './icloud.js';
+import { BRANDS } from './brand.js';
 
 export function planFor(m, settings) {
   return buildPlan(m.script || '', {
@@ -160,7 +161,7 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
       meta: {
         title: m.title,
         artist: 'Julian Jenkins',
-        album: m.brand === 'living-connection' ? 'The Living Connection' : 'Living Awake',
+        album: (BRANDS[m.brand] || BRANDS.plain).album,
         genre: 'Meditation',
         date: String(new Date().getFullYear()),
       },

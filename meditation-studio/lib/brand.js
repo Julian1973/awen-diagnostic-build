@@ -1,8 +1,19 @@
-// Julian's Side A brand rules, taken from his brand-guardian, living-awake-engine and
-// spiritual-content skills (identity profiles transcribed from memory, 27 Sep 2026).
-// Where a project file disagrees (Living Awake Master Compendium, Brand_Kit.md), the project file wins.
+// The quality check, and optional brand profiles.
+// By default meditations are plain: no brand, no pillars, no locked sign-off. Julian can switch on
+// the brand profiles from his saved skills (brand-guardian, living-awake-engine, spiritual-content)
+// in Settings, and then pick one per meditation.
 
 export const BRANDS = {
+  // Julian publishes on Insight Timer as Julian Jenkins, so plain meditations carry his name only.
+  plain: {
+    id: 'plain',
+    name: 'Julian Jenkins',
+    signOff: '',
+    spokenSignOff: '',
+    banned: [],
+    usesPillars: false,
+    album: 'Julian Jenkins',
+  },
   'living-awake': {
     id: 'living-awake',
     name: 'Living Awake',
@@ -17,6 +28,8 @@ export const BRANDS = {
       'manifest', 'manifesting', 'manifestation', 'abundance', 'light language', 'love and light',
     ],
     usesPillars: true,
+    album: 'Living Awake',
+    wordmark: 'L I V I N G   A W A K E',
   },
   'living-connection': {
     id: 'living-connection',
@@ -31,6 +44,8 @@ export const BRANDS = {
       'manifest', 'manifesting', 'manifestation', 'abundance', 'light language', 'love and light',
     ],
     usesPillars: false,
+    album: 'The Living Connection',
+    wordmark: 'T H E   L I V I N G   C O N N E C T I O N',
   },
 };
 
@@ -102,7 +117,8 @@ export function insightTimerDescription(m, musicCredit) {
 }
 
 export function brandCheck(m, format, { musicCredit = '' } = {}) {
-  const brand = BRANDS[m.brand] || BRANDS['living-awake'];
+  const brand = BRANDS[m.brand] || BRANDS.plain;
+  const profile = brand.id !== 'plain';
   const results = [];
   const script = m.script || '';
   const listenerText = [m.title, m.subtitle, m.insightTimerDescription, m.spotifyTitle, m.spotifyDescription, (m.tags || []).join(' ')].join('\n');
@@ -117,13 +133,16 @@ export function brandCheck(m, format, { musicCredit = '' } = {}) {
   if (dashLines.length) add('No dashes', 'block', `Dashes found (${dashLines.length} line${dashLines.length > 1 ? 's' : ''}). Use a full stop, a comma or an ellipsis.`);
   else add('No dashes', 'pass', 'No em dashes, en dashes or spaced hyphens.');
 
-  const banned = findWords(everything, brand.banned);
-  if (banned.length) add('Vocabulary', 'block', `Not in ${brand.name}: ${banned.join(', ')}.`);
-  else add('Vocabulary', 'pass', `No banned ${brand.name} words.`);
+  if (brand.banned.length) {
+    const banned = findWords(everything, brand.banned);
+    if (banned.length) add('Vocabulary', 'block', `Not in ${brand.name}: ${banned.join(', ')}.`);
+    else add('Vocabulary', 'pass', `No banned ${brand.name} words.`);
+  }
 
-  const wall = findWords(listenerText + '\n' + script, WALL_WORDS).concat(/(^|[^A-Za-z])AI([^A-Za-z]|$)/.test(stripTags(everything)) ? ['AI'] : []);
-  if (wall.length) add('Brand wall', 'block', `Side B or tooling words a listener would see or hear: ${[...new Set(wall)].join(', ')}.`);
-  else add('Brand wall', 'pass', 'Nothing from AI, business or the other brands.');
+  // Listeners should hear a meditation, not the tools behind it.
+  const wall = findWords(listenerText + '\n' + script, profile ? WALL_WORDS : ['elevenlabs', 'eleven labs', 'claude', 'chatgpt', 'artificial intelligence', 'ai generated', 'ai-generated']).concat(/(^|[^A-Za-z])AI([^A-Za-z]|$)/.test(stripTags(everything)) ? ['AI'] : []);
+  if (wall.length) add(profile ? 'Brand wall' : 'Listener copy', profile ? 'block' : 'flag', `Words about the tools a listener would see or hear: ${[...new Set(wall)].join(', ')}.`);
+  else add(profile ? 'Brand wall' : 'Listener copy', 'pass', profile ? 'Nothing from AI, business or the other brands.' : 'No mention of the tools behind it.');
 
   const us = [];
   const plain = stripTags(everything).toLowerCase();
@@ -133,8 +152,9 @@ export function brandCheck(m, format, { musicCredit = '' } = {}) {
   if (us.length) add('British English', 'flag', `American spellings: ${us.join(', ')}.`);
   else add('British English', 'pass', 'British spellings.');
 
-  // Sign-off. Sleep tracks carry it in writing so the listener is not woken at the end.
+  // Sign-off (brand profiles only). Sleep tracks carry it in writing so the listener is not woken.
   const isSleep = format?.ending === 'sleep';
+  if (brand.signOff) {
   const spokenOk = normaliseSpace(script).includes(normaliseSpace(brand.spokenSignOff));
   const writtenOk = normaliseSpace(m.insightTimerDescription).includes(normaliseSpace(brand.signOff));
   if (isSleep) {
@@ -145,6 +165,7 @@ export function brandCheck(m, format, { musicCredit = '' } = {}) {
   } else {
     const missing = [!spokenOk && 'spoken at the close', !writtenOk && 'written in the description'].filter(Boolean).join(' and ');
     add('Sign-off', 'block', `Sign-off missing (${missing}): "${brand.signOff}"`);
+  }
   }
 
   if (brand.usesPillars) {

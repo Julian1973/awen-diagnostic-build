@@ -1,7 +1,7 @@
 /* The brand fonts, served by the studio so trailer cards draw the same on every Mac (OFL, see assets/fonts). */
 @font-face { font-family: 'Studio Cormorant'; src: url('/fonts/CormorantGaramond_500Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
 @font-face { font-family: 'Studio Cormorant'; src: url('/fonts/CormorantGaramond_300Light_Italic.ttf') format('truetype'); font-weight: 300; font-style: italic; }
-/* Living Awake kit: navy deep #040a14, base #0a1525, mid #14283f, cream #fdf6e8, gold #d4a574, gold light #f4d590 */
+/* Colours: navy deep #040a14, base #0a1525, mid #14283f, cream #fdf6e8, gold #d4a574, gold light #f4d590 */
 :root {
   --navy-deep: #040a14;
   --navy: #0a1525;

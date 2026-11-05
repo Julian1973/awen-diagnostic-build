@@ -1,6 +1,6 @@
 # Meditation Studio
 
-Julian's studio for making meditations. You pick one of the formats that win on Insight Timer and Spotify, and Claude drafts an original script in your voice and to your brand rules. You shape the script. Then you voice it, either with your ElevenLabs clone on **eleven_v4** or by reading it yourself in Record mode. The studio mixes the finished MP3: exact silences, music bed, bell and loudness. Then you take the upload pack and log the plays to see what lands.
+Julian Jenkins's studio for making meditations for Insight Timer and Spotify. It shows which topics and lengths get the most listening, and Claude drafts an original script in your voice, in one of those formats, at the length that gets played. You shape the script. Then you voice it, either with your ElevenLabs clone on **eleven_v4** or by reading it yourself in Record mode. The studio mixes the finished MP3: exact silences, music bed, bell and loudness. Then you take the upload pack and log the plays to see what lands.
 
 Everything runs on your own computer. Your keys and audio never leave it, except for the calls to Claude and ElevenLabs.
 
@@ -48,7 +48,7 @@ You need [Node.js 20 or newer](https://nodejs.org). The audio engine (ffmpeg) in
 ```bash
 cd meditation-studio
 npm install
-npm run seed     # optional: adds the example "Five Breaths Before the Day Begins"
+npm run seed     # adds the six ready made meditations (see below)
 npm start        # http://localhost:4100, library in meditation-studio/storage
 ```
 
@@ -57,11 +57,11 @@ Keys are saved to `.env` in the app folder. Git ignores that file, and the dashb
 ## How a meditation gets made
 
 1. **Formats & trends.** There are fifteen formats built from the research. Each one shows its evidence, beats, length and title shapes. The yoga nidra for sleep format, for example, is modelled on the most played track on Insight Timer: 22 minutes and about 23.5M plays. **Run a live trend scan** to have Claude search Insight Timer, Spotify and the podcast charts now and suggest ideas inside your pillars.
-2. **Create.** Pick a format, brand, pillar, length and angle, then press **Write it with Claude**. The model is Claude Opus 5.5 with adaptive thinking at high effort, and structured output, so the title, descriptions, tags and script come back in separate fields.
+2. **Create.** Pick a format, length and angle, then press **Write it with Claude**. The model is Claude Opus 5.5 with adaptive thinking at high effort, and structured output, so the title, descriptions, tags and script come back in separate fields.
 3. **Script.** Edit freely; it saves as you type. The side panel shows:
    - an estimated length against the target, and how much silence falls in the first two minutes (a play counts after 120 seconds)
    - the ElevenLabs characters it will cost
-   - the brand check
+   - the quality check
    - anything ElevenLabs would read aloud by mistake
 
    **Ask Claude to revise** with plain notes.
@@ -97,9 +97,9 @@ The **Publish** tab has everything the upload asks for:
   1. a paragraph you choose
   2. the moment suggested when the script was written
   3. the 30 seconds with the most of your voice
-- **Trailer video.** A 30-second portrait MP4 (1080 x 1920) of the snippet over your Living Awake card: the brand gradient, title, trailer line, Celtic cross logo and wordmark. Insight Timer course trailers are portrait MP4s, ideally 20 to 30 seconds. The same video works for Instagram reels and YouTube Shorts. Upload the logo once in **Settings**.
-- **Cover image.** Each script comes with a description for the image generator and alt text. The description follows the Living Awake look: navy and aged gold, film grain, Welsh ground, no text. Covers need to be square, at least 1600 x 1600 px and under 20 MB.
-- **Tags and description.** Claude writes 6 to 10 tags. The brand check holds the Insight Timer description to 200 to 1,000 characters (counting the music credit), with no links, website names, emails, handles or emojis, all of which Insight Timer rejects. It also flags a title whose minutes don't match the finished track.
+- **Trailer video.** A 30-second portrait MP4 (1080 x 1920) of the snippet over a calm title card: a deep blue gradient, the title, the trailer line, your logo if you upload one, and your name. Insight Timer course trailers are portrait MP4s, ideally 20 to 30 seconds. The same video works for Instagram reels and YouTube Shorts. Upload the logo once in **Settings**.
+- **Cover image.** Each script comes with a description for the image generator and alt text. The description asks for a calm, atmospheric scene in a muted, soothing palette, with no text. Covers need to be square, at least 1600 x 1600 px and under 20 MB.
+- **Tags and description.** Claude writes 6 to 10 tags. The quality check holds the Insight Timer description to 200 to 1,000 characters (counting the music credit), with no links, website names, emails, handles or emojis, all of which Insight Timer rejects. It also flags a title whose minutes don't match the finished track.
 - **Music credit.** Insight Timer asks for music to be credited in the description. Each bed has a credit line, which you can edit in Settings, and the pack adds it automatically.
 
 ## Music beds
@@ -128,19 +128,33 @@ Short beds loop under long tracks with 8-second crossfades, so a 3-minute bed ca
 - eleven_v4 has no speed slider. The pace comes from `[slowly]`, `[pause]`, `[long pause]` and ellipses.
 - No parentheses, asterisks, braces, bullets or speaker labels. The paste test blocks the render if any are found.
 
-## Brand rules the checker enforces
+## The six ready made meditations
 
-These come from your brand-guardian, living-awake-engine and spiritual-content skills (identity profiles, 27 Sep 2026). If a project file disagrees, the project file wins.
+`npm run seed` loads six finished scripts into the studio. They were written from the research on what gets played, and each comes with its titles, descriptions, tags, cover description, alt text, trailer line and snippet moment. All six pass the quality check. Voice or record them and they are ready to upload.
 
-- **No dashes** anywhere: em dashes, en dashes and spaced hyphens are all blocked.
-- **Living Awake**: never "medium", "chakra", "third eye", vibrations, ascension, manifesting, abundance, high vibe, light language, or love and light. Every piece sits in one of the four pillars.
-- **The Living Connection**: mediumship, spirit and chakra language is correct here. New age vocabulary is still out.
-- **Sign-offs.**
-  - Living Awake: "Take a breath with me and then be love and give love. Have a wonderful day, one breath at a time." It is spoken at the close and written in the description.
-  - The Living Connection: spoken as "Be love. Give love." and written as "Be love. Give love. Julian x".
-  - **Sleep tracks** carry the sign-off in the description only, so the listener isn't woken at the end.
-- **Brand wall**: nothing about AI, ElevenLabs, Claude, Awen, consulting or Crystal Bears reaches a listener.
-- **British spelling**, a gentle **invitation to return tomorrow** (return rate is the biggest Insight Timer bonus), and **Insight Timer titles** without category words or your name.
+| Meditation | Length | Why this one |
+|---|---|---|
+| Yoga Nidra to Put the Day Down | 22 min | Yoga nidra for sleep is the most played format on Insight Timer |
+| A Long, Slow Way Down to Sleep | 45 min | Long sleep tracks are the next biggest; the music carries the last quarter of an hour |
+| Five Breaths Before the Day Begins | 8 min | Mornings are a top search, and a daily habit helps return rate |
+| Set Down What You've Been Carrying | 10 min | Letting go is the strongest daytime theme after mornings |
+| A Hand on Your Own Heart | 5 min | Short self compassion fills the 0 to 5 minute band |
+| Back to Solid Ground | 10 min | Anxiety is heavily searched; 10 minutes beat 5 and 20 |
+
+The lengths are estimates until you voice them. After the first render the studio learns your real pace, and the quality check flags any title whose minutes no longer match.
+
+## The quality check
+
+- **No dashes** anywhere: em dashes, en dashes and spaced hyphens are blocked (your house style).
+- **Insight Timer descriptions**: 200 to 1,000 characters including the music credit, with no links, website names, emails, handles or emojis.
+- **Insight Timer titles**: no category words (Meditation, Guided, Music) and no teacher name. Any minutes in the title must match the finished track.
+- **Listener copy** doesn't mention the tools behind it (AI, ElevenLabs, Claude).
+- **British spelling**, **permission language** ("you might find" rather than "you should"), no exclamation marks, and a gentle **invitation to come back tomorrow** on daytime tracks, because return rate is the biggest Insight Timer bonus.
+- **The first two minutes**: the Script tab shows how much silence falls before 2:00, because a play only counts after that.
+
+## Brand profiles (optional, off by default)
+
+Settings → Style → Brand profiles turns on the Living Awake and The Living Connection rules from your saved skills (brand-guardian, living-awake-engine, spiritual-content). When they're on, Create offers a brand and pillar, and the check adds that brand's word list, sign-off and pillars. When they're off, meditations are published plainly as Julian Jenkins.
 
 ## Audio settings
 
@@ -174,7 +188,7 @@ These are the voices found in your ElevenLabs workspace on 5 Nov 2026. The defau
 ## For developers
 
 ```bash
-npm test        # 34 tests: parser, brand checker, snippet and trailer, beds, two Macs, and the whole flow end to end
+npm test        # 36 tests: parser, quality check, library, snippet and trailer, beds, two Macs, and the whole flow end to end
 npm run dev     # restarts the server when files change
 ```
 
@@ -185,7 +199,8 @@ The tests run Claude and ElevenLabs against stand-in servers (`test/mocks.js`), 
 | `server.js` | Every API route |
 | `lib/script-writer.js` | Claude prompts, the script schema and the trend scan |
 | `lib/script-parser.js` | Script format, the plan of takes and silences, estimates and the paste test |
-| `lib/brand.js` | Brand rules and the checker |
+| `lib/brand.js` | The quality check and the optional brand profiles |
+| `scripts/library/` | The six ready made meditations and their upload details |
 | `lib/elevenlabs.js` | ElevenLabs REST calls |
 | `lib/render.js` | Voicing (clone or recordings) and assembly |
 | `lib/audio.js` | ffmpeg: silence, bell, join, bed mix, two-pass loudness and the MP3 |

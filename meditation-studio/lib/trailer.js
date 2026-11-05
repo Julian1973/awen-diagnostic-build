@@ -2,7 +2,7 @@
 //  - snippet: the 30 seconds of the finished track Insight Timer plays as its preview. Teachers pick it
 //    in the Teacher Dashboard by dragging a slider, so the studio works out the best start time.
 //  - trailer: a 30 second portrait MP4 (1080 x 1920) for an Insight Timer course trailer, Instagram or
-//    YouTube Shorts: the snippet audio over a Living Awake card. Insight Timer course trailers are MP4,
+//    YouTube Shorts: the snippet audio over a calm title card. Insight Timer course trailers are MP4,
 //    portrait, ideally 20 to 30 seconds (10 to 45 allowed).
 import fs from 'node:fs';
 import path from 'node:path';

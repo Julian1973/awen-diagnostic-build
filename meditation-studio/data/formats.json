@@ -88,8 +88,7 @@
       "pillars": [
         3,
         4
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "sleep-body-scan",
@@ -129,8 +128,7 @@
       "pillars": [
         1,
         3
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "long-sleep-journey",
@@ -150,8 +148,8 @@
       "beats": [
         "Welcome and slow breathing",
         "A gentle count down, each number softer",
-        "Release of the specific worry, in permission language",
-        "A long, slow image journey through a Welsh landscape",
+        "Release of the day's worries, in permission language",
+        "A long, slow image journey through a quiet landscape",
         "Settling into sleep",
         "Extended quiet with the music bed"
       ],
@@ -168,8 +166,7 @@
       },
       "pillars": [
         3
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "sleep-affirmations",
@@ -208,12 +205,11 @@
       "pillars": [
         4,
         1
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "welsh-bedtime-story",
-      "name": "Bedtime Story for Grown Ups (Welsh)",
+      "name": "Bedtime Story for Grown Ups",
       "platforms": [
         "Spotify"
       ],
@@ -227,7 +223,7 @@
       "evidence": "Moderate. Low stakes adult sleep stories are the top sleep podcasts on Spotify. Use a generic slow story shape, never any show's signature.",
       "beats": [
         "Short welcome and three slow breaths",
-        "A low stakes walk through a Welsh place, rich in ordinary detail",
+        "A low stakes walk through a quiet place, rich in ordinary detail",
         "The same walk again, slower and softer, with fewer words",
         "Fade out into quiet"
       ],
@@ -244,8 +240,7 @@
       },
       "pillars": [
         2
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "calm-in-the-moment",
@@ -284,8 +279,7 @@
       },
       "pillars": [
         3
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "letting-go",
@@ -300,7 +294,7 @@
       "defaultMinutes": 10,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Letting go and surrender is the strongest daytime theme after mornings: 10 and 12 minute tracks by one teacher have 4.0M and 2.5M plays. Fits Pillar 1 exactly.",
+      "evidence": "Letting go and surrender is the strongest daytime theme after mornings: 10 and 12 minute tracks by one teacher have 4.0M and 2.5M plays.",
       "beats": [
         "Arrive and breathe",
         "Find where it is being held in the body",
@@ -311,9 +305,9 @@
       ],
       "titlePatterns": {
         "insightTimer": [
-          "Set Down What You've Been Carrying",
+          "Set Down What You've Been Carrying: 10 Minutes",
           "Let the River Take It",
-          "Grieving Who You Used to Be"
+          "Letting Go of What You Cannot Change"
         ],
         "spotify": [
           "Letting Go Meditation: {benefit}",
@@ -323,12 +317,11 @@
       },
       "pillars": [
         1
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "inner-child",
-      "name": "Coming Home to Yourself (self worth)",
+      "name": "Self Love and Inner Child",
       "platforms": [
         "Insight Timer"
       ],
@@ -351,7 +344,7 @@
       "titlePatterns": {
         "insightTimer": [
           "Meeting Your Younger Self with Kindness",
-          "Come Home to Your Own Heart",
+          "Come Home to Your Own Heart: 12 Minutes",
           "You Were Never the Problem"
         ],
         "spotify": [
@@ -363,12 +356,11 @@
       "pillars": [
         1,
         4
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "morning-five-breaths",
-      "name": "Morning Five Breaths (daily ritual)",
+      "name": "Morning Meditation",
       "platforms": [
         "Insight Timer"
       ],
@@ -379,18 +371,18 @@
       "defaultMinutes": 10,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Mornings were one of Insight Timer's three most searched terms, and the top daytime track found is a 10:26 morning meditation with 7.2M plays. A daily morning ritual also feeds return rate. Built on the Living Awake Daily Practice.",
+      "evidence": "Mornings were one of Insight Timer's three most searched terms, and the top daytime track found is a 10:26 morning meditation with 7.2M plays. A daily morning practice also feeds return rate.",
       "beats": [
         "Wake the body gently",
-        "Five conscious breaths, counted on the breath. Losing count is not failure, noticing is the return",
+        "A few slow, counted breaths. Losing count is fine, noticing is the practice",
         "Gratitude for one ordinary thing",
-        "One intention for the day: breathe once before reacting",
+        "One small intention for the day",
         "The bell, and an invitation to meet again tomorrow morning"
       ],
       "titlePatterns": {
         "insightTimer": [
-          "Five Breaths Before the Day Begins",
-          "Begin the Day Awake",
+          "Five Breaths Before the Day Begins: 10 Minutes",
+          "Begin the Day Calm",
           "A Clear Morning"
         ],
         "spotify": [
@@ -402,12 +394,11 @@
       "pillars": [
         3,
         4
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "evening-wind-down",
-      "name": "Evening Wind Down (daily ritual)",
+      "name": "Evening Wind Down",
       "platforms": [
         "Insight Timer"
       ],
@@ -422,7 +413,7 @@
       "beats": [
         "Arrive at the end of the day",
         "Look back on the day without judging it",
-        "Notice where you came back, each return counts",
+        "Let go of what is unfinished",
         "One quiet minute",
         "Drift on into the night"
       ],
@@ -430,7 +421,7 @@
         "insightTimer": [
           "One Quiet Minute Before Sleep",
           "Closing the Day Kindly",
-          "Putting the Wheel Down"
+          "Let the Day Go: 10 Minutes"
         ],
         "spotify": [
           "Evening Meditation: {benefit}",
@@ -441,12 +432,11 @@
       "pillars": [
         3,
         1
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "thread-loving-kindness",
-      "name": "The Thread (loving kindness)",
+      "name": "Loving Kindness",
       "platforms": [
         "Insight Timer"
       ],
@@ -457,7 +447,7 @@
       "defaultMinutes": 12,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "No verified high play loving kindness track turned up, so keep it to the proven daytime band of 10 to 15 minutes. Carries Pillar 2: the thread was never cut.",
+      "evidence": "No verified high play loving kindness track turned up, so keep it to the proven daytime band of 10 to 15 minutes.",
       "beats": [
         "Settle",
         "Kindness to yourself",
@@ -468,9 +458,9 @@
       ],
       "titlePatterns": {
         "insightTimer": [
-          "The Thread Was Never Cut",
-          "Widening the Circle of Kindness",
-          "Kindness for a Hard Day"
+          "Widening the Circle of Kindness: 12 Minutes",
+          "Kindness for a Hard Day",
+          "Warmth for Yourself and Others"
         ],
         "spotify": [
           "Loving Kindness Meditation: {benefit}",
@@ -480,8 +470,7 @@
       },
       "pillars": [
         2
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "breath-reset",
@@ -507,9 +496,9 @@
       ],
       "titlePatterns": {
         "insightTimer": [
-          "The Breath Is the Truce",
           "A Steady Breath Before You Walk In",
-          "Breathe Back Into Balance"
+          "Breathe Back Into Balance: 6 Minutes",
+          "Five Slow Breaths for a Busy Mind"
         ],
         "spotify": [
           "Breathing Exercise for {benefit}",
@@ -519,12 +508,11 @@
       },
       "pillars": [
         3
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "five-minute-kindness",
-      "name": "Five Minute Kindness (self compassion)",
+      "name": "Five Minute Self Compassion",
       "platforms": [
         "Insight Timer"
       ],
@@ -557,12 +545,11 @@
       "pillars": [
         4,
         1
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "welsh-imagery-journey",
-      "name": "Welsh Ground Journey (guided imagery)",
+      "name": "Guided Imagery Journey",
       "platforms": [
         "Insight Timer",
         "Spotify"
@@ -574,18 +561,18 @@
       "defaultMinutes": 12,
       "ending": "bell",
       "speechRatio": 0.6,
-      "evidence": "Julian's signature rather than a proven top format. Daytime plays sit at 10 to 15 minutes (84% of verified daytime plays), so start there.",
+      "evidence": "Guided imagery has its own topic on Insight Timer and a 4.9 rated imagery track sits in it. Daytime plays sit at 10 to 15 minutes (84% of verified daytime plays), so start there.",
       "beats": [
-        "Arrive at a real kind of Welsh place: the coast path, the hill, the old well",
+        "Arrive somewhere peaceful: a coast path, a hillside, an old well",
         "A walk through the senses",
-        "Meet something old: a stone, a tree",
+        "Meet something old and steady: a stone, a tree",
         "Receive one word",
         "Walk back",
         "Ground, then the bell"
       ],
       "titlePatterns": {
         "insightTimer": [
-          "Where the Hills Meet the Sea",
+          "Where the Hills Meet the Sea: 12 Minutes",
           "Journey to the Quiet Well",
           "The Old Stone on the Hill"
         ],
@@ -597,8 +584,7 @@
       },
       "pillars": [
         2
-      ],
-      "brand": "living-awake"
+      ]
     },
     {
       "id": "seven-day-journey",
@@ -625,8 +611,8 @@
       "titlePatterns": {
         "insightTimer": [
           "Day {day}: {theme}",
-          "Seven Days of Coming Home, Day {day}",
-          "Waking Up, Not Breaking Down: Day {day}"
+          "Seven Days of Calm, Day {day}",
+          "A Week of Better Sleep: Day {day}"
         ],
         "spotify": [
           "Day {day}: {theme} Meditation",
@@ -638,46 +624,7 @@
         2,
         3,
         4
-      ],
-      "brand": "living-awake"
-    },
-    {
-      "id": "sitting-in-connection",
-      "name": "Sitting in Connection (mediumship development)",
-      "platforms": [
-        "Insight Timer",
-        "YouTube (The Mindful Medium)"
-      ],
-      "minutes": [
-        15,
-        25
-      ],
-      "defaultMinutes": 20,
-      "ending": "bell",
-      "speechRatio": 0.5,
-      "evidence": "Julian's own estate: weekly meditations on The Mindful Medium and the 8 Sacred Rites content on Insight Timer. The Living Connection brand, where mediumship and spirit language is correct.",
-      "beats": [
-        "Ground and protect, plainly",
-        "Build the power with the breath",
-        "Connection before communication: sit in the blending",
-        "Notice what arrives without chasing it",
-        "Thank and close down with care",
-        "Return to the room, then the bell"
-      ],
-      "titlePatterns": {
-        "insightTimer": [
-          "Sitting in the Power",
-          "Connection Before Communication",
-          "Opening With Love, Closing With Care"
-        ],
-        "spotify": [
-          "Mediumship Meditation: {benefit}",
-          "Spirit Connection Meditation: {benefit}",
-          "Sitting in the Power: {benefit}"
-        ]
-      },
-      "pillars": [],
-      "brand": "living-connection"
+      ]
     }
   ],
   "playData": {
@@ -970,7 +917,7 @@
     "makeFirst": [
       "A 20 to 30 minute yoga nidra for sleep. The strongest pattern in the data.",
       "A long sleep track of 45 to 60 minutes: guided body relaxation that fades into a continuous music bed, not silence.",
-      "Daytime tracks at 10 to 12 minutes, led by a morning practice (mornings were a top search; the top daytime track is a 10:26 morning meditation).",
+      "Daytime tracks at 10 to 12 minutes, led by a morning practice.",
       "Letting go and coming home to yourself at 10 to 12 minutes, plus a 5 minute kindness practice.",
       "One 10 minute anxiety track. Heavily searched but crowded: single anxiety tracks stay under 0.5M plays.",
       "Put the minutes and the benefit in every title, and cover all six length bands over time.",

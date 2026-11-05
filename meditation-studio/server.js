@@ -119,7 +119,7 @@ function withDerived(m, { full = false } = {}) {
     ...m,
     formatName: format?.name || m.formatId,
     ending: format?.ending || 'bell',
-    brandName: BRANDS[m.brand]?.name || 'Living Awake',
+    brandName: (BRANDS[m.brand] || BRANDS.plain).name,
     stats,
     brand: m.brand,
     brandSummary: brandSummary(checks),
@@ -162,11 +162,11 @@ app.post('/api/shutdown', (req, res) => {
 });
 
 app.get('/api/formats', (req, res) => res.json(catalogue()));
-app.get('/api/brands', (req, res) => res.json({ brands: BRANDS, pillars: PILLARS }));
+app.get('/api/brands', (req, res) => res.json({ brands: BRANDS, pillars: PILLARS, enabled: !!store.getSettings().brandProfiles }));
 
 app.get('/api/settings', (req, res) => res.json(store.getSettings()));
 app.put('/api/settings', wrap(async (req, res) => {
-  const allowed = ['voiceId', 'ttsModel', 'outputFormat', 'deliveryPrefix', 'paragraphGapSeconds', 'preRollSeconds', 'tailSeconds', 'sleepTailSeconds', 'bedVolumeDb', 'loudnessTarget', 'truePeak', 'mp3Bitrate', 'bell', 'bellFile', 'wordsPerMinute', 'claudeModel', 'claudeEffort', 'useFallbacks', 'weeklyTarget', 'disclosure', 'defaultBed', 'musicModel'];
+  const allowed = ['voiceId', 'ttsModel', 'outputFormat', 'deliveryPrefix', 'paragraphGapSeconds', 'preRollSeconds', 'tailSeconds', 'sleepTailSeconds', 'bedVolumeDb', 'loudnessTarget', 'truePeak', 'mp3Bitrate', 'bell', 'bellFile', 'wordsPerMinute', 'claudeModel', 'claudeEffort', 'useFallbacks', 'weeklyTarget', 'disclosure', 'defaultBed', 'musicModel', 'brandProfiles', 'cardName'];
   const patch = Object.fromEntries(Object.entries(req.body || {}).filter(([k]) => allowed.includes(k)));
   res.json(store.updateSettings(patch));
 }));
@@ -226,8 +226,8 @@ app.post('/api/meditations', wrap(async (req, res) => {
   const settings = store.getSettings();
   const m = store.createMeditation({
     formatId: format.id,
-    brand: b.brand || format.brand,
-    pillar: b.pillar ? Number(b.pillar) : null,
+    brand: settings.brandProfiles && BRANDS[b.brand] ? b.brand : 'plain',
+    pillar: settings.brandProfiles && b.pillar ? Number(b.pillar) : null,
     minutes: Number(b.minutes) || format.defaultMinutes,
     theme: b.theme || '',
     audience: b.audience || '',
@@ -655,7 +655,7 @@ app.post('/api/beds/generate', wrap(async (req, res) => {
   res.json({ job });
 }));
 
-// The Living Awake logo (Celtic cross PNG) for trailer cards.
+// A logo (PNG) for trailer cards.
 const BRAND_DIR = path.join(STORAGE_DIR, 'brand');
 const logoUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 app.post('/api/brand/logo', logoUpload.single('logo'), wrap(async (req, res) => {

@@ -8,7 +8,7 @@ import http from 'node:http';
 import { mockElevenLabs, mockClaude, toneFile, toneMp3 } from './mocks.js';
 
 let base, server, eleven, claude, storage;
-const EXAMPLE = fs.readFileSync(new URL('../scripts/example-five-breaths.txt', import.meta.url), 'utf8');
+const EXAMPLE = fs.readFileSync(new URL('../scripts/library/morning-five-breaths.txt', import.meta.url), 'utf8');
 
 before(async () => {
   storage = fs.mkdtempSync(path.join(os.tmpdir(), 'studio-test-'));
@@ -60,7 +60,7 @@ test('status, formats and voices', async () => {
   assert.equal(s.data.ffmpeg.ok, true);
   assert.match(s.data.elevenlabs, /ending even/);
   const f = await api('/api/formats');
-  assert.equal(f.data.formats.length, 16);
+  assert.equal(f.data.formats.length, 15);
   assert.ok(f.data.playData.byLength.sleep.length === 6);
   const v = await api('/api/voices');
   assert.equal(v.data.voices[0].voice_id, '3crtmEFfp6bvumTLLI8m', 'Julian voices first');
@@ -88,7 +88,24 @@ test('Claude writes a script with the right request shape', async () => {
   assert.equal(call.body.temperature, undefined);
   assert.equal(call.body.cache_control.type, 'ephemeral');
   assert.match(call.body.messages[0].content, /Calm in the Moment/);
-  assert.match(call.body.messages[0].content, /Control is the cage, not the cure/);
+  assert.doesNotMatch(call.body.messages[0].content, /pillar/i, 'plain by default: no pillars');
+  assert.doesNotMatch(call.body.system, /Living Awake/, 'plain by default: no brand in the prompt');
+  assert.equal(m.brand, 'plain');
+});
+
+test('brand profiles stay off until Julian turns them on', async () => {
+  const off = await api('/api/meditations', { method: 'POST', body: { formatId: 'letting-go', brand: 'living-awake', pillar: 1 } });
+  assert.equal(off.data.meditation.brand, 'plain');
+  await api('/api/settings', { method: 'PUT', body: { brandProfiles: true } });
+  const on = await api('/api/meditations', { method: 'POST', body: { formatId: 'letting-go', brand: 'living-awake', pillar: 1, write: true } });
+  assert.equal(on.data.meditation.brand, 'living-awake');
+  assert.equal((await waitJob(on.data.job.id)).status, 'done');
+  const call = claude.calls.at(-1);
+  assert.match(call.body.system, /four pillars/);
+  assert.match(call.body.messages[0].content, /Pillar: 1/);
+  await api('/api/settings', { method: 'PUT', body: { brandProfiles: false } });
+  await api(`/api/meditations/${off.data.meditation.id}`, { method: 'DELETE' });
+  await api(`/api/meditations/${on.data.meditation.id}`, { method: 'DELETE' });
 });
 
 test('revise sends the current draft back', async () => {
@@ -254,7 +271,7 @@ test('performance logging feeds the overview', async () => {
   await api(`/api/meditations/${m.id}/performance`, { method: 'POST', body: { date: '2026-11-04', platform: 'Spotify', plays: 40 } });
   const { data: ov } = await api('/api/overview');
   assert.equal(ov.playsLogged, 290, 'latest per platform, not the sum of every entry');
-  assert.equal(ov.playsByFormat[0].format, 'Morning Five Breaths (daily ritual)');
+  assert.equal(ov.playsByFormat[0].format, 'Morning Meditation');
 });
 
 test('trend scan uses web search and stores ideas', async () => {
@@ -335,6 +352,22 @@ test('audio iCloud has offloaded is fetched back, never voiced again', async () 
   const job = await waitJob(r.data.job.id);
   assert.equal(job.status, 'done', job.error);
   assert.equal(eleven.calls.length, calls, 'no credits spent');
+});
+
+test('the ready made library loads six meditations that pass the quality check', async () => {
+  const before = (await api('/api/meditations')).data.length;
+  await import('../scripts/seed.js');
+  const list = (await api('/api/meditations')).data;
+  const lib = list.filter((m) => m.libraryId);
+  assert.equal(lib.length, 6);
+  assert.equal(list.length, before + 6);
+  for (const m of lib) {
+    const full = (await api(`/api/meditations/${m.id}`)).data;
+    assert.equal(full.brandSummary.blocks, 0, `${m.title}: ${JSON.stringify(full.checks.filter((c) => c.severity !== 'pass'))}`);
+    assert.equal(full.pasteIssues.length, 0, m.title);
+    const target = m.minutes * 60;
+    assert.ok(Math.abs(full.stats.estimatedSeconds - target) / target < 0.12, `${m.title} is ${full.stats.estimatedSeconds}s for ${target}s`);
+  }
 });
 
 test('keys are saved but never echoed back', async () => {

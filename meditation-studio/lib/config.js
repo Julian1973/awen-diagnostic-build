@@ -73,6 +73,8 @@ export const DEFAULT_SETTINGS = {
   claudeEffort: 'high',
   useFallbacks: true,
   weeklyTarget: 2,
+  brandProfiles: false,       // Living Awake / The Living Connection rules from Julian's skills, off unless he turns them on
+  cardName: 'Julian Jenkins', // the name at the foot of trailer cards
   // Off by default: a written AI line is a brand wall question for Julian to decide (see README).
   disclosure: {
     spotify: false,

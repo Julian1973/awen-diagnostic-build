@@ -76,7 +76,7 @@ function brandChip(sum, m) {
   if (m && !m.script) return h('span', { class: 'chip' }, 'Not written');
   if (sum.blocks) return h('span', { class: 'chip bad' }, `✕ ${sum.blocks} to fix`);
   if (sum.flags) return h('span', { class: 'chip warn' }, `! ${sum.flags} to check`);
-  return h('span', { class: 'chip good' }, '✓ On brand');
+  return h('span', { class: 'chip good' }, '✓ Passes');
 }
 
 function checkList(checks) {
@@ -196,7 +196,7 @@ async function pageOverview() {
   }
 
   const recent = ov.recent.length
-    ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', {}, 'Status'), h('th', {}, 'Brand check'), h('th', { class: 'num' }, 'Length'))),
+    ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', {}, 'Status'), h('th', {}, 'Quality check'), h('th', { class: 'num' }, 'Length'))),
       h('tbody', {}, ov.recent.map((m) => h('tr', { class: 'click', onclick: () => (location.hash = `#/m/${m.id}`) },
         h('td', {}, m.title || h('span', { class: 'muted' }, 'Untitled')), h('td', { class: 'muted' }, m.formatName), h('td', {}, statusChip(m.status)), h('td', {}, brandChip(m.brandSummary, m)),
         h('td', { class: 'num' }, m.renders?.recorded ? mmss(m.renders.recorded.seconds) : m.renders?.clone ? mmss(m.renders.clone.seconds) : m.script ? `~${mmss(m.stats.estimatedSeconds)}` : '·')))))
@@ -272,7 +272,7 @@ async function pageFormats() {
 
   const trendCard = h('div', { class: 'card' },
     h('div', { class: 'row' }, h('h2', {}, 'What people are ', h('em', {}, 'listening'), ' to now'), h('span', { class: 'spacer' }), latest ? h('span', { class: 'muted small' }, `Last scan ${when(latest.createdAt)}`) : ''),
-    h('p', { class: 'muted small' }, 'Claude searches Insight Timer, Spotify and the podcast charts, then suggests ideas inside your pillars. Ideas are directions only, never anyone else\'s words.'),
+    h('p', { class: 'muted small' }, 'Claude searches Insight Timer, Spotify and the podcast charts, then suggests what to make next. Ideas are directions only, never anyone else\'s words.'),
     h('div', { class: 'row' }, h('div', { style: 'flex:1;min-width:260px' }, focus), scanBtn),
     scanBox,
     latest ? researchView(latest) : h('div', { class: 'empty' }, 'No scan yet.'));
@@ -282,7 +282,7 @@ async function pageFormats() {
     h('div', { class: 'meta' },
       h('span', { class: 'chip gold' }, `${f.minutes[0]} to ${f.minutes[1]} min`),
       h('span', { class: 'chip' }, f.ending === 'sleep' ? 'Sleep ending' : 'Bell ending'),
-      f.brand === 'living-connection' ? h('span', { class: 'chip' }, 'The Living Connection') : f.pillars.length ? h('span', { class: 'chip' }, `Pillar ${f.pillars.join(', ')}`) : '',
+      BRANDS.enabled && f.pillars?.length ? h('span', { class: 'chip' }, `Pillar ${f.pillars.join(', ')}`) : '',
       ...f.platforms.map((p) => h('span', { class: 'chip' }, p))),
     h('div', { class: 'evidence' }, f.evidence),
     h('ol', {}, f.beats.map((b) => h('li', {}, b))),
@@ -340,7 +340,7 @@ function researchView(r) {
       const f = formatById(idea.formatId);
       const q = new URLSearchParams({ format: idea.formatId, theme: idea.theme || '', pillar: idea.pillar || '', demand: r.summary || '' });
       return h('div', { class: 'card', style: 'background:var(--navy)' },
-        h('div', { class: 'muted small' }, f ? f.name : idea.formatId, idea.pillar ? ` · Pillar ${idea.pillar}` : ''),
+        h('div', { class: 'muted small' }, f ? f.name : idea.formatId, BRANDS.enabled && idea.pillar ? ` · Pillar ${idea.pillar}` : ''),
         h('div', { style: 'font:500 20px/1.3 var(--serif);margin:4px 0' }, idea.theme),
         h('div', { class: 'small muted' }, idea.why),
         f ? h('a', { class: 'btn small', style: 'margin-top:10px', href: `#/create?${q}` }, 'Create from this idea') : '');
@@ -353,12 +353,13 @@ async function pageCreate(_, params) {
   const formatSel = h('select', { onchange: () => { format = formatById(formatSel.value); refresh(); } },
     FORMATS.formats.map((f) => h('option', { value: f.id, selected: f.id === format.id }, f.name)));
   const brandSel = h('select', {}, Object.values(BRANDS.brands).map((b) => h('option', { value: b.id }, b.name)));
+  brandSel.value = 'plain';
   const minutes = h('input', { type: 'range', step: '1' });
   const minutesOut = h('span', { class: 'chip gold' });
   minutes.addEventListener('input', () => (minutesOut.textContent = `${minutes.value} minutes`));
   const theme = h('input', { type: 'text', value: params.theme || '', placeholder: 'For example: for people who lie awake replaying the day' });
   const audience = h('input', { type: 'text', placeholder: 'Optional. For example: carers who never get a minute' });
-  const notes = h('textarea', { rows: '3', placeholder: 'Anything you want in or out. A memory, an image from the reserve, a line you want it to land on.' });
+  const notes = h('textarea', { rows: '3', placeholder: 'Anything you want in or out. A memory, a place, an image, a line you want it to land on.' });
   const demand = params.demand || '';
   const seriesBox = h('div', { class: 'grid g3' });
   const seriesName = h('input', { type: 'text', value: 'Seven Days of Coming Home' });
@@ -379,14 +380,13 @@ async function pageCreate(_, params) {
   const formatInfo = h('div', { class: 'small muted' });
 
   function refresh() {
-    brandSel.value = format.brand;
     minutes.min = String(format.minutes[0]);
     minutes.max = String(format.minutes[1]);
     minutes.value = String(format.defaultMinutes);
     minutesOut.textContent = `${format.defaultMinutes} minutes`;
     if (!pillar || (format.pillars.length && !format.pillars.includes(pillar) && !params.pillar)) pillar = format.pillars[0] || null;
     drawPillars();
-    pillarWrap.style.display = brandSel.value === 'living-awake' ? '' : 'none';
+    pillarWrap.style.display = BRANDS.enabled && brandSel.value === 'living-awake' ? '' : 'none';
     seriesBox.style.display = format.series ? '' : 'none';
     beats.replaceChildren(...format.beats.map((b) => h('li', {}, b)));
     formatInfo.textContent = `${format.evidence} Wins on ${format.platforms.join(', ')}.`;
@@ -397,7 +397,7 @@ async function pageCreate(_, params) {
   const status = h('div');
   const go = async (write) => {
     const body = {
-      formatId: format.id, brand: brandSel.value, pillar: brandSel.value === 'living-awake' ? pillar : null, minutes: Number(minutes.value),
+      formatId: format.id, brand: BRANDS.enabled ? brandSel.value : 'plain', pillar: BRANDS.enabled && brandSel.value === 'living-awake' ? pillar : null, minutes: Number(minutes.value),
       theme: theme.value, audience: audience.value, notes: notes.value, demand,
       day: format.series ? Number(day.value) : null, seriesName: format.series ? seriesName.value : '', seriesLength: format.series ? Number(seriesLength.value) : null,
       write,
@@ -412,11 +412,11 @@ async function pageCreate(_, params) {
 
   $app.replaceChildren(
     h('h1', {}, 'Create a ', h('em', {}, 'meditation')),
-    h('p', { class: 'lede' }, 'Pick the shape, the pillar and the angle. Claude drafts it in your voice and to your brand rules, then you shape it.'),
+    h('p', { class: 'lede' }, 'Pick the format and the angle. Claude drafts it in your voice, to the length that gets played, then you shape it.'),
     h('div', { class: 'split' },
       h('div', { class: 'card' },
         h('label', {}, 'Format'), formatSel, formatInfo,
-        h('div', { class: 'grid g2' }, h('div', {}, h('label', {}, 'Brand'), brandSel), h('div', {}, h('label', {}, 'Length ', minutesOut), minutes)),
+        h('div', { class: 'grid g2' }, BRANDS.enabled ? h('div', {}, h('label', {}, 'Brand profile'), brandSel) : '', h('div', {}, h('label', {}, 'Length ', minutesOut), minutes)),
         pillarWrap,
         seriesBox,
         h('label', {}, 'Theme or angle'), theme,
@@ -451,7 +451,7 @@ async function pageMeditation([id, tab = 'script']) {
         await api(`/api/meditations/${id}`, { method: 'DELETE' });
         location.hash = '#/library';
       } }, 'Delete')),
-    h('div', { class: 'row', style: 'margin-top:8px' }, statusChip(m.status), h('span', { class: 'chip' }, m.formatName), h('span', { class: 'chip' }, m.brandName),
+    h('div', { class: 'row', style: 'margin-top:8px' }, statusChip(m.status), h('span', { class: 'chip' }, m.formatName), m.brand && m.brand !== 'plain' ? h('span', { class: 'chip' }, m.brandName) : '',
       m.pillar ? h('span', { class: 'chip' }, `Pillar ${m.pillar}`) : '', brandChip(m.brandSummary, m)),
     h('div', { class: 'tabs' }, tabs.map(([k, label]) => h('a', { href: `#/m/${id}/${k}`, class: k === tab ? 'on' : '' }, label))));
   const body = h('div');
@@ -530,7 +530,7 @@ async function tabScript(m, body) {
           h('div', {}, 'First 2 minutes'), h('div', {}, `${s.earlySilenceSeconds}s of silence`),
           h('div', {}, 'ElevenLabs'), h('div', {}, `${s.chars.toLocaleString('en-GB')} characters, ${s.requests} takes`)),
         h('div', { class: 'hint' }, 'Estimates use your measured pace once you have voiced a meditation.')),
-      h('div', { class: 'card' }, h('h3', {}, 'Brand check'), checkList(m.checks || [])),
+      h('div', { class: 'card' }, h('h3', {}, 'Quality check'), checkList(m.checks || [])),
       m.pasteIssues?.length ? h('div', { class: 'card' }, h('h3', {}, 'Would be read aloud'), h('ul', { class: 'checks' }, m.pasteIssues.map((i) => h('li', { class: i.severity === 'block' ? 'block' : 'flag' }, h('span', { class: 'icon' }, i.severity === 'block' ? '✕' : '!'), h('span', {}, h('b', {}, `Line ${i.line}. `), i.message))))) : '',
       m.notesForJulian ? h('div', { class: 'card' }, h('h3', {}, 'Notes from the draft'), h('div', { class: 'small', style: 'color:var(--cream-2);white-space:pre-wrap' }, m.notesForJulian)) : '',
       h('div', { class: 'card' }, h('h3', {}, 'Revise'), revise, h('div', { class: 'row', style: 'margin-top:10px' }, reviseBtn, rewriteBtn)),
@@ -847,7 +847,7 @@ async function tabPublish(m, body) {
     route();
   } }, 'Save links and mark published');
   body.replaceChildren(
-    m.brandSummary.blocks ? h('div', { class: 'banner bad' }, `The brand check has ${m.brandSummary.blocks} thing${m.brandSummary.blocks > 1 ? 's' : ''} to fix before this goes out. See the Script tab.`) : '',
+    m.brandSummary.blocks ? h('div', { class: 'banner bad' }, `The quality check has ${m.brandSummary.blocks} thing${m.brandSummary.blocks > 1 ? 's' : ''} to fix before this goes out. See the Script tab.`) : '',
     previewCards(m),
     h('div', { class: 'grid g2 section' }, await packCard('insight-timer', 'Insight Timer'), await packCard('spotify', 'Spotify')),
     h('div', { class: 'card section' }, h('h2', {}, 'Where it lives'),
@@ -857,7 +857,9 @@ async function tabPublish(m, body) {
 }
 
 // ---------- 30 second snippet, trailer video and cover ----------
-const WORDMARK = { 'living-awake': 'L I V I N G   A W A K E', 'living-connection': 'T H E   L I V I N G   C O N N E C T I O N' };
+// The name at the foot of the card, letter spaced: a brand profile's wordmark, else the name in Settings.
+const spaced = (t) => String(t || '').toUpperCase().split(' ').map((w) => w.split('').join(' ')).join('   ');
+const wordmarkFor = (m) => BRANDS.brands[m.brand]?.wordmark || spaced(SETTINGS.cardName || 'Julian Jenkins');
 
 function wrapToWidth(ctx, text, maxWidth) {
   const words = String(text || '').split(/\s+/).filter(Boolean);
@@ -880,9 +882,8 @@ async function loadLogo() {
   });
 }
 
-// The Living Awake card, 1080 x 1920: locked gradient (mid glow at the top, navy body, deep foot),
-// a faint aged gold glow, still film grain, Cormorant title in cream, italic line in gold light,
-// the logo if one is uploaded, and the wordmark.
+// The trailer card, 1080 x 1920: a deep blue gradient with a faint warm glow and still film grain,
+// the title in Cormorant, the trailer line in italic, the logo if one is uploaded, and the name.
 async function drawCard(canvas, m) {
   const W = 1080;
   const H = 1920;
@@ -930,7 +931,7 @@ async function drawCard(canvas, m) {
   }
   ctx.fillStyle = '#d4a574';
   ctx.font = '500 36px "Studio Cormorant"';
-  ctx.fillText(WORDMARK[m.brand] || WORDMARK['living-awake'], W / 2, H - 230);
+  ctx.fillText(wordmarkFor(m), W / 2, H - 230);
   return canvas;
 }
 
@@ -992,8 +993,8 @@ function previewCards(m) {
         h('div', { class: 'two' },
           h('div', {}, r.trailer ? h('video', { class: 'trailer', controls: true, preload: 'metadata', src: trailerSrc }) : preview),
           h('div', {},
-            h('p', { class: 'small muted', style: 'margin-top:0' }, 'A 30 second portrait video, 1080 x 1920: the snippet audio over your Living Awake card. Insight Timer course trailers are MP4, portrait, ideally 20 to 30 seconds. It also works for Instagram reels and YouTube Shorts.'),
-            h('div', { class: 'small muted' }, 'The card uses the title and the trailer line from the Script tab. Upload your Celtic cross logo in Settings to put it on the card.'),
+            h('p', { class: 'small muted', style: 'margin-top:0' }, 'A 30 second portrait video, 1080 x 1920: the snippet audio over a calm title card. Insight Timer course trailers are MP4, portrait, ideally 20 to 30 seconds. It also works for Instagram reels and YouTube Shorts.'),
+            h('div', { class: 'small muted' }, 'The card uses the title and the trailer line from the Script tab. Upload a logo in Settings to put it on the card.'),
             h('div', { class: 'row', style: 'margin-top:12px' }, trailerBtn, r.trailer ? h('a', { class: 'btn ghost small', href: `${trailerSrc}&download=1` }, 'Download MP4') : ''),
             jb)));
     };
@@ -1052,26 +1053,26 @@ async function pageLibrary() {
   const list = await api('/api/meditations');
   const q = h('input', { type: 'text', placeholder: 'Search titles and themes' });
   const st = h('select', {}, h('option', { value: '' }, 'Every status'), Object.entries(STATUS).map(([k, v]) => h('option', { value: k }, v.label)));
-  const br = h('select', {}, h('option', { value: '' }, 'Both brands'), Object.values(BRANDS.brands).map((b) => h('option', { value: b.id }, b.name)));
+  const br = h('select', { style: BRANDS.enabled ? '' : 'display:none' }, h('option', { value: '' }, 'Any brand'), Object.values(BRANDS.brands).map((b) => h('option', { value: b.id }, b.name)));
   const tbody = h('tbody');
   const draw = () => {
     const term = q.value.toLowerCase();
     const rows = list.filter((m) => (!st.value || m.status === st.value) && (!br.value || m.brand === br.value) && (!term || `${m.title} ${m.theme} ${m.formatName}`.toLowerCase().includes(term)));
     tbody.replaceChildren(...rows.map((m) => h('tr', { class: 'click', onclick: () => (location.hash = `#/m/${m.id}`) },
       h('td', {}, m.title || h('span', { class: 'muted' }, 'Untitled'), m.theme ? h('div', { class: 'muted small' }, m.theme) : ''),
-      h('td', { class: 'muted' }, m.formatName), h('td', { class: 'muted' }, m.brandName),
+      h('td', { class: 'muted' }, m.formatName),
       h('td', {}, statusChip(m.status)), h('td', {}, brandChip(m.brandSummary, m)),
       h('td', {}, m.renders?.clone ? h('span', { class: 'chip' }, 'Clone') : '', ' ', m.renders?.recorded ? h('span', { class: 'chip good' }, 'Your voice') : ''),
       h('td', { class: 'num' }, m.script ? mmss(m.renders?.recorded?.seconds || m.renders?.clone?.seconds || m.stats.estimatedSeconds) : '·'),
       h('td', { class: 'muted small' }, when(m.updatedAt)))));
-    if (!rows.length) tbody.replaceChildren(h('tr', {}, h('td', { colspan: '8', class: 'empty' }, list.length ? 'Nothing matches.' : 'No meditations yet.')));
+    if (!rows.length) tbody.replaceChildren(h('tr', {}, h('td', { colspan: '7', class: 'empty' }, list.length ? 'Nothing matches.' : 'No meditations yet.')));
   };
   [q, st, br].forEach((el) => el.addEventListener('input', draw));
   draw();
   $app.replaceChildren(
     h('div', { class: 'row' }, h('h1', {}, 'Library'), h('span', { class: 'spacer' }), h('a', { class: 'btn', href: '#/create' }, 'New meditation')),
     h('div', { class: 'row', style: 'margin:14px 0 18px' }, h('div', { style: 'flex:2;min-width:220px' }, q), h('div', { style: 'flex:1;min-width:160px' }, st), h('div', { style: 'flex:1;min-width:160px' }, br)),
-    h('div', { class: 'card' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', {}, 'Brand'), h('th', {}, 'Status'), h('th', {}, 'Brand check'), h('th', {}, 'Audio'), h('th', { class: 'num' }, 'Length'), h('th', {}, 'Updated'))), tbody)),
+    h('div', { class: 'card' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', {}, 'Status'), h('th', {}, 'Quality check'), h('th', {}, 'Audio'), h('th', { class: 'num' }, 'Length'), h('th', {}, 'Updated'))), tbody)),
   );
 }
 
@@ -1154,6 +1155,7 @@ async function pageSettings() {
   async function save(patch) {
     try {
       SETTINGS = await api('/api/settings', { method: 'PUT', body: patch });
+      if ('brandProfiles' in patch) BRANDS = await api('/api/brands');
       toast('Saved');
     } catch (err) { toast(err.message, true); }
   }
@@ -1213,7 +1215,7 @@ async function pageSettings() {
   } }, 'Upload logo');
   const logoCard = h('div', { class: 'card' }, h('h2', {}, 'Logo for trailer cards'), logoImg,
     h('div', { class: 'row' }, logoFile, logoBtn),
-    h('div', { class: 'hint' }, 'The Living Awake Celtic cross, as a PNG with a transparent background (instagram/brand/logo.png in your project folder). It sits above the wordmark on every trailer card.'));
+    h('div', { class: 'hint' }, 'A PNG with a transparent background. It sits above your name on every trailer card.'));
 
   const discOn = h('input', { type: 'checkbox', checked: !!s.disclosure?.spotify });
   const discText = h('input', { type: 'text', value: s.disclosure?.text || '' });
@@ -1258,6 +1260,9 @@ async function pageSettings() {
           num('truePeak', 'True peak ceiling (dBTP)', '0.1'), sel('mp3Bitrate', 'MP3 bitrate', [['192k', '192 kbps'], ['256k', '256 kbps'], ['320k', '320 kbps']], '192 kbps or more for Insight Timer courses.')),
         sel('bell', 'Ending bell on non sleep tracks', [['true', 'On'], ['false', 'Off']], 'Insight Timer does not add a bell, so it recommends teachers include their own. Never on sleep tracks.')),
       h('div', { class: 'card' }, h('h2', {}, 'Music beds and bell'), makeBedCard, h('h3', {}, 'Or upload your own'), h('div', { class: 'row' }, bedFile, upload), h('div', { style: 'margin-top:12px' }, bedList)),
+      h('div', { class: 'card' }, h('h2', {}, 'Style'),
+        text('cardName', 'Name on trailer cards'),
+        sel('brandProfiles', 'Brand profiles', [['false', 'Off: plain meditations'], ['true', 'On: Living Awake and The Living Connection rules']], 'Off by default. When on, Create offers your Living Awake and The Living Connection profiles from your saved skills: pillars, sign-offs and their word lists.')),
       h('div', { class: 'card' }, h('h2', {}, 'Claude'),
         sel('claudeModel', 'Model', [['claude-opus-5-5', 'Claude Opus 5.5'], ['claude-fable-5-1', 'Claude Fable 5.1 (most capable, costs more)']]),
         sel('claudeEffort', 'Effort', [['medium', 'Medium'], ['high', 'High'], ['xhigh', 'Extra high']], 'High suits creative one shots.'),
