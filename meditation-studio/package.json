@@ -1,0 +1,26 @@
+{
+  "name": "meditation-studio",
+  "version": "1.0.0",
+  "description": "Julian's meditation studio: write original guided meditations in the formats that win on Insight Timer and Spotify, voice them in Julian's ElevenLabs voice on eleven_v4, and mix the finished audio.",
+  "type": "module",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js",
+    "seed": "node scripts/seed.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.5.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  },
+  "optionalDependencies": {
+    "ffmpeg-static": "^5.2.0"
+  }
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meditation Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,300;1,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="side">
+    <div class="mark">
+      <div class="mark-name">Meditation <em>Studio</em></div>
+      <div class="mark-sub">Guided meditations</div>
+    </div>
+    <nav id="nav">
+      <a href="#/overview" data-page="overview">Overview</a>
+      <a href="#/formats" data-page="formats">Formats &amp; trends</a>
+      <a href="#/create" data-page="create">Create</a>
+      <a href="#/library" data-page="library">Library</a>
+      <a href="#/performance" data-page="performance">Performance</a>
+      <a href="#/settings" data-page="settings">Settings</a>
+    </nav>
+    <div class="side-foot" id="side-status"></div>
+  </aside>
+  <main id="app" aria-live="polite"></main>
+  <div id="toast" role="status"></div>
+  <div id="tooltip" role="tooltip"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
