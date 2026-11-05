@@ -96,6 +96,27 @@ export async function textToSpeech({ text, voiceId, model, outputFormat, voiceSe
   }
 }
 
+// Downloads a take already in Julian's ElevenLabs history. Costs no characters.
+export async function historyAudio(historyItemId) {
+  let attempt = 0;
+  for (;;) {
+    try {
+      const res = await call(`/v1/history/${encodeURIComponent(historyItemId)}/audio`, { headers: { Accept: 'audio/mpeg' } });
+      const buf = Buffer.from(await res.arrayBuffer());
+      if (!buf.length) throw new ElevenLabsError('ElevenLabs returned an empty take.', 502, true);
+      return buf;
+    } catch (err) {
+      attempt += 1;
+      const retryable = err instanceof ElevenLabsError ? err.retryable : err.name === 'TypeError';
+      if (err instanceof ElevenLabsError && err.status === 404) {
+        throw new ElevenLabsError(`ElevenLabs has no take ${historyItemId} in this account's history. Check the ElevenLabs key in Settings belongs to the account that made the takes.`, 404);
+      }
+      if (!retryable || attempt > 4) throw err;
+      await sleep(2000 * 2 ** (attempt - 1));
+    }
+  }
+}
+
 // Composes an instrumental music bed with ElevenLabs Music. Returns the MP3 bytes.
 // modelId is optional: without it ElevenLabs uses its current default music model.
 export async function composeMusic({ prompt, seconds, modelId, outputFormat = 'mp3_44100_128' }) {

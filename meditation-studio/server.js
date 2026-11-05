@@ -13,6 +13,7 @@ import { scriptStats, pasteTest, transcript } from './lib/script-parser.js';
 import { writeScript, reviseScript, trendScan, lengthTargets } from './lib/script-writer.js';
 import * as eleven from './lib/elevenlabs.js';
 import { renderMeditation, planFor, cacheFile, recordingFile, recordingStatus, cloneStatus, voiceParagraph } from './lib/render.js';
+import { takesStatus, renderFromTakes } from './lib/takes.js';
 import { startJob, getJob, listJobs, activeJobFor } from './lib/jobs.js';
 import { checkFfmpeg } from './lib/audio.js';
 import { pickSnippet, makeSnippet, makeTrailer, SNIPPET_SECONDS } from './lib/trailer.js';
@@ -125,6 +126,7 @@ function withDerived(m, { full = false } = {}) {
     brandSummary: brandSummary(checks),
     recording: recordingStatus(m, settings),
     clone: cloneStatus(m, settings),
+    elevenTakes: takesStatus(m),
     job: activeJobFor(m.id),
   };
   if (full) {
@@ -248,8 +250,9 @@ app.post('/api/meditations', wrap(async (req, res) => {
 
 app.put('/api/meditations/:id', wrap(async (req, res) => {
   ensureMeditation(req.params.id);
-  const allowed = ['title', 'spotifyTitle', 'subtitle', 'insightTimerDescription', 'spotifyDescription', 'tags', 'script', 'notesForJulian', 'coverImagePrompt', 'coverAltText', 'trailerLine', 'snippetStart', 'brand', 'pillar', 'minutes', 'theme', 'audience', 'notes', 'voiceId', 'voiceName', 'ttsModel', 'deliveryPrefix', 'bedFile', 'bedVolumeDb', 'status', 'published', 'formatId'];
+  const allowed = ['title', 'spotifyTitle', 'subtitle', 'insightTimerDescription', 'spotifyDescription', 'tags', 'script', 'notesForJulian', 'coverImagePrompt', 'coverAltText', 'trailerLine', 'snippetStart', 'brand', 'pillar', 'minutes', 'theme', 'audience', 'notes', 'voiceId', 'voiceName', 'ttsModel', 'deliveryPrefix', 'bedFile', 'bedVolumeDb', 'status', 'published', 'formatId', 'takePicks'];
   const patch = Object.fromEntries(Object.entries(req.body || {}).filter(([k]) => allowed.includes(k)));
+  if (patch.takePicks !== undefined) patch.takePicks = Array.isArray(patch.takePicks) ? patch.takePicks.map((n) => (Number(n) === 1 ? 1 : 0)) : [];
   if (typeof patch.tags === 'string') patch.tags = patch.tags.split(',').map((t) => t.trim()).filter(Boolean);
   if (patch.script !== undefined && ensureMeditation(req.params.id).status === 'idea' && patch.script.trim()) patch.status = 'draft';
   res.json(withDerived(store.updateMeditation(req.params.id, patch), { full: true }));
@@ -281,10 +284,20 @@ app.post('/api/meditations/:id/revise', wrap(async (req, res) => {
 app.post('/api/meditations/:id/render', wrap(async (req, res) => {
   const m = ensureMeditation(req.params.id);
   const source = req.body?.source === 'recorded' ? 'recorded' : 'clone';
+  // The ready made meditations already have takes in ElevenLabs; mixing those spends no characters.
+  const fromTakes = source === 'clone' && req.body?.from === 'takes';
+  if (fromTakes) {
+    const takes = takesStatus(m);
+    if (!takes) throw fail(400, 'This meditation has no takes made in ElevenLabs. Use Voice and mix instead.');
+    if (!takes.matches) throw fail(409, `The script has changed since the takes were made (${takes.changed.join(', ')}). Use Voice and mix so the changed parts are voiced again.`);
+  }
   if (activeJobFor(m.id, 'render')) throw fail(409, 'Already rendering');
-  const job = startJob('render', { meditationId: m.id, source }, async (update) => {
+  const job = startJob('render', { meditationId: m.id, source, fromTakes }, async (update) => {
     const settings = store.getSettings();
-    const result = await renderMeditation(store.getMeditation(m.id), settings, { source, format: formatById(m.formatId), update });
+    const options = { source, format: formatById(m.formatId), update };
+    const result = fromTakes
+      ? await renderFromTakes(store.getMeditation(m.id), settings, options)
+      : await renderMeditation(store.getMeditation(m.id), settings, options);
     const current = store.getMeditation(m.id);
     store.updateMeditation(m.id, {
       renders: { ...(current.renders || {}), [source]: result },

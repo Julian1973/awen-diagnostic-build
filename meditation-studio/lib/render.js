@@ -62,6 +62,68 @@ export async function voiceParagraph(item, { fresh = false } = {}) {
   return { file, spent: item.chars };
 }
 
+export const firstWords = (text, n = 10) => String(text).replace(/\[[^\]]*\]/g, ' ').trim().split(/\s+/).slice(0, n).join(' ');
+
+// The finished track, built up piece by piece as WAV files, with a running clock.
+export function makeTrack(workDir) {
+  const parts = [];
+  let n = 0;
+  let clock = 0;
+  const name = (kind) => path.join(workDir, `p${String(n++).padStart(4, '0')}-${kind}.wav`);
+  return {
+    parts,
+    name,
+    get clock() { return clock; },
+    async silence(seconds) {
+      const f = name('sil');
+      parts.push(await audio.silenceWav(seconds, f));
+      clock += audio.wavSeconds(f);
+    },
+    add(file) {
+      parts.push(file);
+      const len = audio.wavSeconds(file);
+      clock += len;
+      return len;
+    },
+  };
+}
+
+// Ends the track (bell for daytime sessions, a long quiet tail for sleep), lays the music bed
+// under it, sets loudness and writes `<source>.mp3`.
+export async function finishTrack(track, m, settings, { source, isSleep, workDir, outDir }) {
+  if (!isSleep && settings.bell) {
+    await track.silence(2.5);
+    const bell = track.name('bell');
+    const customBell = settings.bellFile && (await ensureLocal(path.join(paths.beds, settings.bellFile))) ? path.join(paths.beds, settings.bellFile) : null;
+    track.add(customBell ? await audio.toWav(customBell, bell) : await audio.bellWav(bell));
+  }
+  await track.silence(isSleep ? settings.sleepTailSeconds : settings.tailSeconds);
+
+  const voiceWav = path.join(workDir, 'voice.wav');
+  await audio.concatWavs(track.parts, voiceWav, workDir);
+
+  const bedPath = m.bedFile && (await ensureLocal(path.join(paths.beds, m.bedFile))) ? path.join(paths.beds, m.bedFile) : null;
+  const outMp3 = path.join(outDir, `${source}.mp3`);
+  const result = await audio.master({
+    voiceWav,
+    bedPath,
+    bedVolumeDb: m.bedVolumeDb ?? settings.bedVolumeDb,
+    loudness: settings.loudnessTarget,
+    truePeak: settings.truePeak,
+    bitrate: settings.mp3Bitrate,
+    meta: {
+      title: m.title,
+      artist: 'Julian Jenkins',
+      album: (BRANDS[m.brand] || BRANDS.plain).album,
+      genre: 'Meditation',
+      date: String(new Date().getFullYear()),
+    },
+    outMp3,
+    workDir,
+  });
+  return { result, bedPath, outMp3 };
+}
+
 function planWithRequestFields(m, settings) {
   const voiceId = m.voiceId || settings.voiceId;
   const model = m.ttsModel || settings.ttsModel;
@@ -110,64 +172,26 @@ export async function renderMeditation(m, settings, { source = 'clone', format, 
 
     // 2. Decode everything to one sample format and lay out the timeline.
     update({ message: 'Laying out silences and paragraphs' });
-    const isSleep = format?.ending === 'sleep';
-    const parts = [];
+    const track = makeTrack(workDir);
     const timeline = []; // where each paragraph lands in the finished track, for the 30 second snippet
-    let n = 0;
-    let clock = 0;
-    const silence = async (s) => {
-      const f = path.join(workDir, `p${String(n++).padStart(4, '0')}-sil.wav`);
-      parts.push(await audio.silenceWav(s, f));
-      clock += audio.wavSeconds(f);
-    };
-    await silence(settings.preRollSeconds);
+    await track.silence(settings.preRollSeconds);
     let speechSeconds = 0;
     for (const p of plan) {
       if (p.type === 'silence') {
-        await silence(p.seconds);
+        await track.silence(p.seconds);
       } else {
-        const f = path.join(workDir, `p${String(n++).padStart(4, '0')}-say.wav`);
+        const f = track.name('say');
         await audio.toWav(sourceFiles.get(p.hash), f, { cleanRecording: source === 'recorded' });
-        const len = audio.wavSeconds(f);
-        timeline.push({ textKey: p.textKey, start: Number(clock.toFixed(2)), end: Number((clock + len).toFixed(2)), words: p.spoken.replace(/\[[^\]]*\]/g, '').trim().split(/\s+/).slice(0, 10).join(' ') });
-        clock += len;
+        const start = track.clock;
+        const len = track.add(f);
+        timeline.push({ textKey: p.textKey, start: Number(start.toFixed(2)), end: Number((start + len).toFixed(2)), words: firstWords(p.spoken) });
         speechSeconds += len;
-        parts.push(f);
       }
     }
-    if (!isSleep && settings.bell) {
-      await silence(2.5);
-      const bell = path.join(workDir, `p${String(n++).padStart(4, '0')}-bell.wav`);
-      const customBell = settings.bellFile && (await ensureLocal(path.join(paths.beds, settings.bellFile))) ? path.join(paths.beds, settings.bellFile) : null;
-      parts.push(customBell ? await audio.toWav(customBell, bell) : await audio.bellWav(bell));
-    }
-    await silence(isSleep ? settings.sleepTailSeconds : settings.tailSeconds);
 
-    const voiceWav = path.join(workDir, 'voice.wav');
-    await audio.concatWavs(parts, voiceWav, workDir);
-
-    // 3. Music bed, loudness and the MP3.
+    // 3. Bell, tail, music bed, loudness and the MP3.
     update({ message: 'Mixing the music bed and setting loudness' });
-    const bedPath = m.bedFile && (await ensureLocal(path.join(paths.beds, m.bedFile))) ? path.join(paths.beds, m.bedFile) : null;
-    const outName = `${source}.mp3`;
-    const outMp3 = path.join(outDir, outName);
-    const result = await audio.master({
-      voiceWav,
-      bedPath,
-      bedVolumeDb: m.bedVolumeDb ?? settings.bedVolumeDb,
-      loudness: settings.loudnessTarget,
-      truePeak: settings.truePeak,
-      bitrate: settings.mp3Bitrate,
-      meta: {
-        title: m.title,
-        artist: 'Julian Jenkins',
-        album: (BRANDS[m.brand] || BRANDS.plain).album,
-        genre: 'Meditation',
-        date: String(new Date().getFullYear()),
-      },
-      outMp3,
-      workDir,
-    });
+    const { result, bedPath, outMp3 } = await finishTrack(track, m, settings, { source, isSleep: format?.ending === 'sleep', workDir, outDir });
 
     const words = speech.reduce((t, p) => t + spokenWords(p.spoken).length, 0);
     const measuredWpm = speechSeconds > 0 ? Math.round(words / (speechSeconds / 60)) : null;

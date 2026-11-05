@@ -1,0 +1,661 @@
+{
+  "about": "Takes voiced in ElevenLabs with Julian's \"Julian\" voice on eleven_v4, one request per section of each library script, two takes each. The studio mixes them with the script's exact silences and a music bed, so they never need voicing again. Listen to and compare takes in the ElevenLabs flow for each meditation.",
+  "voice": {
+    "voiceId": "KYXOMmyAOr8VFco83i7K",
+    "name": "Julian",
+    "model": "eleven_v4"
+  },
+  "madeOn": "2026-11-05",
+  "meditations": {
+    "morning-five-breaths": {
+      "title": "Five Breaths Before the Day Begins: 8 Minutes",
+      "flowId": "KFPMStvxb4d85BgYKkHj",
+      "flowUrl": "https://elevenlabs.io/app/flows/KFPMStvxb4d85BgYKkHj",
+      "sections": [
+        {
+          "name": "Opening",
+          "text": "[softly] Good morning. Before the day gets its hands on you, let's take a few minutes that belong only to you.\n\nYou don't need to sit any special way. Sitting up in bed is fine. A chair by the window is fine. Just let your back be tall enough to breathe, and let your hands rest wherever they want to rest.\n\nNotice the weight of your body. The places where you are held... by the bed, by the chair, by the floor. You don't have to hold yourself up right now. Something already is.",
+          "takes": [
+            {
+              "historyItemId": "YpztnCithpQQSbuNkk7v",
+              "generationId": "69R4OXfJ5ndHsCvasakH",
+              "seconds": 31.44
+            },
+            {
+              "historyItemId": "HG2fzAlaFkbZrpIZtcxP",
+              "generationId": "w8idX9MFOMM5wY3tRSRn",
+              "seconds": 30.4
+            }
+          ]
+        },
+        {
+          "name": "Teaching",
+          "text": "[warmly] Most of us wake up and go straight into the day. The phone, the list, the worry that was waiting by the bed. We tense up before we've even opened our eyes properly. And we call that being ready.\n\nBut holding on that tightly doesn't keep you safe. It just keeps you tired. One slow breath, taken on purpose, is a way of putting all of that down... even for a moment.\n\nSo this morning, we're going to take five. That's all. Five slow breaths are plenty. The practice is simply remembering to take them.",
+          "takes": [
+            {
+              "historyItemId": "vEuaEZe4o9Xy9FIqBXif",
+              "generationId": "rpm5n0ZL5FDQ66AZdSqW",
+              "seconds": 33.12
+            },
+            {
+              "historyItemId": "pAVtgakgVFDGcJBXjjkE",
+              "generationId": "rIfRGvRAX1lOfV88FXnW",
+              "seconds": 33.44
+            }
+          ]
+        },
+        {
+          "name": "Practice",
+          "text": "[softly] Let's begin. Breathe in through your nose... and let it go, slowly, through your mouth. That's one.\n\n[long pause]\n\nBreathe in again, and this time feel where the breath goes. The chest, the belly, the back. And let it go. That's two.\n\n[long pause]\n\nThree. Breathe in... and as you breathe out, let the shoulders drop. They've been up near your ears for longer than you know.\n\n[long pause]\n\nFour. In... and out. If your mind has already wandered off into the day, that's alright. Losing count doesn't matter. Noticing that you've wandered, and coming back, is the whole practice.\n\n[long pause]\n\n[slowly] And five. A full breath in... hold it for just a moment at the top... and let it all go.\n\n[long pause]\n\nNow let the breath breathe itself for a little while. Nothing to count. Nothing to do. Just this.",
+          "takes": [
+            {
+              "historyItemId": "f0WHjrSSbmWWFkoiWan2",
+              "generationId": "yObdia64vOoIyhpfadoC",
+              "seconds": 59.6
+            },
+            {
+              "historyItemId": "1PiyVQxZJdmMqtPNsJZp",
+              "generationId": "MKSQWhFvYhO5RvyZarLg",
+              "seconds": 59.76
+            }
+          ]
+        },
+        {
+          "name": "Gratitude",
+          "text": "[warmly] Now, think of one ordinary thing you are glad of this morning. Not a big thing. The warmth of the duvet. The kettle. A voice you'll hear later. Just one.\n\nLet yourself actually feel it, for a breath or two. You don't have to make it into anything.",
+          "takes": [
+            {
+              "historyItemId": "4JuAJ5kvhFupSYtACmSg",
+              "generationId": "CCSEaG4fgcqFHvAYM6kb",
+              "seconds": 16
+            },
+            {
+              "historyItemId": "DvqoutMst0mXxkibL5MX",
+              "generationId": "M8Vdk1UQjiWziiDcMxwB",
+              "seconds": 15.36
+            }
+          ]
+        },
+        {
+          "name": "Integration",
+          "text": "[softly] Here is the one thing to carry into today. At some point, something will rub you up the wrong way. An email, a queue, a tone of voice. When it happens, take one breath before you react. Just one. That breath is you coming back.\n\nYou might forget. Most days, I do too. When you notice you've forgotten, that's the moment. Take the breath then.",
+          "takes": [
+            {
+              "historyItemId": "SWka4Pbo0P0m5yxUS27t",
+              "generationId": "1SuwnExOlNCsZNrstHQQ",
+              "seconds": 24.48
+            },
+            {
+              "historyItemId": "EBxZdJVqI8o4RSMvNOmJ",
+              "generationId": "Q22zqMHAVQLGdgarWlVa",
+              "seconds": 24.8
+            }
+          ]
+        },
+        {
+          "name": "Closing",
+          "text": "[warmly] Thank you for giving yourself these few minutes. They count for more than you think.\n\nI'll be here tomorrow morning, at the same quiet place in the day, if you'd like to take your five breaths together again.\n\nGo gently into your day.",
+          "takes": [
+            {
+              "historyItemId": "oyLYNuFiJolFrRjRbQPw",
+              "generationId": "8wEsXLVx8R1IE1xnt2bc",
+              "seconds": 13.76
+            },
+            {
+              "historyItemId": "qalkOAhyFoCAa861XD4o",
+              "generationId": "Fy3Os9303d03INdnL86N",
+              "seconds": 13.76
+            }
+          ]
+        }
+      ]
+    },
+    "yoga-nidra-sleep": {
+      "title": "Yoga Nidra to Put the Day Down: 22 Minutes",
+      "flowId": "8FHgd97JngsHb03nYJAE",
+      "flowUrl": "https://elevenlabs.io/app/flows/8FHgd97JngsHb03nYJAE",
+      "sections": [
+        {
+          "name": "Settling",
+          "text": "[softly] This is a time to rest. You don't need to do anything well tonight. Just lie down, let your head be supported, and let your arms rest a little away from your sides, palms open if that feels easy.\n\nLet your eyes close when they are ready. Let the bed take your weight. The back of the head, the shoulders, the backs of the legs, the heels. All of it held.\n\nTake a slow breath in... and let it go through the mouth. Once more, in... and a long, easy breath out.\n\n[long pause]\n\nYou might hear sounds around you. A car outside, the house settling, your own breathing. Let them be there. Nothing needs to be shut out. Sounds can come and go, and you can stay right here.\n\nThis practice is called yoga nidra. All you do is listen to my voice and let your attention go where it is invited. If you drift off, that's perfect. If you stay awake, that's perfect too. There is no way to get this wrong.\n\nLet the face soften. Let the jaw be loose, the tongue resting. Let the shoulders drop away from the ears. If anything feels uncomfortable, move now, so that you can be still. Then let the body settle, the way snow settles after it has been shaken.",
+          "takes": [
+            {
+              "historyItemId": "vekj1pjgSgdNCGvKR3M9",
+              "generationId": "Itm639g7G9fLtKgpPgVv",
+              "seconds": 83.44
+            },
+            {
+              "historyItemId": "TqqZPjK2JO6CiGFdH3DS",
+              "generationId": "GMz60rIZwXDEw5Slkyqb",
+              "seconds": 83.28
+            }
+          ]
+        },
+        {
+          "name": "The wish",
+          "text": "[warmly] Before we begin, let a simple wish come to mind. Something true and kind, said as if it is already so. It might be, I am allowed to rest. Or, I can let the day go now. Or a few words of your own.\n\nSay it quietly to yourself, three times.\n\n[long pause]\n\nAnd now let it go. It has been heard.",
+          "takes": [
+            {
+              "historyItemId": "xTOMQbOdITvuP74gjDEV",
+              "generationId": "Q5GA3rLTxKEZ9suaQ0eq",
+              "seconds": 24.56
+            },
+            {
+              "historyItemId": "sDPnHkT3gfX9oFoJ8lQq",
+              "generationId": "KBSdKm0y1vYOYX5EYqgv",
+              "seconds": 25.44
+            }
+          ]
+        },
+        {
+          "name": "Travelling through the body",
+          "text": "[softly] [slowly] Now we travel through the body. As I name each place, simply notice it. You don't need to move it or change it. Just let your attention rest there for a moment, the way a hand might rest on a shoulder.\n\nRight hand. The thumb. First finger. Second finger. Third finger. Little finger. The palm of the hand. The back of the hand. The wrist. The forearm. The elbow. The upper arm. The shoulder. The armpit. The right side of the waist. The right hip. The thigh. The knee. The shin. The ankle. The heel. The sole of the foot. The top of the foot. The big toe. Second toe. Third toe. Fourth toe. Little toe.\n\nLeft hand. The thumb. First finger. Second finger. Third finger. Little finger. The palm of the hand. The back of the hand. The wrist. The forearm. The elbow. The upper arm. The shoulder. The armpit. The left side of the waist. The left hip. The thigh. The knee. The shin. The ankle. The heel. The sole of the foot. The top of the foot. The big toe. Second toe. Third toe. Fourth toe. Little toe.\n\nNow the back of the body. The back of the head, resting. The right shoulder blade. The left shoulder blade. The whole of the upper back. The lower back, softening. The backs of both legs. Both heels, heavy.\n\nAnd the front of the body. The top of the head. The forehead, smooth. The eyebrows. The eyelids, heavy. The right cheek. The left cheek. The nose, and the cool air moving through it. The upper lip. The lower lip. The jaw, loose. The chin. The throat. The right side of the chest. The left side of the chest. The middle of the chest. The belly, rising and falling. The lower belly.\n\nThe whole right leg. The whole left leg. Both legs together. The whole right arm. The whole left arm. Both arms together. The whole of the back. The whole of the front. The whole body, together.\n\nFeel the body as one shape, lying here. The outline of it against the bed. The space it takes up in the room. The whole body, resting.",
+          "takes": [
+            {
+              "historyItemId": "7FmgHqA5BaIk94s2EQ9G",
+              "generationId": "fdpg7vingjqImEhsA3vU",
+              "seconds": 137.28
+            },
+            {
+              "historyItemId": "iWxEMPGamPsej7oS0xM9",
+              "generationId": "ouMDHQqAXtngfVWnhyIz",
+              "seconds": 148.24
+            }
+          ]
+        },
+        {
+          "name": "Breath",
+          "text": "[softly] Now notice the breath, just as it is. You don't need to breathe in any special way. Let the body breathe itself, the way it does all night without you.\n\nFeel the cool air coming in at the nostrils... and the slightly warmer air leaving.\n\nNow begin to count the breaths backwards, from twenty seven down to one. Breathing in, twenty seven. Breathing out, twenty seven. Breathing in, twenty six. Breathing out, twenty six. Carry on by yourself now, in your own time.\n\nIf you lose count, that's welcome. Losing count is part of letting go. Simply start again from twenty seven, or let the counting fall away altogether.\n\n[long pause] [long pause]\n\nLet the counting go now. Let the breath be.",
+          "takes": [
+            {
+              "historyItemId": "rDaD8DEroOZjEybW6hho",
+              "generationId": "fvdfIW2X8DCw0InIVUMH",
+              "seconds": 46.88
+            },
+            {
+              "historyItemId": "X6iMh9pvr5UqVbu4AdNX",
+              "generationId": "gvtRFBUBWB3iT9QuKtul",
+              "seconds": 49.04
+            }
+          ]
+        },
+        {
+          "name": "Opposites",
+          "text": "[slowly] Now bring to mind the feeling of heaviness. The whole body heavy. Heavy as a stone at the bottom of a still pool. The arms heavy. The legs heavy. Sinking into the bed.\n\n[long pause]\n\nAnd now lightness. The body light as a feather. So light it might drift up from the bed. The arms light. The legs light. The whole body weightless.\n\n[long pause]\n\nHeaviness again... and lightness... Let them come and go, one after the other.\n\n[long pause]\n\nNow warmth. The warmth of a summer afternoon on your skin. Warmth spreading through the hands, the feet, the belly. Warm right through.\n\n[long pause]\n\nAnd now coolness. Cool air on a winter morning. The coolness of a stream running over your hands. Cool and fresh.\n\n[long pause]\n\nWarmth again... and coolness... and let them both go.",
+          "takes": [
+            {
+              "historyItemId": "BszhhkYl5klXLPfNV3oi",
+              "generationId": "pHwp5aPJ6T30QaYbfm46",
+              "seconds": 67.52
+            },
+            {
+              "historyItemId": "1LXVjNQ7gB2PVlcG4C4m",
+              "generationId": "MR7cGTS9MVEBjT5azc2v",
+              "seconds": 66.24
+            }
+          ]
+        },
+        {
+          "name": "Pictures",
+          "text": "[softly] [slowly] Now let some pictures pass through your mind. You don't need to hold on to them. Let each one come... and go.\n\nA candle flame, quite still... A harbour at night, boats resting on dark water...\n\nRain on a slate roof... A lamp in a farmhouse window...\n\nA gull resting on the sea... Bread cooling on a kitchen table...\n\nA path through a wood, and moss on the stones... Smoke rising slowly from a chimney...\n\nThe first star... A hand around a warm cup...\n\nSnow falling on the hills... The sea, breathing.",
+          "takes": [
+            {
+              "historyItemId": "69B3UYuQdVIILdR7N98E",
+              "generationId": "qiPBA8QEavwcrrzeR7ka",
+              "seconds": 42
+            },
+            {
+              "historyItemId": "8Gwy7GOilFLIT5FIZl7U",
+              "generationId": "dAY5KfDf6tXripEfWhXN",
+              "seconds": 40
+            }
+          ]
+        },
+        {
+          "name": "The wish again",
+          "text": "[softly] [slowly] Now remember your simple wish from the beginning. Say it once more, quietly, as if it is already true.",
+          "takes": [
+            {
+              "historyItemId": "7WeXvwN2eIcPeX8zlFjy",
+              "generationId": "xGmTGM24XcxRxkIiP9ZQ",
+              "seconds": 7.52
+            },
+            {
+              "historyItemId": "K930R9CIgAjRVpQkGwMZ",
+              "generationId": "lLaJ3BAGnYa89FlRM9bb",
+              "seconds": 7.92
+            }
+          ]
+        },
+        {
+          "name": "Drifting",
+          "text": "[softly] [slowly] There is nothing more to do now. Nowhere to go. Nothing to fix before morning. The night can hold you.\n\nWhatever happened today is finished for now. Whatever tomorrow brings can wait for tomorrow. Tonight, you are allowed to rest.\n\nIf sleep is close, let it come. You don't have to make it happen. It knows the way.\n\n[long pause] [long pause]\n\nLet the body be heavy... and the mind be quiet... and let go.\n\n[long pause] [long pause]\n\nResting... safe... held.",
+          "takes": [
+            {
+              "historyItemId": "pt4GwWHxdoILZGNcEZ7h",
+              "generationId": "bR1K3aOBm5Gv3qpT2pnG",
+              "seconds": 40.24
+            },
+            {
+              "historyItemId": "SmfoURFbQ1omH7MNCSJI",
+              "generationId": "f1DiNGV7zAv00b0zfIc0",
+              "seconds": 37.44
+            }
+          ]
+        }
+      ]
+    },
+    "long-sleep-journey": {
+      "title": "A Long, Slow Way Down to Sleep: 45 Minutes",
+      "flowId": "EJZxxR4bwanz7cTl2Yv0",
+      "flowUrl": "https://elevenlabs.io/app/flows/EJZxxR4bwanz7cTl2Yv0",
+      "sections": [
+        {
+          "name": "Welcome",
+          "text": "[softly] Hello, and welcome. This is a long, slow journey down into sleep. You can stay with my voice for as long as you like, and let it fade whenever you are ready. There is nothing you need to do, and nothing you need to remember.\n\nSettle into the bed in whatever way feels best for your body tonight. On your back, on your side, curled up. Let the pillow take the weight of your head. Let the covers be just right.\n\nTake a slow breath in through the nose... and let it out through the mouth, like a long, quiet sigh.\n\nAgain, breathing in... and letting it all go.\n\n[long pause]\n\nLet the next breath out be a little longer than the breath in. And the next one. A long, slow out breath tells the body that it is safe to rest. It tells the busy part of the mind that the day is done.",
+          "takes": [
+            {
+              "historyItemId": "8LDtEi7WITvW3bL6rtNw",
+              "generationId": "e8rgIjmZu6BGyj9JoG4G",
+              "seconds": 54.64
+            },
+            {
+              "historyItemId": "J8j7wgJ1gp00jpXQtXzb",
+              "generationId": "TTZxK8RtHNN7SfQiAdhD",
+              "seconds": 56.08
+            }
+          ]
+        },
+        {
+          "name": "Counting down",
+          "text": "[softly] [slowly] In a moment, I'll count slowly down from ten to one. With each number, let yourself sink a little deeper into the bed. You don't need to try. Just let each number carry you down, the way a leaf drifts down through still air.\n\nTen. The shoulders softening.\n\nNine. The arms growing heavy.\n\nEight. The hands still and loose.\n\nSeven. The chest rising and falling, all by itself.\n\nSix. The belly soft.\n\n[long pause]\n\nFive. The hips and the legs sinking down.\n\nFour. The feet warm and heavy.\n\nThree. The face smooth. The jaw loose.\n\nTwo. The whole body heavy, held, and safe.\n\nOne. All the way down.",
+          "takes": [
+            {
+              "historyItemId": "2zaA2C1mjAvCCc5yX8yq",
+              "generationId": "beAo25v00hoyK21Rgvio",
+              "seconds": 53.84
+            },
+            {
+              "historyItemId": "XOS58VtvTKqQf9hycr3r",
+              "generationId": "ImvIWgeWoOOnGULDepYX",
+              "seconds": 51.12
+            }
+          ]
+        },
+        {
+          "name": "Letting the day go",
+          "text": "[softly] [slowly] If your mind is still busy, that's alright. Minds are busy. You don't have to make it stop. You only need to stop following it for a while.\n\nPicture the thoughts of the day as boats on a wide harbour, tied up for the night. Each one has its place. The conversations, the worries, the list of things still to do. They are all moored safely. They will still be there in the morning, if you need them. For now, you can let them bob gently on the water while you walk away.\n\n[long pause] [long pause]\n\nWhatever didn't get done today can wait. Whatever was said, or wasn't said, can wait. You have done enough for one day. You are allowed to put it all down.\n\n[long pause] [long pause]\n\nFeel the weight of the body pressing into the bed. Heavier with every breath out. As if the bed is gently holding you, and you can finally stop holding yourself.",
+          "takes": [
+            {
+              "historyItemId": "GRSZ7M9EOcQMVPilSgwF",
+              "generationId": "pXcJKYGQpDuPNEN6pbrK",
+              "seconds": 59.68
+            },
+            {
+              "historyItemId": "OY8LUsO25NQpK82FtfP7",
+              "generationId": "lOZFRVbGaThYXVRffpcm",
+              "seconds": 57.92
+            }
+          ]
+        },
+        {
+          "name": "Softening the body",
+          "text": "[softly] [slowly] Now let's soften the body, one part at a time. Nothing to do. Only noticing, and letting go.\n\nThe scalp, and the tiny muscles around the ears. Let them soften. The forehead, smooth and wide. The eyes, resting back in their sockets. The cheeks. The jaw, the teeth slightly apart, the tongue lying soft in the mouth.\n\n[long pause]\n\nThe throat, open and easy. The shoulders, dropping down and away. The upper arms, the elbows, the forearms. The hands, heavy and warm, the fingers curled loosely.\n\n[long pause]\n\nThe chest, rising and falling. The belly, soft. The whole of the back, spreading out against the bed. The hips. The thighs, the knees, the calves. The ankles, the heels, the soles of the feet. All of it soft. All of it resting.",
+          "takes": [
+            {
+              "historyItemId": "89s14kBWnkCMLJDCXb7f",
+              "generationId": "oeOfowcn0ZuuAv3MPO45",
+              "seconds": 65.04
+            },
+            {
+              "historyItemId": "bM7pBCnpk11yCD7Sp5uk",
+              "generationId": "TSMKdCwRmuGwNBCDxvjK",
+              "seconds": 71.44
+            }
+          ]
+        },
+        {
+          "name": "The lane",
+          "text": "[softly] [slowly] Now imagine you are standing at the door of an old stone cottage on a warm summer evening. The light is fading. The air smells of cut grass and the sea.\n\nIn front of you, a narrow lane winds down the hill between high hedges full of honeysuckle and foxgloves. You begin to walk, slowly, with no need to hurry. Your feet know the way.\n\n[long pause] [long pause]\n\nWith each step, the lane goes a little further down. The hedges are tall and soft on either side. Somewhere a blackbird is singing its last song of the day. A gate creaks in the breeze and is still again.\n\n[long pause] [long pause]\n\nYou come to a little stone bridge over a stream. You stop for a moment and lean on the wall. The stones are still warm from the sun. Below, the water runs clear and slow over the pebbles, talking quietly to itself. You listen for a while.\n\n[long pause] [long pause]\n\nOn the other side of the bridge there is a cottage with a lamp lit in the window, and a thin line of woodsmoke rising straight up into the still air. Someone inside is settling down for the night, just as you are. Everything around you is slowing down.\n\n[long pause] [long pause]\n\nThe lane bends, and between the hedges you catch a glimpse of the sea below. It is calm tonight, silver and grey, barely moving. The sky above it is turning a deep, soft blue.\n\n[long pause] [long pause]\n\nYou walk on. Down past a small white chapel. Down past a field where cows are lying in the long grass. Down, and down, and the air grows cooler and quieter.",
+          "takes": [
+            {
+              "historyItemId": "OjoXUy3GHljokoc2q5PX",
+              "generationId": "wXsrF2xTVaHnKoJBqtPh",
+              "seconds": 108.48
+            },
+            {
+              "historyItemId": "3fKXYek46kfqAZhrRWSA",
+              "generationId": "vhcoZjiIcmPCQFpNSLlJ",
+              "seconds": 102.64
+            }
+          ]
+        },
+        {
+          "name": "The bay",
+          "text": "[softly] [slowly] At the bottom of the lane there is a small, sheltered bay. The tide is out, and the sand is smooth and pale. Your feet sink into it a little with every step. It is soft and cool.\n\nThe only sound is the sea, folding over and over at the edge of the sand. In... and out. In... and out. Like breathing.\n\n[long pause] [long pause]\n\nNear the water there is a little wooden boat, pulled up on the sand, with a blanket folded inside it. You climb in and lie down. The blanket is warm. The wood is smooth beneath you. Above you, the first stars are appearing, one by one.\n\n[long pause] [long pause]\n\nYou might like to count them, slowly. One star. Two. Three. A few more, there over the headland. Don't worry if you lose count. There are always more stars than you can count, and you don't need to count them all.\n\n[long pause] [long pause]\n\nFar across the water, on the point, a lighthouse turns. Its beam sweeps slowly over the sea, round and round, and every time it passes it seems to say, all is well, all is well. You watch it turn, and your eyes grow heavier each time.\n\n[long pause] [long pause]\n\nAs you lie there, the tide begins to come in. So slowly that you hardly notice. The water lifts the boat, gently, and holds it. You are floating now, rocking softly on the calm water, close to the shore, quite safe.\n\n[long pause] [long pause]\n\nThe boat rises and falls with the sea. Rises... and falls. Your breath rises and falls with it. There is nothing to steer. Nowhere to go. The sea knows how to hold you.",
+          "takes": [
+            {
+              "historyItemId": "GiVwqB7X5pa9tQYHwWy0",
+              "generationId": "ZeC6c5TRzr4xvbuLoMVe",
+              "seconds": 118.56
+            },
+            {
+              "historyItemId": "sMI8qSZYAMryZ7FxBd09",
+              "generationId": "ro6W94YFMC1drJ3XAvG6",
+              "seconds": 118.96
+            }
+          ]
+        },
+        {
+          "name": "Deeper",
+          "text": "[softly] [slowly] Feel how heavy the body has become. How warm. How still. Each breath out lets you sink a little further into the blanket, into the boat, into the slow rocking of the water.\n\n[long pause] [long pause]\n\nLet's go down once more, from five to one, even more slowly this time.\n\nFive... the sea rocking you.\n\nFour... the stars bright above.\n\nThree... the blanket warm around you.\n\nTwo... the shore close and safe.\n\nOne... all the way down, into rest.\n\n[long pause] [long pause]\n\nIf you find yourself awake, there is nothing wrong. Just rest. Resting is good for you too. Let the sound of the sea carry you.\n\n[long pause] [long pause]\n\nThe stars are bright now. The sea is quiet. The shore is close. You are safe, and warm, and held.\n\n[long pause] [long pause]\n\nRising... and falling...\n\n[long pause] [long pause]\n\nDeeper... and softer...\n\n[long pause] [long pause]\n\nSleep now.",
+          "takes": [
+            {
+              "historyItemId": "YTgRhRqIvSG9teCmVUOS",
+              "generationId": "2Co3A3Gj4noGvbw8sHBc",
+              "seconds": 69.68
+            },
+            {
+              "historyItemId": "Yunz0jOGjhBNP0yCFuQ0",
+              "generationId": "jJWhUYVGwfuJcWrku4eU",
+              "seconds": 71.2
+            }
+          ]
+        }
+      ]
+    },
+    "letting-go": {
+      "title": "Set Down What You've Been Carrying: 10 Minutes",
+      "flowId": "pjxYeA81VNhefOSfNqlF",
+      "flowUrl": "https://elevenlabs.io/app/flows/pjxYeA81VNhefOSfNqlF",
+      "sections": [
+        {
+          "name": "Arriving",
+          "text": "[softly] Welcome. For the next ten minutes, there is nowhere else you need to be. Find a way of sitting or lying that lets your body rest. Let your hands settle wherever they are comfortable.\n\nLet your eyes close, or let your gaze rest softly on the floor in front of you.\n\nTake a slow breath in... and a long breath out. And again, in... and out, letting the shoulders drop.\n\n[long pause]\n\nMost of us carry more than we know. Things that happened. Things that were said. Things we are still waiting for, or still afraid of. We carry them so long that we forget we picked them up. They start to feel like part of us.\n\nThey aren't. They are just things you have been holding. And for these few minutes, you might find you can set some of them down.",
+          "takes": [
+            {
+              "historyItemId": "uPOpIXuZ52binSNdpPyw",
+              "generationId": "XAEVHUZn012mGGU0EelL",
+              "seconds": 53.6
+            },
+            {
+              "historyItemId": "PgD8cIyHzNJCtXeYQrTm",
+              "generationId": "7kyX5rBUyWlnb1ooVWaN",
+              "seconds": 51.28
+            }
+          ]
+        },
+        {
+          "name": "Finding where it is held",
+          "text": "[warmly] Bring to mind something you have been carrying. It doesn't need to be the biggest thing. Something that has been sitting with you lately. Just let it come into view, without going over it again.\n\n[long pause]\n\nNow notice where you feel it in your body. It might be a tightness in the chest. A knot in the stomach. A weight on the shoulders. A clenching in the jaw. There is no right answer. Just notice where it lives.\n\n[long pause]\n\nBreathe into that place. Not to push it away. Just to keep it company. Let the breath reach it, gently, the way you might rest a warm hand on someone who is hurting.",
+          "takes": [
+            {
+              "historyItemId": "2PWgQupS3vXfkMy8DokG",
+              "generationId": "XQ7zcAgYbdAZQ0Oo9sn4",
+              "seconds": 40.24
+            },
+            {
+              "historyItemId": "3mRSH4YhNNYYER2rkyWf",
+              "generationId": "fQjMqiwRfE2GTYWLo92e",
+              "seconds": 40.48
+            }
+          ]
+        },
+        {
+          "name": "The river",
+          "text": "[softly] [slowly] Now imagine you are sitting on the bank of a slow river. The water is clear and unhurried. It moves around the stones without fighting them. It has been flowing like this for a very long time.\n\nIn your hands, you are holding the thing you've been carrying. Feel its weight. Notice its shape. You have been holding it so carefully, for so long.\n\n[long pause]\n\nWhen you are ready, and only if you are ready, lean forward and place it on the surface of the water. You don't need to throw it. Just let it go.\n\n[long pause]\n\nWatch the river take it. Slowly. Carefully. It turns once in the current... and moves away downstream. A little further now. Smaller. And smaller. Until you can hardly see it at all.\n\n[long pause] [long pause]\n\nYou might find it comes back. That's alright. Things we have carried for a long time often do. Each time it does, you can set it on the water again. Letting go is rarely one moment. It is something we practise.",
+          "takes": [
+            {
+              "historyItemId": "QBWCBBIpywfzqSrdt2Bi",
+              "generationId": "AQuFC1MK6l6LIJvTRwSQ",
+              "seconds": 68.08
+            },
+            {
+              "historyItemId": "i1J88sP5oRvtuUJc1dFe",
+              "generationId": "DouIoCxYmcxso35JHCWV",
+              "seconds": 66.96
+            }
+          ]
+        },
+        {
+          "name": "The space that is left",
+          "text": "[softly] Now notice your hands. Empty. Resting. Notice the place in your body where the weight was. Is there a little more room there now? Even a little?\n\n[long pause] [long pause]\n\nRest in that space. Let the breath move freely through it. You don't need to fill it with anything. Just let it be open for a while.\n\n[long pause] [long pause]\n\nYou are not what happened to you. You are not the thing you have been carrying. You are the one who has been carrying it, and you can rest.",
+          "takes": [
+            {
+              "historyItemId": "vzt08QNmW4iNI00AZAnq",
+              "generationId": "dncxqNsi8CTv0BJ7ooXU",
+              "seconds": 33.6
+            },
+            {
+              "historyItemId": "qooVvOS43w1kpsHE88Zu",
+              "generationId": "ikCqTIdFbDj3Frqo24af",
+              "seconds": 33.04
+            }
+          ]
+        },
+        {
+          "name": "Carrying something lighter",
+          "text": "[warmly] As we come towards the end, think of one small, kind thing you could carry into the rest of today instead. A slower breath when things get busy. A softer word to yourself. A moment of looking out of the window.\n\n[long pause]\n\nTake one more full breath in... and let it go.\n\n[long pause]\n\nThank you for letting yourself set something down today. If it comes back tomorrow, that's alright. Come back, and we'll sit by the river together again.",
+          "takes": [
+            {
+              "historyItemId": "U8iTZwPlO7ZUKGw2uYNj",
+              "generationId": "Hx7DnI8bwgGYNAXHmnrx",
+              "seconds": 30.8
+            },
+            {
+              "historyItemId": "zYmJcFF6fjh6CwCZ2E5D",
+              "generationId": "skEpcPkafMs4bWPLBofX",
+              "seconds": 30.24
+            }
+          ]
+        }
+      ]
+    },
+    "five-minute-kindness": {
+      "title": "A Hand on Your Own Heart: 5 Minutes",
+      "flowId": "2Z52MmZcnDsaf43030ba",
+      "flowUrl": "https://elevenlabs.io/app/flows/2Z52MmZcnDsaf43030ba",
+      "sections": [
+        {
+          "name": "Arriving",
+          "text": "[softly] This is five minutes for you. Wherever you are, just pause. You don't need to change anything about how you're sitting, or how you feel.\n\nTake one slow breath in... and let it out with a sigh.",
+          "takes": [
+            {
+              "historyItemId": "ElyhPoD68iklxDyoJzCA",
+              "generationId": "nOXUKExesMgbRpFAipyO",
+              "seconds": 13.92
+            },
+            {
+              "historyItemId": "mlRqePssn75wD7jL0bhN",
+              "generationId": "AaMD88P5B02wxnYQAtp5",
+              "seconds": 13.84
+            }
+          ]
+        },
+        {
+          "name": "A hand on the heart",
+          "text": "[warmly] If it feels right, place one hand on the middle of your chest. Or on your cheek, or over your other hand. Feel the warmth of your own touch. Notice the gentle pressure of it.\n\nYou have probably done this for other people a thousand times. A hand on a shoulder. A hand on a back. Now you are offering it to yourself.",
+          "takes": [
+            {
+              "historyItemId": "LUlyzq6ZDsYiEloemTeF",
+              "generationId": "jtlHb0J7JhdkfoxA93I5",
+              "seconds": 21.68
+            },
+            {
+              "historyItemId": "fZlel2cJmbDP8eArvOX4",
+              "generationId": "c0UelCDwpYSEk6ivypJ5",
+              "seconds": 21.52
+            }
+          ]
+        },
+        {
+          "name": "Naming what is hard",
+          "text": "[softly] Let yourself notice what is hard right now. You don't need to explain it, or solve it. Just quietly name it to yourself. This is hard. Or, I'm tired. Or, I'm struggling today.\n\n[long pause]\n\nWhatever you are feeling, you are not the only one. Somewhere, right now, someone else is feeling exactly this. Struggling is part of being human. It doesn't mean you have done anything wrong.",
+          "takes": [
+            {
+              "historyItemId": "wTEGp7yatMDNfmSnd4pk",
+              "generationId": "ZyXsTHvcZ32dbSjkpiWw",
+              "seconds": 29.12
+            },
+            {
+              "historyItemId": "xTUuLfO8G0ygnBsCxGeF",
+              "generationId": "SEKebBwT725ZJamTsszg",
+              "seconds": 30
+            }
+          ]
+        },
+        {
+          "name": "Kind words",
+          "text": "[warmly] Now, imagine what you would say to a good friend who felt the way you do now. You would probably be gentle. Patient. You might tell them it's alright to find this hard. That they are doing their best. That they don't have to carry it all alone.\n\n[long pause]\n\nSee if you can say some of those words to yourself. Quietly, in your own way. It might be, I'm here for you. Or, it's alright, I've got you. Or simply, may I be kind to myself.\n\n[long pause]\n\nIf it feels strange, or untrue, that's alright. Kindness to ourselves is often the last kindness we learn. Just let the words be there, even if you don't believe them yet.",
+          "takes": [
+            {
+              "historyItemId": "K7ihCH3kTYw7DnjaFBbL",
+              "generationId": "bxSPjaebCHMb988HctGi",
+              "seconds": 44.56
+            },
+            {
+              "historyItemId": "w6ALo6lxcfZwwM6b7x1H",
+              "generationId": "OQjm6AVFsysHPKfsqzdc",
+              "seconds": 46.32
+            }
+          ]
+        },
+        {
+          "name": "Rest",
+          "text": "[softly] Feel the warmth of your hand once more. Breathe in... and breathe out.\n\n[long pause]\n\nWhen you're ready, let your hand rest and let your eyes open. Take a little of this kindness with you into the rest of your day.\n\nCome back tomorrow, and we'll take another five minutes together.",
+          "takes": [
+            {
+              "historyItemId": "0YFQQfMu7PPBaMDfw07i",
+              "generationId": "vnOyl0uH3JxUKTZlWCy6",
+              "seconds": 18.32
+            },
+            {
+              "historyItemId": "cQr2GtHBIYVQDSlzEN06",
+              "generationId": "P0d1NSsDnMy0saWEtKaw",
+              "seconds": 18.24
+            }
+          ]
+        }
+      ]
+    },
+    "calm-in-the-moment": {
+      "title": "Back to Solid Ground: 10 Minutes",
+      "flowId": "WSJUxXhbxJct3zwQ3GMb",
+      "flowUrl": "https://elevenlabs.io/app/flows/WSJUxXhbxJct3zwQ3GMb",
+      "sections": [
+        {
+          "name": "Arriving",
+          "text": "[softly] If you've come here because your mind is racing, or your chest is tight, or worry won't leave you alone, you are in the right place. You don't need to calm down before we begin. Come exactly as you are.\n\nLet's start by simply noticing your feet. Wherever you are, feel them. Pressing into the floor, or resting on the bed. Feel the weight of them. Feel the ground underneath them, solid and steady.",
+          "takes": [
+            {
+              "historyItemId": "Ax045lnfWCnpiToejj5o",
+              "generationId": "ZDiNItHqRdmZxbzB64LD",
+              "seconds": 27.44
+            },
+            {
+              "historyItemId": "YBmqGweQTTcqyXx7eZXC",
+              "generationId": "ettglhRbnAdHZC0gWcQf",
+              "seconds": 26.88
+            }
+          ]
+        },
+        {
+          "name": "Naming it",
+          "text": "[warmly] Anxiety is a feeling of the body getting ready for danger. Your heart might be quicker. Your breath might be high in your chest. Your thoughts might be running ahead into everything that could go wrong.\n\nNone of this means something is wrong with you. It is your body trying very hard to keep you safe. We are going to let it know, gently, that right now, in this moment, it can stand down.\n\nQuietly say to yourself, this is anxiety. It is uncomfortable, and it will pass.",
+          "takes": [
+            {
+              "historyItemId": "qFFjzDCp31OUWCoacSbw",
+              "generationId": "bDcw1WNu3wgMnjaZIaab",
+              "seconds": 30.24
+            },
+            {
+              "historyItemId": "BmNIUmM1YFHoxkUaUARX",
+              "generationId": "hqIwnlcgb9jRFvBoiorU",
+              "seconds": 30.56
+            }
+          ]
+        },
+        {
+          "name": "Grounding",
+          "text": "[softly] [slowly] Now let your attention come down into the body. Feel where you are sitting or lying. Feel the chair or the bed holding your weight. You don't have to hold yourself up right now.\n\nNotice five things you can hear. Near sounds and far sounds. The hum of a room. Traffic outside. Your own breathing. Don't go looking. Just let the sounds arrive.\n\n[long pause]\n\nNow notice what you can feel against your skin. The fabric of your clothes. The air on your face and hands. The temperature of the room.\n\n[long pause]\n\nNotice any smell in the room, or the taste in your mouth. Small, ordinary things. They are all happening now, in this moment, not in the future your mind keeps running towards.\n\n[long pause]\n\nAnd notice the feet again. Still there. Still on solid ground.",
+          "takes": [
+            {
+              "historyItemId": "iEiQS2X8Q4tlaOqt8v0t",
+              "generationId": "X2fYF4CAIzpA4hmWFQ7T",
+              "seconds": 54.96
+            },
+            {
+              "historyItemId": "SfbQK2b4NsuvYZ7vRBhg",
+              "generationId": "iE6c1Y5rEtK5Sd1uEIpt",
+              "seconds": 53.68
+            }
+          ]
+        },
+        {
+          "name": "Long breaths out",
+          "text": "[softly] [slowly] Now we'll slow the breath, without forcing it. Breathe in gently through your nose for a count of four. One, two, three, four. And breathe out slowly through your mouth for a count of six. One, two, three, four, five, six.\n\nAgain. In, two, three, four. And out, two, three, four, five, six.\n\nA long breath out is one of the clearest messages you can send your body that it is safe. Keep going in your own time. In for four... out for six.\n\n[long pause] [long pause]\n\nIf your mind pulls you back to the worry, that's alright. It will. Just notice it, and come back to the feet, and the long breath out.",
+          "takes": [
+            {
+              "historyItemId": "EUOw3xcKgt4YmMVDasDn",
+              "generationId": "4toeOJ2aOWEtIDBJDxSn",
+              "seconds": 52.08
+            },
+            {
+              "historyItemId": "vLfwFbb1U6NgTTjK7SxH",
+              "generationId": "s87DEcI5MHali03KjZcE",
+              "seconds": 52.4
+            }
+          ]
+        },
+        {
+          "name": "Allowing",
+          "text": "[softly] Now see if you can find where the anxiety sits in your body. Perhaps the chest, or the stomach, or the throat. Instead of fighting it, let it be there for a moment. Breathe around it. Give it a little room.\n\n[long pause]\n\nYou might notice it changes when you stop pushing against it. It might soften, or move, or stay just as it is. All of that is fine. You are not trying to get rid of anything. You are just letting it be, and staying with yourself.",
+          "takes": [
+            {
+              "historyItemId": "zwFzivv7HHYCReV5EO4V",
+              "generationId": "ucOgoDp3TuBX3XQ3sCqb",
+              "seconds": 31.28
+            },
+            {
+              "historyItemId": "e1b8MthSO9HsuTEB2Zag",
+              "generationId": "CFEtHoSRHn9wIkidI4ja",
+              "seconds": 31.28
+            }
+          ]
+        },
+        {
+          "name": "A kind word",
+          "text": "[warmly] Place a hand on your chest, or your belly, if that feels comforting. And say to yourself, I'm safe enough, right now. Or, I can handle this moment. Or, it's alright, I'm here.",
+          "takes": [
+            {
+              "historyItemId": "tnGGKMbvs6txOuA4vkZs",
+              "generationId": "OloPccZoHv5pxASBUg5E",
+              "seconds": 13.84
+            },
+            {
+              "historyItemId": "JNPwN46SOVZ3Vx8wotVU",
+              "generationId": "9efZRIngPVuPEFuE2zcG",
+              "seconds": 14.08
+            }
+          ]
+        },
+        {
+          "name": "One small step",
+          "text": "[softly] Before we finish, think of one small, simple thing you can do next. A glass of water. Opening a window. Stepping outside for a minute. Sending a message to someone you trust. Just one small step.\n\n[long pause]\n\nFeel your feet one last time, on solid ground. Take one more slow breath in... and a long breath out.\n\n[long pause]\n\nWell done for staying with yourself. Whenever worry comes back, and it may, you can come back here. Tomorrow, or any time you need to find solid ground again.",
+          "takes": [
+            {
+              "historyItemId": "gv3Rl26aDB98nbMdGkK8",
+              "generationId": "AY5Ptg9EuSZzNDftimf0",
+              "seconds": 36.56
+            },
+            {
+              "historyItemId": "uGDlQadvXXKMBJ1lGRBl",
+              "generationId": "zohS616s2AI6wExBiG9A",
+              "seconds": 35.92
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

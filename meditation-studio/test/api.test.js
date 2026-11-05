@@ -5,14 +5,17 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
-import { mockElevenLabs, mockClaude, toneFile, toneMp3 } from './mocks.js';
+import { mockElevenLabs, mockClaude, toneFile, toneMp3, takeShape } from './mocks.js';
 
 let base, server, eleven, claude, storage;
 const EXAMPLE = fs.readFileSync(new URL('../scripts/library/morning-five-breaths.txt', import.meta.url), 'utf8');
+const TAKES = JSON.parse(fs.readFileSync(new URL('../data/elevenlabs-takes.json', import.meta.url), 'utf8'));
+// Every take in the manifest, by history id, so the stand-in ElevenLabs can serve it.
+const TAKE_TEXT = Object.fromEntries(Object.values(TAKES.meditations).flatMap((m) => m.sections.flatMap((s) => s.takes.map((t) => [t.historyItemId, s.text]))));
 
 before(async () => {
   storage = fs.mkdtempSync(path.join(os.tmpdir(), 'studio-test-'));
-  eleven = await mockElevenLabs();
+  eleven = await mockElevenLabs({ takes: TAKE_TEXT });
   claude = await mockClaude();
   Object.assign(process.env, {
     NODE_ENV: 'test',
@@ -368,6 +371,53 @@ test('the ready made library loads six meditations that pass the quality check',
     const target = m.minutes * 60;
     assert.ok(Math.abs(full.stats.estimatedSeconds - target) / target < 0.12, `${m.title} is ${full.stats.estimatedSeconds}s for ${target}s`);
   }
+});
+
+test('the takes made in ElevenLabs mix with exact silences and spend nothing', async () => {
+  const list = (await api('/api/meditations')).data;
+  const m = list.find((x) => x.libraryId === 'five-minute-kindness');
+  assert.ok(m.elevenTakes, 'library meditation knows its takes');
+  assert.equal(m.elevenTakes.matches, true, `changed: ${m.elevenTakes.changed}`);
+  assert.equal(m.elevenTakes.sections.length, TAKES.meditations['five-minute-kindness'].sections.length);
+  assert.equal(m.elevenTakes.voiceName, 'Julian');
+
+  // Pick the second take for the first section.
+  await api(`/api/meditations/${m.id}`, { method: 'PUT', body: { takePicks: [1] } });
+  const ttsBefore = eleven.calls.filter((c) => c.text).length;
+  const historyBefore = eleven.calls.filter((c) => c.history).length;
+  const { data } = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'clone', from: 'takes' } });
+  const done = await waitJob(data.job.id);
+  assert.equal(done.status, 'done', done.error);
+  const r = done.result;
+  assert.equal(r.fromTakes, true);
+  assert.equal(r.charsSpent, 0);
+  assert.deepEqual(r.notes, [], 'every pause found');
+  assert.equal(eleven.calls.filter((c) => c.text).length, ttsBefore, 'nothing voiced again');
+  const fetched = eleven.calls.slice(historyBefore).filter((c) => c.history).map((c) => c.history);
+  const sections = TAKES.meditations['five-minute-kindness'].sections;
+  assert.equal(fetched.length, sections.length);
+  assert.equal(fetched[0], sections[0].takes[1].historyItemId, 'the picked take is used');
+  assert.equal(fetched[1], sections[1].takes[0].historyItemId);
+
+  // Length: the takes' speech, plus every script silence at its exact length.
+  const script = (await api(`/api/meditations/${m.id}`)).data.script;
+  const scriptSilence = [...script.matchAll(/\[\[silence (\d+)s\]\]/g)].reduce((t, x) => t + Number(x[1]), 0);
+  const speech = sections.reduce((t, s) => t + takeShape(s.text).filter((p) => p.tone || p.quiet < 1).reduce((a, p) => a + (p.tone || p.quiet), 0), 0);
+  const settings = (await api('/api/settings')).data;
+  const sectionGaps = sections.length * settings.paragraphGapSeconds; // none of its sections ends on a silence
+  const expected = settings.preRollSeconds + speech + scriptSilence + sectionGaps + 2.5 + 9 + settings.tailSeconds;
+  assert.ok(Math.abs(r.seconds - expected) < 4, `${r.seconds}s, expected about ${Math.round(expected)}s`);
+  assert.ok(r.timeline.length >= 10, 'a timeline entry for each paragraph');
+  const snip = await api(`/api/meditations/${m.id}/snippet`, { method: 'POST', body: { source: 'clone' } });
+  assert.equal(snip.status, 200, JSON.stringify(snip.data));
+
+  // Once the script changes, the takes no longer fit and the studio says so.
+  await api(`/api/meditations/${m.id}`, { method: 'PUT', body: { script: script.replace('This is five minutes for you.', 'These five minutes are yours.') } });
+  const changed = (await api(`/api/meditations/${m.id}`)).data.elevenTakes;
+  assert.equal(changed.matches, false);
+  assert.deepEqual(changed.changed, ['Arriving']);
+  const refused = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'clone', from: 'takes' } });
+  assert.equal(refused.status, 409);
 });
 
 test('keys are saved but never echoed back', async () => {

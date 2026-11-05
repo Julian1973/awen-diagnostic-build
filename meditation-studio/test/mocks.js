@@ -23,6 +23,33 @@ export function toneFile(seconds, format, freq = 330) {
   return r.stdout;
 }
 
+// A stand-in for a take made in ElevenLabs: a tone for each paragraph (2.5 words a second), 0.4 s
+// between paragraphs, and 2 s of quiet for each [long pause] tag, like the real takes.
+export function takeShape(text) {
+  const parts = [];
+  for (const block of String(text).split(/\n\n+/)) {
+    const tags = (block.match(/\[long pause\]/g) || []).length;
+    const words = block.replace(/\[[^\]]*\]/g, ' ').split(/\s+/).filter(Boolean).length;
+    if (!words && tags) parts.push({ quiet: 2 * tags });
+    else if (words) {
+      if (parts.length && parts[parts.length - 1].tone) parts.push({ quiet: 0.4 });
+      parts.push({ tone: Math.max(0.6, words / 2.5) });
+    }
+  }
+  return parts;
+}
+
+export function takeMp3(text) {
+  const parts = takeShape(text);
+  const inputs = parts.flatMap((p) => (p.tone
+    ? ['-f', 'lavfi', '-i', `sine=frequency=220:duration=${p.tone.toFixed(2)}`]
+    : ['-f', 'lavfi', '-t', p.quiet.toFixed(2), '-i', 'anullsrc=r=44100:cl=mono']));
+  const graph = `${parts.map((_, i) => `[${i}:a]`).join('')}concat=n=${parts.length}:v=0:a=1[out]`;
+  const r = spawnSync(FFMPEG, ['-hide_banner', ...inputs, '-filter_complex', graph, '-map', '[out]', '-ac', '1', '-ar', '44100', '-b:a', '64k', '-f', 'mp3', 'pipe:1'], { maxBuffer: 50e6 });
+  if (r.status !== 0) throw new Error(r.stderr.toString());
+  return r.stdout;
+}
+
 function readBody(req) {
   return new Promise((resolve) => {
     let b = '';
@@ -35,7 +62,7 @@ function listen(server) {
   return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(`http://127.0.0.1:${server.address().port}`)));
 }
 
-export async function mockElevenLabs() {
+export async function mockElevenLabs({ takes = {} } = {}) {
   const calls = [];
   const server = http.createServer(async (req, res) => {
     const body = await readBody(req);
@@ -59,6 +86,16 @@ export async function mockElevenLabs() {
       calls.push({ music: true, query: req.url.split('?')[1], ...json });
       res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
       return res.end(toneMp3(Math.min(20, json.music_length_ms / 1000), 196));
+    }
+    const hist = req.url.match(/^\/v1\/history\/([^/]+)\/audio$/);
+    if (req.method === 'GET' && hist) {
+      calls.push({ history: hist[1] });
+      if (!takes[hist[1]]) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ detail: { status: 'history_item_not_found', message: 'Not found' } }));
+      }
+      res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
+      return res.end(takeMp3(takes[hist[1]]));
     }
     const m = req.url.match(/^\/v1\/text-to-speech\/([^?]+)\?(.*)$/);
     if (req.method === 'POST' && m) {

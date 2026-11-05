@@ -97,6 +97,38 @@ export async function toWav(input, output, { cleanRecording = false } = {}) {
   return output;
 }
 
+// The quiet stretches in a WAV, as [{ start, end }] in seconds. Quiet runs split by less than
+// `bridge` seconds of sound (a click, a breath) count as one.
+export async function detectSilences(file, { noiseDb = -38, minSeconds = 0.5, bridge = 0.3 } = {}) {
+  const stderr = await run(['-i', file, '-af', `silencedetect=noise=${noiseDb}dB:d=${minSeconds}`, '-f', 'null', '-']);
+  const found = [];
+  let start = null;
+  for (const line of String(stderr).split('\n')) {
+    const s = line.match(/silence_start:\s*(-?[\d.]+)/);
+    if (s) start = Math.max(0, Number(s[1]));
+    const e = line.match(/silence_end:\s*([\d.]+)/);
+    if (e && start != null) {
+      found.push({ start, end: Number(e[1]) });
+      start = null;
+    }
+  }
+  if (start != null) found.push({ start, end: wavSeconds(file) });
+  const merged = [];
+  for (const g of found) {
+    const last = merged[merged.length - 1];
+    if (last && g.start - last.end < bridge) last.end = g.end;
+    else merged.push({ ...g });
+  }
+  return merged;
+}
+
+// One stretch of a WAV, from `start` to `end` seconds (end null means to the end).
+export async function cutWav(input, start, end, output) {
+  const range = end == null ? `start=${start.toFixed(3)}` : `start=${start.toFixed(3)}:end=${end.toFixed(3)}`;
+  await run(['-i', input, '-af', `atrim=${range},asetpts=PTS-STARTPTS`, ...MONO, output]);
+  return output;
+}
+
 export async function silenceWav(seconds, output) {
   await run(['-f', 'lavfi', '-i', `anullsrc=r=${RATE}:cl=mono`, '-t', String(Math.max(0.05, seconds)), ...MONO, output]);
   return output;

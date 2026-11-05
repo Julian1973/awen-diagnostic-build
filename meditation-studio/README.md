@@ -143,6 +143,23 @@ Short beds loop under long tracks with 8-second crossfades, so a 3-minute bed ca
 
 The lengths are estimates until you voice them. After the first render the studio learns your real pace, and the quality check flags any title whose minutes no longer match.
 
+### Already voiced in ElevenLabs
+
+All six are already voiced in your **Julian** voice (`KYXOMmyAOr8VFco83i7K`) on eleven_v4: one request per section of each script, two takes of each, 38 sections and 76 takes in all. `data/elevenlabs-takes.json` lists every take by its ElevenLabs history id, with a link to the ElevenLabs flow where you can listen and compare.
+
+| Meditation | Sections | ElevenLabs flow |
+|---|---|---|
+| Five Breaths Before the Day Begins | 6 | [KFPMStvxb4d85BgYKkHj](https://elevenlabs.io/app/flows/KFPMStvxb4d85BgYKkHj) |
+| Yoga Nidra to Put the Day Down | 8 | [8FHgd97JngsHb03nYJAE](https://elevenlabs.io/app/flows/8FHgd97JngsHb03nYJAE) |
+| A Long, Slow Way Down to Sleep | 7 | [EJZxxR4bwanz7cTl2Yv0](https://elevenlabs.io/app/flows/EJZxxR4bwanz7cTl2Yv0) |
+| Set Down What You've Been Carrying | 5 | [pjxYeA81VNhefOSfNqlF](https://elevenlabs.io/app/flows/pjxYeA81VNhefOSfNqlF) |
+| A Hand on Your Own Heart | 5 | [2Z52MmZcnDsaf43030ba](https://elevenlabs.io/app/flows/2Z52MmZcnDsaf43030ba) |
+| Back to Solid Ground | 7 | [WSJUxXhbxJct3zwQ3GMb](https://elevenlabs.io/app/flows/WSJUxXhbxJct3zwQ3GMb) |
+
+Open one of these meditations, go to **Voice**, choose a take for each section and press **Mix from these takes**. The studio fetches the takes from your ElevenLabs history (no characters spent), finds each `[long pause]` in the audio, stretches it to the exact silence in the script, adds the music bed, sets loudness and makes the MP3. The 30 second snippet, trailer and Spotify pack work from that mix as usual. If you edit a section of the script, its takes no longer match and the studio asks you to use Voice and mix instead.
+
+Pace: by the take lengths, this voice reads at about 135 to 190 words a minute, faster than the 115 the scripts were timed for. So each mix comes out shorter than its title (roughly 5:40 for the 8 minute morning, 18 minutes for the 22 minute yoga nidra, 39 for the 45 minute sleep journey, 7 for the two 10 minute ones, 3:30 for the 5 minute one). Listen first. If the pace feels right, change the minutes in the title; if it feels hurried, slow the script with `[slowly]` and `...` and voice it again.
+
 ## The quality check
 
 - **No dashes** anywhere: em dashes, en dashes and spaced hyphens are blocked (your house style).
@@ -188,7 +205,7 @@ These are the voices found in your ElevenLabs workspace on 5 Nov 2026. The defau
 ## For developers
 
 ```bash
-npm test        # 36 tests: parser, quality check, library, snippet and trailer, beds, two Macs, and the whole flow end to end
+npm test        # 42 tests: parser, quality check, library and its ElevenLabs takes, snippet and trailer, beds, two Macs, and the whole flow end to end
 npm run dev     # restarts the server when files change
 ```
 
@@ -203,6 +220,8 @@ The tests run Claude and ElevenLabs against stand-in servers (`test/mocks.js`), 
 | `scripts/library/` | The six ready made meditations and their upload details |
 | `lib/elevenlabs.js` | ElevenLabs REST calls |
 | `lib/render.js` | Voicing (clone or recordings) and assembly |
+| `lib/takes.js` | Mixes the library's ElevenLabs takes with the script's exact silences |
+| `data/elevenlabs-takes.json` | Every take voiced in ElevenLabs for the library, by history id |
 | `lib/audio.js` | ffmpeg: silence, bell, join, bed mix, two-pass loudness and the MP3 |
 | `lib/icloud.js` | Brings back files iCloud Drive has offloaded before they are read |
 | `lib/trailer.js` | Picks the 30 second snippet and makes the trailer MP4 |

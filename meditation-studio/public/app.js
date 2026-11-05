@@ -578,9 +578,10 @@ function renderPlayer(m, source) {
   if (!r) return '';
   const src = `/api/renders/${m.id}/${source}?v=${encodeURIComponent(r.renderedAt)}`;
   return h('div', { class: 'player' },
-    h('div', { class: 'row' }, h('b', {}, source === 'recorded' ? 'Your recorded mix' : 'Voice clone mix'), h('span', { class: 'muted small' }, `${mmss(r.seconds)} · ${r.integratedLufs ?? '?'} LUFS · ${when(r.renderedAt)}${r.bed ? ` · bed: ${r.bed}` : ''}`),
+    h('div', { class: 'row' }, h('b', {}, source === 'recorded' ? 'Your recorded mix' : r.fromTakes ? 'Voice clone mix (from your ElevenLabs takes)' : 'Voice clone mix'), h('span', { class: 'muted small' }, `${mmss(r.seconds)} · ${r.integratedLufs ?? '?'} LUFS · ${when(r.renderedAt)}${r.bed ? ` · bed: ${r.bed}` : ''}`),
       h('span', { class: 'spacer' }), h('a', { class: 'btn ghost small', href: `${src}&download=1` }, 'Download MP3')),
-    h('audio', { controls: true, preload: 'none', src }));
+    h('audio', { controls: true, preload: 'none', src }),
+    r.notes?.length ? h('div', { class: 'hint' }, r.notes.join(' ')) : '');
 }
 
 async function tabVoice(m, body) {
@@ -650,6 +651,39 @@ async function tabVoice(m, body) {
     watchJob(m.job.id, jb.update).then(() => route());
   }
 
+  // The ready made meditations were voiced in ElevenLabs section by section; mixing those takes is free.
+  const takes = m.elevenTakes;
+  let takesCard = '';
+  if (takes) {
+    const picks = takes.sections.map((s) => s.pick);
+    const takesBtn = h('button', { disabled: !!(m.job && m.job.kind === 'render'), onclick: async () => {
+      takesBtn.disabled = true;
+      renderBtn.disabled = true;
+      const jb = jobBox();
+      box.replaceChildren(jb);
+      try {
+        const { job } = await api(`/api/meditations/${m.id}/render`, { method: 'POST', body: { source: 'clone', from: 'takes' } });
+        const end = await watchJob(job.id, jb.update);
+        if (end.status === 'done') { toast('Mixed from your ElevenLabs takes'); route(); } else toast(end.error, true);
+      } catch (err) { toast(err.message, true); } finally { takesBtn.disabled = false; renderBtn.disabled = false; }
+    } }, 'Mix from these takes');
+    const rows = takes.sections.map((s, i) => {
+      const sel = h('select', { style: 'width:auto', onchange: async () => {
+        picks[i] = Number(sel.value);
+        try { await api(`/api/meditations/${m.id}`, { method: 'PUT', body: { takePicks: picks } }); } catch (err) { toast(err.message, true); }
+      } }, s.takes.map((t, k) => h('option', { value: String(k), selected: k === s.pick }, `Take ${k + 1} · ${mmss(t.seconds)}`)));
+      return h('div', { class: 'row small', style: 'margin-top:6px' }, h('span', {}, s.name), h('span', { class: 'spacer' }), sel);
+    });
+    const made = takes.madeOn ? new Date(`${takes.madeOn}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    takesCard = h('div', { class: 'card' }, h('h3', {}, 'Already voiced in ElevenLabs'),
+      h('p', { class: 'small muted' }, `${takes.sections.length} sections in your ${takes.voiceName} voice on ${takes.model}, ${made ? `made ${made}, ` : ''}two takes of each. Mixing them spends no characters: the studio fetches the takes you pick and sets every silence to the length in the script.`),
+      h('a', { href: takes.flowUrl, target: '_blank', rel: 'noopener', class: 'small' }, 'Listen and compare the takes in ElevenLabs'),
+      ...rows,
+      takes.matches
+        ? h('div', { class: 'row', style: 'margin-top:10px' }, takesBtn)
+        : h('div', { class: 'hint' }, `The script has changed since these takes were made (${takes.changed.join(', ')}), so use Voice and mix instead.`));
+  }
+
   body.replaceChildren(
     h('div', { class: 'banner' }, 'The clone mix is for Spotify, YouTube and your own site. Insight Timer only accepts your real voice, so use ', h('a', { href: `#/m/${m.id}/record` }, 'Record mode'), ' for Insight Timer.'),
     h('div', { class: 'split' },
@@ -662,6 +696,7 @@ async function tabVoice(m, body) {
           h('label', {}, 'Model'), modelSel,
           h('label', {}, 'Delivery tags before each paragraph'), prefix, h('div', { class: 'hint' }, 'Used when a paragraph does not start with its own tag. eleven_v4 has no speed slider; pace comes from [slowly] and [pause].')),
         h('div', { class: 'card' }, h('h3', {}, 'Music bed'), bedSel, h('label', {}, 'Bed level ', bedVolOut), bedVol, h('div', { class: 'hint' }, 'Make or upload beds in Settings. Short beds loop with long, soft crossfades. AI music is fine under your voice on Insight Timer; its credit goes in the description.')),
+        takesCard,
         h('div', { class: 'card' }, h('h3', {}, 'Full mix'),
           h('div', { class: 'small muted' }, m.clone.charsToSpend ? `About ${m.clone.charsToSpend.toLocaleString('en-GB')} ElevenLabs characters to voice ${m.clone.requestsToMake} paragraph${m.clone.requestsToMake === 1 ? '' : 's'}.` : 'Every paragraph is voiced. Mixing costs nothing.'),
           h('div', { class: 'row', style: 'margin-top:10px' }, renderBtn), box, renderPlayer(m, 'clone')))),
