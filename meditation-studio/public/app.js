@@ -50,7 +50,7 @@ function mmss(sec) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 function compact(n) {
-  if (n == null) return '—';
+  if (n == null) return '·';
   if (n >= 1e6) return `${(n / 1e6).toFixed(1).replace(/\.0$/, '')}M`;
   if (n >= 1e4) return `${(n / 1e3).toFixed(1).replace(/\.0$/, '')}K`;
   return n.toLocaleString('en-GB');
@@ -186,9 +186,9 @@ async function pageOverview() {
       if (!s) return;
       subTile.children[1].textContent = compact(s.remaining);
       subTile.children[2].textContent = `${compact(s.used)} of ${compact(s.limit)} used${s.resetsAt ? `, resets ${when(s.resetsAt)}` : ''}`;
-    }).catch(() => { subTile.children[1].textContent = '—'; subTile.children[2].textContent = 'could not read quota'; });
+    }).catch(() => { subTile.children[1].textContent = '·'; subTile.children[2].textContent = 'could not read quota'; });
   } else {
-    subTile.children[1].textContent = '—';
+    subTile.children[1].textContent = '·';
     subTile.children[2].textContent = 'add your key in Settings';
   }
 
@@ -196,7 +196,7 @@ async function pageOverview() {
     ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', {}, 'Status'), h('th', {}, 'Brand check'), h('th', { class: 'num' }, 'Length'))),
       h('tbody', {}, ov.recent.map((m) => h('tr', { class: 'click', onclick: () => (location.hash = `#/m/${m.id}`) },
         h('td', {}, m.title || h('span', { class: 'muted' }, 'Untitled')), h('td', { class: 'muted' }, m.formatName), h('td', {}, statusChip(m.status)), h('td', {}, brandChip(m.brandSummary, m)),
-        h('td', { class: 'num' }, m.renders?.recorded ? mmss(m.renders.recorded.seconds) : m.renders?.clone ? mmss(m.renders.clone.seconds) : m.script ? `~${mmss(m.stats.estimatedSeconds)}` : '—')))))
+        h('td', { class: 'num' }, m.renders?.recorded ? mmss(m.renders.recorded.seconds) : m.renders?.clone ? mmss(m.renders.clone.seconds) : m.script ? `~${mmss(m.stats.estimatedSeconds)}` : '·')))))
     : h('div', { class: 'empty' }, 'Nothing yet. Start with a format that wins, then write it in your voice.');
 
   $app.replaceChildren(
@@ -840,8 +840,8 @@ async function tabPerformance(m, body) {
       h('label', {}, 'Notes'), notes, h('div', { class: 'row', style: 'margin-top:14px' }, add)),
     h('div', { class: 'card section' }, h('h2', {}, 'History'),
       entries.length ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Date'), h('th', {}, 'Platform'), h('th', { class: 'num' }, 'Plays'), h('th', { class: 'num' }, 'Payable'), h('th', { class: 'num' }, 'Return rate'), h('th', { class: 'num' }, 'Donations'), h('th', {}, 'Notes'), h('th', {}))),
-        h('tbody', {}, entries.map((e) => h('tr', {}, h('td', {}, e.date), h('td', {}, e.platform), h('td', { class: 'num' }, e.plays ?? '—'), h('td', { class: 'num' }, e.payablePlays ?? '—'),
-          h('td', { class: 'num' }, e.returnRate != null ? `${e.returnRate}%` : '—'), h('td', { class: 'num' }, e.donations != null ? `£${e.donations}` : '—'), h('td', { class: 'small muted' }, e.notes),
+        h('tbody', {}, entries.map((e) => h('tr', {}, h('td', {}, e.date), h('td', {}, e.platform), h('td', { class: 'num' }, e.plays ?? '·'), h('td', { class: 'num' }, e.payablePlays ?? '·'),
+          h('td', { class: 'num' }, e.returnRate != null ? `${e.returnRate}%` : '·'), h('td', { class: 'num' }, e.donations != null ? `£${e.donations}` : '·'), h('td', { class: 'small muted' }, e.notes),
           h('td', {}, h('button', { class: 'ghost small', onclick: async () => { await api(`/api/meditations/${m.id}/performance/${e.id}`, { method: 'DELETE' }); route(); } }, 'Remove')))))) : h('div', { class: 'empty' }, 'No figures logged yet.')),
   );
 }
@@ -861,7 +861,7 @@ async function pageLibrary() {
       h('td', { class: 'muted' }, m.formatName), h('td', { class: 'muted' }, m.brandName),
       h('td', {}, statusChip(m.status)), h('td', {}, brandChip(m.brandSummary, m)),
       h('td', {}, m.renders?.clone ? h('span', { class: 'chip' }, 'Clone') : '', ' ', m.renders?.recorded ? h('span', { class: 'chip good' }, 'Your voice') : ''),
-      h('td', { class: 'num' }, m.script ? mmss(m.renders?.recorded?.seconds || m.renders?.clone?.seconds || m.stats.estimatedSeconds) : '—'),
+      h('td', { class: 'num' }, m.script ? mmss(m.renders?.recorded?.seconds || m.renders?.clone?.seconds || m.stats.estimatedSeconds) : '·'),
       h('td', { class: 'muted small' }, when(m.updatedAt)))));
     if (!rows.length) tbody.replaceChildren(h('tr', {}, h('td', { colspan: '8', class: 'empty' }, list.length ? 'Nothing matches.' : 'No meditations yet.')));
   };
@@ -887,7 +887,7 @@ async function pagePerformance() {
     h('h1', {}, 'What ', h('em', {}, 'lands')),
     h('p', { class: 'lede' }, 'The figures you log from Insight Timer and Spotify, by meditation and by format. Return rate is the one Insight Timer rewards most.'),
     h('div', { class: 'tiles' }, tile('Plays logged', compact(ov.playsLogged), 'latest totals'), tile('Tracks with figures', tracked.length, `of ${list.length} meditations`),
-      tile('Best format so far', best[0] ? best[0].format : '—', best[0] ? `${compact(best[0].avg)} plays per track` : 'log some plays first')),
+      tile('Best format so far', best[0] ? best[0].format : '·', best[0] ? `${compact(best[0].avg)} plays per track` : 'log some plays first')),
     h('div', { class: 'split section' },
       h('div', { class: 'card' }, h('h2', {}, 'By meditation'),
         tracked.length ? h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Title'), h('th', {}, 'Format'), h('th', { class: 'num' }, 'Insight Timer plays'), h('th', { class: 'num' }, 'Return rate'), h('th', { class: 'num' }, 'Spotify plays'))),
@@ -895,8 +895,8 @@ async function pagePerformance() {
             const it = latest(m, 'Insight Timer');
             const sp = latest(m, 'Spotify');
             return h('tr', { class: 'click', onclick: () => (location.hash = `#/m/${m.id}/performance`) }, h('td', {}, m.title || 'Untitled'), h('td', { class: 'muted' }, m.formatName),
-              h('td', { class: 'num' }, it?.plays != null ? it.plays.toLocaleString('en-GB') : '—'), h('td', { class: 'num' }, it?.returnRate != null ? `${it.returnRate}%` : '—'),
-              h('td', { class: 'num' }, sp?.plays != null ? sp.plays.toLocaleString('en-GB') : '—'));
+              h('td', { class: 'num' }, it?.plays != null ? it.plays.toLocaleString('en-GB') : '·'), h('td', { class: 'num' }, it?.returnRate != null ? `${it.returnRate}%` : '·'),
+              h('td', { class: 'num' }, sp?.plays != null ? sp.plays.toLocaleString('en-GB') : '·'));
           }))) : h('div', { class: 'empty' }, 'Open a published meditation and log its figures on the Performance tab.')),
       h('div', { class: 'card' }, h('h2', {}, 'Plays by format'), playsChart(ov.playsByFormat),
         best.length ? h('p', { class: 'small muted', style: 'margin-top:14px' }, `Make more ${best[0].format}${best[1] ? ` and ${best[1].format}` : ''}. Their tracks average the most plays.`) : '')),
